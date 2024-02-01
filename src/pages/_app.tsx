@@ -1,6 +1,15 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+import { appWithTranslation } from 'next-i18next'
+import type { AppType } from 'next/app'
+import { ThemeProvider } from '../providers'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+import '@/styles/globals.css'
+
+const App: AppType = ({ Component, pageProps }) => {
+	return (
+		<ThemeProvider>
+			<Component {...pageProps} />
+		</ThemeProvider>
+	)
 }
+
+export default appWithTranslation(App)
