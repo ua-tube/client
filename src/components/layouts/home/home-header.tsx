@@ -71,8 +71,8 @@ export const HomeHeaderFirstSection: FC<IHomeHeaderFirstSectionProps> = ({
 const HomeHeader = () => {
 	const [showFullWidthSearch, setShowFullWidthSearch] = useState(false)
 	const [auth, setAuth] = useState<boolean>(false)
-	const { setTheme, theme } = useTheme()
 	const { asPath, locale } = useRouter()
+	const { setTheme, theme } = useTheme()
 
 	const DropdownBaseContent: FC = () => (
 		<>
@@ -95,11 +95,19 @@ const HomeHeader = () => {
 				</DropdownMenuSubTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuSubContent>
-						<DropdownMenuItem onClick={() => setTheme('light')}>
-							Світла
+						<DropdownMenuItem
+							className='justify-between'
+							onClick={() => setTheme('light')}
+						>
+							<span>Світла</span>
+							<div className='bg-secondary-foreground rounded-full size-2 dark:hidden' />
 						</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => setTheme('dark')}>
-							Темна
+						<DropdownMenuItem
+							className='justify-between'
+							onClick={() => setTheme('dark')}
+						>
+							<span>Темна</span>
+							<div className='bg-secondary-foreground rounded-full size-2 hidden dark:block' />
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => setTheme('system')}>
 							Системна
@@ -122,12 +130,17 @@ const HomeHeader = () => {
 				<DropdownMenuPortal>
 					<DropdownMenuSubContent
 						children={languages.map((value, index) => (
-							<DropdownMenuItem key={index}>
+							<DropdownMenuItem key={index} asChild>
 								<Link
 									href={asPath}
 									locale={value.shortName}
-									children={value.fullName}
-								/>
+									className='flex items-center justify-between'
+								>
+									<span children={value.fullName} />
+									{value.shortName.startsWith(locale || '') && (
+										<div className='bg-secondary-foreground rounded-full size-2' />
+									)}
+								</Link>
 							</DropdownMenuItem>
 						))}
 					/>

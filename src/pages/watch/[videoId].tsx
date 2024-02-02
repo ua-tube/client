@@ -1,5 +1,6 @@
 import { AppHead } from '@/components'
 import { HomeLayout } from '@/components/layouts'
+import { VideoPlayer } from '@/components/videos'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 export const getServerSideProps: GetServerSideProps<{
@@ -14,7 +15,14 @@ export default function ShopPage({
 	return (
 		<>
 			<AppHead title={`Перегляд відео ${videoId}`} />
-			<HomeLayout></HomeLayout>
+			<HomeLayout hiddenSidebar autoHideSidebar>
+				<section className='container mx-auto max-w-6xl flex flex-row'>
+					<div className='w-2/3'>
+						<VideoPlayer />
+					</div>
+					<div className='w-1/3'></div>
+				</section>
+			</HomeLayout>
 		</>
 	)
 }

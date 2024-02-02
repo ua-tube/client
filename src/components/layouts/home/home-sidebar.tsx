@@ -19,7 +19,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Children, FC, ReactNode, useState } from 'react'
+import { Children, FC, ReactNode, useEffect, useState } from 'react'
 import { HomeHeaderFirstSection } from './home-header'
 
 interface ISmallSidebarItemProps {
@@ -39,6 +39,11 @@ interface ILargeSidebarItemProps {
 	title: string
 	url: string
 	isActive?: boolean
+}
+
+interface IHomeSidebarProps {
+	autoHideSidebar?: boolean
+	hiddenSidebar?: boolean
 }
 
 const SmallSidebarItem: FC<ISmallSidebarItemProps> = ({ icon, title, url }) => {
@@ -122,14 +127,20 @@ const LargeSidebarSection: FC<ILargeSidebarSectionProps> = ({
 	)
 }
 
-export function HomeSidebar() {
+export const HomeSidebar: FC<IHomeSidebarProps> = ({
+	autoHideSidebar,
+	hiddenSidebar
+}) => {
 	const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
+	useEffect(() => {
+		if (autoHideSidebar) close()
+	}, [autoHideSidebar])
 
 	return (
 		<div className='transform transition-transform duration-300 max-h-screen overflow-y-auto no-scrollbar'>
 			<aside
 				className={`hidden sticky top-0 overflow-y-hidden pb-4 md:flex flex-col ml-1 ${
-					isLargeOpen ? 'lg:hidden' : 'lg:flex'
+					hiddenSidebar || isLargeOpen ? 'lg:hidden' : 'lg:flex'
 				}`}
 			>
 				<SmallSidebarItem icon={<HomeIcon />} title='Головна' url='/' />
