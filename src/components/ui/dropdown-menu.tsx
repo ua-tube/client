@@ -1,12 +1,7 @@
 import { cn } from '@/utils'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import {
-	ComponentPropsWithoutRef,
-	ElementRef,
-	forwardRef,
-	HTMLAttributes
-} from 'react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes } from 'react'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 

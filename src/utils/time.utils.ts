@@ -8,9 +8,8 @@ export function formatDuration(duration: number) {
 	const minutes = Math.floor((duration - hours * 60 * 60) / 60)
 	const seconds = duration % 60
 
-	if (hours > 0) {
+	if (hours > 0)
 		return `${hours}:${LEADING_ZERO_FORMATTER.format(minutes)}:${LEADING_ZERO_FORMATTER.format(seconds).split(',').at(0)}`
-	}
 
 	return `${minutes}:${LEADING_ZERO_FORMATTER.format(seconds).split(',').at(0)}`
 }
@@ -29,8 +28,8 @@ const DIVISIONS: { amount: number; name: Intl.RelativeTimeFormatUnit }[] = [
 	{ amount: Number.POSITIVE_INFINITY, name: 'years' }
 ]
 
-export function formatTimeAgo(date: Date) {
-	let duration = (date.getTime() - new Date().getTime()) / 1000
+export function formatTimeAgo(stringDate: string) {
+	let duration = (new Date(stringDate).getTime() - new Date().getTime()) / 1000
 
 	for (let i = 0; i < DIVISIONS.length; i++) {
 		const division = DIVISIONS[i]

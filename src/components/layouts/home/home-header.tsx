@@ -16,7 +16,6 @@ import {
 	TooltipTrigger
 } from '@/components/ui'
 import { languages } from '@/config'
-import { useSidebarContext } from '@/providers'
 import {
 	AlignJustify,
 	ArrowLeftIcon,
@@ -35,6 +34,7 @@ import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+import { useSidebarContext } from './home-layout'
 
 interface IHomeHeaderFirstSectionProps {
 	hidden?: boolean
@@ -60,7 +60,7 @@ export const HomeHeaderFirstSection: FC<IHomeHeaderFirstSectionProps> = ({
 				<img src='/logo.png' alt='logo' className='h-6' />
 				<span className='font-semibold'>UaTube</span>
 				<span
-					className='absolute uppercase text-muted text-[0.5rem] font-semibold top-0 -right-3.5'
+					className='absolute uppercase text-muted-foreground text-[0.5rem] font-semibold top-0 -right-3.5'
 					children={locale}
 				/>
 			</Link>
@@ -100,14 +100,14 @@ const HomeHeader = () => {
 							onClick={() => setTheme('light')}
 						>
 							<span>Світла</span>
-							<div className='bg-secondary-foreground rounded-full size-2 dark:hidden' />
+							<div className='checkedIcon dark:hidden' />
 						</DropdownMenuItem>
 						<DropdownMenuItem
 							className='justify-between'
 							onClick={() => setTheme('dark')}
 						>
 							<span>Темна</span>
-							<div className='bg-secondary-foreground rounded-full size-2 hidden dark:block' />
+							<div className='checkedIcon hidden dark:block' />
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => setTheme('system')}>
 							Системна
@@ -137,9 +137,7 @@ const HomeHeader = () => {
 									className='flex items-center justify-between'
 								>
 									<span children={value.fullName} />
-									{value.shortName.startsWith(locale || '') && (
-										<div className='bg-secondary-foreground rounded-full size-2' />
-									)}
+									{value.shortName.startsWith(locale || '') && (										<div className='checkedIcon' />)}
 								</Link>
 							</DropdownMenuItem>
 						))}

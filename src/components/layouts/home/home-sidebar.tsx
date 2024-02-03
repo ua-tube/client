@@ -1,5 +1,4 @@
 import { playlists, subscriptions } from '@/data'
-import { useSidebarContext } from '@/providers'
 import {
 	ArchiveIcon,
 	ChevronDownIcon,
@@ -21,6 +20,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Children, FC, ReactNode, useEffect, useState } from 'react'
 import { HomeHeaderFirstSection } from './home-header'
+import { useSidebarContext } from './home-layout'
 
 interface ISmallSidebarItemProps {
 	icon: ReactNode

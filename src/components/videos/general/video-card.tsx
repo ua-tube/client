@@ -1,32 +1,12 @@
+import { IVideo } from '@/interfaces/video.inteface'
 import { formatDuration, formatTimeAgo } from '@/utils'
 import Link from 'next/link'
 import { FC, useEffect, useRef, useState } from 'react'
 
-interface IVideoCardProps {
-	id: string
-	title: string
-	channel: {
-		id: string
-		name: string
-		profileUrl: string
-	}
-	views: number
-	postedAt: Date
-	duration: number
-	thumbnailUrl: string
-	videoUrl: string
+interface IVideoCardProps extends IVideo {
 }
 
-const VideoCard: FC<IVideoCardProps> = ({
-	id,
-	title,
-	videoUrl,
-	postedAt,
-	thumbnailUrl,
-	duration,
-	views,
-	channel
-}) => {
+const VideoCard: FC<IVideoCardProps> = (value) => {
 	const [timeout, setModalTimeout] = useState<any>(null)
 	const [isVideoPlaying, setIsVideoPlaying] = useState(false)
 	const videoRef = useRef<HTMLVideoElement>(null)
@@ -40,7 +20,7 @@ const VideoCard: FC<IVideoCardProps> = ({
 
 	return (
 		<div
-			className='flex flex-col gap-2 rounded-lg focus:bg-gray-100'
+			className="flex flex-col gap-2 rounded-lg focus:bg-gray-100"
 			onMouseEnter={() => {
 				timeout && !isVideoPlaying && clearTimeout(timeout)
 				setModalTimeout(setTimeout(() => setIsVideoPlaying(true), 1000))
@@ -50,15 +30,15 @@ const VideoCard: FC<IVideoCardProps> = ({
 				setIsVideoPlaying(false)
 			}}
 		>
-			<Link href={`/watch/${id}`} className='relative aspect-video'>
+			<Link href={`/watch/${value.id}`} className="relative aspect-video">
 				<img
-					src={thumbnailUrl}
-					className='block w-full h-full object-cover duration-200 rounded-xl'
-					alt={id}
+					src={value.thumbnailUrl}
+					className="block w-full h-full object-cover duration-200 rounded-xl"
+					alt={value.id}
 				/>
 				<div
-					className='absolute bothrefm-1 right-1 text-secondary text-sm px-1 rounded'
-					children={formatDuration(duration)}
+					className="absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded"
+					children={formatDuration(value.duration)}
 				/>
 				<video
 					className={`block h-full object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
@@ -66,31 +46,31 @@ const VideoCard: FC<IVideoCardProps> = ({
 					ref={videoRef}
 					playsInline
 					disablePictureInPicture
-					src={videoUrl}
+					src={value.videoUrl}
 				/>
 			</Link>
 
-			<div className='flex gap-x-2'>
-				<Link href={`/channel/${channel.id}`} className='flex shrink-0'>
+			<div className="flex gap-x-2">
+				<Link href={`/channel/${value.channel.id}`} className="flex shrink-0">
 					<img
-						alt={channel.name}
-						className='size-9 rounded-full'
-						src={channel.profileUrl}
+						alt={value.channel.name}
+						className="size-9 rounded-full"
+						src={value.channel.profileImageUrl}
 					/>
 				</Link>
-				<div className='flex flex-col'>
-					<Link href={`/watch/${id}`} className='font-bold' children={title} />
+				<div className="flex flex-col">
+					<Link href={`/watch/${value.id}`} className="font-bold" children={value.title} />
 					<Link
-						href={`/channel/${channel.id}`}
-						className='text-muted-foreground text-sm'
-						children={channel.name}
+						href={`/channel/${value.channel.id}`}
+						className="text-muted-foreground text-sm"
+						children={value.channel.name}
 					/>
 
 					<div
-						className='text-muted-foreground text-sm'
+						className="text-muted-foreground text-sm"
 						children={`${Intl.NumberFormat(undefined, {
 							notation: 'compact'
-						}).format(views)} Views • ${formatTimeAgo(postedAt)}`}
+						}).format(value.views)} переглядів • ${formatTimeAgo(value.postedAt)}`}
 					/>
 				</div>
 			</div>
