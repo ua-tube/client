@@ -1,5 +1,5 @@
-import { ChevronRight } from 'lucide-react'
 import { FC, useEffect, useRef, useState } from 'react'
+import { DynamicIcon } from '@/components'
 
 const TRANSLATE_AMOUNT = 200
 
@@ -80,9 +80,8 @@ const CategoryPills: FC<ICategoryPillsProps> = ({categories}) => {
 						<button
 							className="h-full rotate-180 aspect-square w-auto p-1.5 text-card-foreground hover:bg-secondary rounded-full flex items-center justify-center"
 							onClick={onLeftScroll}
-						>
-							<ChevronRight />
-						</button>
+							children={<DynamicIcon name='chevron-right'/>}
+						/>
 					</div>
 				)}
 
@@ -92,9 +91,8 @@ const CategoryPills: FC<ICategoryPillsProps> = ({categories}) => {
 						<button
 							className="h-full aspect-square w-auto p-1.5 text-card-foreground hover:bg-secondary rounded-full flex items-center justify-center"
 							onClick={onRightScroll}
-						>
-							<ChevronRight />
-						</button>
+							children={<DynamicIcon name='chevron-right'/>}
+						/>
 					</div>
 				)}
 			</div>

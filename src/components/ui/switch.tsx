@@ -1,6 +1,6 @@
-import { cn } from '@/utils'
-import * as SwitchPrimitives from '@radix-ui/react-switch'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import * as SwitchPrimitives from '@radix-ui/react-switch'
+import { cn } from '@/utils'
 
 interface ISwitchProps {
 	thumbClassName?: string

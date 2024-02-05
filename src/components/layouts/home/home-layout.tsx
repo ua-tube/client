@@ -1,14 +1,8 @@
+import { createContext, FC, PropsWithChildren, useContext, useState } from 'react'
 import { TooltipProvider } from '@/components'
-import dynamic from 'next/dynamic'
-import {
-	createContext,
-	FC,
-	PropsWithChildren,
-	useContext,
-	useState
-} from 'react'
 import HomeHeader from './home-header'
-import { HomeSidebar } from './home-sidebar'
+import { HomeSidebar } from './sidebar'
+import dynamic from 'next/dynamic'
 
 const TailwindIndicator = dynamic(
 	() => import('@/components/tailwind-indicator')
@@ -55,22 +49,22 @@ export const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 const HomeLayout: FC<PropsWithChildren<IHomeLayoutProps>> = ({
-	children,
-	autoHideSidebar,
-	hiddenSidebar
-}) => {
+																															 children,
+																															 autoHideSidebar,
+																															 hiddenSidebar
+																														 }) => {
 	return (
 		<SidebarProvider>
-			<TooltipProvider>
-				<div className='max-h-screen flex flex-col bg-background'>
+			<div className="max-h-screen flex flex-col bg-background">
+				<TooltipProvider>
 					<HomeHeader />
-					<div className='grid grid-cols-[auto,1fr] flex-grow-1 overflow-x-hidden'>
-						<HomeSidebar {...{ autoHideSidebar, hiddenSidebar }} />
-						<div className='overflow-x-hidden px-8 pb-4' children={children} />
-					</div>
-					<TailwindIndicator />
+				</TooltipProvider>
+				<div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-x-hidden">
+					<HomeSidebar {...{ autoHideSidebar, hiddenSidebar }} />
+					<div className="overflow-x-hidden px-8 pb-4" children={children} />
 				</div>
-			</TooltipProvider>
+				<TailwindIndicator />
+			</div>
 		</SidebarProvider>
 	)
 }

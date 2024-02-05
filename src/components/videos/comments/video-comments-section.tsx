@@ -1,3 +1,6 @@
+import { IComment } from '@/interfaces'
+import dynamic from 'next/dynamic'
+import { FC } from 'react'
 import {
 	Avatar,
 	AvatarFallback,
@@ -9,9 +12,6 @@ import {
 	SelectValue,
 	Textarea
 } from '@/components'
-import { IComment } from '@/interfaces'
-import dynamic from 'next/dynamic'
-import { FC } from 'react'
 
 const VideoCommentsList = dynamic(()=> import('./video-comments-list'))
 

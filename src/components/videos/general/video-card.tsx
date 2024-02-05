@@ -1,7 +1,7 @@
-import { IVideo } from '@/interfaces/video.inteface'
-import { formatDuration, formatTimeAgo } from '@/utils'
-import Link from 'next/link'
+import { formatDuration, formatTimeAgo, getVideoUrl } from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
+import { IVideo } from '@/interfaces'
+import Link from 'next/link'
 
 interface IVideoCardProps extends IVideo {}
 
@@ -30,7 +30,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 				setIsVideoPlaying(false)
 			}}
 		>
-			<Link href={`/watch?videoId=${value.id}`}  className="relative aspect-video">
+			<Link href={getVideoUrl(value.id, undefined, true)}  className="relative aspect-video">
 				<img
 					src={value.thumbnailUrl}
 					className="block w-full h-full object-cover duration-200 rounded-xl"
@@ -60,7 +60,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 				</Link>
 				<div className="flex flex-col">
 					<Link
-						href={`/watch?videoId=${value.id}`}
+						href={getVideoUrl(value.id, undefined, true)}
 						className="font-bold"
 						children={value.title}
 					/>

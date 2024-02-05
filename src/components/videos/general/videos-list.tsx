@@ -1,6 +1,6 @@
 import { IVideo } from '@/interfaces'
-import { FC } from 'react'
 import VideoCard from './video-card'
+import { FC } from 'react'
 
 interface IVideosListProps {
 	videos: any[]

@@ -17,4 +17,9 @@ interface IVideo {
 	videoUrl: string
 }
 
-export type { IVideo }
+interface IReportReason {
+	id: number
+	name: string
+}
+
+export type { IVideo, IReportReason }

@@ -1,6 +1,6 @@
-import { cn } from '@/utils'
-import * as SliderPrimitive from '@radix-ui/react-slider'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import * as SliderPrimitive from '@radix-ui/react-slider'
+import { cn } from '@/utils'
 
 interface ISliderProps {
 	thumbClassName?: string

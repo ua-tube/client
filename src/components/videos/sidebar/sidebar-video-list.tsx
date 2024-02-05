@@ -1,6 +1,6 @@
+import SidebarVideoCard from './sidebar-video-card'
 import { videos } from '@/data'
 import { FC } from 'react'
-import SidebarVideoCard from './sidebar-video-card'
 
 const SidebarVideoList: FC = () => {
 

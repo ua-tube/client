@@ -1,6 +1,6 @@
+import { useRouter } from 'next/router'
 import { siteConfig } from '@/config'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FC } from 'react'
 
 export interface IAppHeadProps {

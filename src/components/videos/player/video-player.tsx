@@ -1,9 +1,16 @@
+import { formatDuration, getAllElementsFromOrToCurrentElement, getSourceVideoUrl, writeVideoUrl } from '@/utils'
+import { useSidebarContext } from '@/components/layouts/home/home-layout'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import { videoSpeeds } from '@/data'
+import Link from 'next/link'
 import {
 	Button,
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
+	DynamicIcon,
 	HoverCard,
 	HoverCardArrow,
 	HoverCardContent,
@@ -16,29 +23,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from '@/components'
-import { useSidebarContext } from '@/components/layouts/home/home-layout'
-import { videoSpeeds } from '@/data'
-import { formatDuration, getAllElementsFromOrToCurrentElement, getUrlForVideo, writeVideoUrl } from '@/utils'
-import {
-	ArrowRightCircle,
-	ChevronRight,
-	Gauge,
-	LinkIcon,
-	Maximize2,
-	PauseIcon,
-	PlayIcon,
-	Repeat,
-	Settings2,
-	SettingsIcon,
-	Shrink,
-	Volume,
-	Volume1,
-	Volume2,
-	VolumeX
-} from 'lucide-react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { FC, useCallback, useEffect, useRef, useState } from 'react'
 
 
 interface IVideoPlayerProps {
@@ -57,6 +41,8 @@ interface IVideoState {
 	currentTime: number
 	autoPlayNext: boolean
 	isFullScreen: boolean
+	showNavigationMenu: boolean
+	showAnimation: boolean
 	isLooped: boolean
 	disabledQualities: string[]
 }
@@ -66,7 +52,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 	const divRef = useRef<HTMLDivElement>(null)
 	const { push, query } = useRouter()
 	const { isLargeOpen } = useSidebarContext()
-	const [showMenu, setShowMenu] = useState<boolean>(true)
 	const [videoState, setVideoState] = useState<IVideoState>({
 		autoPlayNext: false,
 		isLooped: false,
@@ -77,15 +62,31 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		isFullScreen: false,
 		currentTime: 0,
 		bufferedCount: 0,
+		showAnimation: false,
+		showNavigationMenu: true,
 		disabledQualities: []
 	})
 
+	const showPlayAnimation = useCallback(() => {
+		setVideoState((s) => ({ ...s, showAnimation: true }))
+		setTimeout(() =>
+			setVideoState(
+				(s) => ({ ...s, showAnimation: false })
+			), 1000)
+	}, [])
+
+
 	const togglePlay = useCallback(() => {
 		if (videoRef.current) {
-			if (videoRef.current.paused) videoRef.current.play().catch()
-			else videoRef.current.pause()
+			if (videoRef.current.paused) {
+				videoRef.current.play().catch()
+				showPlayAnimation()
+			} else {
+				videoRef.current.pause()
+				showPlayAnimation()
+			}
 		}
-	}, [])
+	}, [showPlayAnimation])
 
 	const changeSpeed = useCallback((newSpeed: number) => {
 		if (videoRef.current) {
@@ -133,7 +134,9 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 	}, [videoState.isFullScreen])
 
 
-	const onVideoEnd = useCallback(async () => videoState.autoPlayNext && await push(`/watch?videoId=${nextVideoId}`), [videoState.autoPlayNext, push, nextVideoId])
+	const onVideoEnd = useCallback(async () =>
+			videoState.autoPlayNext && await push(`/watch?videoId=${nextVideoId}`),
+		[videoState.autoPlayNext, push, nextVideoId])
 
 	const onVideoLoadError = useCallback(() => {
 		setVideoState(p => ({
@@ -182,6 +185,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		switch (event.key) {
 			case 'а':
 			case 'f':
+			case 'А':
+			case 'F':
 				toggleFullScreen()
 				break
 			case ' ':
@@ -189,6 +194,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 				break
 			case 'ь':
 			case 'm':
+			case 'Ь':
+			case 'M':
 				toggleMute()
 				break
 			case 'ArrowUp':
@@ -259,8 +266,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 	return (<div
 			ref={divRef}
-			onMouseEnter={() => setShowMenu(true)}
-			onMouseLeave={() => !videoRef.current?.paused && setShowMenu(false)}
+			onMouseEnter={() => setVideoState((s) => ({ ...s, showNavigationMenu: true }))}
+			onMouseLeave={() => !videoRef.current?.paused && setVideoState((s) => ({ ...s, showNavigationMenu: false }))}
 			onDoubleClick={toggleFullScreen}
 			className="group/main relative rounded-lg"
 		>
@@ -271,7 +278,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						className="w-full rounded-lg aspect-video bg-black/80"
 						onClick={togglePlay}
 						onError={onVideoLoadError}
-						src={getUrlForVideo(videoId, videoState.quality)}
+						src={getSourceVideoUrl(videoId, videoState.quality)}
 						onEnded={onVideoEnd}
 						controls={false}
 					/>
@@ -284,7 +291,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						onClick={toggleAutoPlayNext}
 					>
 						<div className="items-center flex space-x-2">
-							<ArrowRightCircle />
+							<DynamicIcon name="arrow-right-circle" />
 							<span children="Автопрогравання" />
 						</div>
 						{videoState.autoPlayNext && <div className="checkedIcon" />}
@@ -295,7 +302,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						onClick={toggleRepeat}
 					>
 						<div className="items-center flex space-x-2">
-							<Repeat />
+							<DynamicIcon name="repeat" />
 							<span children="Повторювати" />
 						</div>
 						{videoState.isLooped && <div className="checkedIcon" />}
@@ -306,7 +313,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						onClick={() => writeVideoUrl(videoId)}
 					>
 						<div className="items-center flex space-x-2">
-							<LinkIcon />
+							<DynamicIcon name="link" />
 							<span children="Копіювати URL-адресу відео" />
 						</div>
 					</ContextMenuItem>
@@ -315,7 +322,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						onClick={() => writeVideoUrl(videoId, Math.floor(videoState.currentTime))}
 					>
 						<div className="items-center flex space-x-2">
-							<LinkIcon />
+							<DynamicIcon name="link" />
 							<span children="Копіювати URL-адресу з цього часу" />
 						</div>
 					</ContextMenuItem>
@@ -323,9 +330,20 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 			</ContextMenu>
 
+			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3">
+				{videoState.showAnimation && <DynamicIcon
+
+					name={videoRef.current && videoRef.current.paused ? 'pause-circle' : 'play-circle'}
+					className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
+				/>}
+				{videoState.disabledQualities.length === qualities.length &&
+					<div children="Відео на даний момент не доступно!" />
+				}
+			</div>
+
 			<div
 				className={`absolute transition-all duration-200 bottom-0 w-full bg-background/60 text-secondary-foreground p-3 flex flex-col gap-y-3.5 ${
-					showMenu ?
+					videoState.showNavigationMenu ?
 						'opacity-100' :
 						'opacity-0'}`}>
 				<Slider
@@ -337,7 +355,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 					className="w-full group"
 					trackClassName="flex items-center justify-center h-1 hover:cursor-pointer"
 					rangeClassName="h-1"
-					thumbClassName="size-2 group-hover:size-3.5 transition-all duration-100"
+					thumbClassName="size-2.5 group-hover:size-4 transition-all duration-100"
 					onValueChange={event => onTimeUpdateHandler(event[3])}
 				/>
 				<TooltipProvider delayDuration={0}>
@@ -348,16 +366,18 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 									onClick={togglePlay}
 									children={
 										videoRef.current && videoRef.current.paused ? (
-											<PlayIcon />
+											<DynamicIcon name="play" />
 										) : (
-											<PauseIcon />
+											<DynamicIcon name="pause" />
 										)} />
 								<TooltipContent children={videoRef.current && videoRef.current.paused ? 'Грати' : 'Пауза'} />
 							</Tooltip>
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Link href={`/watch?videoId=${nextVideoId}`}><ChevronRight /></Link>
+									<Link href={`/watch?videoId=${nextVideoId}`}>
+										<DynamicIcon name="chevron-right" />
+									</Link>
 								</TooltipTrigger>
 								<TooltipContent children="Наступне відео" />
 							</Tooltip>
@@ -368,15 +388,15 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 										onClick={toggleMute}
 										children={
 											videoState.volume === 0 ? (
-												<VolumeX />
+												<DynamicIcon name="volume-x" />
 											) : videoState.volume < 0.4 ? (
-												<Volume />
+												<DynamicIcon name="volume" />
 											) : videoState.volume < 0.7 ? (
-												<Volume1 />
+												<DynamicIcon name="volume-1" />
 											) : (videoState.volume < 1 || videoState.volume === 1) ? (
-												<Volume2 />
+												<DynamicIcon name="volume-2" />
 											) : (
-												<VolumeX />
+												<DynamicIcon name="volume-x" />
 											)
 										} />
 									<TooltipContent children={videoState.volume === 0 ? 'Увімкнути звук' : 'Вимкнути звук'} />
@@ -422,7 +442,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 							<HoverCard>
 								<HoverCardTrigger>
-									<SettingsIcon />
+									<DynamicIcon name="settings" />
 								</HoverCardTrigger>
 
 								<HoverCardContent side={isLargeOpen ? 'bottom' : 'top'} align="end" className="flex flex-col gap-y-2">
@@ -430,7 +450,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 									<Tooltip>
 										<TooltipTrigger>
 											<div className="flex items-center space-x-2">
-												<Gauge className="h-4 w-4" />
+												<DynamicIcon name="gauge" className="h-4 w-4" />
 												<div children={`Швидкість відтворення: ${videoState.speed}x`} />
 											</div>
 										</TooltipTrigger>
@@ -454,7 +474,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 									<Tooltip>
 										<TooltipTrigger>
 											<div className="flex items-center space-x-2">
-												<Settings2 className="h-4 w-4" />
+												<DynamicIcon name="settings-2" className="h-4 w-4" />
 												<div children={`Якість: ${videoState.quality}`} />
 											</div>
 										</TooltipTrigger>
@@ -482,7 +502,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 								<TooltipTrigger
 									onClick={toggleFullScreen}
 									className="hover:animate-pulse"
-									children={videoState.isFullScreen ? <Shrink /> : <Maximize2 />}
+									children={<DynamicIcon name={videoState.isFullScreen ? 'shrink' : 'maximize-2'} />}
 								/>
 								<TooltipContent children="Повноекраний режим" />
 							</Tooltip>

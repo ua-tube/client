@@ -1,4 +1,4 @@
-import { IComment, IVideo } from '@/interfaces'
+import { IComment, IReportReason, IVideo } from '@/interfaces'
 
 const videoSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4]
 
@@ -138,5 +138,18 @@ const defaultComments: IComment[] = [
 	}
 ]
 
+const reportReasons: IReportReason[] = [
+	{ id: 1, name: 'Контент сексуального характеру' },
+	{ id: 2, name: 'Насильство або відразливі сцени' },
+	{ id: 3, name: 'Ненависницький і образливий контент' },
+	{ id: 4, name: 'Агресивні дії або залякування' },
+	{ id: 5, name: 'Шкідливі або небезпечні дії' },
+	{ id: 6, name: 'Інформація, що вводить в оману' },
+	{ id: 7, name: 'Жорстоке поводження з дітьми' },
+	{ id: 8, name: 'Пропаганда тероризму' },
+	{ id: 9, name: 'Спам або оманливий контент' },
+	{ id: 10, name: 'Правова проблема' }
+]
 
-export { videoSpeeds, defaultVideo, defaultComments }
+
+export { videoSpeeds, defaultVideo, defaultComments , reportReasons}

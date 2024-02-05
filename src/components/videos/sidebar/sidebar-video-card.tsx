@@ -1,5 +1,5 @@
-import { IVideo } from '@/interfaces/video.inteface'
-import { formatDuration, formatTimeAgo } from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl } from '@/utils'
+import { IVideo } from '@/interfaces'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -10,7 +10,10 @@ interface ISidebarVideoCardProps extends IVideo {
 const SidebarVideoCard: FC<ISidebarVideoCardProps> = (value) => {
 
 	return <div className="flex flex-row items-start gap-2.5">
-		<Link href={`/watch/${value.id}`} className="relative aspect-video w-2/5">
+		<Link
+			href={getVideoUrl(value.id, undefined, true)}
+			className="relative aspect-video w-2/5"
+		>
 			<img
 				src={value.thumbnailUrl}
 				className="block w-full h-full object-cover duration-200 rounded-lg"
@@ -23,7 +26,11 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = (value) => {
 		</Link>
 		<div className="flex gap-x-2 w-3/5">
 			<div className="flex flex-col">
-				<Link href={`/watch/${value.id}`} className="font-semibold text-base/4 line-clamp-2" children={value.title} />
+				<Link
+					href={getVideoUrl(value.id, undefined, true)}
+					className="font-semibold text-base/4 line-clamp-2"
+					children={value.title}
+				/>
 				<Link
 					href={`/channel/${value.channel.id}`}
 					className="text-muted-foreground text-xs"

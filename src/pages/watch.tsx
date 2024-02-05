@@ -1,7 +1,7 @@
 import { AboutVideo, AppHead, CategoryPills, SidebarVideoList, VideoCommentsSection } from '@/components'
-import { HomeLayout } from '@/components/layouts'
-import { categories, defaultComments, defaultVideo } from '@/data'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { categories, defaultComments, defaultVideo } from '@/data'
+import { HomeLayout } from '@/components/layouts'
 import dynamic from 'next/dynamic'
 
 const VideoPlayer = dynamic(() => import('@/components/videos/player'), { ssr: false })

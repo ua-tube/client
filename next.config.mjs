@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: false,
+	transpilePackages: ['lucide-react'],
 	i18n: {
 		defaultLocale: 'uk',
 		locales: ['uk', 'en'],

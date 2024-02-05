@@ -1,6 +1,6 @@
+import VideoCommentsCard from './video-comments-card'
 import { IComment } from '@/interfaces'
 import { FC } from 'react'
-import VideoCommentsCard from './video-comments-card'
 
 interface IVideoCommentsListProps {
 	comments: IComment[]

@@ -1,7 +1,7 @@
-import { cn } from '@/utils'
-import * as SelectPrimitive from '@radix-ui/react-select'
-import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { Check, ChevronDown, ChevronUp } from 'lucide-react'
+import * as SelectPrimitive from '@radix-ui/react-select'
+import { cn } from '@/utils'
 
 const Select = SelectPrimitive.Root
 
