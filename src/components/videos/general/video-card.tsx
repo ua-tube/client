@@ -3,13 +3,13 @@ import { formatDuration, formatTimeAgo } from '@/utils'
 import Link from 'next/link'
 import { FC, useEffect, useRef, useState } from 'react'
 
-interface IVideoCardProps extends IVideo {
-}
+interface IVideoCardProps extends IVideo {}
 
 const VideoCard: FC<IVideoCardProps> = (value) => {
 	const [timeout, setModalTimeout] = useState<any>(null)
 	const [isVideoPlaying, setIsVideoPlaying] = useState(false)
 	const videoRef = useRef<HTMLVideoElement>(null)
+
 	useEffect(() => {
 		if (videoRef.current === null) return
 		if (isVideoPlaying) {
@@ -30,7 +30,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 				setIsVideoPlaying(false)
 			}}
 		>
-			<Link href={`/watch/${value.id}`} className="relative aspect-video">
+			<Link href={`/watch?videoId=${value.id}`}  className="relative aspect-video">
 				<img
 					src={value.thumbnailUrl}
 					className="block w-full h-full object-cover duration-200 rounded-xl"
@@ -59,7 +59,11 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 					/>
 				</Link>
 				<div className="flex flex-col">
-					<Link href={`/watch/${value.id}`} className="font-bold" children={value.title} />
+					<Link
+						href={`/watch?videoId=${value.id}`}
+						className="font-bold"
+						children={value.title}
+					/>
 					<Link
 						href={`/channel/${value.channel.id}`}
 						className="text-muted-foreground text-sm"

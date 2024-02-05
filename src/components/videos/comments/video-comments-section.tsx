@@ -7,12 +7,13 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-	Textarea,
-	VideoCommentsList
+	Textarea
 } from '@/components'
 import { IComment } from '@/interfaces'
+import dynamic from 'next/dynamic'
 import { FC } from 'react'
 
+const VideoCommentsList = dynamic(()=> import('./video-comments-list'))
 
 interface IVideoCommentsSectionProps {
 	totalCount: number

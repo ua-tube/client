@@ -55,11 +55,11 @@ const defaultVideo: IVideo = {
 	likesCount: 34343,
 	commentsCount: 435435,
 	disLikesCount: 4242,
-	postedAt: new Date('2023-09-29'),
+	postedAt: '2023-09-29',
 	videoUrl: 'jghjg',
 	views: 4205345345,
 	nextVideoId: 'sg4t3ct32ag',
-	qualities: ['144p', '240p', '360p', '480p', '720p'],
+	qualities: ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p'],
 	thumbnailUrl: '',
 	duration: 9000,
 	channel: {

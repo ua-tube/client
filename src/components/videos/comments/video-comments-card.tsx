@@ -18,7 +18,7 @@ const VideoCommentsCard: FC<IVideoCommentsCardProps> = ({ comment }) => {
 		<div className="flex flex-col gap-y-2">
 			<div className="flex space-x-2 items-center">
 				<Badge children={comment.chanel.name} variant="default" className='rounded-lg' />
-				<div className="text-foreground text-xs" children={formatTimeAgo(new Date(comment.createdAt))} />
+				<div className="text-foreground text-xs" children={formatTimeAgo(comment.createdAt)} />
 			</div>
 			<div className="font-semibold" children={comment.message} />
 			<div className="flex items-center space-x-2.5">
