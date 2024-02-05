@@ -4,7 +4,11 @@ import { categories, defaultComments, defaultVideo } from '@/data'
 import { HomeLayout } from '@/components/layouts'
 import dynamic from 'next/dynamic'
 
-const VideoPlayer = dynamic(() => import('@/components/videos/player'), { ssr: false })
+const VideoPlayer = dynamic(
+	() => import('@/components/videos/player'), {
+		ssr: false,
+		loading: () => <div className="aspect-video bg-secondary rounded-lg" />
+	})
 
 const defaultVideosIds: string[] = [
 	'1b5a68680b00c658dc3dec16b5a27f0e',

@@ -38,6 +38,7 @@ interface IVideoState {
 	volume: number
 	duration: number
 	bufferedCount: number
+	isLoading: boolean
 	currentTime: number
 	autoPlayNext: boolean
 	isFullScreen: boolean
@@ -56,6 +57,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		autoPlayNext: false,
 		isLooped: false,
 		duration: 0,
+		isLoading: true,
 		quality: qualities[0],
 		speed: 1,
 		volume: 0.5,
@@ -77,16 +79,18 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 
 	const togglePlay = useCallback(() => {
-		if (videoRef.current) {
-			if (videoRef.current.paused) {
-				videoRef.current.play().catch()
-				showPlayAnimation()
-			} else {
-				videoRef.current.pause()
-				showPlayAnimation()
+		if (videoState.disabledQualities.length !== qualities.length)
+			if (videoRef.current) {
+				if (videoRef.current.paused) {
+					videoRef.current.play().catch()
+					showPlayAnimation()
+				} else {
+					videoRef.current.pause()
+					showPlayAnimation()
+				}
 			}
-		}
-	}, [showPlayAnimation])
+
+	}, [showPlayAnimation, videoState.disabledQualities.length, qualities.length])
 
 	const changeSpeed = useCallback((newSpeed: number) => {
 		if (videoRef.current) {
@@ -113,7 +117,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 	}, [onTimeUpdateHandler, videoState.currentTime])
 
 	const changeVolume = useCallback((volume: number) => {
-		if (videoRef.current && (volume < 1 && volume > 0)) {
+		if (videoRef.current && (volume < 1.01 && volume > -0.01)) {
 			videoRef.current.volume = volume
 			setVideoState(p => ({ ...p, volume }))
 		}
@@ -176,7 +180,11 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 							total += buffered.end(i) - buffered.start(i)
 				return total
 			}
-			setVideoState(p => ({ ...p, bufferedCount: bufferedTotal() }))
+			setVideoState(p => ({
+				...p,
+				bufferedCount: bufferedTotal(),
+				isLoading: p.currentTime + 5 > bufferedTotal()
+			}))
 		}
 	}, [videoState.currentTime])
 
@@ -213,7 +221,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		}
 	}, [videoState.volume, videoState.currentTime, toggleFullScreen, togglePlay, toggleMute, changeVolume, onTimeUpdateHandler])
 
-
 	const fullScreenChangeListener = useCallback((event: Event) => {
 		event.preventDefault()
 		videoState.isFullScreen &&
@@ -224,10 +231,16 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 	}, [videoState.isFullScreen])
 
 
+	const onLoadingListener = useCallback(
+		(loading: boolean) => setVideoState(p => ({ ...p, isLoading: loading })),
+		[])
+
 	useEffect(() => {
 		document.addEventListener('keydown', buttonsCallBack)
 		document.addEventListener('fullscreenchange', fullScreenChangeListener)
 		if (videoRef.current) {
+			videoRef.current.addEventListener('loadstart', () => onLoadingListener(true))
+			videoRef.current.addEventListener('loadeddata', () => onLoadingListener(false))
 			videoRef.current.addEventListener('progress', onProgressHandler)
 			videoRef.current.addEventListener('timeupdate', () => onTimeUpdateHandler())
 			videoRef.current.addEventListener('loadedmetadata', () =>
@@ -238,6 +251,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 			document.removeEventListener('keydown', buttonsCallBack)
 			document.removeEventListener('fullscreenchange', fullScreenChangeListener)
 			if (videoRef.current) {
+				videoRef.current.removeEventListener('loadstart', () => onLoadingListener(true))
+				videoRef.current.removeEventListener('loadeddata', () => onLoadingListener(false))
 				videoRef.current.removeEventListener('progress', onProgressHandler)
 				videoRef.current.removeEventListener('timeupdate', () =>
 					onTimeUpdateHandler()
@@ -331,11 +346,15 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 			</ContextMenu>
 
 			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3">
-				{videoState.showAnimation && <DynamicIcon
-
+				{videoState.showAnimation && !videoState.isLoading && <DynamicIcon
 					name={videoRef.current && videoRef.current.paused ? 'pause-circle' : 'play-circle'}
 					className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
 				/>}
+				{videoState.isLoading &&
+					<DynamicIcon
+						name="loader-2"
+						className="animate-spin transition-all size-14 bg-black/60 rounded-full"
+					/>}
 				{videoState.disabledQualities.length === qualities.length &&
 					<div children="Відео на даний момент не доступно!" />
 				}
@@ -364,12 +383,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 							<Tooltip>
 								<TooltipTrigger
 									onClick={togglePlay}
-									children={
-										videoRef.current && videoRef.current.paused ? (
-											<DynamicIcon name="play" />
-										) : (
-											<DynamicIcon name="pause" />
-										)} />
+									children={<DynamicIcon name={videoRef.current && videoRef.current.paused ? 'play' : 'pause'} />} />
 								<TooltipContent children={videoRef.current && videoRef.current.paused ? 'Грати' : 'Пауза'} />
 							</Tooltip>
 
@@ -387,17 +401,18 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 									<TooltipTrigger
 										onClick={toggleMute}
 										children={
-											videoState.volume === 0 ? (
-												<DynamicIcon name="volume-x" />
-											) : videoState.volume < 0.4 ? (
-												<DynamicIcon name="volume" />
-											) : videoState.volume < 0.7 ? (
-												<DynamicIcon name="volume-1" />
-											) : (videoState.volume < 1 || videoState.volume === 1) ? (
-												<DynamicIcon name="volume-2" />
-											) : (
-												<DynamicIcon name="volume-x" />
-											)
+											<DynamicIcon
+												name={
+													videoState.volume === 0 ?
+														'volume-x' :
+														videoState.volume < 0.4 ?
+															'volume' :
+															videoState.volume < 0.7 ?
+																'volume-1' :
+																(videoState.volume < 1 || videoState.volume === 1)
+																	? 'volume-2'
+																	: 'volume-x'
+												} />
 										} />
 									<TooltipContent children={videoState.volume === 0 ? 'Увімкнути звук' : 'Вимкнути звук'} />
 								</Tooltip>
@@ -426,12 +441,15 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 							<Tooltip>
 								<TooltipTrigger
+									asChild
 									className="flex items-center"
-									children={<Switch
-										checked={videoState.autoPlayNext}
-										onCheckedChange={toggleAutoPlayNext}
-									/>}
-								/>
+									children={
+										<Switch
+											className={videoState.autoPlayNext ? 'bg-primary' : 'bg-input'}
+											checked={videoState.autoPlayNext}
+											onCheckedChange={toggleAutoPlayNext}
+										/>
+									} />
 								<TooltipContent
 									children={`Автопрогравання (${
 										videoState.autoPlayNext ?
