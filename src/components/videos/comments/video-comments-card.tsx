@@ -11,7 +11,7 @@ const VideoCommentsCard: FC<IVideoCommentsCardProps> = ({ comment }) => {
 
 	return <div className="flex space-x-3">
 		<Avatar>
-			<AvatarImage src={comment.chanel.profileImageUrl} />
+			<AvatarImage src={comment.chanel.profileImg} />
 			<AvatarFallback className="uppercase" children={comment.chanel.name.slice(0, 2)} />
 		</Avatar>
 		<div className="flex flex-col gap-y-2">

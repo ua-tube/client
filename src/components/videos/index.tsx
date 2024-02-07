@@ -1,4 +1,4 @@
-export { default as VideosList } from './general'
-export { default as AboutVideo } from './about'
 export { default as VideoCommentsSection } from './comments'
+export { default as AboutVideo } from './about'
+export * from './general'
 export * from './sidebar'

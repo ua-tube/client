@@ -1,9 +1,16 @@
-import { formatDuration, getAllElementsFromOrToCurrentElement, getSourceVideoUrl, writeVideoUrl } from '@/utils'
 import { useSidebarContext } from '@/components/layouts/home/home-layout'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useRouter } from 'next/router'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
+import {
+	formatDuration,
+	getAllElementsFromOrToCurrentElement,
+	getSourceVideoUrl,
+	writeVideoUrl,
+	getVideoUrl
+} from '@/utils'
 import {
 	Button,
 	ContextMenu,
@@ -139,8 +146,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 
 	const onVideoEnd = useCallback(async () =>
-			videoState.autoPlayNext && await push(`/watch?videoId=${nextVideoId}`),
-		[videoState.autoPlayNext, push, nextVideoId])
+			videoState.autoPlayNext && await push(getVideoUrl(nextVideoId, undefined, query?.listId ? query.listId as string : undefined, true)),
+		[videoState.autoPlayNext, push, nextVideoId, query?.listId])
 
 	const onVideoLoadError = useCallback(() => {
 		setVideoState(p => ({
@@ -183,7 +190,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 			setVideoState(p => ({
 				...p,
 				bufferedCount: bufferedTotal(),
-				isLoading: p.currentTime + 5 > bufferedTotal()
+				isLoading: p.currentTime + 1 > bufferedTotal()
 			}))
 		}
 	}, [videoState.currentTime])
@@ -350,7 +357,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 					name={videoRef.current && videoRef.current.paused ? 'pause-circle' : 'play-circle'}
 					className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
 				/>}
-				{videoState.isLoading &&
+				{videoState.isLoading && videoState.disabledQualities.length !== qualities.length &&
 					<DynamicIcon
 						name="loader-2"
 						className="animate-spin transition-all size-14 bg-black/60 rounded-full"
@@ -365,18 +372,39 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 					videoState.showNavigationMenu ?
 						'opacity-100' :
 						'opacity-0'}`}>
-				<Slider
+
+				<SliderPrimitive.Root
 					defaultValue={[0]}
 					min={0}
-					max={Math.floor(videoState.duration)}
+					max={videoState.duration}
+					value={[videoState.currentTime]}
 					step={1}
-					value={[Math.floor(videoState.currentTime), 0, Math.floor(videoState.bufferedCount), 0]}
-					className="w-full group"
-					trackClassName="flex items-center justify-center h-1 hover:cursor-pointer"
-					rangeClassName="h-1"
-					thumbClassName="size-2.5 group-hover:size-4 transition-all duration-100"
-					onValueChange={event => onTimeUpdateHandler(event[3])}
-				/>
+					onValueChange={event => onTimeUpdateHandler(event[0])}
+					className="relative flex w-full touch-none select-none items-center group py-1"
+				>
+					<SliderPrimitive.Track
+						className="relative w-full grow overflow-hidden rounded-full bg-card flex items-center justify-center h-1 hover:cursor-pointer"
+					>
+						<div className="absolute h-1 w-full">
+							<div
+								className="absolute h-1 bg-primary"
+								style={{ width: `${(videoState.currentTime / videoState.duration) * 100}%`, left: 0 }}
+							/>
+							<div
+								className="absolute h-1 bg-input"
+								style={{
+									width: `${(videoState.bufferedCount / videoState.duration) * 100}%`,
+									left: `${(videoState.currentTime / videoState.duration) * 100}%`
+								}}
+							/>
+						</div>
+					</SliderPrimitive.Track>
+					<SliderPrimitive.Thumb
+						className="block size-2.5 group-hover:size-4 transition-all duration-100 rounded-full border-2 border-primary bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+					/>
+				</SliderPrimitive.Root>
+
+
 				<TooltipProvider delayDuration={0}>
 					<div className="flex justify-between items-center">
 						<div className="flex items-center space-x-1.5">
@@ -389,7 +417,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Link href={`/watch?videoId=${nextVideoId}`}>
+									<Link
+										href={getVideoUrl(nextVideoId, undefined, query?.listId ? query.listId as string : undefined, true)}>
 										<DynamicIcon name="chevron-right" />
 									</Link>
 								</TooltipTrigger>

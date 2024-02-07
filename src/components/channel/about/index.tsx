@@ -1,0 +1,1 @@
+export { default as AboutChannelContent } from './about-channel-content'

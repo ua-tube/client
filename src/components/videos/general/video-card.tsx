@@ -1,9 +1,12 @@
-import { formatDuration, formatTimeAgo, getVideoUrl } from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, cn } from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
 
-interface IVideoCardProps extends IVideo {}
+interface IVideoCardProps extends IVideo {
+	fixedSize?: boolean,
+	className?: string
+}
 
 const VideoCard: FC<IVideoCardProps> = (value) => {
 	const [timeout, setModalTimeout] = useState<any>(null)
@@ -20,7 +23,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 
 	return (
 		<div
-			className="flex flex-col gap-2 rounded-lg focus:bg-gray-100"
+			className={cn('flex flex-col gap-2 rounded-lg focus:bg-gray-100', value.fixedSize && ' w-64', value.className)}
 			onMouseEnter={() => {
 				timeout && !isVideoPlaying && clearTimeout(timeout)
 				setModalTimeout(setTimeout(() => setIsVideoPlaying(true), 1000))
@@ -30,10 +33,11 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 				setIsVideoPlaying(false)
 			}}
 		>
-			<Link href={getVideoUrl(value.id, undefined, true)}  className="relative aspect-video">
+			<Link href={getVideoUrl(value.id, undefined, undefined, true)} className="relative aspect-video">
 				<img
 					src={value.thumbnailUrl}
-					className="block w-full h-full object-cover duration-200 rounded-xl"
+					loading="lazy"
+					className="block w-full h-full object-cover aspect-video duration-200 rounded-xl"
 					alt={value.id}
 				/>
 				<div
@@ -43,6 +47,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 				<video
 					className={`block h-full object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
 					muted
+					preload="none"
 					ref={videoRef}
 					playsInline
 					disablePictureInPicture
@@ -51,21 +56,22 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 			</Link>
 
 			<div className="flex gap-x-2">
-				<Link href={`/channel/${value.channel.id}`} className="flex shrink-0">
+				<Link href={getChannelUrl(value.channel)} className="flex shrink-0">
 					<img
 						alt={value.channel.name}
+						loading="lazy"
 						className="size-9 rounded-full"
-						src={value.channel.profileImageUrl}
+						src={value.channel.profileImg}
 					/>
 				</Link>
-				<div className="flex flex-col">
+				<div className='flex flex-col'>
 					<Link
-						href={getVideoUrl(value.id, undefined, true)}
-						className="font-bold"
+						href={getVideoUrl(value.id, undefined, undefined, true)}
+						className={cn('font-bold line-clamp-2', value.fixedSize &&  'h-full  max-w-52')}
 						children={value.title}
 					/>
 					<Link
-						href={`/channel/${value.channel.id}`}
+						href={getChannelUrl(value.channel)}
 						className="text-muted-foreground text-sm"
 						children={value.channel.name}
 					/>

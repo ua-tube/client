@@ -1,7 +1,8 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { DynamicIcon } from '@/components'
+import { DynamicIcon, Avatar, AvatarImage, AvatarFallback } from '@/components'
 import Link from 'next/link'
 import { FC } from 'react'
+import { useRouter } from 'next/router'
 
 
 export interface ILargeSidebarItemProps {
@@ -18,28 +19,32 @@ const LargeSidebarItem: FC<
 			 icon,
 			 imgUrl,
 			 title,
-			 url,
-			 isActive = false
+			 url
 		 }) => {
+
+	const { asPath } = useRouter()
+
 	return (
 		<Link
 			href={url}
-			className={`h-10 justify-start w-full flex items-center rounded-lg hover:bg-muted-foreground hover:text-muted gap-5 p-3 ${
-				isActive && 'font-bold bg-input'
+			className={`h-10 justify-start w-full flex items-center rounded-lg hover:bg-muted-foreground hover:text-muted gap-4 p-3 ${
+				asPath === url && 'font-bold bg-input'
 			}`}
 		>
 			{imgUrl && (
-				<img
-					src={icon}
-					alt="subscribe-img"
-					className="w-6 h-6 rounded-full"
-				/>
+				<Avatar className='size-7'>
+					<AvatarImage src={imgUrl}/>
+					<AvatarFallback children=''/>
+				</Avatar>
 			)}
+
 			{icon && (<DynamicIcon name={icon} />)}
+
 			<div
 				className="whitespace-nowrap overflow-hidden text-ellipsis text-sm"
 				children={title}
 			/>
+
 		</Link>
 	)
 }

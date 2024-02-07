@@ -1,4 +1,5 @@
 import { useSidebarContext } from './home-layout'
+import { defaultChannel } from '@/data'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { FC, useState } from 'react'
@@ -27,9 +28,11 @@ interface IHomeHeaderFirstSectionProps {
 	hidden?: boolean
 }
 
-export const HomeHeaderFirstSection: FC<IHomeHeaderFirstSectionProps> = ({
-																																					 hidden = false
-																																				 }) => {
+export const HomeHeaderFirstSection: FC<
+	IHomeHeaderFirstSectionProps
+> = ({
+			 hidden = false
+		 }) => {
 	const { toggle } = useSidebarContext()
 	const { locale } = useRouter()
 
@@ -197,26 +200,40 @@ const HomeHeader = () => {
 							<DropdownMenuTrigger className="focus:border-none">
 								<Avatar className="border border-input">
 									<AvatarImage
-										src="https://yt3.ggpht.com/3UlOpvyUDI7scVr98vVbCAVr-VQVEdJOXMDigVfsi_UxQavS0gnN4EOZGBbG6gHygGbn1CbVmQ=s88-c-k-c0x00ffffff-no-rj"
-										alt="@sorrybodikmain"
+										src={defaultChannel.profileImg}
+										alt={defaultChannel.nickName}
 									/>
-									<AvatarFallback>SM</AvatarFallback>
+									<AvatarFallback
+										children={
+											defaultChannel
+												.nickName
+												.slice(0, 2)
+												.toUpperCase()
+										}
+									/>
 								</Avatar>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent>
 								<DropdownMenuItem className="flex items-center space-x-2">
 									<Avatar className="border border-accent">
 										<AvatarImage
-											src="https://yt3.ggpht.com/3UlOpvyUDI7scVr98vVbCAVr-VQVEdJOXMDigVfsi_UxQavS0gnN4EOZGBbG6gHygGbn1CbVmQ=s88-c-k-c0x00ffffff-no-rj"
-											alt="@sorrybodikmain"
+											src={defaultChannel.profileImg}
+											alt={defaultChannel.nickName}
 										/>
-										<AvatarFallback>SM</AvatarFallback>
+										<AvatarFallback
+											children={
+												defaultChannel
+													.nickName
+													.slice(0, 2)
+													.toUpperCase()
+											}
+										/>
 									</Avatar>
 									<div className="space-y-0.5">
-										<div children="Motivation for you" />
+										<div children={defaultChannel.name} />
 										<div
 											className="flex overflow-x-hidden text-sm truncate"
-											children="@motivation_for_your."
+											children={defaultChannel.nickName}
 										/>
 									</div>
 								</DropdownMenuItem>
@@ -228,7 +245,10 @@ const HomeHeader = () => {
 					<>
 						<DropdownMenu>
 							<DropdownMenuTrigger className="focus:border-none">
-								<DynamicIcon name="more-vertical" className="w-10 h-10 p-2.5 hover:bg-muted rounded-full" />
+								<DynamicIcon
+									name="more-vertical"
+									className="w-10 h-10 p-2.5 hover:bg-muted rounded-full"
+								/>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent>
 								<DropdownBaseContent />

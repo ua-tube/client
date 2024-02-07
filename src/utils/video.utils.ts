@@ -1,11 +1,18 @@
-const getVideoUrl = (videoId?: string, time?: number, isShort = false) =>
-	`${isShort ? '' : process.env.SERVER_URL}/watch?videoId=${videoId}${time ? `&time=${time}` : ''}`
+import { getVideoUrl } from './'
 
 const writeVideoUrl = async (videoId?: string, time?: number) => await navigator.clipboard.writeText(getVideoUrl(videoId, time))
 
-const getSourceVideoUrl = (videoId: string, quality: string = '144p') => `${process.env.SERVER_URL}/videos/${videoId}/${quality}.mp4`
+const formatNumbers = (v: number = 0, locale = 'uk') => Intl.NumberFormat(locale, { notation: 'compact' }).format(v)
 
-const formatNumbers = (v: number) => Intl.NumberFormat(undefined, { notation: 'compact' }).format(v)
+const shakeConfetti = async (shapedText: string | undefined) => {
+	const confetti = (await import('canvas-confetti')).default
+	Array(shapedText ? 5 : 10).fill(null).forEach(() => confetti({
+		...(shapedText && { shapes: [confetti.shapeFromText({ text: shapedText, scalar: 10 })] }),
+		particleCount: shapedText ? 100 : 200,
+		startVelocity: 30,
+		spread: 360,
+		origin: { x: Math.random(), y: Math.random() - 0.2 }
+	}))
+}
 
-
-export { writeVideoUrl, getSourceVideoUrl, formatNumbers, getVideoUrl }
+export { writeVideoUrl, formatNumbers, shakeConfetti }

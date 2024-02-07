@@ -1,4 +1,4 @@
-import { IComment, IReportReason, IVideo } from '@/interfaces'
+import { IComment, IReportReason, IVideo, IChannel } from '@/interfaces'
 
 const videoSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4]
 
@@ -58,13 +58,14 @@ const defaultVideo: IVideo = {
 	postedAt: '2023-09-29',
 	videoUrl: 'jghjg',
 	views: 4205345345,
-	nextVideoId: 'sg4t3ct32ag',
+	nextVideoId: '',
 	qualities: ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p'],
 	thumbnailUrl: '',
 	duration: 9000,
 	channel: {
+		nickName: 'bodes',
 		name: 'Bones - тема',
-		profileImageUrl: 'https://yt3.ggpht.com/odyoGI3JugwocJD-Nmw64lzDgngCJctgDKOM750RuIlIu759W7Cir9BJprZwaEsHmmIZTjU6Oa8=s48-c-k-c0x00ffffff-no-rj',
+		profileImg: 'https://yt3.ggpht.com/odyoGI3JugwocJD-Nmw64lzDgngCJctgDKOM750RuIlIu759W7Cir9BJprZwaEsHmmIZTjU6Oa8=s48-c-k-c0x00ffffff-no-rj',
 		subscribersCount: 10000,
 		id: '43434343'
 	}
@@ -79,8 +80,9 @@ const defaultComments: IComment[] = [
 		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-1',
+			'nickName': 'bodes',
 			'name': 'Наука та Технології',
-			'profileImageUrl': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
+			'profileImg': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 10000
 		}
 	},
@@ -92,8 +94,9 @@ const defaultComments: IComment[] = [
 		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-2',
+			'nickName': 'channel-2',
 			'name': 'Кулінарія',
-			'profileImageUrl': 'https://yt3.ggpht.com/bM56yGtmL91Ks0iQoKtuVxDGXBxqlOcJFXbNgAGieneif3kVGefYulz4gr3RBN-5XMvfHUDP3Q=s48-c-k-c0x00ffffff-no-rj',
+			'profileImg': 'https://yt3.ggpht.com/bM56yGtmL91Ks0iQoKtuVxDGXBxqlOcJFXbNgAGieneif3kVGefYulz4gr3RBN-5XMvfHUDP3Q=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 5000
 		}
 	},
@@ -105,8 +108,9 @@ const defaultComments: IComment[] = [
 		'disLikesCount': 1,
 		'chanel': {
 			'id': 'channel-3',
+			'nickName': 'channel-3',
 			'name': 'Подорожі',
-			'profileImageUrl': 'https://yt3.ggpht.com/uuuDF5kog8igvdBOJcXjfTD2F059JI19ItkriqAlayoc3RRIUswwYPHZGWHJqZvanRaBa9bS8w=s48-c-k-c0x00ffffff-no-rj',
+			'profileImg': 'https://yt3.ggpht.com/uuuDF5kog8igvdBOJcXjfTD2F059JI19ItkriqAlayoc3RRIUswwYPHZGWHJqZvanRaBa9bS8w=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 2000
 		}
 	},
@@ -118,8 +122,9 @@ const defaultComments: IComment[] = [
 		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-4',
+			'nickName': 'channel-3',
 			'name': 'Музика',
-			'profileImageUrl': 'https://yt3.ggpht.com/CodCq1P96PEMlEOz3VigJnJy3Jsq8JUoDOKEhrmC6WN0W-yUNgymV5mrXG-iKFRmm6JgYB02GA=s48-c-k-c0x00ffffff-no-rj',
+			'profileImg': 'https://yt3.ggpht.com/CodCq1P96PEMlEOz3VigJnJy3Jsq8JUoDOKEhrmC6WN0W-yUNgymV5mrXG-iKFRmm6JgYB02GA=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 3000
 		}
 	},
@@ -131,12 +136,31 @@ const defaultComments: IComment[] = [
 		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-5',
+			'nickName': 'channel-3',
 			'name': 'Спорт',
-			'profileImageUrl': 'https://yt3.ggpht.com/r5xAvOWzSZOExIfJ4J7pd7rQC_TC8M2kGu_TDZAPQiUtUkT3K08CXPN1mVqk3EP28TGp0G3W=s48-c-k-c0x00ffffff-no-rj',
+			'profileImg': 'https://yt3.ggpht.com/r5xAvOWzSZOExIfJ4J7pd7rQC_TC8M2kGu_TDZAPQiUtUkT3K08CXPN1mVqk3EP28TGp0G3W=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 4000
 		}
 	}
 ]
+
+const defaultChannel: IChannel = {
+	id: '1',
+	name: 'sorrybodikmain',
+	nickName: '@sorrybodikmain',
+	subscribersCount: 10543530,
+	videosCount: 43,
+	createdAt: new Date().toISOString(),
+	videosViewsCount: 345534435,
+	description: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,' +
+		' by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum,' +
+		' you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to' +
+		' repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words,' +
+		' combined with a handful of model sentence structures, to generate. Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore ' +
+		'always free from repetition, injected humour, or non-characteristic words etc.',
+	profileBgImg: 'https://yt3.googleusercontent.com/-N5buVuvnKvpDu1s71G-2TA5_SFvrvXe49NaHXoRcKDSXq6meEcoYm1F5Cq0cwyQ9s-KLZBJiw=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj',
+	profileImg: 'https://yt3.googleusercontent.com/yCY69HQl8LRBKHaVZZwLYF84TOr9ydQGz_AkSJFWFIHpoTUsCD0InDkrlZgY7kpTpEG3ChlLnw=s176-c-k-c0x00ffffff-no-rj'
+}
 
 const reportReasons: IReportReason[] = [
 	{ id: 1, name: 'Контент сексуального характеру' },
@@ -152,4 +176,4 @@ const reportReasons: IReportReason[] = [
 ]
 
 
-export { videoSpeeds, defaultVideo, defaultComments , reportReasons}
+export { videoSpeeds, defaultVideo, defaultComments, reportReasons, defaultChannel }

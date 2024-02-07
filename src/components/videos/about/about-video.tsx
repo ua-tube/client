@@ -1,8 +1,8 @@
-import { formatNumbers, formatTimeAgo, getSourceVideoUrl, writeVideoUrl } from '@/utils'
-import confetti from 'canvas-confetti'
+import { formatNumbers, formatTimeAgo, getSourceVideoUrl, writeVideoUrl, getChannelUrl, shakeConfetti } from '@/utils'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import {
 	Avatar,
 	AvatarFallback,
@@ -39,24 +39,27 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 		undefined
 	>(undefined)
 
-	const onLike = () => {
+
+	const onLike = async () => {
 		setLiked(s => !s)
 		if (disLiked) setDisLiked(false)
+		await shakeConfetti('👍')
 	}
 
-	const onDisLike = () => {
+	const onDisLike = async () => {
 		setDisLiked(s => !s)
 		if (liked) setLiked(false)
+		await shakeConfetti('👎')
 	}
 
 	const onCopyLinkPress = async () => {
 		await writeVideoUrl(video.id)
-		Array(10).fill(null).forEach((_, index) => confetti({
-			particleCount: 200,
-			startVelocity: 30,
-			spread: 360,
-			origin: { x: Math.random(), y: Math.random() - 0.2 }
-		}))
+		await shakeConfetti(undefined)
+	}
+
+	const onSubscribe = async () => {
+		setSubscribed(s => !s)
+		await shakeConfetti(undefined)
 	}
 
 	return <div className="flex flex-col gap-y-4">
@@ -64,18 +67,22 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 
 		<div className="flex flex-col md:flex-row items-start md:items-center gap-y-5 gap-x-2 md:justify-between">
 			<div className="flex flex-row items-center space-x-3 w-full md:w-auto">
-				<Avatar>
-					<AvatarImage src={video.channel.profileImageUrl} />
-					<AvatarFallback children={video.channel.name?.[0]} />
-				</Avatar>
+				<Link href={getChannelUrl(video.channel)}>
+					<Avatar>
+						<AvatarImage src={video.channel.profileImg} />
+						<AvatarFallback children={video.channel.name?.[0]} />
+					</Avatar>
+				</Link>
 				<div className="flex flex-col">
-					<h5 className="font-semibold" children={video.channel.name} />
+					<Link href={getChannelUrl(video.channel)}>
+						<h5 className="font-semibold" children={video.channel.name} />
+					</Link>
 					<p
 						className="font-light text-xs text-muted-foreground flex overflow-x-hidden truncate"
 						children={`Підписалося ${formatNumbers(video.channel.subscribersCount || 0)} користувачів`} />
 				</div>
 				<Button
-					onClick={() => setSubscribed(s => !s)}
+					onClick={onSubscribe}
 					variant={subscribed ? 'secondary' : 'default'}
 					className="rounded-lg w-full md:w-auto"
 					children={subscribed ? 'Відписатися' : 'Підписатися'}

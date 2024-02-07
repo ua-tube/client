@@ -19,13 +19,13 @@ export const categories = [
 
 export const videos: IVideo[] = [
 	{
-		id: 'nRc6934CNs1',
+		id: '1b5a68680b00c658dc3dec16b5a27f0e',
 		title: 'Spotify Clone Using HTML CSS | Creating a Spotify Clone',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'constGenius'
 		},
 		views: 888000,
 		postedAt: '2023-09-29',
@@ -35,13 +35,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '85f080ed49cc2d52a1a4d1d252955e1d',
 		title: 'Infinite Scrolling Animation CSS Only',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'constGenius'
 		},
 		views: 257136,
 		postedAt: '2023-11-14',
@@ -51,13 +51,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: 'd6fe8454efd2c8253ead6ab79d34dddb',
 		title: 'How to get ahead of 99% of people',
 		channel: {
 			name: 'Ruri Ohama',
 			id: 'Ruri Ohama',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'ruriOhama'
 		},
 		views: 777777,
 		postedAt: '2023-9-08',
@@ -67,13 +67,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '6354c215a3c641a37ca7e4759da038ee',
 		title: 'Sia - Unstoppable (Official Audio)',
 		channel: {
 			name: 'Sia',
 			id: 'Sia',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'sia'
 		},
 		views: 172464814,
 		postedAt: '2016-1-21',
@@ -83,13 +83,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '361f18312f24eac5bf69f78189037d60',
 		title: 'THE BATMAN – Main Trailer',
 		channel: {
 			name: 'Warner Bros. Pictures',
 			id: 'Warner Bros. Pictures',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'wwl'
 		},
 		views: 60000000,
 		postedAt: '2021-11-02',
@@ -99,13 +99,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: 'f0e00bb2a86ff1cec67016b787634610',
 		title: 'Marvel Studios\' Avengers: Endgame - Official Trailer',
 		channel: {
 			name: 'Marvel Entertainment',
 			id: 'Marvel Entertainment',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'marvel'
 		},
 		views: 103400000,
 		postedAt: '2020-03-03',
@@ -115,13 +115,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '9e040a7a6ef9df150ae9b5e3edf9429d',
 		title: 'Learn React From Scratch in 1 hour',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'constGenius'
 		},
 		views: 1032330,
 		postedAt: '2023-08-09',
@@ -131,13 +131,14 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: 'dcfc673a421aa70e1ab78fda3b435d33',
 		title: 'Hidden Details in Loki\'s Costumes! | Behind the Scenes',
 		channel: {
 			name: 'Marvel Entertainment',
 			id: 'Marvel Entertainment',
-			profileImageUrl:
-				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+			profileImg:
+				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'marvel'
 		},
 		views: 20323340,
 		postedAt: '2023-11-17',
@@ -147,12 +148,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '3f7f8b78d7089f21d07331edce7fd0eb',
 		title: 'Beautiful Scroll Animations | Animate on Scroll',
 		channel: {
-			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			name: 'constGenius',
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 20323,
@@ -163,12 +165,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: 'c417f3030e21e55c9013f4591035b795',
 		title: 'Peaky Blinders Season 6 Official Trailer | Netflix India',
 		channel: {
 			name: 'Netflix India',
 			id: 'Netflix India',
-			profileImageUrl:
+			nickName: 'netflix_india',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 5323,
@@ -180,12 +183,13 @@ export const videos: IVideo[] = [
 	},
 
 	{
-		id: 'sg4t3ct32ag',
+		id: '5d9d5bfa615733d9606ebc05e0df138b',
 		title: 'Setup Tailwind CSS with React JS | Added Tips to use it easily',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 20323,
@@ -196,12 +200,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '116281ab79cd0184d31c17b60e171bed',
 		title: 'Learn useState Hook in React JS | React Hooks Explained',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 30323,
@@ -212,12 +217,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '1b5a68680b00c658dc3dec16b5a27f0e',
 		title: 'Carousel Component in ReactJS and Tailwind CSS',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 10323,
@@ -228,12 +234,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: '85f080ed49cc2d52a1a4d1d252955e1d',
 		title: 'Website With Animated Text Effect Using HTML And CSS',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 5323,
@@ -244,12 +251,13 @@ export const videos: IVideo[] = [
 			'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
 	},
 	{
-		id: 'sg4t3ct32ag',
+		id: 'd6fe8454efd2c8253ead6ab79d34dddb',
 		title: 'Magic Navigation Menu Indicator Using HTML CSS JavaScript',
 		channel: {
 			name: 'constGenius',
 			id: 'constGenius',
-			profileImageUrl:
+			nickName: 'constGenius',
+			profileImg:
 				'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		},
 		views: 8323,

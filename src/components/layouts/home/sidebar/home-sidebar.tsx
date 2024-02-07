@@ -1,9 +1,11 @@
 import LargeSidebarSection, { ILargeSidebarSectionProps } from './large-sidebar-section'
 import SmallSidebarItem, { ISmallSidebarItemProps } from './small-sidebar-item'
+import { playlists, subscriptions, defaultChannel } from '@/data'
 import { HomeHeaderFirstSection } from '../home-header'
 import { useSidebarContext } from '../home-layout'
-import { playlists, subscriptions } from '@/data'
 import { FC, Fragment, useEffect } from 'react'
+import { getChannelUrl, getPlaylistUrl } from '@/utils'
+import { ScrollArea } from '@/components'
 
 
 interface IHomeSidebarProps {
@@ -28,34 +30,27 @@ const largeSections: ILargeSidebarSectionProps[] = [
 		title: 'Ви >',
 		visibleItemCount: 5,
 		items: [
-			{ icon: 'person-standing', title: 'Ваш канал', url: '/@me' },
+			{ icon: 'person-standing', title: 'Ваш канал', url: getChannelUrl(defaultChannel) },
 			{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
-			{ icon: 'play', title: 'Мої відео', url: '/@me/videos' },
-			{ icon: 'alarm-clock', title: 'Переглянути пізніше', url: '/playlist?list=WL' },
-			{ icon: 'heart', title: 'Відео, які сподобалися', url: '/playlist?list=WL' },
-			...playlists.map(value => ({ icon: 'list-video' as any, title: value.name, url: `/playlist?list=${value.id}` }))
+			{ icon: 'play', title: 'Мої відео', url: getChannelUrl(defaultChannel, 'videos') },
+			{ icon: 'heart', title: 'Відео, які сподобалися', url: getPlaylistUrl('LL', true) },
+			{ icon: 'alarm-clock', title: 'Переглянути пізніше', url: getPlaylistUrl('WL', true) },
+			...playlists.map(value => ({ icon: 'list-video' as any, title: value.name, url: getPlaylistUrl(value.id, true) }))
 		]
 	},
 	{
 		title: 'Підписки',
 		visibleItemCount: 10,
-		items: subscriptions
-			.map(value =>
-				({
-					imgUrl: value.imgUrl,
-					title: value.channelName,
-					url: `/@${value.id}`
-				})
-			)
+		items: subscriptions.map(value => ({ imgUrl: value.profileImg, title: value.name, url: getChannelUrl(value) }))
 	},
 	{
 		title: 'Що нового',
 		items: [
-			{ icon: 'file-axis-3d', title: 'Тренди', url: '/trending' },
-			{ icon: 'gamepad', title: 'Ігри', url: '/games' },
-			{ icon: 'music', title: 'Музика', url: '/music' },
-			{ icon: 'monitor', title: 'Фільми та телешоу', url: '/movies-and-tv' },
-			{ icon: 'newspaper', title: 'Новини', url: '/news' }
+			{ icon: 'file-axis-3d', title: 'Тренди', url: getPlaylistUrl('trending', true) },
+			{ icon: 'gamepad', title: 'Ігри', url: getPlaylistUrl('games', true) },
+			{ icon: 'music', title: 'Музика', url: getPlaylistUrl('music', true) },
+			{ icon: 'monitor', title: 'Фільми та телешоу', url: getPlaylistUrl('movies-and-tv', true) },
+			{ icon: 'newspaper', title: 'Новини', url: getPlaylistUrl('news', true) }
 		]
 	}
 ]
@@ -69,12 +64,13 @@ export const HomeSidebar: FC<
 		 }) => {
 
 	const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
+
 	useEffect(() => {
 		if (autoHideSidebar) close()
 	}, [autoHideSidebar])
 
 	return (
-		<div className="transform transition-transform duration-300 max-h-screen overflow-y-auto no-scrollbar">
+		<ScrollArea className="transform transition-transform duration-300 max-h-screen pr-0.5">
 			<aside
 				className={`hidden sticky top-0 overflow-y-hidden pb-4 md:flex flex-col ml-1 ${
 					hiddenSidebar || isLargeOpen ? 'lg:hidden' : 'lg:flex'
@@ -101,6 +97,6 @@ export const HomeSidebar: FC<
 				)}
 
 			</aside>
-		</div>
+		</ScrollArea>
 	)
 }
