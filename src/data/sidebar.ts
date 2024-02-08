@@ -1,5 +1,6 @@
 import { IChannel, IPlaylist } from '@/interfaces'
-import { videos } from '@/data/home'
+import { musicVideos, videoEdits, videos } from '@/data/home'
+import { defaultChannel } from '@/data/video'
 
 const subscriptions: IChannel[] = [
 	{
@@ -28,17 +29,32 @@ const subscriptions: IChannel[] = [
 
 const playlists: IPlaylist[] = [
 	{
+		id: 'LL',
+		icon:'heart',
+		name: 'Відео, які сподобалися',
+		imgUrl: videos?.[0].thumbnailUrl,
+		isPrivate: true,
+		channel: defaultChannel,
+		videos,
+		videosCount: videos.length
+	},
+	{
+		id: 'WL',
+		icon:'alarm-clock',
+		name: 'Переглянути пізніше',
+		imgUrl: videos?.[0].thumbnailUrl,
+		isPrivate: true,
+		channel: defaultChannel,
+		videos,
+		videosCount: videos.length
+	},
+	{
 		id: '1',
-		name: 'React',
+		name: 'Video edits',
 		imgUrl: 'https://i.ytimg.com/vi/mKMSxrkorKI/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCN3Y-A_W6-bwsd7zKlN01id-QhJw',
 		isPrivate: true,
-		channel: {
-			name: 'sorrybodikmain',
-			id: 'sorrybodikmain',
-			nickName: 'sorrybodikmain',
-			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
-		},
-		videos,
+		channel: defaultChannel,
+		videos: videoEdits,
 		viewsCount: 654,
 		createdAt: new Date('2023-11-01').toISOString(),
 		updatedAt: new Date('2023-12-12').toISOString(),
@@ -46,29 +62,14 @@ const playlists: IPlaylist[] = [
 	},
 	{
 		id: '2',
-		name: 'HTML CSS Projects',
+		name: 'Music playlist',
 		imgUrl: 'https://i.ytimg.com/vi/7Gu_siNNy10/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLAIcG-qNoBanTodeTVU6_T-X7xMhA',
-		videosCount: 54
-	},
-	{
-		id: '3',
-		name: 'React with Tailwind',
-		imgUrl: 'https://i.ytimg.com/vi/TG1lH-__u8g/hqdefault.jpg?sqp=-oaymwE1CKgBEF5IVfKriqkDKAgBFQAAiEIYAXABwAEG8AEB-AH-CYAC0AWKAgwIABABGHIgUSg5MA8=&rs=AOn4CLC7uGsxsOyeAGsFha9xuEz-vlSjqQ',
-		isPrivate: true,
-		videosCount: 765
-	},
-	{
-		id: '4',
-		name: 'React Hooks',
-		imgUrl: 'https://i.ytimg.com/vi/0mkzcQ8W3-g/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCjQ1QTKFs2oTCL6R97rdjJRzt09Q',
-		videosCount: 32
-	},
-	{
-		id: '5',
-		name: 'Next.JS',
-		imgUrl: 'https://i.ytimg.com/vi/IWoKnOvtNMA/hqdefault.jpg?sqp=-oaymwE1CKgBEF5IVfKriqkDKAgBFQAAiEIYAXABwAEG8AEB-AG2CIACkgmKAgwIABABGFkgZShhMA8=&rs=AOn4CLBr17u7sZEla9o2fABNkV2TONPw3g',
-		isPrivate: false,
-		videosCount: 75
+		videos: musicVideos,
+		viewsCount: 654,
+		videosCount: 54,
+		channel: defaultChannel,
+		createdAt: new Date('2023-11-01').toISOString(),
+		updatedAt: new Date('2023-12-12').toISOString()
 	}
 ]
 

@@ -7,7 +7,6 @@ interface IVideo {
 	qualities?: string[]
 	likesCount?: number
 	disLikesCount?: number
-	nextVideoId?: string
 	description?: string
 	commentsCount?: number
 	views: number

@@ -33,9 +33,11 @@ const largeSections: ILargeSidebarSectionProps[] = [
 			{ icon: 'person-standing', title: 'Ваш канал', url: getChannelUrl(defaultChannel) },
 			{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
 			{ icon: 'play', title: 'Мої відео', url: getChannelUrl(defaultChannel, 'videos') },
-			{ icon: 'heart', title: 'Відео, які сподобалися', url: getPlaylistUrl('LL', true) },
-			{ icon: 'alarm-clock', title: 'Переглянути пізніше', url: getPlaylistUrl('WL', true) },
-			...playlists.map(value => ({ icon: 'list-video' as any, title: value.name, url: getPlaylistUrl(value.id, true) }))
+			...playlists.map(value => ({
+				icon: value?.icon || 'list-video' as any,
+				title: value.name,
+				url: getPlaylistUrl(value.id, true)
+			}))
 		]
 	},
 	{

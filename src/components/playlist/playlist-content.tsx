@@ -60,10 +60,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 		</div>
 		<div
 			className="w-full lg:w-1/4 h-fit rounded-xl lg:sticky lg:top-0 bg-repeat-space bg-center bg-cover"
-			style={{
-				backgroundImage: `url(${list.imgUrl})`
-			}}>
-
+			style={{ backgroundImage: `url(${list.imgUrl})` }}>
 			<div className="flex flex-col w-full h-full backdrop-blur-lg rounded-xl p-6">
 				<Link
 					className="w-full h-40 aspect-video relative group"
@@ -77,7 +74,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 					<div
 						className="absolute top-0 w-full h-full bg-background opacity-0 group-hover:opacity-80 transition duration-300 flex justify-center items-center rounded-lg space-x-2">
 						<DynamicIcon name="list-video" />
-						<span>Дивитися весь плейліст</span>
+						<Link href={getVideoUrl(list.videos?.[0].id, undefined, list.id, true)} children="Дивитися весь плейліст" />
 					</div>
 				</Link>
 				<div className="flex flex-col gap-y-3 py-3">
@@ -95,14 +92,16 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 								children={list.channel?.name}
 							/>
 						</div>
-						<div className="flex items-center space-x-2">
-							<DynamicIcon name="eye" />
-							<span>Переглянуто: </span>
-							<div
-								className="leading-7 font-semibold"
-								children={`${formatNumbers(list.viewsCount || 0)} разів`}
-							/>
-						</div>
+						{list.viewsCount &&
+							<div className="flex items-center space-x-2">
+								<DynamicIcon name="eye" />
+								<span>Переглянуто: </span>
+								<div
+									className="leading-7 font-semibold"
+									children={`${formatNumbers(list.viewsCount || 0)} разів`}
+								/>
+							</div>
+						}
 						<div className="flex items-center space-x-2">
 							<DynamicIcon name="list-video" />
 							<span>Налічує: </span>
@@ -111,22 +110,24 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 								children={`${list.videosCount} відео`}
 							/>
 						</div>
-						<div className="flex items-center space-x-2">
+						{list.createdAt && <div className="flex items-center space-x-2">
 							<DynamicIcon name="calendar-check" />
 							<span>Створено: </span>
 							<div
 								className="leading-7 font-semibold"
-								children={formatTimeAgo(list.createdAt!)}
+								children={formatTimeAgo(list.createdAt)}
 							/>
-						</div>
-						<div className="flex items-center space-x-2">
-							<DynamicIcon name="calendar-check-2" />
-							<span>Оновлено: </span>
-							<div
-								className="leading-7 font-semibold"
-								children={formatTimeAgo(list.updatedAt!)}
-							/>
-						</div>
+						</div>}
+						{list.updatedAt &&
+							<div className="flex items-center space-x-2">
+								<DynamicIcon name="calendar-check-2" />
+								<span>Оновлено: </span>
+								<div
+									className="leading-7 font-semibold"
+									children={formatTimeAgo(list.updatedAt)}
+								/>
+							</div>
+						}
 					</div>
 				</div>
 			</div>

@@ -41,7 +41,7 @@ const PlaylistCard: FC<IPlaylistCardProps> = ({ playList }) => {
 				/>
 			</Link>
 
-			{playList.isPrivate && <div
+			{playList.isPrivate === true && <div
 				className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center"
 			>
 				<DynamicIcon name="lock" className="size-4" />

@@ -1,6 +1,6 @@
 import { Checkbox, Dialog, DialogContent, DialogHeader, DialogTitle, Label } from '@/components'
-import { playlists } from '@/data'
 import { IVideo } from '@/interfaces'
+import { playlists } from '@/data'
 import { FC, useState } from 'react'
 
 

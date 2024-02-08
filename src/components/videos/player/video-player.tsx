@@ -2,6 +2,7 @@ import { useSidebarContext } from '@/components/layouts/home/home-layout'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useRouter } from 'next/router'
+import { IVideo } from '@/interfaces'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
 import {
@@ -33,9 +34,8 @@ import {
 
 
 interface IVideoPlayerProps {
-	qualities: string[]
-	videoId: string
-	nextVideoId: string
+	video: IVideo
+	videoIds: { next: string, prev?: string }
 	autoPlay?: boolean
 }
 
@@ -55,7 +55,7 @@ interface IVideoState {
 	disabledQualities: string[]
 }
 
-const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, autoPlay }) => {
+const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
 	const { push, query } = useRouter()
@@ -65,7 +65,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		isLooped: false,
 		duration: 0,
 		isLoading: true,
-		quality: qualities[0],
+		quality: video.qualities?.[0]|| '144p',
 		speed: 1,
 		volume: 0.5,
 		isFullScreen: false,
@@ -86,7 +86,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 
 	const togglePlay = useCallback(() => {
-		if (videoState.disabledQualities.length !== qualities.length)
+		if (videoState.disabledQualities.length !== video.qualities?.length)
 			if (videoRef.current) {
 				if (videoRef.current.paused) {
 					videoRef.current.play().catch()
@@ -97,7 +97,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 				}
 			}
 
-	}, [showPlayAnimation, videoState.disabledQualities.length, qualities.length])
+	}, [showPlayAnimation, videoState.disabledQualities.length, video.qualities?.length])
 
 	const changeSpeed = useCallback((newSpeed: number) => {
 		if (videoRef.current) {
@@ -146,16 +146,16 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 
 	const onVideoEnd = useCallback(async () =>
-			videoState.autoPlayNext && await push(getVideoUrl(nextVideoId, undefined, query?.listId ? query.listId as string : undefined, true)),
-		[videoState.autoPlayNext, push, nextVideoId, query?.listId])
+			videoState.autoPlayNext && await push(getVideoUrl(videoIds.next, undefined, query?.listId ? query.listId as string : undefined, true)),
+		[videoState.autoPlayNext, push, videoIds.next, query?.listId])
 
 	const onVideoLoadError = useCallback(() => {
 		setVideoState(p => ({
 			...p,
-			disabledQualities: getAllElementsFromOrToCurrentElement(qualities, videoState.quality, true)
+			disabledQualities: getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality, true)
 		}))
-		changeQuality(getAllElementsFromOrToCurrentElement(qualities, videoState.quality).at(-1) || qualities[0])
-	}, [qualities, videoState.quality, changeQuality])
+		changeQuality(getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality).at(-1) || '144p')
+	}, [videoState.quality, changeQuality, video.qualities])
 
 	const toggleRepeat = useCallback(() => {
 		if (videoRef.current) {
@@ -279,7 +279,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 		changeVolume(+(sessionStorage?.getItem('volume') || 0.5))
 		query?.time && onTimeUpdateHandler(+query.time)
 		autoPlay && togglePlay()
-	}, [videoId])
+	}, [video])
 
 	useEffect(() => {
 		sessionStorage.setItem('volume', `${videoState.volume}`)
@@ -300,7 +300,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 						className="w-full rounded-lg aspect-video bg-black/80"
 						onClick={togglePlay}
 						onError={onVideoLoadError}
-						src={getSourceVideoUrl(videoId, videoState.quality)}
+						src={getSourceVideoUrl(video.id, videoState.quality)}
 						onEnded={onVideoEnd}
 						controls={false}
 					/>
@@ -332,7 +332,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 
 					<ContextMenuItem
 						className="flex items-center justify-between"
-						onClick={() => writeVideoUrl(videoId)}
+						onClick={() => writeVideoUrl(video.id)}
 					>
 						<div className="items-center flex space-x-2">
 							<DynamicIcon name="link" />
@@ -341,7 +341,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 					</ContextMenuItem>
 					<ContextMenuItem
 						className="flex items-center justify-between"
-						onClick={() => writeVideoUrl(videoId, Math.floor(videoState.currentTime))}
+						onClick={() => writeVideoUrl(video.id, Math.floor(videoState.currentTime))}
 					>
 						<div className="items-center flex space-x-2">
 							<DynamicIcon name="link" />
@@ -357,12 +357,12 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 					name={videoRef.current && videoRef.current.paused ? 'pause-circle' : 'play-circle'}
 					className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
 				/>}
-				{videoState.isLoading && videoState.disabledQualities.length !== qualities.length &&
+				{videoState.isLoading && videoState.disabledQualities.length !== video.qualities?.length &&
 					<DynamicIcon
 						name="loader-2"
 						className="animate-spin transition-all size-14 bg-black/60 rounded-full"
 					/>}
-				{videoState.disabledQualities.length === qualities.length &&
+				{videoState.disabledQualities.length === video.qualities?.length &&
 					<div children="Відео на даний момент не доступно!" />
 				}
 			</div>
@@ -408,6 +408,18 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 				<TooltipProvider delayDuration={0}>
 					<div className="flex justify-between items-center">
 						<div className="flex items-center space-x-1.5">
+							
+							{videoIds.prev && <Tooltip>
+								<TooltipTrigger asChild>
+									<Link
+										href={getVideoUrl(videoIds.prev, undefined, query?.listId ? query.listId as string : undefined, true)}>
+										<DynamicIcon name="chevron-right" className="rotate-180" />
+									</Link>
+								</TooltipTrigger>
+								<TooltipContent children="Попереднє відео" />
+							</Tooltip>
+							}
+
 							<Tooltip>
 								<TooltipTrigger
 									onClick={togglePlay}
@@ -418,7 +430,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Link
-										href={getVideoUrl(nextVideoId, undefined, query?.listId ? query.listId as string : undefined, true)}>
+										href={getVideoUrl(videoIds.next, undefined, query?.listId ? query.listId as string : undefined, true)}>
 										<DynamicIcon name="chevron-right" />
 									</Link>
 								</TooltipTrigger>
@@ -528,7 +540,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ videoId, qualities, nextVideoId, a
 										<TooltipContent side="left" align="end">
 											<div
 												className="flex flex-col gap-y-2"
-												children={qualities.map((value, index) =>
+												children={video.qualities?.map((value, index) =>
 													<Button
 														key={index}
 														size="sm"

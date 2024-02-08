@@ -8,7 +8,12 @@ import { playlists } from '@/data'
 export const getServerSideProps: GetServerSideProps<{
 	list: IPlaylist
 }> = async ({ query }) => {
-	return { props: { list: { ...playlists[0], id: query?.listId as string || 'err' } } }
+
+	const listId = query?.listId as string
+	let list: IPlaylist = { ...playlists[0], id: query?.listId as string || 'err' }
+	if (listId && playlists.some(s => s.id === listId))
+		list = playlists.find(value => value.id === listId)!
+	return { props: { list } }
 }
 
 export default function PlaylistPage({ list }: InferGetServerSidePropsType<typeof getServerSideProps>) {
