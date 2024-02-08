@@ -1,9 +1,14 @@
 import SidebarVideoCard from './sidebar-video-card'
-import { videos } from '@/data'
+import { IVideo } from '@/interfaces'
 import { FC } from 'react'
 
-const SidebarVideoList: FC = () => {
 
+interface ISidebarVideoListProps {
+	videos: IVideo[]
+}
+
+
+const SidebarVideoList: FC<ISidebarVideoListProps> = ({ videos }) => {
 	return <div
 		className="flex flex-col gap-y-2"
 		children={videos.map((value, index) =>

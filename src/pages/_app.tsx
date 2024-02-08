@@ -1,4 +1,3 @@
-import { appWithTranslation } from 'next-i18next'
 import { ThemeProvider } from '../providers'
 import type { AppType } from 'next/app'
 
@@ -12,4 +11,4 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 	)
 }
 
-export default appWithTranslation(MyApp)
+export default MyApp

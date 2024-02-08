@@ -48,11 +48,13 @@ export const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 	)
 }
 
-const HomeLayout: FC<PropsWithChildren<IHomeLayoutProps>> = ({
-																															 children,
-																															 autoHideSidebar,
-																															 hiddenSidebar
-																														 }) => {
+const HomeLayout: FC<
+	PropsWithChildren<IHomeLayoutProps
+	>> = ({
+					children,
+					autoHideSidebar,
+					hiddenSidebar
+				}) => {
 	return (
 		<SidebarProvider>
 			<div className="max-h-screen flex flex-col bg-background">

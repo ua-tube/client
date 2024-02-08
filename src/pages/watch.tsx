@@ -1,12 +1,12 @@
-import { AboutVideo, AppHead, CategoryPills, SidebarVideoList, VideoCommentsSection, Skeleton } from '@/components'
 import { categories, defaultComments, defaultVideo, playlists, videos } from '@/data'
+import { AboutVideo, AppHead, Skeleton, DynamicIcon } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { HomeLayout } from '@/components/layouts'
 import { IPlaylist, IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
 
-const CurrentVideoPlaylist = dynamic(
-	() => import('@/components/playlist/current-video-playlist')
+const HomeLayout = dynamic(
+	() => import('@/components/layouts/home'),
+	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
 const VideoPlayer = dynamic(
@@ -15,13 +15,29 @@ const VideoPlayer = dynamic(
 		loading: () => <Skeleton className="aspect-video bg-secondary rounded-lg" />
 	})
 
-const defaultVideosIds: string[] = videos.map(value => value.id)
+const VideoCommentsSection = dynamic(
+	() => import('@/components/videos/comments'))
+
+const CategoryPills = dynamic(
+	() => import( '@/components/categories/category-pills')
+)
+
+
+const SidebarVideoList = dynamic(
+	() => import( '@/components/videos/sidebar/sidebar-video-list')
+)
+
+const CurrentVideoPlaylist = dynamic(
+	() => import('@/components/playlist/current-video-playlist')
+)
+
 
 export const getServerSideProps: GetServerSideProps<{
 	video: IVideo,
 	videoIds: { next: string, prev?: string },
 	currList?: IPlaylist
-}> = async ({ query }) => {
+}> = async ({ query, locale }) => {
+	const defaultVideosIds: string[] = videos.map(value => value.id)
 	let videoIds: {
 		next: string,
 		prev?: string
@@ -66,7 +82,7 @@ export default function VideoPage({
 					<div className="w-full md:w-1/4 flex flex-col gap-y-2">
 						{currList && <CurrentVideoPlaylist currList={currList} currVideoId={video.id} />}
 						<CategoryPills categories={categories.slice(2)} />
-						<SidebarVideoList />
+						<SidebarVideoList videos={videos} />
 					</div>
 				</section>
 			</HomeLayout>

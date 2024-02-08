@@ -2,6 +2,8 @@ import { IComment, IReportReason, IVideo, IChannel } from '@/interfaces'
 
 const videoSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4]
 
+const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p']
+
 const defaultVideo: IVideo = {
 	id: 'nRc6934CNs1',
 	title: 'гипнозы - мальбэк & сюзанна (slowed and reverb)',
@@ -58,8 +60,7 @@ const defaultVideo: IVideo = {
 	postedAt: '2023-09-29',
 	videoUrl: 'jghjg',
 	views: 4205345345,
-	nextVideoId: '',
-	qualities: ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p'],
+	qualities,
 	thumbnailUrl: '',
 	duration: 9000,
 	channel: {
@@ -176,4 +177,4 @@ const reportReasons: IReportReason[] = [
 ]
 
 
-export { videoSpeeds, defaultVideo, defaultComments, reportReasons, defaultChannel }
+export { videoSpeeds, defaultVideo, defaultComments, reportReasons, defaultChannel, qualities }

@@ -96,3 +96,7 @@
 .hiddenOnMobile {
     @apply hidden md:block;
 }
+
+.loader-container {
+    @apply flex justify-center items-center h-screen w-screen;
+}
