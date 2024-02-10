@@ -97,6 +97,10 @@
     @apply hidden md:block;
 }
 
+.basePadding {
+    @apply px-8 pb-4;
+}
+
 .loader-container {
     @apply flex justify-center items-center h-screen w-screen;
 }

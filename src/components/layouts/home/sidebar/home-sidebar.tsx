@@ -1,10 +1,10 @@
 import LargeSidebarSection, { ILargeSidebarSectionProps } from './large-sidebar-section'
 import SmallSidebarItem, { ISmallSidebarItemProps } from './small-sidebar-item'
 import { playlists, subscriptions, defaultChannel } from '@/data'
+import { getChannelUrl, getPlaylistUrl } from '@/utils'
 import { HomeHeaderFirstSection } from '../home-header'
 import { useSidebarContext } from '../home-layout'
 import { FC, Fragment, useEffect } from 'react'
-import { getChannelUrl, getPlaylistUrl } from '@/utils'
 import { ScrollArea } from '@/components'
 
 
@@ -22,7 +22,7 @@ const smallSidebarItems: ISmallSidebarItemProps[] = [
 const largeSections: ILargeSidebarSectionProps[] = [
 	{
 		items: [
-			{ icon: 'home', title: 'Головна', url: '/', isActive: true },
+			{ icon: 'home', title: 'Головна', url: '/'},
 			{ icon: 'clipboard', title: 'Підписки', url: '/subscriptions' }
 		]
 	},

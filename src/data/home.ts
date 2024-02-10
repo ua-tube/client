@@ -37,23 +37,6 @@ const videoEdits: IVideo[] = [
 		}
 	},
 	{
-		id: '85f080ed49cc2d52a1a4d1d252955e1d',
-		title: 'Infinite Scrolling Animation CSS Only',
-		views: 257136,
-		postedAt: '2023-11-14',
-		duration: 732,
-		qualities,
-		thumbnailUrl: 'https://i.ytimg.com/vi/3uLklfZ5Xd4/hqdefault.jpg',
-		videoUrl: `${process.env.SERVER_URL}/videos/85f080ed49cc2d52a1a4d1d252955e1d/144p.mp4`,
-		channel: {
-			name: 'constGenius',
-			id: 'constGenius',
-			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
-			nickName: 'constGenius'
-		}
-	},
-
-	{
 		id: '6354c215a3c641a37ca7e4759da038ee',
 		title: 'Sia - Unstoppable (Official Audio)',
 		views: 172464814,
@@ -217,6 +200,22 @@ const musicVideos: IVideo[] = [
 			id: 'Marvel Entertainment',
 			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
 			nickName: 'marvel'
+		}
+	},
+	{
+		id: '85f080ed49cc2d52a1a4d1d252955e1d',
+		title: 'Infinite Scrolling Animation CSS Only',
+		views: 257136,
+		postedAt: '2023-11-14',
+		duration: 732,
+		qualities,
+		thumbnailUrl: 'https://i.ytimg.com/vi/3uLklfZ5Xd4/hqdefault.jpg',
+		videoUrl: `${process.env.SERVER_URL}/videos/85f080ed49cc2d52a1a4d1d252955e1d/144p.mp4`,
+		channel: {
+			name: 'constGenius',
+			id: 'constGenius',
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg',
+			nickName: 'constGenius'
 		}
 	},
 	{

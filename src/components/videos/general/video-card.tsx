@@ -45,7 +45,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 					children={formatDuration(value.duration)}
 				/>
 				<video
-					className={`block h-full object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
+					className={`block h-full w-full object-cover object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
 					muted
 					preload="none"
 					ref={videoRef}

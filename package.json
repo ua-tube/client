@@ -9,6 +9,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
@@ -36,9 +37,11 @@
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
     "react-player": "^2.14.1",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",

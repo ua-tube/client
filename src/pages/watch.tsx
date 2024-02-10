@@ -1,8 +1,9 @@
 import { categories, defaultComments, defaultVideo, playlists, videos } from '@/data'
 import { AboutVideo, AppHead, Skeleton, DynamicIcon } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { IPlaylist, IVideo } from '@/interfaces'
+import { IPlaylist, IVideo, IVideoState } from '@/interfaces'
 import dynamic from 'next/dynamic'
+import { useState } from 'react'
 
 const HomeLayout = dynamic(
 	() => import('@/components/layouts/home'),
@@ -66,13 +67,43 @@ export default function VideoPage({
 																		videoIds,
 																		currList
 																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const [videoState, setVideoState] = useState<IVideoState>({
+		autoPlayNext: false,
+		cinemaMode: false,
+		isLooped: false,
+		duration: 0,
+		isLoading: true,
+		quality: video.qualities?.[0] || '144p',
+		speed: 1,
+		volume: 0.5,
+		isFullScreen: false,
+		currentTime: 0,
+		bufferedCount: 0,
+		showAnimation: false,
+		showNavigationMenu: true,
+		disabledQualities: []
+	})
+
 	return (
 		<>
 			<AppHead title={video.title} image={video.thumbnailUrl} disableDesc />
-			<HomeLayout hiddenSidebar autoHideSidebar>
-				<section className="mx-auto flex flex-col gap-8 md:flex-row">
+			<HomeLayout hiddenSidebar autoHideSidebar disableBasePadding={videoState.cinemaMode}>
+				{videoState.cinemaMode &&
+					<VideoPlayer
+						video={video}
+						videoIds={videoIds}
+						autoPlay
+						{...{ videoState, setVideoState }}
+					/>}
+				<section className="mx-auto flex flex-col gap-8 md:flex-row basePadding">
 					<div className="w-full md:w-3/4 flex flex-col gap-y-4">
-						<VideoPlayer video={video} videoIds={videoIds} autoPlay />
+						{!videoState.cinemaMode &&
+							<VideoPlayer
+								video={video}
+								videoIds={videoIds}
+								autoPlay
+								{...{ videoState, setVideoState }}
+							/>}
 						<AboutVideo video={video} />
 						<VideoCommentsSection
 							totalCount={4324}

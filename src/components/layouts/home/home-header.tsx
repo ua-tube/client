@@ -254,13 +254,13 @@ const HomeHeader = () => {
 								<DropdownBaseContent />
 							</DropdownMenuContent>
 						</DropdownMenu>
-						<button
-							onClick={() => setAuth(a => !a)}
+						<Link
+							href='/auth'
 							className="h-10 rounded-full border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted"
 						>
 							<DynamicIcon name="person-standing" />
 							<span>Увійти</span>
-						</button>
+						</Link>
 					</>
 				)}
 			</div>

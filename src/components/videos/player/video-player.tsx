@@ -1,8 +1,8 @@
 import { useSidebarContext } from '@/components/layouts/home/home-layout'
-import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useRef } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useRouter } from 'next/router'
-import { IVideo } from '@/interfaces'
+import { IVideo, IVideoState, UseState } from '@/interfaces'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
 import {
@@ -10,7 +10,8 @@ import {
 	getAllElementsFromOrToCurrentElement,
 	getSourceVideoUrl,
 	writeVideoUrl,
-	getVideoUrl
+	getVideoUrl,
+	cn
 } from '@/utils'
 import {
 	Button,
@@ -37,44 +38,15 @@ interface IVideoPlayerProps {
 	video: IVideo
 	videoIds: { next: string, prev?: string }
 	autoPlay?: boolean
+	videoState: IVideoState
+	setVideoState: UseState<IVideoState>
 }
 
-interface IVideoState {
-	speed: number
-	quality: string
-	volume: number
-	duration: number
-	bufferedCount: number
-	isLoading: boolean
-	currentTime: number
-	autoPlayNext: boolean
-	isFullScreen: boolean
-	showNavigationMenu: boolean
-	showAnimation: boolean
-	isLooped: boolean
-	disabledQualities: string[]
-}
-
-const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
+const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoState, setVideoState }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
 	const { push, query } = useRouter()
 	const { isLargeOpen } = useSidebarContext()
-	const [videoState, setVideoState] = useState<IVideoState>({
-		autoPlayNext: false,
-		isLooped: false,
-		duration: 0,
-		isLoading: true,
-		quality: video.qualities?.[0]|| '144p',
-		speed: 1,
-		volume: 0.5,
-		isFullScreen: false,
-		currentTime: 0,
-		bufferedCount: 0,
-		showAnimation: false,
-		showNavigationMenu: true,
-		disabledQualities: []
-	})
 
 	const showPlayAnimation = useCallback(() => {
 		setVideoState((s) => ({ ...s, showAnimation: true }))
@@ -82,18 +54,18 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 			setVideoState(
 				(s) => ({ ...s, showAnimation: false })
 			), 1000)
-	}, [])
+	}, [setVideoState])
 
 
-	const togglePlay = useCallback(() => {
+	const togglePlay = useCallback((disableAnimation?: boolean) => {
 		if (videoState.disabledQualities.length !== video.qualities?.length)
 			if (videoRef.current) {
 				if (videoRef.current.paused) {
 					videoRef.current.play().catch()
-					showPlayAnimation()
+					!disableAnimation && showPlayAnimation()
 				} else {
 					videoRef.current.pause()
-					showPlayAnimation()
+					!disableAnimation && showPlayAnimation()
 				}
 			}
 
@@ -104,14 +76,14 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 			videoRef.current.playbackRate = newSpeed
 			setVideoState(p => ({ ...p, speed: newSpeed }))
 		}
-	}, [])
+	}, [setVideoState])
 
 	const onTimeUpdateHandler = useCallback((time?: number) => {
 		if (videoRef.current) {
 			if (time) videoRef.current.currentTime = time
 			setVideoState(p => ({ ...p, currentTime: videoRef.current!.currentTime }))
 		}
-	}, [])
+	}, [setVideoState])
 
 	const changeQuality = useCallback((newQuality: string) => {
 		if (videoRef.current) {
@@ -121,14 +93,15 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 				await videoRef.current?.play()
 			}, 100)
 		}
-	}, [onTimeUpdateHandler, videoState.currentTime])
+	}, [onTimeUpdateHandler, videoState.currentTime, setVideoState])
 
 	const changeVolume = useCallback((volume: number) => {
 		if (videoRef.current && (volume < 1.01 && volume > -0.01)) {
 			videoRef.current.volume = volume
 			setVideoState(p => ({ ...p, volume }))
+			sessionStorage.setItem('volume', `${volume}`)
 		}
-	}, [])
+	}, [setVideoState])
 
 	const toggleMute = useCallback(() => changeVolume(videoState.volume !== 0 ? 0 : 0.4), [videoState.volume, changeVolume])
 
@@ -142,12 +115,21 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 				setVideoState(p => ({ ...p, isFullScreen: false }))
 			}
 		}
-	}, [videoState.isFullScreen])
+	}, [videoState.isFullScreen, setVideoState])
 
 
-	const onVideoEnd = useCallback(async () =>
-			videoState.autoPlayNext && await push(getVideoUrl(videoIds.next, undefined, query?.listId ? query.listId as string : undefined, true)),
-		[videoState.autoPlayNext, push, videoIds.next, query?.listId])
+	const onVideoEnd = useCallback(async () => {
+			if (videoState.autoPlayNext && videoState.isLooped && videoRef.current) {
+				videoRef.current.loop = false
+				setVideoState(p => ({ ...p, isLooped: false }))
+			}
+			if (videoState.autoPlayNext)
+				await push(getVideoUrl(videoIds.next, undefined,
+					query?.listId ? query.listId as string : undefined,
+					true)
+				)
+		},
+		[videoState.autoPlayNext, push, videoIds.next, query.listId, videoState.isLooped, setVideoState])
 
 	const onVideoLoadError = useCallback(() => {
 		setVideoState(p => ({
@@ -155,7 +137,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 			disabledQualities: getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality, true)
 		}))
 		changeQuality(getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality).at(-1) || '144p')
-	}, [videoState.quality, changeQuality, video.qualities])
+	}, [videoState.quality, changeQuality, video.qualities, setVideoState])
 
 	const toggleRepeat = useCallback(() => {
 		if (videoRef.current) {
@@ -166,12 +148,13 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 				autoPlayNext: false
 			}))
 		}
-	}, [])
+	}, [setVideoState])
 
 	const toggleAutoPlayNext = useCallback(() => {
 		videoState.isLooped && toggleRepeat()
+		sessionStorage.setItem('autoPlayNext', `${Number(videoState.autoPlayNext)}`)
 		setVideoState(p => ({ ...p, autoPlayNext: !p.autoPlayNext }))
-	}, [videoState.isLooped, toggleRepeat])
+	}, [videoState.isLooped, toggleRepeat, setVideoState, videoState.autoPlayNext])
 
 
 	const onProgressHandler = useCallback(() => {
@@ -193,7 +176,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 				isLoading: p.currentTime + 1 > bufferedTotal()
 			}))
 		}
-	}, [videoState.currentTime])
+	}, [videoState.currentTime, setVideoState])
 
 	const buttonsCallBack = useCallback((event: KeyboardEvent) => {
 		event.preventDefault()
@@ -235,12 +218,12 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 			...p,
 			isFullScreen: (document.fullscreenEnabled ? document.fullscreenElement : null) !== null
 		}))
-	}, [videoState.isFullScreen])
+	}, [videoState.isFullScreen, setVideoState])
 
 
 	const onLoadingListener = useCallback(
 		(loading: boolean) => setVideoState(p => ({ ...p, isLoading: loading })),
-		[])
+		[setVideoState])
 
 	useEffect(() => {
 		document.addEventListener('keydown', buttonsCallBack)
@@ -270,6 +253,11 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 
 
 	useEffect(() => {
+		onTimeUpdateHandler(videoState.currentTime)
+	}, [videoState.cinemaMode])
+
+
+	useEffect(() => {
 		setVideoState(p => ({
 			...p,
 			disabledQualities: [],
@@ -278,27 +266,25 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 		}))
 		changeVolume(+(sessionStorage?.getItem('volume') || 0.5))
 		query?.time && onTimeUpdateHandler(+query.time)
-		autoPlay && togglePlay()
+		autoPlay && togglePlay(true)
 	}, [video])
-
-	useEffect(() => {
-		sessionStorage.setItem('volume', `${videoState.volume}`)
-		sessionStorage.setItem('autoPlayNext', `${Number(videoState.autoPlayNext)}`)
-	}, [videoState.volume, videoState.autoPlayNext])
 
 	return (<div
 			ref={divRef}
 			onMouseEnter={() => setVideoState((s) => ({ ...s, showNavigationMenu: true }))}
 			onMouseLeave={() => !videoRef.current?.paused && setVideoState((s) => ({ ...s, showNavigationMenu: false }))}
 			onDoubleClick={toggleFullScreen}
-			className="group/main relative rounded-lg"
+			className={cn('group/main relative',
+				!videoState.cinemaMode ? 'rounded-lg' : 'h-[80vh] mb-4 bg-black/80',
+				videoState.cinemaMode && !videoState.isFullScreen && ' border-b-2'
+			)}
 		>
 			<ContextMenu>
-				<ContextMenuTrigger className="size-full flex items-center">
+				<ContextMenuTrigger className="size-full flex items-center justify-center overflow-y-hidden">
 					<video
 						ref={videoRef}
-						className="w-full rounded-lg aspect-video bg-black/80"
-						onClick={togglePlay}
+						className={cn('bg-black/80 ', !videoState.cinemaMode ? ' w-full aspect-video rounded-lg' : 'h-full object-center')}
+						onClick={() => togglePlay()}
 						onError={onVideoLoadError}
 						src={getSourceVideoUrl(video.id, videoState.quality)}
 						onEnded={onVideoEnd}
@@ -408,7 +394,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 				<TooltipProvider delayDuration={0}>
 					<div className="flex justify-between items-center">
 						<div className="flex items-center space-x-1.5">
-							
+
 							{videoIds.prev && <Tooltip>
 								<TooltipTrigger asChild>
 									<Link
@@ -422,7 +408,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 
 							<Tooltip>
 								<TooltipTrigger
-									onClick={togglePlay}
+									onClick={() => togglePlay()}
 									children={<DynamicIcon name={videoRef.current && videoRef.current.paused ? 'play' : 'pause'} />} />
 								<TooltipContent children={videoRef.current && videoRef.current.paused ? 'Грати' : 'Пауза'} />
 							</Tooltip>
@@ -497,6 +483,19 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay }) => {
 											'увімкнено' :
 											'вимкнено'
 									})`} />
+							</Tooltip>
+
+							<Tooltip>
+								<TooltipTrigger
+									className="flex items-center hiddenOnMobile"
+									asChild
+									children={
+										<button
+											onClick={() => setVideoState(p => ({ ...p, cinemaMode: !p.cinemaMode }))}
+											children={<DynamicIcon name={videoState.cinemaMode ? 'monitor-x' : 'monitor-dot'} />}
+										/>
+									} />
+								<TooltipContent children={videoState.cinemaMode ? 'Вийти з широкого екрану' : 'Широкий екран'} />
 							</Tooltip>
 
 							<HoverCard>

@@ -11,6 +11,7 @@ const TailwindIndicator = dynamic(
 interface IHomeLayoutProps {
 	autoHideSidebar?: boolean
 	hiddenSidebar?: boolean
+	disableBasePadding?: boolean
 }
 
 interface ISidebarContext {
@@ -49,11 +50,13 @@ export const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 const HomeLayout: FC<
-	PropsWithChildren<IHomeLayoutProps
+	PropsWithChildren<
+		IHomeLayoutProps
 	>> = ({
 					children,
 					autoHideSidebar,
-					hiddenSidebar
+					hiddenSidebar,
+					disableBasePadding
 				}) => {
 	return (
 		<SidebarProvider>
@@ -63,7 +66,10 @@ const HomeLayout: FC<
 				</TooltipProvider>
 				<div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-x-hidden">
 					<HomeSidebar {...{ autoHideSidebar, hiddenSidebar }} />
-					<div className="overflow-x-hidden px-8 pb-4" children={children} />
+					<div
+						className={`overflow-x-hidden ${!disableBasePadding && ' px-8 pb-4'}`}
+						children={children}
+					/>
 				</div>
 				<TailwindIndicator />
 			</div>
