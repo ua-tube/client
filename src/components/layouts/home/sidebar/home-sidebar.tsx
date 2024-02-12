@@ -1,15 +1,15 @@
 import LargeSidebarSection, { ILargeSidebarSectionProps } from './large-sidebar-section'
 import SmallSidebarItem, { ISmallSidebarItemProps } from './small-sidebar-item'
 import { playlists, subscriptions, defaultChannel } from '@/data'
-import { getChannelUrl, getPlaylistUrl } from '@/utils'
+import { getChannelUrl, getPlaylistUrl, cn } from '@/utils'
 import { HomeHeaderFirstSection } from '../home-header'
-import { useSidebarContext } from '../home-layout'
+import { useSidebarContext } from '@/providers'
 import { FC, Fragment, useEffect } from 'react'
 import { ScrollArea } from '@/components'
 
 
 interface IHomeSidebarProps {
-	autoHideSidebar?: boolean
+	autoShowSidebar?: boolean
 	hiddenSidebar?: boolean
 }
 
@@ -22,7 +22,7 @@ const smallSidebarItems: ISmallSidebarItemProps[] = [
 const largeSections: ILargeSidebarSectionProps[] = [
 	{
 		items: [
-			{ icon: 'home', title: 'Головна', url: '/'},
+			{ icon: 'home', title: 'Головна', url: '/' },
 			{ icon: 'clipboard', title: 'Підписки', url: '/subscriptions' }
 		]
 	},
@@ -61,44 +61,50 @@ const largeSections: ILargeSidebarSectionProps[] = [
 export const HomeSidebar: FC<
 	IHomeSidebarProps
 > = ({
-			 autoHideSidebar,
+			 autoShowSidebar,
 			 hiddenSidebar
 		 }) => {
 
-	const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
+	const { isOpen, isScreenSmall, toggle } = useSidebarContext()
 
 	useEffect(() => {
-		if (autoHideSidebar) close()
-	}, [autoHideSidebar])
+		if (autoShowSidebar) toggle()
+	}, [autoShowSidebar])
 
 	return (
-		<ScrollArea className="transform transition-transform duration-300 max-h-screen pr-0.5">
-			<aside
-				className={`hidden sticky top-0 overflow-y-hidden pb-4 md:flex flex-col ml-1 ${
-					hiddenSidebar || isLargeOpen ? 'lg:hidden' : 'lg:flex'
-				}`}
-				children={smallSidebarItems.map((value, index) => <SmallSidebarItem key={index} {...value} />)}
-			/>
+		<>
+			{!hiddenSidebar && <aside
+				className={cn('hidden sticky top-0 overflow-y-hidden pb-4 lg:flex flex-col ml-1',
+					!isScreenSmall() ? (isOpen ? 'lg:hidden' : 'lg:flex') : '')
+				}
+				children={
+					smallSidebarItems.map((value, index) =>
+						<SmallSidebarItem key={index} {...value} />
+					)}
+			/>}
 
-			{isSmallOpen && (<div onClick={close} className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md" />)}
+			{isScreenSmall() && isOpen &&
+				<div className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md" onClick={toggle} />}
+			
+			<ScrollArea className="pr-0.5 max-h-screen">
+				<aside
+					className={cn('w-56 min-h-screen md:min-h-fit bg-background lg:sticky absolute top-0 pb-2 flex-col gap-2 px-2',
+						isScreenSmall() ? (isOpen ? 'flex z-[999] max-h-screen' : 'hidden') : (isOpen ? 'lg:flex' : 'lg:hidden')
+					)}
+				>
 
-			<aside
-				className={`w-56 min-h-screen md:min-h-fit bg-background lg:sticky absolute top-0 pb-2 flex-col gap-2 px-2 ${
-					isLargeOpen ? 'lg:flex' : 'lg:hidden'
-				} ${isSmallOpen ? 'flex z-[999] max-h-screen' : 'hidden'}`}
-			>
-				<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
-					<HomeHeaderFirstSection />
-				</div>
+					<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
+						<HomeHeaderFirstSection />
+					</div>
 
-				{largeSections.map((value, index) =>
-					<Fragment key={index}>
-						<LargeSidebarSection key={index} {...value} />
-						<hr />
-					</Fragment>
-				)}
-
-			</aside>
-		</ScrollArea>
+					{largeSections.map((value, index) =>
+						<Fragment key={index}>
+							<LargeSidebarSection key={index} {...value} />
+							<hr />
+						</Fragment>
+					)}
+				</aside>
+			</ScrollArea>
+		</>
 	)
 }

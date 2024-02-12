@@ -11,12 +11,11 @@ const CategoryPills = dynamic(() => import('@/components/categories/category-pil
 const VideosList = dynamic(() => import('@/components/videos/general/videos-list'))
 
 
-
 export default function HomePage() {
 	return (
 		<>
 			<AppHead title="Головна сторінка" />
-			<HomeLayout>
+			<HomeLayout autoShowSidebar>
 				<CategoryPills categories={categories} />
 				<VideosList videos={videos} />
 			</HomeLayout>

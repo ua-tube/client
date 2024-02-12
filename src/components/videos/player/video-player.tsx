@@ -1,7 +1,7 @@
-import { useSidebarContext } from '@/components/layouts/home/home-layout'
 import { IVideo, IVideoState, UseState } from '@/interfaces'
 import { FC, useCallback, useEffect, useRef } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
+import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
@@ -46,7 +46,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
 	const { push, query } = useRouter()
-	const { isLargeOpen } = useSidebarContext()
+	const { isOpen} = useSidebarContext()
 
 	const showPlayAnimation = useCallback(() => {
 		setVideoState((s) => ({ ...s, showAnimation: true }))
@@ -503,7 +503,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 									<DynamicIcon name="settings" />
 								</HoverCardTrigger>
 
-								<HoverCardContent side={isLargeOpen ? 'bottom' : 'top'} align="end" className="flex flex-col gap-y-2">
+								<HoverCardContent side={isOpen ? 'bottom' : 'top'} align="end" className="flex flex-col gap-y-2">
 
 									<Tooltip>
 										<TooltipTrigger>

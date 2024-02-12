@@ -1,1 +1,1 @@
-export {HomeSidebar} from './home-sidebar'
+export { HomeSidebar } from './home-sidebar'

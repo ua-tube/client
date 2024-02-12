@@ -54,7 +54,7 @@ const CategoryPills: FC<ICategoryPillsProps> = ({categories}) => {
 		})
 
 	return (
-		<div className="sticky top-0 bg-background z-10 pb-5">
+		<div className="bg-background pb-3">
 			<div ref={containerRef} className="relative overflow-hidden bg-card">
 				<div
 					className="flex whitespace-nowrap gap-3 transition-transform duration-300 w-[max-content] overflow-x-hidden"

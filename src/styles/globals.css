@@ -94,7 +94,7 @@
 }
 
 .hiddenOnMobile {
-    @apply hidden md:block;
+    @apply hidden lg:block;
 }
 
 .basePadding {

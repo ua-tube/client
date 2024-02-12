@@ -37,8 +37,8 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 				/>
 			</div>
 		}
-		<div className="flex flex-row items-center gap-x-4">
-			<Avatar className="size-40">
+		<div className="flex flex-col items-start md:flex-row md:items-center gap-4">
+			<Avatar className="size-16 sm:size-20 md:size-40">
 				<AvatarImage src={channel.profileImg} />
 				<AvatarFallback children={channel.nickName.slice(0, 2)} />
 			</Avatar>
@@ -66,7 +66,7 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 				/>
 			</div>
 			<Dialog open={showModal} onOpenChange={setShowModal}>
-				<DialogContent >
+				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Про канал</DialogTitle>
 					</DialogHeader>

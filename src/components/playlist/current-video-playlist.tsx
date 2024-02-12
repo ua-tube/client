@@ -41,10 +41,14 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({ currVideoId, cur
 				currList.videos?.map((value, index) =>
 					<div key={index}
 							 className={cn('flex flex-row items-center space-x-2 hover:bg-secondary px-4 py-3', value.id === currVideoId && 'bg-secondary')}>
-						{value.id === currVideoId ? <DynamicIcon name="play" className="size-4" /> : <span children={index + 1} />}
+						<div className="hiddenOnMobile" children={value.id === currVideoId ?
+							<DynamicIcon name="play" className="size-4 " /> :
+							<span children={index + 1} />
+						} />
+
 						<Link
 							href={getVideoUrl(value.id, undefined, currList.id, true)}
-							className="relative aspect-video h-16"
+							className="relative aspect-video h-10 lg:h-16"
 						>
 							<img
 								src={value.thumbnailUrl}

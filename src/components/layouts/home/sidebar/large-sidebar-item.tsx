@@ -10,7 +10,6 @@ export interface ILargeSidebarItemProps {
 	imgUrl?: string
 	title: string
 	url: string
-	isActive?: boolean
 }
 
 const LargeSidebarItem: FC<

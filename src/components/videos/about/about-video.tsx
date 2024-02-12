@@ -1,4 +1,12 @@
-import { formatNumbers, formatTimeAgo, getSourceVideoUrl, writeVideoUrl, getChannelUrl, shakeConfetti } from '@/utils'
+import {
+	formatNumbers,
+	formatTimeAgo,
+	getSourceVideoUrl,
+	writeVideoUrl,
+	getChannelUrl,
+	shakeConfetti,
+	getUserInitials
+} from '@/utils'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -19,8 +27,13 @@ import {
 	HoverCard,
 	HoverCardContent,
 	HoverCardTrigger,
-	Input
+	Input,
+	Separator,
+	CardTitle,
+	CardHeader,
+	CardDescription
 } from '@/components'
+import { subscriptions } from '@/data'
 
 const PlaylistsModal = dynamic(() => import( './modals/playlists-modal'))
 const ReportModal = dynamic(() => import( './modals/report-modal'))
@@ -116,18 +129,49 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 							<span className="hiddenOnMobile" children="Поділитися" />
 						</Button>
 					</HoverCardTrigger>
-					<HoverCardContent className="w-80 space-y-2">
-						<Input
-							type="url"
-							defaultValue={getSourceVideoUrl(video.id)}
-							placeholder="Посилання на відео"
-							disabled
-						/>
-						<Button
-							className="rounded-lg space-x-2 w-full"
-							children="Копіювати посилання"
-							onClick={onCopyLinkPress}
-						/>
+					<HoverCardContent className="min-w-80 space-y-2">
+						<CardHeader className='p-0'>
+							<CardTitle>Поширити</CardTitle>
+							<CardDescription>
+								Поширити посиланння на це відео
+							</CardDescription>
+						</CardHeader>
+
+						<div className="flex space-x-2">
+							<Input value={getSourceVideoUrl(video.id)} readOnly />
+							<Button
+								variant="secondary"
+								onClick={onCopyLinkPress}
+								children="Копіювати"
+							/>
+						</div>
+						<Separator className="my-4" />
+						<div className="space-y-4">
+							<h4 className="text-sm font-medium">Поділитися з</h4>
+							<div
+								className="grid gap-6"
+								children={subscriptions.map((value, index) =>
+									<div
+										key={index}
+										className="flex items-center justify-between space-x-4">
+										<div className="flex items-center space-x-4">
+											<Avatar>
+												<AvatarImage src={value.profileImg} />
+												<AvatarFallback children={getUserInitials(value.name)} />
+											</Avatar>
+											<div>
+												<p className="text-sm font-medium leading-none" children={value.name} />
+												<p className="text-sm text-muted-foreground" children={value.nickName} />
+											</div>
+										</div>
+										<Button
+											variant="secondary"
+											size="sm"
+											children={<DynamicIcon name="send-horizontal" />}
+										/>
+									</div>)}
+							/>
+						</div>
 					</HoverCardContent>
 				</HoverCard>
 

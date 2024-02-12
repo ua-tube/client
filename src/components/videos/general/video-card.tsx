@@ -1,7 +1,8 @@
-import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, cn } from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, cn, getUserInitials } from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components'
 
 interface IVideoCardProps extends IVideo {
 	fixedSize?: boolean,
@@ -45,7 +46,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 					children={formatDuration(value.duration)}
 				/>
 				<video
-					className={`block h-full w-full object-cover object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
+					className={`block size-full object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
 					muted
 					preload="none"
 					ref={videoRef}
@@ -57,17 +58,20 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 
 			<div className="flex gap-x-2">
 				<Link href={getChannelUrl(value.channel)} className="flex shrink-0">
-					<img
-						alt={value.channel.name}
-						loading="lazy"
-						className="size-9 rounded-full"
-						src={value.channel.profileImg}
-					/>
+					<Avatar className='size-9'>
+						<AvatarImage
+							src={value.channel.profileImg}
+							loading='lazy'
+						/>
+						<AvatarFallback
+							children={getUserInitials(value.channel.name)}
+						/>
+					</Avatar>
 				</Link>
 				<div className='flex flex-col'>
 					<Link
 						href={getVideoUrl(value.id, undefined, undefined, true)}
-						className={cn('font-bold line-clamp-2', value.fixedSize &&  'h-full  max-w-52')}
+						className={cn('font-bold line-clamp-2', value.fixedSize &&  'h-full max-w-52')}
 						children={value.title}
 					/>
 					<Link

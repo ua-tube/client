@@ -87,22 +87,27 @@ export default function VideoPage({
 	return (
 		<>
 			<AppHead title={video.title} image={video.thumbnailUrl} disableDesc />
-			<HomeLayout hiddenSidebar autoHideSidebar disableBasePadding={videoState.cinemaMode}>
+			<HomeLayout hiddenSidebar disableBasePadding={videoState.cinemaMode}>
 				{videoState.cinemaMode &&
 					<VideoPlayer
-						video={video}
-						videoIds={videoIds}
 						autoPlay
-						{...{ videoState, setVideoState }}
+						{...{
+							videoState,
+							setVideoState,
+							video,
+							videoIds
+						}}
 					/>}
-				<section className="mx-auto flex flex-col gap-8 md:flex-row basePadding">
+				<section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
 					<div className="w-full md:w-3/4 flex flex-col gap-y-4">
 						{!videoState.cinemaMode &&
 							<VideoPlayer
-								video={video}
-								videoIds={videoIds}
-								autoPlay
-								{...{ videoState, setVideoState }}
+								autoPlay {...{
+								videoState,
+								setVideoState,
+								video,
+								videoIds
+							}}
 							/>}
 						<AboutVideo video={video} />
 						<VideoCommentsSection
@@ -111,7 +116,11 @@ export default function VideoPage({
 						/>
 					</div>
 					<div className="w-full md:w-1/4 flex flex-col gap-y-2">
-						{currList && <CurrentVideoPlaylist currList={currList} currVideoId={video.id} />}
+						{currList &&
+							<CurrentVideoPlaylist
+								currList={currList}
+								currVideoId={video.id}
+							/>}
 						<CategoryPills categories={categories.slice(2)} />
 						<SidebarVideoList videos={videos} />
 					</div>

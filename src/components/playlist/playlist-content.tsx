@@ -10,7 +10,7 @@ interface IPlaylistContentProps {
 
 const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 
-	return <section className="mx-auto flex flex-col gap-6 lg:gap-8 md:flex-row">
+	return <section className="mx-auto flex flex-col-reverse gap-6 lg:gap-8 md:flex-row">
 		<div
 			className="w-full lg:w-3/4 space-y-1">
 			<CategoryPills categories={['Спочатку новіші', 'Спочатку старіші', 'Найпопулярніші']} />
