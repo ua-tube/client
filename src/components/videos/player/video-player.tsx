@@ -1,8 +1,8 @@
 import { useSidebarContext } from '@/components/layouts/home/home-layout'
+import { IVideo, IVideoState, UseState } from '@/interfaces'
 import { FC, useCallback, useEffect, useRef } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useRouter } from 'next/router'
-import { IVideo, IVideoState, UseState } from '@/interfaces'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
 import {
@@ -152,7 +152,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 
 	const toggleAutoPlayNext = useCallback(() => {
 		videoState.isLooped && toggleRepeat()
-		sessionStorage.setItem('autoPlayNext', `${Number(videoState.autoPlayNext)}`)
+		sessionStorage.setItem('autoPlayNext', `${Number(!videoState.autoPlayNext)}`)
 		setVideoState(p => ({ ...p, autoPlayNext: !p.autoPlayNext }))
 	}, [videoState.isLooped, toggleRepeat, setVideoState, videoState.autoPlayNext])
 

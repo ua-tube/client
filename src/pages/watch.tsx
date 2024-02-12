@@ -73,7 +73,7 @@ export default function VideoPage({
 		isLooped: false,
 		duration: 0,
 		isLoading: true,
-		quality: video.qualities?.[0] || '144p',
+		quality: video.qualities?.at(-1) || '144p',
 		speed: 1,
 		volume: 0.5,
 		isFullScreen: false,
