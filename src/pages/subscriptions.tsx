@@ -24,7 +24,7 @@ export default function SubscriptionsPage({
 	return (
 		<>
 			<AppHead title="Підписки" />
-			<HomeLayout>
+			<HomeLayout hiddenSidebar>
 				<section className="mx-auto">
 					<VideosList title="Нові відео" videos={subsVideos} />
 				</section>

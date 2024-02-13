@@ -24,6 +24,7 @@ import {
 	TooltipTrigger,
 	TooltipProvider
 } from '@/components/ui'
+import { getUserInitials } from '@/utils'
 
 interface IHomeHeaderFirstSectionProps {
 	hidden?: boolean
@@ -35,14 +36,14 @@ export const HomeHeaderFirstSection: FC<
 			 hidden = false
 		 }) => {
 	const { locale } = useRouter()
-	const { toggle } = useSidebarContext()
+	const { toggle, isOpen } = useSidebarContext()
 
 	return (
 		<div className={`gap-4 items-center bg-background flex-shrink-0 ${hidden ? 'hidden' : 'flex'}`}>
 			<button
 				className="rounded-lg hover:bg-muted size-10 flex items-center justify-center p-2.5"
 				onClick={toggle}
-				children={<DynamicIcon name="align-justify" />}
+				children={<DynamicIcon name={isOpen ? 'x' : 'align-justify'} />}
 			/>
 			<Link href="/" className="relative flex space-x-1.5 items-center rounded-lg p-0.5 hover:bg-muted">
 				<img src="/logo.png" alt="logo" className="h-6" />
@@ -184,9 +185,12 @@ const HomeHeader = () => {
 						<div className="space-x-2 items-center flex">
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<button className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted">
+									<Link
+										href="/dashboard?upload=true"
+										className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
+									>
 										<DynamicIcon name="upload" />
-									</button>
+									</Link>
 								</TooltipTrigger>
 								<TooltipContent children="Завантажити нове відео" />
 							</Tooltip>
@@ -206,14 +210,7 @@ const HomeHeader = () => {
 											src={defaultChannel.profileImg}
 											alt={defaultChannel.nickName}
 										/>
-										<AvatarFallback
-											children={
-												defaultChannel
-													.nickName
-													.slice(0, 2)
-													.toUpperCase()
-											}
-										/>
+										<AvatarFallback children={getUserInitials(defaultChannel.name)} />
 									</Avatar>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
@@ -223,14 +220,7 @@ const HomeHeader = () => {
 												src={defaultChannel.profileImg}
 												alt={defaultChannel.nickName}
 											/>
-											<AvatarFallback
-												children={
-													defaultChannel
-														.nickName
-														.slice(0, 2)
-														.toUpperCase()
-												}
-											/>
+											<AvatarFallback children={getUserInitials(defaultChannel.name)} />
 										</Avatar>
 										<div className="space-y-0.5">
 											<div children={defaultChannel.name} />

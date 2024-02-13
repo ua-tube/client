@@ -1,10 +1,11 @@
+import { DashboardLayout } from '@/components'
 import { FC } from 'react'
 
 const ChannelPersonalizationPage: FC = () => {
 
-    return <div>
+    return <DashboardLayout>
             personalization
-        </div>
+        </DashboardLayout>
 
 }
 

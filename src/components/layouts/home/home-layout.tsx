@@ -28,7 +28,7 @@ const HomeLayout: FC<
 		<SidebarProvider>
 			<div className="max-h-screen flex flex-col">
 				<HomeHeader />
-				<div className="lg:grid lg:grid-cols-[auto,1fr] flex-grow-1 overflow-x-hidden bg-background">
+				<div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-x-hidden">
 					<HomeSidebar {...{ autoShowSidebar, hiddenSidebar }} />
 					<div
 						className={`overflow-x-hidden ${!disableBasePadding && ' px-8 pb-4'}`}

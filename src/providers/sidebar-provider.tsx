@@ -2,7 +2,6 @@ import { createContext, useContext, FC, PropsWithChildren, useState } from 'reac
 
 interface ISidebarContext {
 	isOpen: boolean
-	isScreenSmall: () => boolean
 	toggle: () => void
 }
 
@@ -17,14 +16,11 @@ export function useSidebarContext() {
 const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
-	const isScreenSmall = () => window.innerWidth < 1024
-
 	const toggle = () => setIsOpen(p => !p)
-
 
 	return (
 		<SidebarContext.Provider
-			value={{ toggle, isOpen, isScreenSmall }}
+			value={{ toggle, isOpen }}
 			children={children}
 		/>
 	)

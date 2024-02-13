@@ -5,7 +5,7 @@ import { getChannelUrl, getPlaylistUrl, cn } from '@/utils'
 import { HomeHeaderFirstSection } from '../home-header'
 import { useSidebarContext } from '@/providers'
 import { FC, Fragment, useEffect } from 'react'
-import { ScrollArea } from '@/components'
+import useScreenSize from '@/hooks/useScreenSize'
 
 
 interface IHomeSidebarProps {
@@ -65,17 +65,18 @@ export const HomeSidebar: FC<
 			 hiddenSidebar
 		 }) => {
 
-	const { isOpen, isScreenSmall, toggle } = useSidebarContext()
+	const { isOpen, toggle } = useSidebarContext()
+	const { isScreenSmall } = useScreenSize()
 
 	useEffect(() => {
-		if (autoShowSidebar) toggle()
+		if (autoShowSidebar && !isScreenSmall) toggle()
 	}, [autoShowSidebar])
 
-	return (
-		<>
+	return (<div>
+
 			{!hiddenSidebar && <aside
-				className={cn('hidden sticky top-0 overflow-y-hidden pb-4 lg:flex flex-col ml-1',
-					!isScreenSmall() ? (isOpen ? 'lg:hidden' : 'lg:flex') : '')
+				className={cn('hidden sticky top-0 overflow-y-hidden pb-4 md:flex flex-col ml-1',
+					!isScreenSmall ? (isOpen ? 'lg:hidden' : 'lg:flex') : '')
 				}
 				children={
 					smallSidebarItems.map((value, index) =>
@@ -83,28 +84,31 @@ export const HomeSidebar: FC<
 					)}
 			/>}
 
-			{isScreenSmall() && isOpen &&
-				<div className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md" onClick={toggle} />}
-			
-			<ScrollArea className="pr-0.5 max-h-screen">
-				<aside
-					className={cn('w-56 min-h-screen md:min-h-fit bg-background lg:sticky absolute top-0 pb-2 flex-col gap-2 px-2',
-						isScreenSmall() ? (isOpen ? 'flex z-[999] max-h-screen' : 'hidden') : (isOpen ? 'lg:flex' : 'lg:hidden')
-					)}
-				>
+			{isScreenSmall && isOpen &&
+				<div
+					className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md"
+					onClick={toggle}
+				/>
+			}
 
-					<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
-						<HomeHeaderFirstSection />
-					</div>
 
-					{largeSections.map((value, index) =>
-						<Fragment key={index}>
-							<LargeSidebarSection key={index} {...value} />
-							<hr />
-						</Fragment>
-					)}
-				</aside>
-			</ScrollArea>
-		</>
+			<aside
+				className={cn('w-56 min-h-screen md:min-h-fit lg:sticky absolute top-0 pb-2 flex-col gap-2 px-2 bg-background',
+					isScreenSmall ? (isOpen ? 'flex z-[999] max-h-screen overflow-y-auto' : 'hidden') : (isOpen ? 'lg:flex' : 'lg:hidden')
+				)}
+			>
+
+				<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
+					<HomeHeaderFirstSection />
+				</div>
+
+				{largeSections.map((value, index) =>
+					<Fragment key={index}>
+						<LargeSidebarSection key={index} {...value} />
+						<hr />
+					</Fragment>
+				)}
+			</aside>
+		</div>
 	)
 }

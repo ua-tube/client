@@ -26,7 +26,7 @@ export default function PlaylistPage({ list }: InferGetServerSidePropsType<typeo
 	return (
 		<>
 			<AppHead title={list.name} />
-			<HomeLayout>
+			<HomeLayout hiddenSidebar>
 				<PlaylistContent list={list} />
 			</HomeLayout>
 		</>

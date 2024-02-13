@@ -1,10 +1,11 @@
+import { DashboardLayout } from '@/components'
 import { FC } from 'react'
 
 const ChannelCommentsPage: FC = () => {
 
-    return <div>
+    return <DashboardLayout>
             ChannelCommentsPage
-        </div>
+        </DashboardLayout>
 
 }
 
