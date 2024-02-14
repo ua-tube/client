@@ -1,4 +1,4 @@
-import { DynamicIcon, AppHead } from '@/components'
+import { AppHead, DynamicIcon } from '@/components'
 import dynamic from 'next/dynamic'
 import { FC } from 'react'
 
@@ -7,10 +7,10 @@ const DashboardLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const DashboardVideoPage: FC = () => {
+const DashboardSettingsPage: FC = () => {
 
-	return<>
-		<AppHead title="Редагування відео" />
+	return <>
+		<AppHead title="Налаштування" />
 		<DashboardLayout>
 
 		</DashboardLayout>
@@ -18,4 +18,4 @@ const DashboardVideoPage: FC = () => {
 
 }
 
-export default DashboardVideoPage
+export default DashboardSettingsPage

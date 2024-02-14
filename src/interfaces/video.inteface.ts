@@ -1,6 +1,5 @@
 import { IChannel } from './'
 
-
 interface IVideoState {
 	speed: number
 	quality: string
@@ -26,13 +25,15 @@ interface IVideo {
 	qualities?: string[]
 	likesCount?: number
 	disLikesCount?: number
-	description?: string
 	commentsCount?: number
+	description?: string
 	views: number
 	postedAt: string
 	duration: number
 	thumbnailUrl: string
 	videoUrl: string
+	limits?: boolean
+	visible?: 0 | 1 | 2
 }
 
 interface IReportReason {

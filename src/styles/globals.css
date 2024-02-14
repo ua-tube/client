@@ -88,31 +88,28 @@
         scrollbar-width: none; /* Firefox */
     }
 
-    @variants responsive {
-        .masonry {
-            column-gap: 1.5em;
-            column-count: 1;
-        }
+    .masonry {
+        column-gap: 1.5em;
+        column-count: 1;
+    }
 
-        .masonry-sm {
-            column-gap: 1.5em;
-            column-count: 2;
-        }
+    .masonry-sm {
+        column-gap: 1.5em;
+        column-count: 2;
+    }
 
-        .masonry-md {
-            column-gap: 1.5em;
-            column-count: 3;
-        }
+    .masonry-md {
+        column-gap: 1.5em;
+        column-count: 3;
+    }
 
-        .masonry-lg {
-            column-gap: 1.5em;
-            column-count: 4;
-        }
+    .masonry-lg {
+        column-gap: 1.5em;
+        column-count: 4;
+    }
 
-        .break-inside {
-            break-inside: avoid;
-        }
-
+    .break-inside {
+        break-inside: avoid;
     }
 
 }

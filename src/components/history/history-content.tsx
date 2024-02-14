@@ -80,7 +80,7 @@ const HistoryContent: FC = () => {
 													children={value.title}
 												/>
 												<Link
-													href={getChannelUrl(value.channel)}
+													href={getChannelUrl(value.channel.nickName)}
 													className="text-muted-foreground text-base/2"
 													children={value.channel.name}
 												/>

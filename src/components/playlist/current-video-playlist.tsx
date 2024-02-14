@@ -27,7 +27,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({ currVideoId, cur
 					className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center"
 				>
 					<DynamicIcon name="user" className="size-4" />
-					<Link href={getChannelUrl({ nickName: currList.channel?.nickName! })} children={currList.channel?.name} />
+					<Link href={getChannelUrl( currList.channel?.nickName! )} children={currList.channel?.name} />
 				</div>
 				<div
 					className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center"
@@ -68,7 +68,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({ currVideoId, cur
 								children={value.title}
 							/>
 							<Link
-								href={getChannelUrl(value.channel)}
+								href={getChannelUrl(value.channel.nickName)}
 								className="text-muted-foreground text-xs"
 							>
 								<div children={value.channel.name} />

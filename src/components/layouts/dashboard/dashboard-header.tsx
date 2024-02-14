@@ -29,7 +29,7 @@ const DashboardHeader = () => {
 
 	return (
 
-			<div className="flex gap-10 lg:gap-20 justify-between mx-4 border-b border-muted">
+			<div className="flex gap-10 lg:gap-20 justify-between px-4 border-b border-muted sticky top-0 z-[99999] bg-background/50 backdrop-blur-lg">
 				<HomeHeaderFirstSection hidden={showFullWidthSearch} />
 				<form
 					className={`gap-4 flex-grow justify-center ${showFullWidthSearch ? 'flex' : 'hidden md:flex'}`}
@@ -115,7 +115,7 @@ const DashboardHeader = () => {
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem asChild>
-									<Link href={getChannelUrl({ nickName: defaultChannel.nickName }, 'index', true)}
+									<Link href={getChannelUrl( defaultChannel.nickName , 'index', true)}
 												className="flex items-center space-x-2">
 										<DynamicIcon name="person-standing" />
 										<span children="Ваш канал" />

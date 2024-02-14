@@ -1,11 +1,9 @@
-import { IChannel } from '@/interfaces'
-
 const getVideoUrl = (videoId?: string, time?: number, listId?: string, isShort = false) =>
 	`${isShort ? '' : process.env.SERVER_URL}/watch?videoId=${videoId}${listId ? `&listId=${listId}` : ''}${time ? `&time=${time}` : ''}`
 
 const getDashboardVideoUrl = (videoId: string, tab: 'edit' | 'comments' | 'analytics' = 'edit') => `/dashboard/videos/${videoId}?tab=${tab}`
 
-const getChannelUrl = ({ nickName }: Pick<IChannel, 'nickName'>, menuItem?: 'index' | 'videos' | 'playlists', isShort = true) =>
+const getChannelUrl = (nickName: string = '', menuItem?: 'index' | 'videos' | 'playlists', isShort = true) =>
 	`${isShort ? '' : process.env.SERVER_URL}/channel/${nickName}${menuItem ? `?tab=${menuItem}` : ''}`
 
 const getPlaylistUrl = (listId?: string, isShort = false) => `${isShort ? '' : process.env.SERVER_URL}/playlist?listId=${listId}`

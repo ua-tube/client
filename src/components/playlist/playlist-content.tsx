@@ -45,7 +45,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 								children={value.title}
 							/>
 							<Link
-								href={getChannelUrl(value.channel)}
+								href={getChannelUrl(value.channel.nickName)}
 								className="text-muted-foreground text-sm"
 								children={value.channel.name}
 							/>
@@ -88,7 +88,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 							<span>Створив: </span>
 							<Link
 								className="leading-7 font-semibold"
-								href={getChannelUrl(list.channel!)}
+								href={getChannelUrl(list.channel?.nickName)}
 								children={list.channel?.name}
 							/>
 						</div>

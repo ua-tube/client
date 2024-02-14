@@ -1,4 +1,5 @@
 import { useSidebarContext } from '@/providers'
+import { getUserInitials } from '@/utils'
 import { defaultChannel } from '@/data'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
@@ -24,7 +25,6 @@ import {
 	TooltipTrigger,
 	TooltipProvider
 } from '@/components/ui'
-import { getUserInitials } from '@/utils'
 
 interface IHomeHeaderFirstSectionProps {
 	hidden?: boolean
@@ -39,7 +39,7 @@ export const HomeHeaderFirstSection: FC<
 	const { toggle, isOpen } = useSidebarContext()
 
 	return (
-		<div className={`gap-4 items-center bg-background flex-shrink-0 ${hidden ? 'hidden' : 'flex'}`}>
+		<div className={`gap-4 items-center flex-shrink-0 ${hidden ? 'hidden' : 'flex'}`}>
 			<button
 				className="rounded-lg hover:bg-muted size-10 flex items-center justify-center p-2.5"
 				onClick={toggle}

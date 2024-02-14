@@ -30,9 +30,9 @@ const largeSections: ILargeSidebarSectionProps[] = [
 		title: 'Ви >',
 		visibleItemCount: 5,
 		items: [
-			{ icon: 'person-standing', title: 'Ваш канал', url: getChannelUrl(defaultChannel) },
+			{ icon: 'person-standing', title: 'Ваш канал', url: getChannelUrl(defaultChannel.nickName) },
 			{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
-			{ icon: 'play', title: 'Мої відео', url: getChannelUrl(defaultChannel, 'videos') },
+			{ icon: 'play', title: 'Мої відео', url: getChannelUrl(defaultChannel.nickName, 'videos') },
 			...playlists.map(value => ({
 				icon: value?.icon || 'list-video' as any,
 				title: value.name,
@@ -43,7 +43,7 @@ const largeSections: ILargeSidebarSectionProps[] = [
 	{
 		title: 'Підписки',
 		visibleItemCount: 10,
-		items: subscriptions.map(value => ({ imgUrl: value.profileImg, title: value.name, url: getChannelUrl(value) }))
+		items: subscriptions.map(value => ({ imgUrl: value.profileImg, title: value.name, url: getChannelUrl(value.nickName) }))
 	},
 	{
 		title: 'Що нового',
@@ -93,8 +93,12 @@ export const HomeSidebar: FC<
 
 
 			<aside
-				className={cn('w-56 min-h-screen md:min-h-fit lg:sticky absolute top-0 pb-2 flex-col gap-2 px-2 bg-background',
-					isScreenSmall ? (isOpen ? 'flex z-[999] max-h-screen overflow-y-auto' : 'hidden') : (isOpen ? 'lg:flex' : 'lg:hidden')
+				className={cn(
+					'w-56 min-h-screen md:min-h-fit lg:sticky absolute' +
+					' top-0 pb-2 flex-col gap-2 px-2 bg-background',
+					isScreenSmall ?
+						(isOpen ? 'flex z-[999] max-h-screen overflow-y-auto' : 'hidden') :
+						(isOpen ? 'lg:flex xl:max-h-[93.6vh] overflow-y-auto' : 'lg:hidden')
 				)}
 			>
 

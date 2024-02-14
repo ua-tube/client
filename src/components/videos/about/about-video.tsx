@@ -80,14 +80,14 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 
 		<div className="flex flex-col md:flex-row items-start md:items-center gap-y-5 gap-x-2 md:justify-between">
 			<div className="flex flex-row items-center space-x-3 w-full md:w-auto">
-				<Link href={getChannelUrl(video.channel)}>
+				<Link href={getChannelUrl(video.channel.nickName)}>
 					<Avatar>
 						<AvatarImage src={video.channel.profileImg} />
 						<AvatarFallback children={video.channel.name?.[0]} />
 					</Avatar>
 				</Link>
 				<div className="flex flex-col">
-					<Link href={getChannelUrl(video.channel)}>
+					<Link href={getChannelUrl(video.channel.nickName)}>
 						<h5 className="font-semibold" children={video.channel.name} />
 					</Link>
 					<p

@@ -31,7 +31,7 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = (value) => {
 				children={value.title}
 			/>
 			<Link
-				href={getChannelUrl(value.channel)}
+				href={getChannelUrl(value.channel.nickName)}
 				className="text-muted-foreground text-xs"
 			>
 				<div children={value.channel.name} />

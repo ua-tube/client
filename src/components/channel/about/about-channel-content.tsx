@@ -53,7 +53,7 @@ const AboutChannelContent: FC = () => {
 		else setCurr('index')
 	}, [query])
 
-	const onChangeTab = async (tab: TabsKey) => push(getChannelUrl({ nickName: query.nickName as string }, tab))
+	const onChangeTab = async (tab: TabsKey) => push(getChannelUrl(query.nickName as string , tab))
 
 	return <div className="max-w-7xl mx-auto flex flex-col gap-y-5">
 		<AboutChannel channel={defaultChannel} />

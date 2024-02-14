@@ -7,10 +7,10 @@ const DashboardLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const DashboardVideoPage: FC = () => {
+const ChannelComplaintsPage: FC = () => {
 
-	return<>
-		<AppHead title="Редагування відео" />
+	return <>
+		<AppHead title="Скарги на канал" />
 		<DashboardLayout>
 
 		</DashboardLayout>
@@ -18,4 +18,4 @@ const DashboardVideoPage: FC = () => {
 
 }
 
-export default DashboardVideoPage
+export default ChannelComplaintsPage

@@ -5,7 +5,7 @@ import DashboardSidebarItem from './dashboard-sidebar-item'
 import useScreenSize from '@/hooks/useScreenSize'
 import { useSidebarContext } from '@/providers'
 import { defaultChannel } from '@/data'
-import { FC, Fragment } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 import Link from 'next/link'
 
 
@@ -66,6 +66,10 @@ const DashboardSidebar: FC = () => {
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
 
+	useEffect(() => {
+		if (!isScreenSmall) toggle()
+	}, [])
+
 	return (<>
 			{isScreenSmall && isOpen &&
 				<div
@@ -76,17 +80,19 @@ const DashboardSidebar: FC = () => {
 
 			<aside
 				className={cn(
-					'min-h-screen md:min-h-fit lg:sticky absolute top-0 pb-2 flex-col' +
-					' gap-y-10 px-2 bg-background border-r border-muted justify-between',
-					isScreenSmall ? (isOpen ? 'flex z-[999] max-h-screen overflow-y-auto w-56 ' : 'hidden') : (isOpen ? 'w-56' : 'w-fit')
+					'min-h-screen md:min-h-fit lg:sticky top-20 z-0 absolute pb-2 flex-col',
+					'gap-y-12 px-2 bg-background border-r border-muted',
+					isScreenSmall ?
+						(isOpen ? 'flex z-[999] max-h-screen w-56' : 'hidden') :
+						(isOpen ? 'w-56' : 'w-fit')
 				)}
 			>
-				<div className="space-y-10">
-					<div className="flex flex-col justify-center items-center gap-y-4 mt-5">
+
+					<div className="flex flex-col justify-center items-center gap-y-4 my-5">
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<Link
-									href={getChannelUrl({ nickName: defaultChannel.nickName }, 'index', true)}
+									href={getChannelUrl(defaultChannel.nickName, 'index', true)}
 									target="_blank"
 								>
 									<Avatar className={cn('size-40', !isOpen && 'size-12')}>
@@ -95,7 +101,7 @@ const DashboardSidebar: FC = () => {
 									</Avatar>
 								</Link>
 							</TooltipTrigger>
-							<TooltipContent side="right" children="Перейти на ваш канал" />
+							<TooltipContent className="z-[99999999]" side="right" children="Перейти на ваш канал" />
 						</Tooltip>
 						<div className={cn('flex flex-col items-center', !isOpen && 'hidden')}>
 							<span className="text-muted-foreground" children="Ваш канал" />
@@ -106,7 +112,7 @@ const DashboardSidebar: FC = () => {
 					<div
 						className="flex flex-col gap-y-3"
 						children={
-							sidebarNavItems.map((value, index) =>
+							sidebarNavItems.concat(addSidebarNavItems).map((value, index) =>
 								<DashboardSidebarItem
 									key={index}
 									isCollapsed={!isOpen}
@@ -114,19 +120,7 @@ const DashboardSidebar: FC = () => {
 								/>
 							)}
 					/>
-				</div>
 
-				<div
-					className="flex flex-col"
-					children={
-						addSidebarNavItems.map((value, index) =>
-							<DashboardSidebarItem
-								key={index}
-								isCollapsed={!isOpen}
-								link={value}
-							/>
-						)}
-				/>
 
 			</aside>
 		</>

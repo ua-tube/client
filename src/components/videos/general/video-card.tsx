@@ -57,7 +57,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 			</Link>
 
 			<div className="flex gap-x-2">
-				<Link href={getChannelUrl(value.channel)} className="flex shrink-0">
+				<Link href={getChannelUrl(value.channel.nickName)} className="flex shrink-0">
 					<Avatar className='size-9'>
 						<AvatarImage
 							src={value.channel.profileImg}
@@ -75,7 +75,7 @@ const VideoCard: FC<IVideoCardProps> = (value) => {
 						children={value.title}
 					/>
 					<Link
-						href={getChannelUrl(value.channel)}
+						href={getChannelUrl(value.channel.nickName)}
 						className="text-muted-foreground text-sm"
 						children={value.channel.name}
 					/>

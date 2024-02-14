@@ -1,5 +1,2 @@
-export { default as DashboardAnalyticsCard } from './analytics-card'
-export { default as DashboardLastVideoCard } from './last-video-card'
-export { default as DashboardLastVideosCard } from './last-videos-card'
-export { default as DashboardLastSubscriptionsCard } from './last-subs-card'
-export { default as DashboardLastCommentsCard } from './last-comments-card'
+export * from './main'
+export * from './videos'

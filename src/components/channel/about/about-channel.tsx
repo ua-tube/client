@@ -76,7 +76,7 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 
 						<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
 							<DynamicIcon name='merge' />
-							<span children={getChannelUrl(channel, undefined, false)} />
+							<span children={getChannelUrl(channel.nickName, undefined, false)} />
 						</div>
 
 						<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
