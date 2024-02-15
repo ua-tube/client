@@ -5,8 +5,8 @@ interface IComment {
 	message: string
 	createdAt: string
 	likesCount: number
-	disLikesCount: number
 	chanel: IChannel
+	children?: IComment []
 }
 
-export type {IComment}
+export type { IComment }

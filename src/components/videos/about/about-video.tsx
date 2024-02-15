@@ -1,12 +1,4 @@
-import {
-	formatNumbers,
-	formatTimeAgo,
-	getSourceVideoUrl,
-	writeVideoUrl,
-	getChannelUrl,
-	shakeConfetti,
-	getUserInitials
-} from '@/utils'
+import { subscriptions } from '@/data'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -33,7 +25,15 @@ import {
 	CardHeader,
 	CardDescription
 } from '@/components'
-import { subscriptions } from '@/data'
+import {
+	formatNumbers,
+	formatTimeAgo,
+	getSourceVideoUrl,
+	writeVideoUrl,
+	getChannelUrl,
+	shakeConfetti,
+	getUserInitials
+} from '@/utils'
 
 const PlaylistsModal = dynamic(() => import( './modals/playlists-modal'))
 const ReportModal = dynamic(() => import( './modals/report-modal'))

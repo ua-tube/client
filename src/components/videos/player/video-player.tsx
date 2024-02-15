@@ -179,7 +179,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 	}, [videoState.currentTime, setVideoState])
 
 	const buttonsCallBack = useCallback((event: KeyboardEvent) => {
-		event.preventDefault()
 		switch (event.key) {
 			case 'а':
 			case 'f':

@@ -78,21 +78,63 @@ const defaultComments: IComment[] = [
 		'message': 'Дуже цікаве відео! Дякую за те, що поділились.',
 		'createdAt': '2024-02-03T22:49:00.000Z',
 		'likesCount': 10,
-		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-1',
 			'nickName': 'bodes',
 			'name': 'Наука та Технології',
 			'profileImg': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
 			'subscribersCount': 10000
-		}
+		},
+		children: [
+			{
+				'id': '6789',
+				'message': 'Дуже цікаве відео! Можна поділитися з друзями?',
+				'createdAt': '2024-02-03T22:49:00.000Z',
+				'likesCount': 10,
+				'chanel': {
+					'id': 'channel-1',
+					'nickName': 'bodes',
+					'name': 'Наука та Технології',
+					'profileImg': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
+					'subscribersCount': 10000
+				},
+				children: [
+					{
+						'id': '645',
+						'message': 'Так',
+						'createdAt': '2024-02-03T22:49:00.000Z',
+						'likesCount': 10,
+						'chanel': {
+							'id': 'channel-1',
+							'nickName': 'bodes',
+							'name': 'Наука та Технології',
+							'profileImg': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
+							'subscribersCount': 10000
+						}
+					}
+				]
+			},
+			{
+				'id': '456',
+				'message': 'Дуже цікаве відео!',
+				'createdAt': '2024-02-03T22:49:00.000Z',
+				'likesCount': 10,
+				'chanel': {
+					'id': 'channel-1',
+					'nickName': 'bodes',
+					'name': 'Наука та Технології',
+					'profileImg': 'https://yt3.ggpht.com/ytc/AIf8zZTx3AsZckgO7PrxzDER6nPqydPP_EsO6XIxoRWxHg=s48-c-k-c0x00ffffff-no-rj',
+					'subscribersCount': 10000
+				},
+				children: []
+			}
+		]
 	},
 	{
 		'id': '2',
 		'message': 'Чудовий канал! Завжди знаходжу тут багато корисної інформації.',
 		'createdAt': '2024-02-03T22:50:00.000Z',
 		'likesCount': 5,
-		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-2',
 			'nickName': 'channel-2',
@@ -106,7 +148,6 @@ const defaultComments: IComment[] = [
 		'message': 'Не згоден з автором відео. На мою думку, він помиляється.',
 		'createdAt': '2024-02-03T22:51:00.000Z',
 		'likesCount': 2,
-		'disLikesCount': 1,
 		'chanel': {
 			'id': 'channel-3',
 			'nickName': 'channel-3',
@@ -120,7 +161,6 @@ const defaultComments: IComment[] = [
 		'message': 'Дуже емоційне відео. Не очікував такого.',
 		'createdAt': '2024-02-03T22:52:00.000Z',
 		'likesCount': 3,
-		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-4',
 			'nickName': 'channel-3',
@@ -134,7 +174,6 @@ const defaultComments: IComment[] = [
 		'message': 'Супер! ',
 		'createdAt': '2024-02-03T22:53:00.000Z',
 		'likesCount': 4,
-		'disLikesCount': 0,
 		'chanel': {
 			'id': 'channel-5',
 			'nickName': 'channel-3',
