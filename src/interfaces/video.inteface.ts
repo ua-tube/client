@@ -13,7 +13,6 @@ interface IVideoState {
 	showNavigationMenu: boolean
 	showAnimation: boolean
 	isLooped: boolean
-	cinemaMode: boolean
 	disabledQualities: string[]
 }
 

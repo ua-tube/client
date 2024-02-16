@@ -1,9 +1,10 @@
-import { categories, defaultComments, defaultVideo, playlists, videos } from '@/data'
-import { AboutVideo, AppHead, Skeleton, DynamicIcon } from '@/components'
+import { categories, defaultVideo, playlists, videos, defaultComments } from '@/data'
+import { AppHead, Skeleton, DynamicIcon, AboutVideo } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { IPlaylist, IVideo, IVideoState } from '@/interfaces'
+import { IPlaylist, IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useState, FC } from 'react'
+import { cn } from '@/utils'
 
 const HomeLayout = dynamic(
 	() => import('@/components/layouts/home'),
@@ -67,64 +68,65 @@ export default function VideoPage({
 																		videoIds,
 																		currList
 																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const [videoState, setVideoState] = useState<IVideoState>({
-		autoPlayNext: false,
-		cinemaMode: false,
-		isLooped: false,
-		duration: 0,
-		isLoading: true,
-		quality: video.qualities?.at(-1) || '144p',
-		speed: 1,
-		volume: 0.5,
-		isFullScreen: false,
-		currentTime: 0,
-		bufferedCount: 0,
-		showAnimation: false,
-		showNavigationMenu: true,
-		disabledQualities: []
-	})
+	const [cinemaMode, setCinemaMode] = useState(false)
+	const SideBar: FC = () => <>
+		{currList &&
+			<CurrentVideoPlaylist
+				currList={currList}
+				currVideoId={video.id}
+			/>
+		}
+		<CategoryPills categories={categories.slice(2)} />
+		<SidebarVideoList videos={videos} />
+	</>
+
+	const LeftSidebar: FC = () => <>
+		<AboutVideo video={video} />
+		<VideoCommentsSection
+			totalCount={4324}
+			comments={defaultComments}
+		/>
+	</>
 
 	return (
 		<>
 			<AppHead title={video.title} image={video.thumbnailUrl} disableDesc />
-			<HomeLayout hiddenSidebar disableBasePadding={videoState.cinemaMode}>
-				{videoState.cinemaMode &&
-					<VideoPlayer
-						autoPlay
-						{...{
-							videoState,
-							setVideoState,
-							video,
-							videoIds
-						}}
-					/>}
-				<section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
-					<div className="w-full md:w-3/4 flex flex-col gap-y-4">
-						{!videoState.cinemaMode &&
-							<VideoPlayer
-								autoPlay {...{
-								videoState,
-								setVideoState,
+			<HomeLayout hiddenSidebar disableBasePadding={cinemaMode}>
+				<section className={cn('mx-auto flex flex-col gap-6 md:flex-row pb-4', cinemaMode && '')}>
+					<div
+						className={cn('flex flex-col gap-y-4 transform transition-transform duration-300', cinemaMode ? 'w-full' : 'md:w-3/4')}>
+						<VideoPlayer
+							autoPlay
+							{...{
+								cinemaMode,
+								setCinemaMode,
 								video,
 								videoIds
 							}}
-							/>}
-						<AboutVideo video={video} />
-						<VideoCommentsSection
-							totalCount={4324}
-							comments={defaultComments}
 						/>
+						{!cinemaMode && <div
+							className="w-full flex flex-col gap-y-4"
+							children={<LeftSidebar />}
+						/>}
 					</div>
-					<div className="w-full md:w-1/4 flex flex-col gap-y-2">
-						{currList &&
-							<CurrentVideoPlaylist
-								currList={currList}
-								currVideoId={video.id}
-							/>}
-						<CategoryPills categories={categories.slice(2)} />
-						<SidebarVideoList videos={videos} />
-					</div>
+					{!cinemaMode && <div
+						className="w-full md:w-1/4 flex flex-col gap-y-2"
+						children={<SideBar />}
+					/>}
 				</section>
+
+				{cinemaMode && <section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
+					<div
+						className="w-full md:w-3/4 flex flex-col gap-y-4"
+						children={<LeftSidebar />}
+					/>
+					<div
+						className="w-full md:w-1/4 flex flex-col gap-y-2"
+						children={<SideBar />}
+					/>
+				</section>
+				}
+
 			</HomeLayout>
 		</>
 	)

@@ -1,5 +1,5 @@
 import { IVideo, IVideoState, UseState } from '@/interfaces'
-import { FC, useCallback, useEffect, useRef } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
@@ -38,15 +38,38 @@ interface IVideoPlayerProps {
 	video: IVideo
 	videoIds: { next: string, prev?: string }
 	autoPlay?: boolean
-	videoState: IVideoState
-	setVideoState: UseState<IVideoState>
+	cinemaMode: boolean
+	setCinemaMode: UseState<boolean>
 }
 
-const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoState, setVideoState }) => {
+const VideoPlayer: FC<
+	IVideoPlayerProps
+> = ({
+			 video,
+			 videoIds,
+			 autoPlay,
+			 setCinemaMode,
+			 cinemaMode
+		 }) => {
+	const [videoState, setVideoState] = useState<IVideoState>({
+		autoPlayNext: false,
+		isLooped: false,
+		duration: 0,
+		isLoading: true,
+		quality: video.qualities?.at(-1) || '144p',
+		speed: 1,
+		volume: 0.5,
+		isFullScreen: false,
+		currentTime: 0,
+		bufferedCount: 0,
+		showAnimation: false,
+		showNavigationMenu: true,
+		disabledQualities: []
+	})
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
 	const { push, query } = useRouter()
-	const { isOpen} = useSidebarContext()
+	const { isOpen } = useSidebarContext()
 
 	const showPlayAnimation = useCallback(() => {
 		setVideoState((s) => ({ ...s, showAnimation: true }))
@@ -252,11 +275,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 
 
 	useEffect(() => {
-		onTimeUpdateHandler(videoState.currentTime)
-	}, [videoState.cinemaMode])
-
-
-	useEffect(() => {
 		setVideoState(p => ({
 			...p,
 			disabledQualities: [],
@@ -274,15 +292,15 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 			onMouseLeave={() => !videoRef.current?.paused && setVideoState((s) => ({ ...s, showNavigationMenu: false }))}
 			onDoubleClick={toggleFullScreen}
 			className={cn('group/main relative',
-				!videoState.cinemaMode ? 'rounded-lg' : 'h-[80vh] mb-4 bg-black/80',
-				videoState.cinemaMode && !videoState.isFullScreen && ' border-b-2'
+				!cinemaMode ? 'rounded-lg' : 'h-[80vh] mb-4 bg-black/80',
+				cinemaMode && !videoState.isFullScreen && ' border-b-2'
 			)}
 		>
 			<ContextMenu>
 				<ContextMenuTrigger className="size-full flex items-center justify-center overflow-y-hidden">
 					<video
 						ref={videoRef}
-						className={cn('bg-black/80 ', !videoState.cinemaMode ? ' w-full aspect-video rounded-lg' : 'h-full object-center')}
+						className={cn('bg-black/80 ', !cinemaMode ? ' w-full aspect-video rounded-lg' : 'h-full object-center')}
 						onClick={() => togglePlay()}
 						onError={onVideoLoadError}
 						src={getSourceVideoUrl(video.id, videoState.quality)}
@@ -490,11 +508,11 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({ video, videoIds, autoPlay, videoSt
 									asChild
 									children={
 										<button
-											onClick={() => setVideoState(p => ({ ...p, cinemaMode: !p.cinemaMode }))}
-											children={<DynamicIcon name={videoState.cinemaMode ? 'monitor-x' : 'monitor-dot'} />}
+											onClick={() => setCinemaMode(p => !p)}
+											children={<DynamicIcon name={cinemaMode ? 'monitor-x' : 'monitor-dot'} />}
 										/>
 									} />
-								<TooltipContent children={videoState.cinemaMode ? 'Вийти з широкого екрану' : 'Широкий екран'} />
+								<TooltipContent children={cinemaMode ? 'Вийти з широкого екрану' : 'Широкий екран'} />
 							</Tooltip>
 
 							<HoverCard>
