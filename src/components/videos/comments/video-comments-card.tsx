@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage, Badge, DynamicIcon, Input, Button } from '@/components'
 import { formatTimeAgo } from '@/utils'
+import { defaultChannel } from '@/data'
 import { IComment } from '@/interfaces'
 import { FC, useState } from 'react'
-import { defaultChannel } from '@/data'
 
 interface IVideoCommentsCardProps {
 	comment: IComment
@@ -23,7 +23,7 @@ const VideoCommentsCard: FC<IVideoCommentsCardProps> = ({ comment }) => {
 	const [replyState, setReplyState] = useState<IReplyState>({ inputMessage: '', showInput: false })
 
 	const onLike = async () => {
-		//TODO make send action for comment like
+		//TODO make action for comment like
 		setCommentState(prevState => ({
 			...prevState,
 			likesCount: Math.abs(prevState.isLiked ? prevState.likesCount - 1 : prevState.likesCount + 1),
@@ -33,7 +33,7 @@ const VideoCommentsCard: FC<IVideoCommentsCardProps> = ({ comment }) => {
 	}
 
 	const onDislike = async () => {
-		//TODO make send action for comment dislike
+		//TODO make action for comment dislike
 		setCommentState(prevState => ({
 			...prevState,
 			likesCount: Math.abs(prevState.isLiked ? prevState.likesCount - 1 : prevState.likesCount),
@@ -44,7 +44,7 @@ const VideoCommentsCard: FC<IVideoCommentsCardProps> = ({ comment }) => {
 
 
 	const onSendReply = async () => {
-		//TODO make logic for send reply action for comment
+		//TODO make logic for reply action
 		setReplyState(p => ({ ...p, showInput: false }))
 		const newComment: IComment = {
 			children: undefined,
