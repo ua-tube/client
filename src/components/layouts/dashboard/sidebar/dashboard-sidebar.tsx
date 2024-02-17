@@ -32,11 +32,6 @@ const sidebarNavItems: ISidebarItem[] = [
 		icon: 'contact'
 	},
 	{
-		title: 'Скарги',
-		url: '/dashboard/complaints',
-		icon: 'message-square-warning'
-	},
-	{
 		title: 'Аналітика',
 		url: '/dashboard/analytics',
 		icon: 'area-chart'
@@ -48,27 +43,14 @@ const sidebarNavItems: ISidebarItem[] = [
 	}
 ]
 
-const addSidebarNavItems: ISidebarItem[] = [
-	{
-		title: 'Налаштування',
-		url: '/dashboard/settings',
-		icon: 'settings'
-	},
-	{
-		title: 'Скарги',
-		url: '/dashboard?sendComplaints=1',
-		icon: 'message-square-warning'
-	}
-]
-
 
 const DashboardSidebar: FC = () => {
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
 
 	useEffect(() => {
-		if (!isScreenSmall) toggle()
-	}, [])
+		if (!isScreenSmall && !isOpen) toggle()
+	}, [isScreenSmall])
 
 	return (<>
 			{isScreenSmall && isOpen &&
@@ -88,38 +70,38 @@ const DashboardSidebar: FC = () => {
 				)}
 			>
 
-					<div className="flex flex-col justify-center items-center gap-y-4 my-5">
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Link
-									href={getChannelUrl(defaultChannel.nickName, 'index', true)}
-									target="_blank"
-								>
-									<Avatar className={cn('size-40', !isOpen && 'size-12')}>
-										<AvatarImage src={defaultChannel.profileImg} />
-										<AvatarFallback children={getUserInitials(defaultChannel.name)} />
-									</Avatar>
-								</Link>
-							</TooltipTrigger>
-							<TooltipContent className="z-[99999999]" side="right" children="Перейти на ваш канал" />
-						</Tooltip>
-						<div className={cn('flex flex-col items-center', !isOpen && 'hidden')}>
-							<span className="text-muted-foreground" children="Ваш канал" />
-							<p children={defaultChannel.name} />
-						</div>
+				<div className="flex flex-col justify-center items-center gap-y-4 my-5">
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Link
+								href={getChannelUrl(defaultChannel.nickName, 'index', true)}
+								target="_blank"
+							>
+								<Avatar className={cn('size-40', !isOpen && 'size-12')}>
+									<AvatarImage src={defaultChannel.profileImg} />
+									<AvatarFallback children={getUserInitials(defaultChannel.name)} />
+								</Avatar>
+							</Link>
+						</TooltipTrigger>
+						<TooltipContent className="z-[99999999]" side="right" children="Перейти на ваш канал" />
+					</Tooltip>
+					<div className={cn('flex flex-col items-center', !isOpen && 'hidden')}>
+						<span className="text-muted-foreground" children="Ваш канал" />
+						<p children={defaultChannel.name} />
 					</div>
+				</div>
 
-					<div
-						className="flex flex-col gap-y-3"
-						children={
-							sidebarNavItems.concat(addSidebarNavItems).map((value, index) =>
-								<DashboardSidebarItem
-									key={index}
-									isCollapsed={!isOpen}
-									link={value}
-								/>
-							)}
-					/>
+				<div
+					className="flex flex-col gap-y-3"
+					children={
+						sidebarNavItems.map((value, index) =>
+							<DashboardSidebarItem
+								key={index}
+								isCollapsed={!isOpen}
+								link={value}
+							/>
+						)}
+				/>
 
 
 			</aside>

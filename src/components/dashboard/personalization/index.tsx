@@ -1,0 +1,1 @@
+export { default as DashboardPersonalizationTabs } from './personalization-tabs'
