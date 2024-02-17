@@ -92,9 +92,12 @@ export default function VideoPage({
 		<>
 			<AppHead title={video.title} image={video.thumbnailUrl} disableDesc />
 			<HomeLayout hiddenSidebar disableBasePadding={cinemaMode}>
-				<section className={cn('mx-auto flex flex-col gap-6 md:flex-row pb-4', cinemaMode && '')}>
+				<section className="mx-auto flex flex-col gap-6 md:flex-row pb-4">
 					<div
-						className={cn('flex flex-col gap-y-4 transform transition-transform duration-300', cinemaMode ? 'w-full' : 'md:w-3/4')}>
+						className={cn(
+							'flex flex-col gap-y-4 transform transition-transform duration-300',
+							cinemaMode ? 'w-full' : 'md:w-3/4'
+						)}>
 						<VideoPlayer
 							autoPlay
 							{...{

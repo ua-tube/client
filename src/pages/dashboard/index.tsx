@@ -17,7 +17,7 @@ const DashboardPage: FC = () => {
 	return <>
 		<AppHead title="Творча студія" />
 		<DashboardLayout>
-			<div className="masonry sm:masonry-sm md:masonry-md 3xl:masonry-lg my-8 max-w-fit">
+			<div className="masonry md:masonry-sm xl:masonry-md 3xl:masonry-lg my-8 max-w-fit">
 				<DashboardLastSubscriptionsCard />
 				<DashboardLastVideoCard />
 				<DashboardAnalyticsCard />
