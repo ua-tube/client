@@ -186,7 +186,7 @@ const HomeHeader = () => {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Link
-										href="/dashboard?upload=true"
+										href="/dashboard?upload=1"
 										className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
 									>
 										<DynamicIcon name="upload" />

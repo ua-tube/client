@@ -14,7 +14,7 @@ const DashboardSidebarItem: FC<
 	IDashboardSidebarItemProps
 > = ({ link, isCollapsed }) => {
 
-	const { asPath } = useRouter()
+	const { pathname } = useRouter()
 
 	return isCollapsed ? (
 		<Tooltip delayDuration={0}>
@@ -23,7 +23,7 @@ const DashboardSidebarItem: FC<
 					href={link.url}
 					className={cn(
 						buttonVariants({ variant: 'ghost' }),
-						asPath === link.url
+						pathname === link.url
 							? 'bg-muted hover:bg-muted'
 							: 'hover:bg-transparent hover:underline',
 						'size-12')}
@@ -39,7 +39,7 @@ const DashboardSidebarItem: FC<
 			href={link.url}
 			className={cn(
 				buttonVariants({ variant: 'ghost' }),
-				asPath === link.url
+				pathname === link.url
 					? 'bg-muted hover:bg-muted'
 					: 'hover:bg-transparent hover:underline',
 				'flex flex-row justify-start gap-x-3'

@@ -1,8 +1,9 @@
 import DashboardHeader from './dashboard-header'
 import { TooltipProvider } from '@/components'
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren, useState, useEffect } from 'react'
 import DashboardSidebar from './sidebar'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
 const SidebarProvider = dynamic(
 	() => import('@/providers/sidebar-provider')
@@ -10,8 +11,18 @@ const SidebarProvider = dynamic(
 const TailwindIndicator = dynamic(
 	() => import('@/components/tailwind-indicator')
 )
+const VideoUploadModal = dynamic(() => import('./video-upload'))
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
+	const { query } = useRouter()
+	const [showModal, setShowModal] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (query.upload)
+			setShowModal(Boolean(+(query.upload as string)))
+	}, [query])
+
+
 	return <SidebarProvider>
 		<TooltipProvider>
 			<div className="flex flex-col max-h-screen">
@@ -23,6 +34,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
 						children={children}
 					/>
 				</div>
+				<VideoUploadModal {...{ setShowModal, showModal }} />
 				<TailwindIndicator />
 			</div>
 		</TooltipProvider>

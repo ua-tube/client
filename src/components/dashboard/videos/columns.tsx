@@ -1,3 +1,8 @@
+import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
+import { getDashboardVideoUrl, getVideoUrl } from '@/utils'
+import { ColumnDef } from '@tanstack/react-table'
+import { IVideo } from '@/interfaces'
+import Link from 'next/link'
 import {
 	Checkbox,
 	DynamicIcon,
@@ -11,11 +16,6 @@ import {
 	SelectContent,
 	SelectItem
 } from '@/components'
-import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { getDashboardVideoUrl, getVideoUrl } from '@/utils'
-import { ColumnDef } from '@tanstack/react-table'
-import { IVideo } from '@/interfaces'
-import Link from 'next/link'
 
 
 export const columns: ColumnDef<IVideo>[] = [
@@ -122,8 +122,6 @@ export const columns: ColumnDef<IVideo>[] = [
 	},
 	{
 		id: 'Видимість',
-		accessorKey: 'visible',
-		filterFn: 'auto',
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Видимість" />,
 		cell: ({ row: { original } }) => (
 			<Select defaultValue={`${original.visible || 2}`}>
