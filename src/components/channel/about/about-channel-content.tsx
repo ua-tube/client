@@ -1,6 +1,7 @@
-import { defaultChannel, videos, playlists } from '@/data'
+import { defaultChannel, videos, playlists, channelTabsKeys } from '@/data'
 import { FC, useState, useEffect } from 'react'
 import { buttonVariants } from '@/components'
+import { ChannelTabsKeyType } from '@/types'
 import { cn, getChannelUrl } from '@/utils'
 import AboutChannel from './about-channel'
 import { useRouter } from 'next/router'
@@ -13,11 +14,7 @@ const VideosList = dynamic(() => import('@/components/videos/general/videos-list
 const VideosPills = dynamic(() => import('@/components/videos/general/videos-pills'))
 const PlaylistsList = dynamic(() => import('@/components/playlist/general/playlists-list'))
 
-const tabsKeys = ['index', 'videos', 'playlists'] as const
-
-type TabsKey = typeof tabsKeys[number]
-
-const tabs: TabType<TabsKey>[] = [
+const tabs: TabType<ChannelTabsKeyType>[] = [
 	{
 		key: 'index',
 		title: 'Головна',
@@ -44,12 +41,12 @@ const tabs: TabType<TabsKey>[] = [
 
 const AboutChannelContent: FC = () => {
 	const { query, push } = useRouter()
-	const [currTab, setCurrTab] = useState<TabsKey>('index')
+	const [currTab, setCurrTab] = useState<ChannelTabsKeyType>('index')
 
 	useEffect(() => {
 		if (query?.tab)
-			if (tabsKeys.includes(query.tab as TabsKey))
-				setCurrTab(query?.tab as TabsKey)
+			if (channelTabsKeys.includes(query.tab as ChannelTabsKeyType))
+				setCurrTab(query?.tab as ChannelTabsKeyType)
 			else
 				setCurrTab('index')
 		else setCurrTab('index')

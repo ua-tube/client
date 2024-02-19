@@ -1,14 +1,15 @@
 import { AppHead, SignInForm, SignUpForm, RecoveryPassForm } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { authFormType } from '@/data'
+import { AuthFormsTabsKey } from '@/types'
+import { authFormTabs } from '@/data'
 
 export const getServerSideProps: GetServerSideProps<{
-	currFormType: typeof authFormType[number]
+	currFormType: AuthFormsTabsKey
 }> = async ({ query }) => {
 
-	let currFormType: typeof authFormType[number] = 'signIn'
+	let currFormType: AuthFormsTabsKey = 'signIn'
 
-	if (query?.authType && authFormType.includes(query.authType as any))
+	if (query?.authType && authFormTabs.includes(query.authType as any))
 		currFormType = query.authType as any
 
 	return { props: { currFormType } }

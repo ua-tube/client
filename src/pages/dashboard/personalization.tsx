@@ -1,6 +1,8 @@
 import { DynamicIcon, AppHead } from '@/components'
 import dynamic from 'next/dynamic'
-import { FC } from 'react'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { ChannelPersonalizationTabsKey } from '@/types'
+import { channelPersonalizationTabsKeys } from '@/data'
 
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
@@ -10,18 +12,27 @@ const DashboardLayout = dynamic(
 const DashboardPersonalizationTabs = dynamic(
 	() => import('@/components/dashboard/personalization/personalization-tabs'))
 
-const ChannelPersonalizationPage: FC = () => {
+
+export const getServerSideProps: GetServerSideProps<{
+	tab: ChannelPersonalizationTabsKey
+}> = async ({ query }) => {
+	let tab: ChannelPersonalizationTabsKey = 'images'
+
+	if (query.tab && channelPersonalizationTabsKeys.includes(query.tab as ChannelPersonalizationTabsKey))
+		tab = query.tab as ChannelPersonalizationTabsKey
+
+	return { props: { tab } }
+}
+
+export default function ChannelPersonalizationPage({ tab }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
 
 	return <>
 		<AppHead title="Персоналізація каналу" />
 		<DashboardLayout>
-			<h2 className="text-3xl font-bold tracking-tight flex items-center py-4">
-				Персоналізація каналу
-			</h2>
-			<DashboardPersonalizationTabs/>
+			<DashboardPersonalizationTabs tab={tab} />
 		</DashboardLayout>
 	</>
 
 }
 
-export default ChannelPersonalizationPage

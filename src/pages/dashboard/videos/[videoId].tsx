@@ -1,21 +1,37 @@
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { videos, defaultVideo, videoEditTabsKeys } from '@/data'
+import VideoEditContent from '@/components/dashboard/video'
 import { DynamicIcon, AppHead } from '@/components'
+import { VideoEditTabsKey } from '@/types'
+import { IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
-import { FC } from 'react'
 
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const DashboardVideoPage: FC = () => {
+export const getServerSideProps: GetServerSideProps<{
+	video: IVideo
+	tab: VideoEditTabsKey
+}> = async ({ query }) => {
+	let tab: VideoEditTabsKey = 'edit'
+	const video = videos.find(value => value.id === (query?.videoId as string) || '') || defaultVideo
 
-	return<>
-		<AppHead title="Редагування відео" />
+	if (query.tab && videoEditTabsKeys.includes(query.tab as VideoEditTabsKey))
+		tab = query.tab as VideoEditTabsKey
+
+	return { props: { video, tab } }
+}
+
+export default function DashboardVideoPage({ video, tab }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
+	return <>
+		<AppHead title={`Редагування відео - ${video.title}`} />
 		<DashboardLayout>
-
+			<VideoEditContent tab={tab} video={video} />
 		</DashboardLayout>
 	</>
 
 }
 
-export default DashboardVideoPage

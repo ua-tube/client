@@ -1,19 +1,15 @@
-import { FC, useState, useEffect } from 'react'
+import { ChannelPersonalizationTabsKey } from '@/types'
 import { buttonVariants } from '@/components'
-import { useRouter } from 'next/router'
 import { TabType } from '@/interfaces'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { cn } from '@/utils'
+import { FC } from 'react'
 
 const EditImagesTab = dynamic(() => import('./edit-images-tab'))
 const EditInfoTab = dynamic(() => import('./edit-info-tab'))
 
-const tabsKeys = ['images', 'details'] as const
-
-type TabsKey = typeof tabsKeys[number]
-
-const tabs: TabType<TabsKey>[] = [
+const tabs: TabType<ChannelPersonalizationTabsKey>[] = [
 	{
 		key: 'images',
 		title: 'Оформлення каналу',
@@ -26,19 +22,15 @@ const tabs: TabType<TabsKey>[] = [
 	}
 ]
 
-const DashboardPersonalizationTabs: FC = () => {
-	const { query } = useRouter()
-	const [currTab, setCurrTab] = useState<TabsKey>('images')
+interface IDashboardPersonalizationTabsProps {
+	tab: ChannelPersonalizationTabsKey
+}
 
-	useEffect(() => {
-		if (query?.tab)
-			if (tabsKeys.includes(query.tab as TabsKey)) setCurrTab(query?.tab as TabsKey)
-			else setCurrTab('images')
-		else setCurrTab('images')
-	}, [query])
-
-
+const DashboardPersonalizationTabs: FC<IDashboardPersonalizationTabsProps> = ({ tab }) => {
 	return <div>
+		<h2 className="text-3xl font-bold tracking-tight flex items-center py-4">
+			Персоналізація каналу
+		</h2>
 		<div
 			className="space-x-3 border-accent border-b pb-2"
 			children={
@@ -48,7 +40,7 @@ const DashboardPersonalizationTabs: FC = () => {
 						children={value.title}
 						href={`/dashboard/personalization?tab=${value.key}`}
 						className={cn(buttonVariants({
-							variant: value.key === currTab ?
+							variant: value.key === tab ?
 								'secondary' : 'outline'
 						}))}
 					/>
@@ -56,7 +48,7 @@ const DashboardPersonalizationTabs: FC = () => {
 		/>
 		<div
 			className="mt-6 max-w-4xl"
-			children={tabs.find(value => value?.key === currTab)?.children}
+			children={tabs.find(value => value?.key === tab)?.children}
 		/>
 	</div>
 

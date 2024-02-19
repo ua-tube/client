@@ -1,13 +1,14 @@
-import { IComment } from '@/interfaces'
-import { FC, useState } from 'react'
-import { videos, defaultChannel } from '@/data'
 import { Avatar, AvatarImage, AvatarFallback, Badge, Button, DynamicIcon, Input } from '@/components'
 import { formatTimeAgo, getVideoUrl } from '@/utils'
+import { videos, defaultChannel } from '@/data'
+import { IComment } from '@/interfaces'
+import { FC, useState } from 'react'
 import Link from 'next/link'
 
 
 interface IDashboardCommentCardProps {
 	comment: IComment
+	disableComment?: boolean
 }
 
 interface IReplyState {
@@ -20,8 +21,8 @@ interface ICommentState extends IComment {
 	isDisliked: boolean
 }
 
-const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
-	const currVideo = videos[0]
+const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment, disableComment }) => {
+	const currVideo = disableComment ? undefined: videos[0]
 	const [replyState, setReplyState] = useState<IReplyState>({ inputMessage: '', showInput: false })
 	const [commentState, setCommentState] = useState<ICommentState>({ ...comment, isDisliked: false, isLiked: false })
 
@@ -56,9 +57,11 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 			isDisliked: false
 		}))
 	}
-	const onLikeFromChannel = async () => {}
+	const onLikeFromChannel = async () => {
+	}
 
-	const onDelete = async () => {}
+	const onDelete = async () => {
+	}
 
 	return <div>
 		<div
@@ -98,7 +101,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 						</Button>
 						<Button
 							size="sm"
-							variant='secondary'
+							variant="secondary"
 							onClick={onLikeFromChannel}
 							className="flex space-x-1 items-center rounded-lg"
 						>
@@ -106,7 +109,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 						</Button>
 						<Button
 							size="sm"
-							variant='destructive'
+							variant="destructive"
 							onClick={onDelete}
 							className="flex space-x-1 items-center rounded-lg"
 						>
@@ -135,7 +138,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 				</div>
 			</div>
 
-			<Link
+			{currVideo && <Link
 				href={getVideoUrl(currVideo.id, undefined, undefined, true)}
 				target="_blank"
 				className="flex flex-row items-center space-x-2 px-4">
@@ -149,7 +152,8 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 					children={currVideo.title}
 				/>
 				<DynamicIcon name="share-2" className="size-3" />
-			</Link>
+			</Link>}
+
 
 		</div>
 		{commentState.children && commentState.children.length > 0 &&
@@ -157,7 +161,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({ comment }) => {
 				className="flex flex-col gap-y-2 pl-6 my-4 border-l border-muted"
 				children={
 					commentState.children.map((value, index) =>
-						<DashboardCommentCard key={index} comment={value} />
+						<DashboardCommentCard key={index} comment={value} disableComment={disableComment} />
 					)}
 			/>}
 	</div>
