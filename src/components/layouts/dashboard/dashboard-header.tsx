@@ -1,7 +1,8 @@
-import { HomeHeaderFirstSection } from '../home/home-header'
 import { getUserInitials, getChannelUrl } from '@/utils'
 import { defaultChannel } from '@/data'
+import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import Link from 'next/link'
 import {
@@ -20,9 +21,14 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuPortal,
 	DropdownMenuSubContent,
-	DropdownMenuSub
+	DropdownMenuSub,
+	Skeleton
 } from '@/components'
-import { useRouter } from 'next/router'
+
+const HomeHeaderLogo = dynamic(
+	() => import( '../home/header/home-header-logo'),
+	{ loading: () => <Skeleton className="px-4 py-2 rounded-lg" /> }
+)
 
 const DashboardHeader = () => {
 	const [showFullWidthSearch, setShowFullWidthSearch] = useState(false)
@@ -32,7 +38,7 @@ const DashboardHeader = () => {
 
 		<div
 			className="flex gap-10 lg:gap-20 justify-between px-4 border-b border-muted sticky top-0 z-10 bg-background/50 backdrop-blur-lg">
-			<HomeHeaderFirstSection hidden={showFullWidthSearch} />
+			<HomeHeaderLogo hidden={showFullWidthSearch} />
 			<form
 				className={`gap-4 flex-grow justify-center ${showFullWidthSearch ? 'flex' : 'hidden md:flex'}`}
 			>

@@ -2,10 +2,10 @@ import LargeSidebarSection, { ILargeSidebarSectionProps } from './large-sidebar-
 import SmallSidebarItem, { ISmallSidebarItemProps } from './small-sidebar-item'
 import { playlists, subscriptions, defaultChannel } from '@/data'
 import { getChannelUrl, getPlaylistUrl, cn } from '@/utils'
-import { HomeHeaderFirstSection } from '../home-header'
+import HomeHeaderLogo from '../header/home-header-logo'
+import { useScreenSize } from '@/hooks'
 import { useSidebarContext } from '@/providers'
 import { FC, Fragment, useEffect } from 'react'
-import useScreenSize from '@/hooks/useScreenSize'
 
 
 interface IHomeSidebarProps {
@@ -103,7 +103,7 @@ export const HomeSidebar: FC<
 			>
 
 				<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
-					<HomeHeaderFirstSection />
+					<HomeHeaderLogo />
 				</div>
 
 				{largeSections.map((value, index) =>

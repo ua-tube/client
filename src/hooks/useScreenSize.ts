@@ -10,7 +10,7 @@ interface IUseScreenSize {
 	isScreenSmall: boolean
 }
 
-const useScreenSize = (): IUseScreenSize => {
+export const useScreenSize = (): IUseScreenSize => {
 	const [screenSize, setScreenSize] = useState<IScreenSize>({
 		width: 0,
 		height: 0
@@ -35,4 +35,3 @@ const useScreenSize = (): IUseScreenSize => {
 	return { screen: screenSize, isScreenSmall: screenSize.width < 1024 }
 }
 
-export default useScreenSize

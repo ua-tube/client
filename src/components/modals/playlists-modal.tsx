@@ -3,9 +3,8 @@ import { IVideo } from '@/interfaces'
 import { playlists } from '@/data'
 import { FC, useState } from 'react'
 
-
 interface IPlaylistsModalProps {
-	video: IVideo
+	video?: IVideo
 	open: boolean
 	setOpen: (s: boolean) => void
 }

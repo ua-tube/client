@@ -2,10 +2,10 @@ import { Tooltip, TooltipTrigger, TooltipContent, Avatar, AvatarImage, AvatarFal
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import { cn, getUserInitials, getChannelUrl } from '@/utils'
 import DashboardSidebarItem from './dashboard-sidebar-item'
-import useScreenSize from '@/hooks/useScreenSize'
 import { useSidebarContext } from '@/providers'
-import { defaultChannel } from '@/data'
 import { FC, Fragment, useEffect } from 'react'
+import { defaultChannel } from '@/data'
+import { useScreenSize } from '@/hooks'
 import Link from 'next/link'
 
 

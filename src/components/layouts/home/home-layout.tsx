@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from 'react'
 import { HomeSidebar } from './sidebar'
-import HomeHeader from './home-header'
 import dynamic from 'next/dynamic'
 
 const SidebarProvider = dynamic(() => import('@/providers/sidebar-provider'), { ssr: false })
@@ -8,6 +7,8 @@ const SidebarProvider = dynamic(() => import('@/providers/sidebar-provider'), { 
 const TailwindIndicator = dynamic(
 	() => import('@/components/tailwind-indicator')
 )
+
+const HomeHeader = dynamic(() => import('./header'))
 
 interface IHomeLayoutProps {
 	autoShowSidebar?: boolean

@@ -1,7 +1,6 @@
 import { TabType, IVideo } from '@/interfaces'
-import { buttonVariants, CategoryPills } from '@/components'
+import { buttonVariants } from '@/components'
 import { VideoEditTabsKey } from '@/types'
-import { defaultComments } from '@/data'
 import dynamic from 'next/dynamic'
 import { FC } from 'react'
 import Link from 'next/link'
@@ -12,21 +11,15 @@ interface IVideoEditContentProps {
 	video: IVideo
 }
 
-
 const VideoEditTab = dynamic(() => import('./tabs/video-edit-tab'))
-const DashboardCommentsList = dynamic(() => import('../comments/dashboard-comments-list'))
 const VideoAnalyticsTab = dynamic(() => import('./tabs/video-analytics-tab'))
+const VideoCommentsTab = dynamic(() => import('./tabs/video-comments-tab'))
 
 
 const videoEditTabs: TabType<VideoEditTabsKey>[] = [
 	{ title: 'Редагування відео', key: 'edit', children: <VideoEditTab /> },
 	{ title: 'Аналітика відео', key: 'analytics', children: <VideoAnalyticsTab /> },
-	{
-		title: 'Коментарі відео', key: 'comments', children: <div>
-			<CategoryPills categories={['Не мають відповіді', 'Популярні']} />
-			<DashboardCommentsList comments={defaultComments} disableComment />
-		</div>
-	}
+	{ title: 'Коментарі відео', key: 'comments', children: <VideoCommentsTab /> }
 ]
 
 

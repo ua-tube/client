@@ -1,27 +1,26 @@
-import { reportReasons } from '@/data'
-import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
+import { IVideo } from '@/interfaces'
 import {
-	Button,
 	Dialog,
 	DialogContent,
-	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	Label,
 	RadioGroup,
-	RadioGroupItem
+	RadioGroupItem,
+	Label,
+	DialogFooter,
+	DialogDescription,
+	Button
 } from '@/components'
+import { reportReasons } from '@/data'
 
-
-interface IReportModalProps {
-	video: IVideo
+interface IReportVideoModalProps {
+	video?: IVideo
 	open: boolean
 	setOpen: (s: boolean) => void
 }
 
-const ReportModal: FC<IReportModalProps> = ({ setOpen, open, video }) => {
+const ReportVideoModal: FC<IReportVideoModalProps> = ({ setOpen, open, video }) => {
 	const [currReason, setCurrReason] = useState<string>('1')
 
 	const onReportPress = () => {
@@ -62,4 +61,4 @@ const ReportModal: FC<IReportModalProps> = ({ setOpen, open, video }) => {
 	</Dialog>
 }
 
-export default ReportModal
+export default ReportVideoModal

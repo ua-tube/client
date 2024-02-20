@@ -298,6 +298,27 @@ const musicVideos: IVideo[] = [
 			nickName: 'constGenius',
 			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
 		}
+	},
+	{
+		id: '4ebb14778268174704fffbead1a6c470',
+		title: 'Soaked- Shy smith (edited audio, best part, tik tok)',
+		views: 16014,
+		postedAt: '2023-12-31',
+		duration: 256,
+		qualities,
+		visible: 2,
+		likesCount: 592,
+		disLikesCount: 77,
+		limits: true,
+		description: defaultVideo.description,
+		thumbnailUrl: 'https://i.ytimg.com/vi/EYoidZubQi8/hqdefault.jpg',
+		videoUrl: `${process.env.SERVER_URL}/videos/4ebb14778268174704fffbead1a6c470/144p.mp4`,
+		channel: {
+			name: 'sereia',
+			id: 'sereia',
+			nickName: 'sereia',
+			profileImg: 'https://i.pinimg.com/564x/16/4d/f5/164df5e3f7a4b8b1736c3381acd32a0a.jpg'
+		}
 	}
 ]
 

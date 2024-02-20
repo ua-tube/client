@@ -35,8 +35,8 @@ import {
 	getUserInitials
 } from '@/utils'
 
-const PlaylistsModal = dynamic(() => import( './modals/playlists-modal'))
-const ReportModal = dynamic(() => import( './modals/report-modal'))
+const PlaylistsModal = dynamic(() => import( '@/components/modals/playlists-modal'))
+const ReportModal = dynamic(() => import( '@/components/modals/report-video-modal'))
 
 interface IAboutVideoProps {
 	video: IVideo
@@ -50,7 +50,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 		'playlists' |
 		'report' |
 		undefined
-	>(undefined)
+	>()
 
 
 	const onLike = async () => {
@@ -169,7 +169,8 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 											size="sm"
 											children={<DynamicIcon name="send-horizontal" />}
 										/>
-									</div>)}
+									</div>
+								)}
 							/>
 						</div>
 					</HoverCardContent>
