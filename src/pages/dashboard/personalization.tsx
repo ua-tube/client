@@ -10,7 +10,7 @@ const DashboardLayout = dynamic(
 )
 
 const DashboardPersonalizationTabs = dynamic(
-	() => import('@/components/dashboard/personalization/personalization-tabs'))
+	() => import('@/components/dashboard/personalization/PersonalizationTabs'))
 
 
 export const getServerSideProps: GetServerSideProps<{

@@ -1,1 +1,1 @@
-export { default as DashboardCommentsList } from './dashboard-comments-list'
+export { default as DashboardCommentsList } from './DashboardCommentsList'

@@ -7,8 +7,8 @@ const HomeLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const CategoryPills = dynamic(() => import('@/components/categories/category-pills'))
-const VideosList = dynamic(() => import('@/components/videos/general/videos-list'))
+const CategoryPills = dynamic(() => import('@/components/categories/CategoryPills'))
+const VideosList = dynamic(() => import('@/components/videos/general/VideosList'))
 
 
 export default function HomePage() {

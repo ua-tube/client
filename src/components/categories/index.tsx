@@ -1,1 +1,1 @@
-export { default as CategoryPills } from './category-pills'
+export { default as CategoryPills } from './CategoryPills'

@@ -7,11 +7,11 @@ const DashboardLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const DashboardLastSubscriptionsCard = dynamic(() => import('@/components/dashboard/main/last-subs-card'))
-const DashboardLastVideoCard = dynamic(() => import('@/components/dashboard/main/last-video-card'))
-const DashboardAnalyticsCard = dynamic(() => import('@/components/dashboard/main/analytics-card'))
-const DashboardLastVideosCard = dynamic(() => import('@/components/dashboard/main/last-videos-card'))
-const DashboardLastCommentsCard = dynamic(() => import('@/components/dashboard/main/last-comments-card'))
+const DashboardLastSubscriptionsCard = dynamic(() => import('../../components/dashboard/main/lastSubsCard'))
+const DashboardLastVideoCard = dynamic(() => import('../../components/dashboard/main/lastVideoCard'))
+const DashboardAnalyticsCard = dynamic(() => import('../../components/dashboard/main/analyticsCard'))
+const DashboardLastVideosCard = dynamic(() => import('../../components/dashboard/main/lastVideosCard'))
+const DashboardLastCommentsCard = dynamic(() => import('../../components/dashboard/main/lastCommentsCard'))
 
 const DashboardPage: FC = () => {
 	return <>

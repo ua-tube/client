@@ -1,1 +1,1 @@
-export { default as SidebarVideoList } from './sidebar-video-list'
+export { default as SidebarVideoList } from './SidebarVideoList'

@@ -1,5 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import SearchContent from '@/components/search/search-content'
+import SearchContent from '@/components/search/SearchContent'
 import { AppHead, DynamicIcon } from '@/components'
 import { IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'

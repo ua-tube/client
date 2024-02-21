@@ -1,1 +1,1 @@
-export { default } from './video-edit-content'
+export { default } from './VideoEditContent'

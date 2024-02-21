@@ -1,1 +1,1 @@
-export { default } from './video-comments-section'
+export { default } from './VideoCommentsSection'

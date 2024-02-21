@@ -1,3 +1,3 @@
-export { default as PlaylistContent } from './playlist-content'
-export { default as CurrentVideoPlaylist } from './current-video-playlist'
+export { default as PlaylistContent } from './PlaylistContent'
+export { default as CurrentVideoPlaylist } from './CurrentVideoPlaylist'
 

@@ -9,7 +9,7 @@ const HomeLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const PlaylistContent = dynamic(() => import( '@/components/playlist/playlist-content'))
+const PlaylistContent = dynamic(() => import( '@/components/playlist/PlaylistContent'))
 
 export const getServerSideProps: GetServerSideProps<{ list: IPlaylist }> = async ({ query, locale }) => {
 	const listId = query?.listId as string

@@ -10,7 +10,7 @@ const HomeLayout = dynamic(
 	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
-const VideosList = dynamic(() => import('@/components/videos/general/videos-list'))
+const VideosList = dynamic(() => import('@/components/videos/general/VideosList'))
 
 export const getServerSideProps: GetServerSideProps<{
 	subsVideos: IVideo[]

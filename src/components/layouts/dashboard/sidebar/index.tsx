@@ -1,1 +1,1 @@
-export { default } from './dashboard-sidebar'
+export { default } from './DashboardSidebar'

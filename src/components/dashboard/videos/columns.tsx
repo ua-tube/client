@@ -1,4 +1,4 @@
-import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
+import { DataTableColumnHeader } from '@/components/dataTable/DataTableColumnHeader'
 import { getDashboardVideoUrl, getVideoUrl } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { IVideo } from '@/interfaces'

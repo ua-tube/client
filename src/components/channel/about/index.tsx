@@ -1,1 +1,1 @@
-export { default as AboutChannelContent } from './about-channel-content'
+export { default as AboutChannelContent } from './AboutChannelContent'

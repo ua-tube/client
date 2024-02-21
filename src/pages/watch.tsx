@@ -21,16 +21,16 @@ const VideoCommentsSection = dynamic(
 	() => import('@/components/videos/comments'))
 
 const CategoryPills = dynamic(
-	() => import( '@/components/categories/category-pills')
+	() => import( '@/components/categories/CategoryPills')
 )
 
 
 const SidebarVideoList = dynamic(
-	() => import( '@/components/videos/sidebar/sidebar-video-list')
+	() => import( '@/components/videos/sidebar/SidebarVideoList')
 )
 
 const CurrentVideoPlaylist = dynamic(
-	() => import('@/components/playlist/current-video-playlist')
+	() => import('@/components/playlist/CurrentVideoPlaylist')
 )
 
 
