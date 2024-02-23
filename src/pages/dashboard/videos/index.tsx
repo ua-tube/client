@@ -1,6 +1,6 @@
-import { DynamicIcon, AppHead, DataTable, columns } from '@/components'
+import { DynamicIcon, AppHead, DataTable } from '@/components'
+import { videos, videoColumns } from '@/data'
 import dynamic from 'next/dynamic'
-import { videos } from '@/data'
 import { FC } from 'react'
 
 const DashboardLayout = dynamic(
@@ -16,7 +16,7 @@ const DashboardVideosPage: FC = () => {
 			<h2 className="text-3xl font-bold tracking-tight flex items-center py-4">
 				Контент каналу
 			</h2>
-			<DataTable data={videos} columns={columns} />
+			<DataTable data={videos} columns={videoColumns} />
 		</DashboardLayout>
 	</>
 

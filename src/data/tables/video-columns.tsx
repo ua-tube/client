@@ -18,7 +18,7 @@ import {
 } from '@/components'
 
 
-export const columns: ColumnDef<IVideo>[] = [
+export const videoColumns: ColumnDef<IVideo>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
