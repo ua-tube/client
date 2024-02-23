@@ -2,8 +2,8 @@ import { categories, defaultVideo, playlists, videos, defaultComments } from '@/
 import { AppHead, Skeleton, DynamicIcon, AboutVideo } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { IPlaylist, IVideo } from '@/interfaces'
-import dynamic from 'next/dynamic'
 import { useState, FC } from 'react'
+import dynamic from 'next/dynamic'
 import { cn } from '@/utils'
 
 const HomeLayout = dynamic(

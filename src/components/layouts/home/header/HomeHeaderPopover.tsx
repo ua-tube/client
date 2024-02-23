@@ -4,8 +4,9 @@ import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { languages } from '@/config'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
 	DynamicIcon,
 	Tooltip,
@@ -22,8 +23,11 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuPortal,
 	DropdownMenuSubContent,
-	DropdownMenuSeparator
+	DropdownMenuSeparator,
+	Button
 } from '@/components'
+
+const HomeHeaderNotifications = dynamic(() => import('./HomeHeaderNotifications'))
 
 interface IHomeHeaderPopoverProps {
 	showFullWidthSearch: boolean
@@ -33,7 +37,7 @@ interface IHomeHeaderPopoverProps {
 const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, setShowFullWidthSearch }) => {
 	const { asPath, locale } = useRouter()
 	const { setTheme, theme } = useTheme()
-	const auth = true
+	const [auth, setAuth] = useState<boolean>(false)
 
 
 	const DropdownBaseContent: FC = () => (
@@ -138,14 +142,8 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, s
 					</TooltipTrigger>
 					<TooltipContent children="Завантажити нове відео" />
 				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<button className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted">
-							<DynamicIcon name="bell" />
-						</button>
-					</TooltipTrigger>
-					<TooltipContent children="Поточні сповіщення" />
-				</Tooltip>
+
+				<HomeHeaderNotifications />
 
 				<DropdownMenu>
 					<DropdownMenuTrigger className="focus:border-none">
@@ -157,7 +155,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, s
 							<AvatarFallback children={getUserInitials(defaultChannel.name)} />
 						</Avatar>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent>
+					<DropdownMenuContent align='end'>
 						<DropdownMenuItem className="flex items-center space-x-2">
 							<Avatar className="border border-accent">
 								<AvatarImage
@@ -198,6 +196,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, s
 					<DynamicIcon name="person-standing" />
 					<span>Увійти</span>
 				</Link>
+				<Button variant="secondary" children="Канал" onClick={() => setAuth(true)} />
 			</>
 		)}
 	</div>

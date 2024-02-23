@@ -3,9 +3,9 @@ import SmallSidebarItem, { ISmallSidebarItemProps } from './SmallSidebarItem'
 import { playlists, subscriptions, defaultChannel } from '@/data'
 import { getChannelUrl, getPlaylistUrl, cn } from '@/utils'
 import HomeHeaderLogo from '../header/HomeHeaderLogo'
-import { useScreenSize } from '@/hooks'
 import { useSidebarContext } from '@/providers'
 import { FC, Fragment, useEffect } from 'react'
+import { useScreenSize } from '@/hooks'
 
 
 interface IHomeSidebarProps {

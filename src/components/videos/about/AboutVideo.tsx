@@ -1,4 +1,4 @@
-import { subscriptions } from '@/data'
+import { formatNumbers, formatTimeAgo, writeVideoUrl, getChannelUrl, shakeConfetti } from '@/utils'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -15,26 +15,10 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-	DynamicIcon,
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-	Input,
-	Separator,
-	CardTitle,
-	CardHeader,
-	CardDescription
+	DynamicIcon
 } from '@/components'
-import {
-	formatNumbers,
-	formatTimeAgo,
-	getSourceVideoUrl,
-	writeVideoUrl,
-	getChannelUrl,
-	shakeConfetti,
-	getUserInitials
-} from '@/utils'
 
+const ShareVideoModal = dynamic(() => import( '@/components/modals/ShareVideoModal'))
 const PlaylistsModal = dynamic(() => import( '@/components/modals/PlaylistsModal'))
 const ReportModal = dynamic(() => import( '@/components/modals/ReportVideoModal'))
 
@@ -49,6 +33,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 	const [openedTypeModal, setOpenedTypeModal] = useState<
 		'playlists' |
 		'report' |
+		'share' |
 		undefined
 	>()
 
@@ -122,59 +107,20 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 					</Button>
 				</div>
 
-				<HoverCard>
-					<HoverCardTrigger asChild>
-						<Button variant="secondary" className="rounded-lg space-x-2">
-							<DynamicIcon name="share" />
-							<span className="hiddenOnMobile" children="Поділитися" />
-						</Button>
-					</HoverCardTrigger>
-					<HoverCardContent className="min-w-80 space-y-2">
-						<CardHeader className='p-0'>
-							<CardTitle>Поширити</CardTitle>
-							<CardDescription>
-								Поширити посиланння на це відео
-							</CardDescription>
-						</CardHeader>
+				<Button
+					variant="secondary"
+					className="rounded-lg space-x-2"
+					onClick={() => setOpenedTypeModal('share')}
+				>
+					<DynamicIcon name="share" />
+					<span className="hiddenOnMobile" children="Поділитися" />
+				</Button>
 
-						<div className="flex space-x-2">
-							<Input value={getSourceVideoUrl(video.id)} readOnly />
-							<Button
-								variant="secondary"
-								onClick={onCopyLinkPress}
-								children="Копіювати"
-							/>
-						</div>
-						<Separator className="my-4" />
-						<div className="space-y-4">
-							<h4 className="text-sm font-medium">Поділитися з</h4>
-							<div
-								className="grid gap-6"
-								children={subscriptions.map((value, index) =>
-									<div
-										key={index}
-										className="flex items-center justify-between space-x-4">
-										<div className="flex items-center space-x-4">
-											<Avatar>
-												<AvatarImage src={value.profileImg} />
-												<AvatarFallback children={getUserInitials(value.name)} />
-											</Avatar>
-											<div>
-												<p className="text-sm font-medium leading-none" children={value.name} />
-												<p className="text-sm text-muted-foreground" children={value.nickName} />
-											</div>
-										</div>
-										<Button
-											variant="secondary"
-											size="sm"
-											children={<DynamicIcon name="send-horizontal" />}
-										/>
-									</div>
-								)}
-							/>
-						</div>
-					</HoverCardContent>
-				</HoverCard>
+				<ShareVideoModal
+					video={video}
+					open={openedTypeModal === 'share'}
+					setOpen={(v) => setOpenedTypeModal(undefined)}
+				/>
 
 				<PlaylistsModal
 					video={video}
@@ -210,8 +156,6 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
-
-
 			</div>
 		</div>
 

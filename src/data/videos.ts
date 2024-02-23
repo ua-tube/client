@@ -1,23 +1,5 @@
-import { qualities, defaultVideo } from './video'
+import { qualities, defaultVideo } from '@/data/video'
 import { IVideo } from '@/interfaces'
-
-const categories = [
-	'Усі',
-	'Мікси',
-	'Музика',
-	'Ігри',
-	'Анімації',
-	'Мультфільми',
-	'Пригодницький бойовик',
-	'Нешодавні завантаження',
-	'Ви дивилися',
-	'Новинки для вас',
-	'Документальні фільми',
-	'Комедії',
-	'Науково-фантастичні',
-	'Трилери'
-]
-
 
 const videoEdits: IVideo[] = [
 	{
@@ -324,4 +306,4 @@ const musicVideos: IVideo[] = [
 
 const videos: IVideo[] = [...videoEdits, ...musicVideos]
 
-export { videos, musicVideos, videoEdits, categories }
+export { videos, musicVideos, videoEdits }

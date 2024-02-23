@@ -1,6 +1,7 @@
 import { DynamicIcon, AppHead, DataTable } from '@/components'
-import { videos, videoColumns } from '@/data'
+import { videoColumns } from '@/data/tables'
 import dynamic from 'next/dynamic'
+import { videos } from '@/data'
 import { FC } from 'react'
 
 const DashboardLayout = dynamic(

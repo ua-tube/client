@@ -1,5 +1,5 @@
+import { musicVideos, videoEdits, videos } from '@/data/videos'
 import { IChannel, IPlaylist } from '@/interfaces'
-import { musicVideos, videoEdits, videos } from '@/data/home'
 import { defaultChannel } from '@/data/video'
 
 const subscriptions: IChannel[] = [
@@ -30,7 +30,7 @@ const subscriptions: IChannel[] = [
 const playlists: IPlaylist[] = [
 	{
 		id: 'LL',
-		icon:'heart',
+		icon: 'heart',
 		name: 'Відео, які сподобалися',
 		imgUrl: videos?.[0].thumbnailUrl,
 		isPrivate: true,
@@ -40,7 +40,7 @@ const playlists: IPlaylist[] = [
 	},
 	{
 		id: 'WL',
-		icon:'alarm-clock',
+		icon: 'alarm-clock',
 		name: 'Переглянути пізніше',
 		imgUrl: videos?.[0].thumbnailUrl,
 		isPrivate: true,
