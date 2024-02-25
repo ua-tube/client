@@ -1,10 +1,10 @@
 import { DynamicIcon, Input, Popover, PopoverTrigger, PopoverContent, buttonVariants } from '@/components'
 import { UseState, IVideo } from '@/interfaces'
-import { useRouter } from 'next/router'
 import { FC, useState, useEffect } from 'react'
+import { cn, getVideoUrl } from '@/utils'
+import { useRouter } from 'next/router'
 import { useDebounce } from '@/hooks'
 import { videos } from '@/data'
-import { cn, getVideoUrl } from '@/utils'
 import Link from 'next/link'
 
 interface IHomeHeaderSearchProps {

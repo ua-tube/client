@@ -1,5 +1,5 @@
-import { IVideo, IVideoState, UseState } from '@/interfaces'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { IVideo, IVideoState, UseState } from '@/interfaces'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
@@ -64,7 +64,8 @@ const VideoPlayer: FC<
 		bufferedCount: 0,
 		showAnimation: false,
 		showNavigationMenu: true,
-		disabledQualities: []
+		disabledQualities: [],
+		isDisabled: false
 	})
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
@@ -81,7 +82,7 @@ const VideoPlayer: FC<
 
 
 	const togglePlay = useCallback((disableAnimation?: boolean) => {
-		if (videoState.disabledQualities.length !== video.qualities?.length)
+		if (!videoState.isDisabled)
 			if (videoRef.current) {
 				if (videoRef.current.paused) {
 					videoRef.current.play().catch()
@@ -92,7 +93,7 @@ const VideoPlayer: FC<
 				}
 			}
 
-	}, [showPlayAnimation, videoState.disabledQualities.length, video.qualities?.length])
+	}, [showPlayAnimation, videoState.isDisabled])
 
 	const changeSpeed = useCallback((newSpeed: number) => {
 		if (videoRef.current) {
@@ -155,10 +156,8 @@ const VideoPlayer: FC<
 		[videoState.autoPlayNext, push, videoIds.next, query.listId, videoState.isLooped, setVideoState])
 
 	const onVideoLoadError = useCallback(() => {
-		setVideoState(p => ({
-			...p,
-			disabledQualities: getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality, true)
-		}))
+		const disabledQualities = getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality, true)
+		setVideoState(p => ({ ...p, disabledQualities, isDisabled: disabledQualities.length === video.qualities?.length }))
 		changeQuality(getAllElementsFromOrToCurrentElement(video.qualities!, videoState.quality).at(-1) || '144p')
 	}, [videoState.quality, changeQuality, video.qualities, setVideoState])
 
@@ -360,19 +359,17 @@ const VideoPlayer: FC<
 					name={videoRef.current && videoRef.current.paused ? 'pause-circle' : 'play-circle'}
 					className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
 				/>}
-				{videoState.isLoading && videoState.disabledQualities.length !== video.qualities?.length &&
+				{videoState.isLoading && !videoState.isDisabled &&
 					<DynamicIcon
 						name="loader-2"
 						className="animate-spin transition-all size-14 bg-black/60 rounded-full"
 					/>}
-				{videoState.disabledQualities.length === video.qualities?.length &&
-					<div children="Відео на даний момент не доступно!" />
-				}
+				{videoState.isDisabled && <div children="Відео на даний момент не доступно!" />}
 			</div>
 
 			<div
 				className={`absolute transition-all duration-200 bottom-0 w-full bg-background/60 text-secondary-foreground p-3 flex flex-col gap-y-3.5 ${
-					videoState.showNavigationMenu ?
+					videoState.showNavigationMenu && !videoState.isDisabled ?
 						'opacity-100' :
 						'opacity-0'}`}>
 

@@ -14,6 +14,7 @@ interface IVideoState {
 	showAnimation: boolean
 	isLooped: boolean
 	disabledQualities: string[]
+	isDisabled: boolean
 }
 
 
