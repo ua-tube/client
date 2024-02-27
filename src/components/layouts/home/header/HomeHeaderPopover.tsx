@@ -177,7 +177,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, s
 				</DropdownMenu>
 			</div>
 		) : (
-			<>
+			<div className='flex space-x-1'>
 				<DropdownMenu>
 					<DropdownMenuTrigger className="focus:border-none">
 						<DynamicIcon
@@ -194,10 +194,10 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({ showFullWidthSearch, s
 					className="h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted"
 				>
 					<DynamicIcon name="person-standing" />
-					<span>Увійти</span>
+					<span className='hiddenOnMobile'>Увійти</span>
 				</Link>
 				<Button variant="secondary" children="Канал" onClick={() => setAuth(true)} />
-			</>
+			</div>
 		)}
 	</div>
 

@@ -56,7 +56,7 @@ const DashboardSidebar: FC = () => {
 			{isScreenSmall && isOpen &&
 				<div
 					className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md"
-					onClick={toggle}
+					onClick={() => toggle()}
 				/>
 			}
 

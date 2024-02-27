@@ -1,16 +1,16 @@
-import LargeSidebarItem, { ILargeSidebarItemProps } from './LargeSidebarItem'
+import SidebarItem, { ISidebarItemProps } from './SidebarItem'
 import { DynamicIcon } from '@/components'
 import { FC, useState } from 'react'
 
 
-export interface ILargeSidebarSectionProps {
-	items: ILargeSidebarItemProps[]
+export interface ISidebarSectionProps {
+	items: ISidebarItemProps[]
 	title?: string
 	visibleItemCount?: number
 }
 
-const LargeSidebarSection: FC<
-	ILargeSidebarSectionProps
+const SidebarSection: FC<
+	ISidebarSectionProps
 > = ({
 			 items,
 			 title,
@@ -32,7 +32,7 @@ const LargeSidebarSection: FC<
 					items
 						.slice(0, !isExpanded ? visibleItemCount : undefined)
 						.map((value, index) =>
-							<LargeSidebarItem key={index} {...value} />)
+							<SidebarItem key={index} {...value} />)
 				}
 			/>
 
@@ -51,4 +51,4 @@ const LargeSidebarSection: FC<
 
 
 
-export default LargeSidebarSection
+export default SidebarSection

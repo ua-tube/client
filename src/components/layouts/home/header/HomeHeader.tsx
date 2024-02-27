@@ -21,7 +21,7 @@ const HomeHeader = () => {
 
 	return (
 		<TooltipProvider>
-			<div className="flex gap-10 lg:gap-20 justify-between py-2 mx-4">
+			<div className="flex gap-10 lg:gap-20 w-full justify-between py-2 px-4 border-b border-muted fixed top-0 z-10 bg-background/50 backdrop-blur-lg">
 				<HomeHeaderLogo hidden={showFullWidthSearch} />
 				<HomeHeaderSearch {...{ showFullWidthSearch, setShowFullWidthSearch }} />
 				<HomeHeaderPopover {...{ showFullWidthSearch, setShowFullWidthSearch }} />

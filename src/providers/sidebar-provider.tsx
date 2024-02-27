@@ -2,7 +2,7 @@ import { createContext, useContext, FC, PropsWithChildren, useState } from 'reac
 
 interface ISidebarContext {
 	isOpen: boolean
-	toggle: () => void
+	toggle: (b?: boolean) => void
 }
 
 const SidebarContext = createContext<ISidebarContext | null>(null)
@@ -16,7 +16,7 @@ export function useSidebarContext() {
 const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
-	const toggle = () => setIsOpen(p => !p)
+	const toggle = (b?: boolean) => b !== undefined ? setIsOpen(b) : setIsOpen(p => !p)
 
 	return (
 		<SidebarContext.Provider

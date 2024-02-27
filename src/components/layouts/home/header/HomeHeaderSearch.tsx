@@ -60,7 +60,7 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({ showFullWidthSearch, set
 								href={getVideoUrl(value.id, undefined, undefined, true)}
 								className={cn(
 									buttonVariants({ variant: 'outline' }),
-									'flex flex-row justify-start p-2'
+									'flex flex-row justify-start p-2 max-w-[80vw]'
 								)}>
 								<div className="h-10 aspect-video w-auto p-1">
 									<img
@@ -69,8 +69,8 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({ showFullWidthSearch, set
 										alt={`img-${value.id}`}
 									/>
 								</div>
-								<div className="-space-y-1">
-									<p children={value.title} className="line-clamp-1 text-sm text-primary" />
+								<div className="-space-y-1 sm:w-auto w-[80vw]">
+									<p children={value.title} className="line-clamp-2 truncate text-sm text-primary" />
 									<span children={value.channel.nickName} className="text-xs text-muted-foreground" />
 								</div>
 							</Link>
@@ -79,7 +79,8 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({ showFullWidthSearch, set
 			</Popover>
 			<button
 				onClick={onSearch}
-				className="py-1.5 px-4 rounded-r-lg border-input border border-l-0 flex-shrink-0 hover:bg-primary hover:text-primary-foreground"
+				disabled={search.trim().length === 0}
+				className="py-1.5 px-4 rounded-r-lg border-input border border-l-0 flex-shrink-0 hover:bg-primary hover:text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
 			>
 				<DynamicIcon name="search" />
 			</button>

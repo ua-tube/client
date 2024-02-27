@@ -27,7 +27,7 @@ export default function SearchPage({
 
 	return <>
 		<AppHead title={`Пошук за '${search}'`} />
-		<HomeLayout>
+		<HomeLayout openInDrawer>
 			<SearchContent videos={filteredVideos} />
 		</HomeLayout>
 	</>

@@ -91,7 +91,7 @@ export default function VideoPage({
 	return (
 		<>
 			<AppHead title={video.title} image={video.thumbnailUrl} disableDesc />
-			<HomeLayout hiddenSidebar disableBasePadding={cinemaMode}>
+			<HomeLayout disableBasePadding={cinemaMode} openInDrawer>
 				<section className="mx-auto flex flex-col gap-6 md:flex-row pb-4">
 					<div
 						className={cn(

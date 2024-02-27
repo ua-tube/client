@@ -7,7 +7,7 @@ export default function HistoryPage() {
 	return (
 		<>
 			<AppHead title="Історія переглядів" />
-			<HomeLayout hiddenSidebar>
+			<HomeLayout openInDrawer>
 				<HistoryContent />
 			</HomeLayout>
 		</>

@@ -1,19 +1,19 @@
-import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import { DynamicIcon, Avatar, AvatarImage, AvatarFallback } from '@/components'
+import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import Link from 'next/link'
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
 
-export interface ILargeSidebarItemProps {
+export interface ISidebarItemProps {
 	icon?: keyof typeof dynamicIconImports
 	imgUrl?: string
 	title: string
 	url: string
 }
 
-const LargeSidebarItem: FC<
-	ILargeSidebarItemProps
+const SidebarItem: FC<
+	ISidebarItemProps
 > = ({
 			 icon,
 			 imgUrl,
@@ -48,4 +48,4 @@ const LargeSidebarItem: FC<
 	)
 }
 
-export default LargeSidebarItem
+export default SidebarItem

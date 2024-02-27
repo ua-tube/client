@@ -1,25 +1,19 @@
-import LargeSidebarSection, { ILargeSidebarSectionProps } from './LargeSidebarSection'
-import SmallSidebarItem, { ISmallSidebarItemProps } from './SmallSidebarItem'
+import { ScrollArea, DrawerHeader, DrawerContent, Drawer } from '@/components'
+import SidebarSection, { ISidebarSectionProps } from './SidebarSection'
 import { playlists, subscriptions, defaultChannel } from '@/data'
-import { getChannelUrl, getPlaylistUrl, cn } from '@/utils'
+import { getChannelUrl, getPlaylistUrl } from '@/utils'
 import HomeHeaderLogo from '../header/HomeHeaderLogo'
-import { useSidebarContext } from '@/providers'
 import { FC, Fragment, useEffect } from 'react'
+import { useSidebarContext } from '@/providers'
 import { useScreenSize } from '@/hooks'
 
 
 interface IHomeSidebarProps {
 	autoShowSidebar?: boolean
-	hiddenSidebar?: boolean
+	openInDrawer?: boolean
 }
 
-const smallSidebarItems: ISmallSidebarItemProps[] = [
-	{ title: 'Головна', url: '/', icon: 'home' },
-	{ title: 'Підписки', url: '/subscriptions', icon: 'clipboard' },
-	{ title: 'Бібліотека', url: '/library', icon: 'list' }
-]
-
-const largeSections: ILargeSidebarSectionProps[] = [
+const largeSections: ISidebarSectionProps[] = [
 	{
 		items: [
 			{ icon: 'home', title: 'Головна', url: '/' },
@@ -43,7 +37,11 @@ const largeSections: ILargeSidebarSectionProps[] = [
 	{
 		title: 'Підписки',
 		visibleItemCount: 10,
-		items: subscriptions.map(value => ({ imgUrl: value.profileImg, title: value.name, url: getChannelUrl(value.nickName) }))
+		items: subscriptions.map(value => ({
+			imgUrl: value.profileImg,
+			title: value.name,
+			url: getChannelUrl(value.nickName)
+		}))
 	},
 	{
 		title: 'Що нового',
@@ -62,9 +60,8 @@ export const HomeSidebar: FC<
 	IHomeSidebarProps
 > = ({
 			 autoShowSidebar,
-			 hiddenSidebar
+			 openInDrawer
 		 }) => {
-
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
 
@@ -72,47 +69,37 @@ export const HomeSidebar: FC<
 		if (autoShowSidebar && !isScreenSmall) toggle()
 	}, [autoShowSidebar])
 
-	return (<div>
-
-			{!hiddenSidebar && <aside
-				className={cn('hidden sticky top-0 overflow-y-hidden pb-4 md:flex flex-col ml-1',
-					!isScreenSmall ? (isOpen ? 'lg:hidden' : 'lg:flex') : '')
-				}
-				children={
-					smallSidebarItems.map((value, index) =>
-						<SmallSidebarItem key={index} {...value} />
-					)}
-			/>}
-
-			{isScreenSmall && isOpen &&
-				<div
-					className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md"
-					onClick={toggle}
-				/>
-			}
+	const SidebarContent = () => <ScrollArea
+		className="h-[90vh] pr-2 w-56"
+		children={largeSections.map((value, index) =>
+			<Fragment key={index}>
+				<SidebarSection key={index} {...value} />
+				<hr />
+			</Fragment>
+		)} />
 
 
-			<aside
-				className={cn(
-					'w-56 min-h-screen md:min-h-fit lg:sticky absolute' +
-					' top-0 pb-2 flex-col gap-2 px-2 bg-background',
-					isScreenSmall ?
-						(isOpen ? 'flex z-[999] max-h-screen overflow-y-auto' : 'hidden') :
-						(isOpen ? 'lg:flex xl:max-h-[93.6vh] overflow-y-auto' : 'lg:hidden')
-				)}
-			>
-
-				<div className="lg:hidden pt-2 pb-4 px-2 sticky top-0">
+	return (openInDrawer || isScreenSmall) ?
+		<Drawer
+			open={isOpen}
+			onOpenChange={toggle}
+			shouldScaleBackground
+			direction="left"
+			fixed
+		>
+			<DrawerContent className="w-56">
+				<DrawerHeader>
 					<HomeHeaderLogo />
-				</div>
+				</DrawerHeader>
+				<SidebarContent />
+			</DrawerContent>
+		</Drawer>
+		: <>
+			{isOpen &&
+				<aside className="fixed h-screen top-0 pb-2 mt-20 flex flex-col gap-2 px-2 bg-background">
+					<SidebarContent />
+				</aside>
+			}
+		</>
 
-				{largeSections.map((value, index) =>
-					<Fragment key={index}>
-						<LargeSidebarSection key={index} {...value} />
-						<hr />
-					</Fragment>
-				)}
-			</aside>
-		</div>
-	)
 }

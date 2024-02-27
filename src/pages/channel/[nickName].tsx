@@ -14,7 +14,7 @@ export default function ChannelHomePage({
 																				}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return <>
 		<AppHead title={nickName} />
-		<HomeLayout autoShowSidebar>
+		<HomeLayout autoShowSidebar openInDrawer>
 			<AboutChannelContent/>
 		</HomeLayout>
 	</>
