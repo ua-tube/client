@@ -5,7 +5,7 @@ import { useScreenSize } from '@/hooks'
 import dynamic from 'next/dynamic'
 import { cn } from '@/utils'
 
-const SidebarProvider = dynamic(() => import('@/providers/sidebar-provider'), { ssr: false })
+const SidebarProvider = dynamic(() => import('@/providers/SidebarProvider'), { ssr: false })
 
 const TailwindIndicator = dynamic(() => import('@/components/TailwindIndicator'))
 

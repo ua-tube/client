@@ -1,2 +1,2 @@
-export { default as ThemeProvider } from './theme-provider'
-export * from './sidebar-provider'
+export { default as ThemeProvider } from './ThemeProvider'
+export * from './SidebarProvider'

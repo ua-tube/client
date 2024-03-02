@@ -1,18 +1,39 @@
-import { Tooltip, TooltipTrigger, TooltipContent, Avatar, AvatarImage, AvatarFallback } from '@/components'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import { cn, getUserInitials, getChannelUrl } from '@/utils'
 import DashboardSidebarItem from './DashboardSidebarItem'
 import { useSidebarContext } from '@/providers'
-import { FC, Fragment, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { defaultChannel } from '@/data'
 import { useScreenSize } from '@/hooks'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	Avatar,
+	AvatarImage,
+	AvatarFallback,
+	Drawer,
+	DrawerContent,
+	DrawerHeader,
+	Skeleton
+} from '@/components'
+
+const HomeHeaderLogo = dynamic(
+	() => import( '../../home/header/HomeHeaderLogo'),
+	{ loading: () => <Skeleton className="px-4 py-2 rounded-lg" /> }
+)
 
 
 export interface ISidebarItem {
 	title: string
 	url: string
 	icon: keyof typeof dynamicIconImports
+}
+
+interface ISidebarProps {
+	openInDrawer?: boolean
 }
 
 const sidebarNavItems: ISidebarItem[] = [
@@ -44,7 +65,7 @@ const sidebarNavItems: ISidebarItem[] = [
 ]
 
 
-const DashboardSidebar: FC = () => {
+const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
 
@@ -52,61 +73,64 @@ const DashboardSidebar: FC = () => {
 		if (!isScreenSmall && !isOpen) toggle()
 	}, [isScreenSmall])
 
-	return (<>
-			{isScreenSmall && isOpen &&
-				<div
-					className="lg:hidden fixed inset-0 z-[999] backdrop-blur-md"
-					onClick={() => toggle()}
-				/>
-			}
 
-			<aside
-				className={cn(
-					'min-h-screen md:min-h-fit lg:sticky top-20 z-0 absolute pb-2 flex-col',
-					'gap-y-12 px-2 bg-background border-r border-muted',
-					isScreenSmall ?
-						(isOpen ? 'flex z-[999] max-h-screen w-56' : 'hidden') :
-						(isOpen ? 'w-56' : 'w-fit')
-				)}
-			>
-
-				<div className="flex flex-col justify-center items-center gap-y-4 my-5">
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Link
-								href={getChannelUrl(defaultChannel.nickName, 'index', true)}
-								target="_blank"
-							>
-								<Avatar className={cn('size-40', !isOpen && 'size-12')}>
-									<AvatarImage src={defaultChannel.profileImg} />
-									<AvatarFallback children={getUserInitials(defaultChannel.name)} />
-								</Avatar>
-							</Link>
-						</TooltipTrigger>
-						<TooltipContent className="z-[99999999]" side="right" children="Перейти на ваш канал" />
-					</Tooltip>
-					<div className={cn('flex flex-col items-center', !isOpen && 'hidden')}>
-						<span className="text-muted-foreground" children="Ваш канал" />
-						<p children={defaultChannel.name} />
-					</div>
+	const DashboardSidebarContent: FC = () => {
+		return <div className='h-[90vh]'>
+			<div className="flex flex-col justify-center items-center gap-y-4 my-5">
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Link
+							href={getChannelUrl(defaultChannel.nickName, 'index', true)}
+							target="_blank"
+						>
+							<Avatar className={cn('size-40', !isOpen && 'size-12')}>
+								<AvatarImage src={defaultChannel.profileImg} />
+								<AvatarFallback children={getUserInitials(defaultChannel.name)} />
+							</Avatar>
+						</Link>
+					</TooltipTrigger>
+					<TooltipContent className="z-[99999999]" side="right" children="Перейти на ваш канал" />
+				</Tooltip>
+				<div className={cn('flex flex-col items-center', !isOpen && 'hidden')}>
+					<span className="text-muted-foreground" children="Ваш канал" />
+					<p children={defaultChannel.name} />
 				</div>
+			</div>
 
-				<div
-					className="flex flex-col gap-y-3"
-					children={
-						sidebarNavItems.map((value, index) =>
-							<DashboardSidebarItem
-								key={index}
-								isCollapsed={!isOpen}
-								link={value}
-							/>
-						)}
-				/>
+			<div
+				className="flex flex-col gap-y-3"
+				children={
+					sidebarNavItems.map((value, index) =>
+						<DashboardSidebarItem
+							key={index}
+							isCollapsed={!isOpen}
+							link={value}
+						/>
+					)}
+			/>
+		</div>
+	}
 
+	return (openInDrawer || isScreenSmall) ?
+		<Drawer
+			open={isOpen}
+			onOpenChange={toggle}
+			shouldScaleBackground
+			direction="left"
+			fixed
+		>
+			<DrawerContent className="w-56">
+				<DrawerHeader>
+					<HomeHeaderLogo />
+				</DrawerHeader>
+				<DashboardSidebarContent />
+			</DrawerContent>
+		</Drawer>
+		:
+		<aside className="fixed h-screen top-0 pb-2 mt-20 flex flex-col gap-2 px-4 border-r border-muted bg-background">
+			<DashboardSidebarContent />
+		</aside>
 
-			</aside>
-		</>
-	)
 }
 
 export default DashboardSidebar

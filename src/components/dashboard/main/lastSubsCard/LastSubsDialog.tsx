@@ -16,7 +16,6 @@ import {
 	Avatar,
 	AvatarImage,
 	AvatarFallback,
-	Button,
 	Dialog
 } from '@/components'
 
@@ -41,7 +40,6 @@ const LastSubscriptionsDialog: FC<ILastSubscriptionsDialogProps> = ({ setOpen, o
 						<TableHead>Канал</TableHead>
 						<TableHead> Дата оформлення підписки</TableHead>
 						<TableHead>Кількість підписників</TableHead>
-						<TableHead className="text-right">Дія</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody children={
@@ -56,7 +54,6 @@ const LastSubscriptionsDialog: FC<ILastSubscriptionsDialogProps> = ({ setOpen, o
 							</TableCell>
 							<TableCell>{new Date(new Date().getTimezoneOffset() - index).toLocaleString()}</TableCell>
 							<TableCell>{formatNumbers(1434 * (index + 1))}</TableCell>
-							<TableCell className="text-right"><Button variant="secondary" children="Підписатися" /></TableCell>
 						</TableRow>
 					))} />
 			</Table>
