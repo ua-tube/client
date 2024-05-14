@@ -1,4 +1,10 @@
-import { createContext, useContext, FC, PropsWithChildren, useState } from 'react'
+import {
+	createContext,
+	useContext,
+	FC,
+	PropsWithChildren,
+	useState
+} from 'react'
 
 interface ISidebarContext {
 	isOpen: boolean
@@ -16,13 +22,11 @@ export function useSidebarContext() {
 const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
-	const toggle = (b?: boolean) => b !== undefined ? setIsOpen(b) : setIsOpen(p => !p)
+	const toggle = (b?: boolean) =>
+		b !== undefined ? setIsOpen(b) : setIsOpen(p => !p)
 
 	return (
-		<SidebarContext.Provider
-			value={{ toggle, isOpen }}
-			children={children}
-		/>
+		<SidebarContext.Provider value={{ toggle, isOpen }} children={children} />
 	)
 }
 export default SidebarProvider

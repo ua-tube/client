@@ -7,14 +7,14 @@ interface IPlaylistListProps {
 }
 
 const PlaylistList: FC<IPlaylistListProps> = ({ playlists }) => {
-
-	return <div
-		className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2"
-		children={playlists.map((value, index) => (
-			<PlaylistCard key={index} playList={value} />
-		))}
-	/>
-
+	return (
+		<div
+			className='grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2'
+			children={playlists.map((value, index) => (
+				<PlaylistCard key={index} playList={value} />
+			))}
+		/>
+	)
 }
 
 export default PlaylistList

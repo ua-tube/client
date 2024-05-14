@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-
 export interface ISidebarItemProps {
 	icon?: keyof typeof dynamicIconImports
 	imgUrl?: string
@@ -12,15 +11,7 @@ export interface ISidebarItemProps {
 	url: string
 }
 
-const SidebarItem: FC<
-	ISidebarItemProps
-> = ({
-			 icon,
-			 imgUrl,
-			 title,
-			 url
-		 }) => {
-
+const SidebarItem: FC<ISidebarItemProps> = ({ icon, imgUrl, title, url }) => {
 	const { asPath } = useRouter()
 
 	return (
@@ -32,18 +23,17 @@ const SidebarItem: FC<
 		>
 			{imgUrl && (
 				<Avatar className='size-7'>
-					<AvatarImage src={imgUrl}/>
-					<AvatarFallback children=''/>
+					<AvatarImage src={imgUrl} />
+					<AvatarFallback children='' />
 				</Avatar>
 			)}
 
-			{icon && (<DynamicIcon name={icon} />)}
+			{icon && <DynamicIcon name={icon} />}
 
 			<div
-				className="whitespace-nowrap overflow-hidden text-ellipsis text-sm"
+				className='whitespace-nowrap overflow-hidden text-ellipsis text-sm'
 				children={title}
 			/>
-
 		</Link>
 	)
 }

@@ -4,29 +4,29 @@ import { IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
 import { videos } from '@/data'
 
+const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
+	loading: () => <DynamicIcon name='loader' className='loader-container' />
+})
 
-const HomeLayout = dynamic(
-	() => import('@/components/layouts/home'),
-	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
+const VideosList = dynamic(
+	() => import('@/components/videos/general/VideosList')
 )
-
-const VideosList = dynamic(() => import('@/components/videos/general/VideosList'))
 
 export const getServerSideProps: GetServerSideProps<{
 	subsVideos: IVideo[]
-}> = async ({ locale }) => {
+}> = async () => {
 	return { props: { subsVideos: videos } }
 }
 
 export default function SubscriptionsPage({
-																		subsVideos
-																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	subsVideos
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<>
-			<AppHead title="Підписки" />
+			<AppHead title='Підписки' />
 			<HomeLayout>
-				<section className="mx-auto">
-					<VideosList title="Нові відео" videos={subsVideos} />
+				<section className='mx-auto'>
+					<VideosList title='Нові відео' videos={subsVideos} />
 				</section>
 			</HomeLayout>
 		</>

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { memo } from 'react'
 
 interface IconProps extends LucideProps {
-	name: keyof typeof dynamicIconImports;
+	name: keyof typeof dynamicIconImports
 }
 
 const _Icon = ({ name, ...props }: IconProps) => {

@@ -53,40 +53,39 @@ const VideosPills: FC<IVideosListPillsProps> = ({ videos, title }) => {
 		})
 
 	return (
-		<div className="relative">
-
-			{title &&
+		<div className='relative'>
+			{title && (
 				<h2
-					className="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0"
+					className='scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0'
 					children={title}
 				/>
-			}
+			)}
 
 			{isLeftVisible && (
-				<div
-					className="absolute -left-5 z-[2] top-1/2  -translate-y-1/2 w-24 h-full flex justify-start">
+				<div className='absolute -left-5 z-[2] top-1/2  -translate-y-1/2 w-24 h-full flex justify-start'>
 					<Button
-						className="my-auto aspect-square rotate-180 rounded-full h-10"
-						children={<DynamicIcon name="chevron-right" className="size-10" />}
+						className='my-auto aspect-square rotate-180 rounded-full h-10'
+						children={<DynamicIcon name='chevron-right' className='size-10' />}
 						onClick={onLeftScroll}
 					/>
 				</div>
 			)}
 
-			<div ref={containerRef} className="relative overflow-hidden py-5">
+			<div ref={containerRef} className='relative overflow-hidden py-5'>
 				<div
-					className="flex whitespace-nowrap gap-x-5 transition-transform duration-300 w-[max-content] overflow-x-hidden"
+					className='flex whitespace-nowrap gap-x-5 transition-transform duration-300 w-[max-content] overflow-x-hidden'
 					style={{ transform: `translateX(-${translate}px)` }}
-					children={videos.map((video, index) => (<VideoCard key={index} fixedSize {...video} />))}
+					children={videos.map((video, index) => (
+						<VideoCard key={index} fixedSize {...video} />
+					))}
 				/>
 			</div>
 
 			{isRightVisible && (
-				<div
-					className="absolute -right-5 top-1/2 -translate-y-1/2 w-24 h-full flex justify-end">
+				<div className='absolute -right-5 top-1/2 -translate-y-1/2 w-24 h-full flex justify-end'>
 					<Button
-						className="my-auto aspect-square rounded-full h-10"
-						children={<DynamicIcon name="chevron-right" className="size-10" />}
+						className='my-auto aspect-square rounded-full h-10'
+						children={<DynamicIcon name='chevron-right' className='size-10' />}
 						onClick={onRightScroll}
 					/>
 				</div>

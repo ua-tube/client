@@ -9,9 +9,7 @@ import { cn } from '@/utils'
 
 const DashboardHeader = dynamic(() => import('./header'))
 
-const SidebarProvider = dynamic(
-	() => import('@/providers/SidebarProvider')
-)
+const SidebarProvider = dynamic(() => import('@/providers/SidebarProvider'))
 const TailwindIndicator = dynamic(
 	() => import('@/components/TailwindIndicator')
 )
@@ -21,45 +19,46 @@ interface IDashboardLayoutProps extends PropsWithChildren {
 	openInDrawer?: boolean
 }
 
-const DashboardLayoutContent: FC<
-	IDashboardLayoutProps
-> = ({
-			 children,
-			 openInDrawer
-		 }) => {
+const DashboardLayoutContent: FC<IDashboardLayoutProps> = ({
+	children,
+	openInDrawer
+}) => {
 	const { isScreenSmall } = useScreenSize()
 	const { isOpen } = useSidebarContext()
-	return <div
-		className={cn(
-			'mt-14 p-4',
-			isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-52',
-			!isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-20'
-		)}
-		children={children}
-	/>
+	return (
+		<div
+			className={cn(
+				'mt-14 p-4',
+				isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-52',
+				!isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-20'
+			)}
+			children={children}
+		/>
+	)
 }
 
-
-const DashboardLayout: FC<IDashboardLayoutProps> = ({ children, openInDrawer }) => {
+const DashboardLayout: FC<IDashboardLayoutProps> = ({
+	children,
+	openInDrawer
+}) => {
 	const { query } = useRouter()
 	const [showModal, setShowModal] = useState<boolean>(false)
 
 	useEffect(() => {
-		if (query.upload)
-			setShowModal(Boolean(+(query.upload as string)))
+		if (query.upload) setShowModal(Boolean(+(query.upload as string)))
 	}, [query])
 
-
-	return <SidebarProvider>
-		<TooltipProvider>
-			<DashboardHeader />
-			<DashboardSidebar />
-			<DashboardLayoutContent {...{ children, openInDrawer }} />
-			<VideoUploadModal {...{ setShowModal, showModal }} />
-			<TailwindIndicator />
-		</TooltipProvider>
-	</SidebarProvider>
-
+	return (
+		<SidebarProvider>
+			<TooltipProvider>
+				<DashboardHeader />
+				<DashboardSidebar />
+				<DashboardLayoutContent {...{ children, openInDrawer }} />
+				<VideoUploadModal {...{ setShowModal, showModal }} />
+				<TailwindIndicator />
+			</TooltipProvider>
+		</SidebarProvider>
+	)
 }
 
 export default DashboardLayout

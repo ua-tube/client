@@ -1,4 +1,11 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components'
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow
+} from '@/components'
 import { DataTablePagination } from './DataTablePagination'
 import { DataTableToolbar } from './DataTableToolbar'
 import { useState } from 'react'
@@ -23,9 +30,9 @@ interface DataTableProps<TData, TValue> {
 }
 
 function DataTable<TData, TValue>({
-																		columns,
-																		data
-																	}: DataTableProps<TData, TValue>) {
+	columns,
+	data
+}: DataTableProps<TData, TValue>) {
 	const [rowSelection, setRowSelection] = useState({})
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -54,53 +61,60 @@ function DataTable<TData, TValue>({
 	})
 
 	return (
-		<div className="space-y-4 z-0">
+		<div className='space-y-4 z-0'>
 			<DataTableToolbar table={table} />
-			<div className="rounded-md border">
+			<div className='rounded-md border'>
 				<Table>
 					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
+						{table.getHeaderGroups().map(headerGroup => (
 							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-										<TableHead
-											key={header.id}
-											colSpan={header.colSpan}
-											children={
-												!header.isPlaceholder ? flexRender(
-													header.column.columnDef.header,
-													header.getContext()
-												) : null}
-										/>
-									)
-								)}
+								{headerGroup.headers.map(header => (
+									<TableHead
+										key={header.id}
+										colSpan={header.colSpan}
+										children={
+											!header.isPlaceholder
+												? flexRender(
+														header.column.columnDef.header,
+														header.getContext()
+													)
+												: null
+										}
+									/>
+								))}
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody children={
-						table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && 'selected'}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id} children={
-											flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext()
-											)} />
-									))}
+					<TableBody
+						children={
+							table.getRowModel().rows?.length ? (
+								table.getRowModel().rows.map(row => (
+									<TableRow
+										key={row.id}
+										data-state={row.getIsSelected() && 'selected'}
+									>
+										{row.getVisibleCells().map(cell => (
+											<TableCell
+												key={cell.id}
+												children={flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											/>
+										))}
+									</TableRow>
+								))
+							) : (
+								<TableRow>
+									<TableCell
+										colSpan={columns.length}
+										className='h-24 text-center'
+										children='Результатів немає'
+									/>
 								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell
-									colSpan={columns.length}
-									className="h-24 text-center"
-									children="Результатів немає"
-								/>
-							</TableRow>
-						)} />
+							)
+						}
+					/>
 				</Table>
 			</div>
 			<DataTablePagination table={table} />

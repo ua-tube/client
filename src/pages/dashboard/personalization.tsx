@@ -6,33 +6,38 @@ import { channelPersonalizationTabsKeys } from '@/data'
 
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
-	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
+	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
 )
 
 const DashboardPersonalizationTabs = dynamic(
-	() => import('@/components/dashboard/personalization/PersonalizationTabs'))
-
+	() => import('@/components/dashboard/personalization/PersonalizationTabs')
+)
 
 export const getServerSideProps: GetServerSideProps<{
 	tab: ChannelPersonalizationTabsKey
 }> = async ({ query }) => {
 	let tab: ChannelPersonalizationTabsKey = 'images'
 
-	if (query.tab && channelPersonalizationTabsKeys.includes(query.tab as ChannelPersonalizationTabsKey))
+	if (
+		query.tab &&
+		channelPersonalizationTabsKeys.includes(
+			query.tab as ChannelPersonalizationTabsKey
+		)
+	)
 		tab = query.tab as ChannelPersonalizationTabsKey
 
 	return { props: { tab } }
 }
 
-export default function ChannelPersonalizationPage({ tab }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
-
-	return <>
-		<AppHead title="Персоналізація каналу" />
-		<DashboardLayout>
-			<DashboardPersonalizationTabs tab={tab} />
-		</DashboardLayout>
-	</>
-
+export default function ChannelPersonalizationPage({
+	tab
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	return (
+		<>
+			<AppHead title='Персоналізація каналу' />
+			<DashboardLayout>
+				<DashboardPersonalizationTabs tab={tab} />
+			</DashboardLayout>
+		</>
+	)
 }
-

@@ -6,7 +6,7 @@ interface IComment {
 	createdAt: string
 	likesCount: number
 	chanel: IChannel
-	children?: IComment []
+	children?: IComment[]
 }
 
 export type { IComment }

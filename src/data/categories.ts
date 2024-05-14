@@ -15,6 +15,4 @@ const categories = [
 	'Трилери'
 ]
 
-
-
 export { categories }

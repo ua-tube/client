@@ -19,8 +19,8 @@ const notifications: INotification[] = [
 			videosViewsCount: 10000,
 			subscribersCount: 1000
 		}
-	}
-	, {
+	},
+	{
 		id: '2',
 		message: 'The Hacksmith розпочав пряму трансляцію!',
 		url: getVideoUrl(videos[1].id, undefined, undefined, true),
@@ -53,9 +53,11 @@ const notifications: INotification[] = [
 			videosViewsCount: 10000,
 			subscribersCount: 1000
 		}
-	}, {
+	},
+	{
 		id: '4',
-		message: 'Вам сподобалося відео **Як зробити павука з паперу** від **Creative Kids?',
+		message:
+			'Вам сподобалося відео **Як зробити павука з паперу** від **Creative Kids?',
 		url: getVideoUrl(videos[3].id, undefined, undefined, true),
 		channel: {
 			id: '4',
@@ -70,7 +72,6 @@ const notifications: INotification[] = [
 			subscribersCount: 1000
 		}
 	}
-
 ]
 
 export { notifications }

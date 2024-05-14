@@ -6,4 +6,9 @@ const channelPersonalizationTabsKeys = ['images', 'details'] as const
 
 const videoEditTabsKeys = ['edit', 'analytics', 'comments'] as const
 
-export { authFormTabs, channelTabsKeys , channelPersonalizationTabsKeys, videoEditTabsKeys}
+export {
+	authFormTabs,
+	channelTabsKeys,
+	channelPersonalizationTabsKeys,
+	videoEditTabsKeys
+}

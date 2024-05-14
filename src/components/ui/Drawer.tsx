@@ -1,12 +1,18 @@
 import { Drawer as DrawerPrimitive } from 'vaul'
 
 import { cn } from '@/utils'
-import { ComponentProps, forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from 'react'
+import {
+	ComponentProps,
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes
+} from 'react'
 
 const Drawer = ({
-									shouldScaleBackground = true,
-									...props
-								}: ComponentProps<typeof DrawerPrimitive.Root>) => (
+	shouldScaleBackground = true,
+	...props
+}: ComponentProps<typeof DrawerPrimitive.Root>) => (
 	<DrawerPrimitive.Root
 		shouldScaleBackground={shouldScaleBackground}
 		{...props}
@@ -46,7 +52,7 @@ const DrawerContent = forwardRef<
 			)}
 			{...props}
 		>
-			<div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+			<div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted' />
 			{children}
 		</DrawerPrimitive.Content>
 	</DrawerPortal>
@@ -54,9 +60,9 @@ const DrawerContent = forwardRef<
 DrawerContent.displayName = 'DrawerContent'
 
 const DrawerHeader = ({
-												className,
-												...props
-											}: HTMLAttributes<HTMLDivElement>) => (
+	className,
+	...props
+}: HTMLAttributes<HTMLDivElement>) => (
 	<div
 		className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
 		{...props}
@@ -65,9 +71,9 @@ const DrawerHeader = ({
 DrawerHeader.displayName = 'DrawerHeader'
 
 const DrawerFooter = ({
-												className,
-												...props
-											}: HTMLAttributes<HTMLDivElement>) => (
+	className,
+	...props
+}: HTMLAttributes<HTMLDivElement>) => (
 	<div
 		className={cn('mt-auto flex flex-col gap-2 p-4', className)}
 		{...props}

@@ -9,7 +9,6 @@ const subscriptions: IChannel[] = [
 		profileImg:
 			'https://yt3.googleusercontent.com/gw6BRWav3SyG39C2kmEM1VSb5ocjEWuKRBKPhRndqOKmAxj3rzB5OOVQKeE0751DJrPWJH7c=s900-c-k-c0x00ffffff-no-rj',
 		nickName: 'ruriOhama'
-
 	},
 	{
 		id: '2',
@@ -51,7 +50,8 @@ const playlists: IPlaylist[] = [
 	{
 		id: '1',
 		name: 'Video edits',
-		imgUrl: 'https://i.ytimg.com/vi/mKMSxrkorKI/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCN3Y-A_W6-bwsd7zKlN01id-QhJw',
+		imgUrl:
+			'https://i.ytimg.com/vi/mKMSxrkorKI/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCN3Y-A_W6-bwsd7zKlN01id-QhJw',
 		isPrivate: true,
 		channel: defaultChannel,
 		videos: videoEdits,
@@ -63,7 +63,8 @@ const playlists: IPlaylist[] = [
 	{
 		id: '2',
 		name: 'Music playlist',
-		imgUrl: 'https://i.ytimg.com/vi/7Gu_siNNy10/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLAIcG-qNoBanTodeTVU6_T-X7xMhA',
+		imgUrl:
+			'https://i.ytimg.com/vi/7Gu_siNNy10/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLAIcG-qNoBanTodeTVU6_T-X7xMhA',
 		videos: musicVideos,
 		viewsCount: 654,
 		videosCount: 54,
@@ -72,6 +73,5 @@ const playlists: IPlaylist[] = [
 		updatedAt: new Date('2023-12-12').toISOString()
 	}
 ]
-
 
 export { subscriptions, playlists }

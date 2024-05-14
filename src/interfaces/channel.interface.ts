@@ -11,4 +11,4 @@ interface IChannel {
 	subscribersCount?: number
 }
 
-export type{ IChannel }
+export type { IChannel }

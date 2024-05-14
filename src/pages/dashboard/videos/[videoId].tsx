@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic'
 
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
-	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
+	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
 )
 
 export const getServerSideProps: GetServerSideProps<{
@@ -16,7 +16,9 @@ export const getServerSideProps: GetServerSideProps<{
 	tab: VideoEditTabsKey
 }> = async ({ query }) => {
 	let tab: VideoEditTabsKey = 'edit'
-	const video = videos.find(value => value.id === (query?.videoId as string) || '') || defaultVideo
+	const video =
+		videos.find(value => value.id === (query?.videoId as string) || '') ||
+		defaultVideo
 
 	if (query.tab && videoEditTabsKeys.includes(query.tab as VideoEditTabsKey))
 		tab = query.tab as VideoEditTabsKey
@@ -24,14 +26,16 @@ export const getServerSideProps: GetServerSideProps<{
 	return { props: { video, tab } }
 }
 
-export default function DashboardVideoPage({ video, tab }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
-	return <>
-		<AppHead title={`Редагування відео - ${video.title}`} />
-		<DashboardLayout>
-			<VideoEditContent tab={tab} video={video} />
-		</DashboardLayout>
-	</>
-
+export default function DashboardVideoPage({
+	video,
+	tab
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	return (
+		<>
+			<AppHead title={`Редагування відео - ${video.title}`} />
+			<DashboardLayout>
+				<VideoEditContent tab={tab} video={video} />
+			</DashboardLayout>
+		</>
+	)
 }
-

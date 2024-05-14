@@ -129,3 +129,20 @@
 .loader-container {
     @apply flex justify-center items-center h-screen w-screen;
 }
+
+* {
+    box-sizing: border-box;
+    @apply m-0 p-0;
+}
+
+html, body {
+    @apply w-screen h-screen;
+}
+
+.slide-in {
+    @apply absolute top-0 left-0 w-full h-screen bg-[#0f0f0f] origin-bottom z-[1000];
+}
+
+.slide-out {
+    @apply absolute top-0 left-0 w-full h-screen bg-[#0f0f0f] origin-top z-[1000];
+}

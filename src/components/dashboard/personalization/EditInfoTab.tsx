@@ -18,7 +18,6 @@ import {
 } from '@/components'
 import { defaultChannel } from '@/data'
 
-
 const profileFormSchema = z.object({
 	username: z
 		.string()
@@ -42,7 +41,9 @@ const profileFormSchema = z.object({
 	urls: z
 		.array(
 			z.object({
-				name: z.string().min(2, { message: 'Мінімальна довжина назви посилання 2 символи' }),
+				name: z
+					.string()
+					.min(2, { message: 'Мінімальна довжина назви посилання 2 символи' }),
 				value: z.string().url({ message: 'Введіть посилання!' })
 			})
 		)
@@ -55,9 +56,13 @@ const defaultValues: Partial<ProfileFormValues> = {
 	description: defaultChannel.description,
 	name: defaultChannel.name,
 	username: defaultChannel.nickName,
-	urls: [{name: 'Канал', value: getChannelUrl(defaultChannel.nickName, 'index', false)}]
+	urls: [
+		{
+			name: 'Канал',
+			value: getChannelUrl(defaultChannel.nickName, 'index', false)
+		}
+	]
 }
-
 
 const EditInfoTab: FC = () => {
 	const form = useForm<ProfileFormValues>({
@@ -71,24 +76,23 @@ const EditInfoTab: FC = () => {
 		control: form.control
 	})
 
-	const onSubmit = (data: ProfileFormValues) => {
-	}
+	const onSubmit = (data: ProfileFormValues) => {}
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name="name"
+					name='name'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Імя</FormLabel>
 							<FormDescription>
-								Виберіть назву каналу, що представлятиме вас і контент,
-								який ви публікуєте. Ім’я можна змінювати двічі на 14 днів.
+								Виберіть назву каналу, що представлятиме вас і контент, який ви
+								публікуєте. Ім’я можна змінювати двічі на 14 днів.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть назву каналу" {...field} />
+								<Input placeholder='Введіть назву каналу' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -96,21 +100,24 @@ const EditInfoTab: FC = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="username"
+					name='username'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Псевдонім</FormLabel>
 							<FormDescription>
-								Виберіть унікальний псевдонім, додавши літери й цифри.
-								Ви зможете відновити попереднє ім’я користувача протягом
-								14 днів. Псевдоніми можна змінювати двічі кожні 14 днів.
+								Виберіть унікальний псевдонім, додавши літери й цифри. Ви
+								зможете відновити попереднє ім’я користувача протягом 14 днів.
+								Псевдоніми можна змінювати двічі кожні 14 днів.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть псевдонім" {...field} />
+								<Input placeholder='Введіть псевдонім' {...field} />
 							</FormControl>
 							<FormDescription
-								children={getChannelUrl(form.getValues('username') as string,
-									undefined, false)}
+								children={getChannelUrl(
+									form.getValues('username') as string,
+									undefined,
+									false
+								)}
 							/>
 							<FormMessage />
 						</FormItem>
@@ -118,18 +125,16 @@ const EditInfoTab: FC = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="description"
+					name='description'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Опис</FormLabel>
 							<FormDescription>
-								Опишіть коротко діяльність вашого каналу, максимальна довжина опису каналу 320 символів.
+								Опишіть коротко діяльність вашого каналу, максимальна довжина
+								опису каналу 320 символів.
 							</FormDescription>
 							<FormControl>
-								<Textarea
-									placeholder="Ваш опис..."
-									{...field}
-								/>
+								<Textarea placeholder='Ваш опис...' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -158,21 +163,20 @@ const EditInfoTab: FC = () => {
 						/>
 					))}
 					<Button
-						type="button"
-						variant="outline"
-						size="sm"
-						className="mt-2"
+						type='button'
+						variant='outline'
+						size='sm'
+						className='mt-2'
 						onClick={() => append({ value: '', name: '' })}
 					>
-						<DynamicIcon name="plus" className="mr-1 size-4" />
+						<DynamicIcon name='plus' className='mr-1 size-4' />
 						Додати посилання
 					</Button>
 				</div>
-				<Button type="submit">Оновити інформацію</Button>
+				<Button type='submit'>Оновити інформацію</Button>
 			</form>
 		</Form>
 	)
-
 }
 
 export default EditInfoTab

@@ -17,7 +17,6 @@ interface IVideoState {
 	isDisabled: boolean
 }
 
-
 interface IVideo {
 	id: string
 	title: string
@@ -32,7 +31,6 @@ interface IVideo {
 	duration: number
 	thumbnailUrl: string
 	videoUrl: string
-	limits?: boolean
 	visible?: 0 | 1 | 2
 }
 

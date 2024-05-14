@@ -26,4 +26,10 @@ const TooltipContent = forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, TooltipArrow }
+export {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	TooltipProvider,
+	TooltipArrow
+}

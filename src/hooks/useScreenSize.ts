@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
 interface IScreenSize {
-	width: number;
-	height: number;
+	width: number
+	height: number
 }
 
 interface IUseScreenSize {
@@ -34,4 +34,3 @@ export const useScreenSize = (): IUseScreenSize => {
 
 	return { screen: screenSize, isScreenSmall: screenSize.width < 1024 }
 }
-

@@ -21,15 +21,14 @@ import {
 	CardFooter
 } from '@/components'
 
-
 const FormSchema = z.object({
 	email: z.string().email({ message: 'Емайл не дійсний!' }),
-	password: z.string().min(8, { message: 'Мінімальна довжина паролю 8 символів!' })
+	password: z
+		.string()
+		.min(8, { message: 'Мінімальна довжина паролю 8 символів!' })
 })
 
-
 const SignUpForm: FC = () => {
-
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: { email: '', password: '' }
@@ -40,31 +39,32 @@ const SignUpForm: FC = () => {
 	}
 
 	return (
-		<Card className="sm:min-w-[28rem] p-1">
-			<CardHeader className="text-center">
+		<Card className='sm:min-w-[28rem] p-1'>
+			<CardHeader className='text-center'>
 				<CardTitle>
-					<Link href="/" className="flex space-x-1.5 items-center justify-center">
-						<img src="/logo.png" alt="logo" className="size-8" />
-						<span className="font-semibold">UaTube</span>
+					<Link
+						href='/'
+						className='flex space-x-1.5 items-center justify-center'
+					>
+						<img src='/logo.png' alt='logo' className='size-8' />
+						<span className='font-semibold'>UaTube</span>
 					</Link>
 				</CardTitle>
-				<CardDescription>
-					Реєстрація нового аккаунту
-				</CardDescription>
+				<CardDescription>Реєстрація нового аккаунту</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+					<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
 						<FormField
 							control={form.control}
-							name="email"
+							name='email'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Ваш емайл</FormLabel>
 									<FormControl>
 										<Input
-											type="email"
-											placeholder="name@example.com"
+											type='email'
+											placeholder='name@example.com'
 											{...field}
 										/>
 									</FormControl>
@@ -77,16 +77,12 @@ const SignUpForm: FC = () => {
 						/>
 						<FormField
 							control={form.control}
-							name="password"
+							name='password'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Пароль</FormLabel>
 									<FormControl>
-										<Input
-											type="password"
-											placeholder="*********"
-											{...field}
-										/>
+										<Input type='password' placeholder='*********' {...field} />
 									</FormControl>
 									<FormDescription>
 										Нe використовуйте простий пароль
@@ -95,13 +91,15 @@ const SignUpForm: FC = () => {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full">Зареєструватися</Button>
+						<Button type='submit' className='w-full'>
+							Зареєструватися
+						</Button>
 					</form>
 				</Form>
 			</CardContent>
 			<CardFooter className='justify-between text-muted-foreground'>
-				<Link href='/auth?authType=signIn' children='Вже маєте аккаунт?'/>
-				<Link href='/auth?authType=recoveryPass' children='Забули ваш пароль?'/>
+				<Link href='/auth/sign-in' children='Вже маєте аккаунт?' />
+				<Link href='/auth/sign-up' children='Забули ваш пароль?' />
 			</CardFooter>
 		</Card>
 	)

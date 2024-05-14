@@ -13,4 +13,4 @@ const reportReasons: IReportReason[] = [
 	{ id: 10, name: 'Правова проблема' }
 ]
 
-export {reportReasons}
+export { reportReasons }
