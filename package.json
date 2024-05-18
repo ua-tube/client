@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "i18nexus pull && next dev",
+    "dev": "git pull && npm i && i18nexus pull && next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
@@ -37,7 +37,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
-    "framer-motion": "^11.1.9",
     "i18next": "^23.5.1",
     "lucide-react": "^0.320.0",
     "next": "14.1.0",

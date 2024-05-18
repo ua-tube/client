@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { login, logOut, signUp } from './auth.actions'
+import { login, logOut, refreshAccessToken, signUp } from './auth.actions'
 import { IAuthState } from './auth.interface'
 import { IUser } from '@/interfaces'
 

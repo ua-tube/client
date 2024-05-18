@@ -1,23 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useActions } from '@/hooks'
 import Link from 'next/link'
 import { FC } from 'react'
 import { z } from 'zod'
 import {
+	Button,
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
-	Input,
 	FormMessage,
-	Button,
-	CardFooter
+	Input
 } from '@/components'
 
 const FormSchema = z.object({
@@ -28,12 +29,14 @@ const FormSchema = z.object({
 })
 
 const SignInForm: FC = () => {
+	const { login } = useActions()
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: { email: '', password: '' }
 	})
 
 	const onSubmit = (data: z.infer<typeof FormSchema>) => {
+		login(data as any)
 		console.log(data)
 	}
 

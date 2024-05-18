@@ -9,10 +9,9 @@ const nextConfig = {
 	},
 	env: {
 		SERVER_URL: process.env.SERVER_URL,
-		SSR_URL: process.env.SSR_URL,
 		AUTH_SERVER_URL: process.env.AUTH_SERVER_URL
 	},
-	images: { domains: ['localhost', 'ua-tube.com.ua', 'ua-tube.pp.ua'] }
+	images: { domains: ['localhost', 'ua-tube.pp.ua'] }
 }
 
 export default nextConfig

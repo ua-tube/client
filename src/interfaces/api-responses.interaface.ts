@@ -1,3 +1,5 @@
+import { IUser } from '@/interfaces/user.interface'
+
 interface IErrorResponse {
 	status?: number
 	code?: number
@@ -12,4 +14,14 @@ interface IBaseResponse<T> extends IErrorResponse {
 
 interface ICsrfTokenResponse extends IBaseResponse<{ token: string }> {}
 
-export type { IBaseResponse, IErrorResponse, ICsrfTokenResponse }
+interface ILoginResponse {
+	user: IUser
+	accessToken: string
+}
+
+export type {
+	IBaseResponse,
+	IErrorResponse,
+	ICsrfTokenResponse,
+	ILoginResponse
+}
