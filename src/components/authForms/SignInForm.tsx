@@ -30,6 +30,7 @@ const FormSchema = z.object({
 
 const SignInForm: FC = () => {
 	const { login } = useActions()
+
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: { email: '', password: '' }
@@ -37,7 +38,6 @@ const SignInForm: FC = () => {
 
 	const onSubmit = (data: z.infer<typeof FormSchema>) => {
 		login(data as any)
-		console.log(data)
 	}
 
 	return (

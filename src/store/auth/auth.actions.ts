@@ -1,35 +1,29 @@
-import { ILoginData, ISignUpData } from './auth.interface'
+import { ILoginResponse, IRefreshAccessTokenResponse, ILoginRequest, ISignUpRequest } from '@/interfaces'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AuthService } from '@/services'
 import { toastError } from '@/utils'
-import { IUser } from '@/interfaces'
 import { toast } from 'sonner'
 
-const login = createAsyncThunk<IUser, ILoginData>(
+const login = createAsyncThunk<ILoginResponse, ILoginRequest>(
 	'auth/sign-in',
-	async (loginData: ILoginData, thunkAPI) => {
+	async (loginData, thunkAPI) => {
 		try {
 			const { data } = await AuthService.login(loginData)
-			console.log(data)
 			toast.success('Успішний вхід!')
-			return data.data
+			return data
 		} catch (e: any) {
-			console.log(e)
 			toastError(e)
 			return thunkAPI.rejectWithValue(e)
 		}
 	}
 )
 
-const signUp = createAsyncThunk<IUser, ISignUpData>(
+const signUp = createAsyncThunk<ILoginResponse, ISignUpRequest>(
 	'auth/sign-up',
-	async (signUpData: ISignUpData, thunkAPI) => {
+	async (signUpData, thunkAPI) => {
 		try {
-			const {
-				data: { data }
-			} = await AuthService.signup(signUpData)
+			const { data } = await AuthService.signup(signUpData)
 			toast.success('Успішна реєстрація, активуйте ваш аккаунт!')
-			toast.success('Письмо активації було відправлено на Вашу пошту!')
 			return data
 		} catch (e) {
 			toastError(e)
@@ -38,11 +32,12 @@ const signUp = createAsyncThunk<IUser, ISignUpData>(
 	}
 )
 
-const refreshAccessToken = createAsyncThunk<any>(
+const refreshAccessToken = createAsyncThunk<IRefreshAccessTokenResponse>(
 	'auth/refresh-access-token',
 	async (_, thunkAPI) => {
 		try {
-			return await AuthService.refreshAccessToken()
+			const { data } = await AuthService.refreshAccessToken()
+			return data
 		} catch (e) {
 			toastError(e)
 			return thunkAPI.rejectWithValue(e)
@@ -50,9 +45,9 @@ const refreshAccessToken = createAsyncThunk<any>(
 	}
 )
 
-const logOut = createAsyncThunk<any>('auth/logout', async (arg, thunkAPI) => {
+const logOut = createAsyncThunk('auth/logout', async (arg, thunkAPI) => {
 	try {
-		return await AuthService.logout()
+		return AuthService.logout()
 	} catch (e) {
 		toastError(e)
 		return thunkAPI.rejectWithValue(e)

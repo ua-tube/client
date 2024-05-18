@@ -1,13 +1,27 @@
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, RecoveryPassForm } from '@/components'
-import { FC } from 'react'
 
-const UserRecoveryPasswordPage: FC = () => {
+
+export const getServerSideProps: GetServerSideProps<{
+	token?: string
+	email?: string
+}> = async ({ query }) => {
+	return {
+		props: {
+			email: (query?.email as string) || '',
+			token: (query?.token as string) || ''
+		}
+	}
+}
+
+export default function UserRecoveryPasswordPage({
+																									 email,
+																									 token
+																								 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<>
-			<AppHead title='Відновлення паролю' />
-			<div className='loader-container' children={<RecoveryPassForm />} />
+			<AppHead title="Відновлення паролю" />
+			<div className="loader-container" children={<RecoveryPassForm {...{ email, token }} />} />
 		</>
 	)
 }
-
-export default UserRecoveryPasswordPage

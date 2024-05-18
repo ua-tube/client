@@ -3,12 +3,10 @@ import { logOut, refreshAccessToken } from '@/store/auth/auth.actions'
 import { IErrorResponse } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
-import createAuthRefreshInterceptor, {
-	AxiosAuthRefreshOptions
-} from 'axios-auth-refresh'
+import createAuthRefreshInterceptor, { AxiosAuthRefreshOptions } from 'axios-auth-refresh'
 
 export const setupAxiosInterceptors = (store: any) => {
-	const { locale, replace } = useRouter()
+	const { locale } = useRouter()
 	const { dispatch } = store
 
 	const isServer = typeof window === 'undefined'
@@ -18,7 +16,7 @@ export const setupAxiosInterceptors = (store: any) => {
 	const onRefreshToken = () => dispatch(refreshAccessToken())
 
 	const axiosAuthConfig: AxiosAuthRefreshOptions = {
-		statusCodes: [401, 403, 502],
+		statusCodes: [401],
 		pauseInstanceWhileRefreshing: true
 	}
 

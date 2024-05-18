@@ -1,27 +1,30 @@
 import { IUser } from '@/interfaces/user.interface'
 
 interface IErrorResponse {
-	status?: number
-	code?: number
+	statusCode?: number
 	message?: string
-	timestamp?: string
-	path?: string
+	error?: string
 }
 
 interface IBaseResponse<T> extends IErrorResponse {
 	data: T
 }
 
-interface ICsrfTokenResponse extends IBaseResponse<{ token: string }> {}
+interface ICsrfTokenResponse extends IBaseResponse<{ token: string }> {
+}
 
 interface ILoginResponse {
 	user: IUser
 	accessToken: string
 }
 
+interface IRefreshAccessTokenResponse extends Pick<ILoginResponse, 'accessToken'> {
+}
+
 export type {
 	IBaseResponse,
 	IErrorResponse,
 	ICsrfTokenResponse,
+	IRefreshAccessTokenResponse,
 	ILoginResponse
 }

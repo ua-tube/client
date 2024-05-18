@@ -1,4 +1,5 @@
 import { PersistGate } from 'redux-persist/integration/react'
+import { setupAxiosInterceptors } from '@/api/interceptor'
 import { ThemeProvider } from '@/providers'
 import { persistor, store } from '@/store'
 import type { AppType } from 'next/app'
@@ -6,7 +7,7 @@ import { Provider } from 'react-redux'
 import dynamic from 'next/dynamic'
 
 import '@/styles/globals.css'
-import { setupAxiosInterceptors } from '@/api/interceptor'
+
 
 const AppToaster = dynamic(() => import('@/providers/AppToaster'), {
 	ssr: false
