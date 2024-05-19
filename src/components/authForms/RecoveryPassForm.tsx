@@ -39,19 +39,23 @@ const RecoveryPassForm: FC<
 	const { login } = useActions()
 
 	const FormSchema = z.object({
-		email: z.any(),
-		newPassword: z.any()
+		newPassword: z.any(),
+		...(!token && { email: z.string().email() })
 	})
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
-		defaultValues: { email, newPassword: '' }
+		defaultValues: { email: '', newPassword: '' }
 	})
 
 	const onSubmit = async (values: z.infer<typeof FormSchema>) => {
 		try {
 			if (token && email) {
-				const { data } = await AuthService.passReset({ ...values, token, email })
+				const { data } = await AuthService.passReset({
+					newPassword: values.newPassword,
+					token,
+					email
+				})
 				if (data.statusCode === 201)
 					login({ login: email!, password: values.newPassword as string })
 				toast.success('Пароль відновлено успішно!')
@@ -86,14 +90,14 @@ const RecoveryPassForm: FC<
 							control={form.control}
 							name="email"
 							disabled={!!token}
-							render={({ field }) => (
+							render={( f:any ) => (
 								<FormItem>
 									<FormLabel>Ваш емайл</FormLabel>
 									<FormControl>
 										<Input
 											type="email"
 											placeholder="name@example.com"
-											{...field}
+											{...f.field}
 										/>
 									</FormControl>
 									<FormMessage />
