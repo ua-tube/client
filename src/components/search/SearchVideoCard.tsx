@@ -1,10 +1,4 @@
-import {
-	getVideoUrl,
-	formatDuration,
-	getChannelUrl,
-	formatNumbers,
-	formatTimeAgo
-} from '@/utils'
+import { getVideoUrl, formatDuration, getChannelUrl, formatNumbers, formatTimeAgo } from '@/utils'
 import { Button, DynamicIcon } from '@/components'
 import { VideoModalType } from './SearchContent'
 import { IVideo, UseState } from '@/interfaces'
@@ -31,7 +25,7 @@ const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
 				/>
 				<div
 					className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-					children={formatDuration(value.duration)}
+					children={formatDuration(value.lengthSeconds)}
 				/>
 			</Link>
 			<div className='flex flex-col gap-y-1 w-3/6'>
@@ -41,9 +35,9 @@ const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
 					children={value.title}
 				/>
 				<Link
-					href={getChannelUrl(value.channel.nickName)}
+					href={getChannelUrl(value.creator.nickName)}
 					className='text-muted-foreground text-sm lg:text-base/2'
-					children={value.channel.name}
+					children={value.creator.name}
 				/>
 
 				<div

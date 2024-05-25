@@ -1,11 +1,4 @@
-import {
-	formatDuration,
-	formatTimeAgo,
-	getVideoUrl,
-	getChannelUrl,
-	cn,
-	getUserInitials
-} from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, cn, getUserInitials, formatNumbers } from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
@@ -57,27 +50,18 @@ const VideoCard: FC<IVideoCardProps> = value => {
 				/>
 				<div
 					className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-					children={formatDuration(value.duration)}
-				/>
-				<video
-					className={`block size-full object-cover rounded-xl absolute inset-0 transition-opacity duration-200 ${isVideoPlaying ? 'opacity-100 delay-200' : 'opacity-0'}`}
-					muted
-					preload='none'
-					ref={videoRef}
-					playsInline
-					disablePictureInPicture
-					src={value.videoUrl}
+					children={formatDuration(value.lengthSeconds)}
 				/>
 			</Link>
 
 			<div className='flex gap-x-2'>
 				<Link
-					href={getChannelUrl(value.channel.nickName)}
+					href={getChannelUrl(value.creator.nickName)}
 					className='flex shrink-0'
 				>
 					<Avatar className='size-9'>
-						<AvatarImage src={value.channel.profileImg} loading='lazy' />
-						<AvatarFallback children={getUserInitials(value.channel.name)} />
+						<AvatarImage src={value.creator.profileImg} loading='lazy' />
+						<AvatarFallback children={getUserInitials(value.creator.name)} />
 					</Avatar>
 				</Link>
 				<div className='flex flex-col'>
@@ -90,18 +74,14 @@ const VideoCard: FC<IVideoCardProps> = value => {
 						children={value.title}
 					/>
 					<Link
-						href={getChannelUrl(value.channel.nickName)}
+						href={getChannelUrl(value.creator.nickName)}
 						className='text-muted-foreground text-sm'
-						children={value.channel.name}
+						children={value.creator.name}
 					/>
 
 					<div
 						className='text-muted-foreground text-sm'
-						children={`${Intl.NumberFormat(undefined, {
-							notation: 'compact'
-						}).format(
-							value.views
-						)} переглядів • ${formatTimeAgo(value.postedAt)}`}
+						children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.postedAt)}`}
 					/>
 				</div>
 			</div>

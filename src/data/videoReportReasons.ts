@@ -1,6 +1,6 @@
-import { IReportReason } from '@/interfaces'
+import { IReportVideoReason } from '@/interfaces'
 
-const reportReasons: IReportReason[] = [
+const reportReasons: IReportVideoReason[] = [
 	{ id: 1, name: 'Контент сексуального характеру' },
 	{ id: 2, name: 'Насильство або відразливі сцени' },
 	{ id: 3, name: 'Ненависницький і образливий контент' },

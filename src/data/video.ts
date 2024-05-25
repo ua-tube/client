@@ -10,7 +10,8 @@ const qualities = [
 	'720p',
 	'1080p',
 	'1440p',
-	'2160p'
+	'2160p',
+	'3840'
 ]
 
 const defaultVideo: IVideo = {
@@ -30,50 +31,50 @@ const defaultVideo: IVideo = {
 		'\n' +
 		'LYRICS: \n' +
 		'\n' +
-		"You say you don't want me\n" +
+		'You say you don\'t want me\n' +
 		'You call me good for nothing straight to my face\n' +
-		"You say you don't need me\n" +
+		'You say you don\'t need me\n' +
 		'You call me good for nothing, a waste of space\n' +
 		'\n' +
-		"Don't remind me\n" +
-		"I'm minding my own damn business\n" +
-		"Don't try to find me\n" +
-		"I'm better left alone in this\n" +
-		"It doesn't surprise me\n" +
+		'Don\'t remind me\n' +
+		'I\'m minding my own damn business\n' +
+		'Don\'t try to find me\n' +
+		'I\'m better left alone in this\n' +
+		'It doesn\'t surprise me\n' +
 		'Do you really think that I could care\n' +
-		"If you really don't like me\n" +
+		'If you really don\'t like me\n' +
 		'Find somebody else\n' +
 		'It could be anyone else out there\n' +
 		'\n' +
-		"Don't fret\n" +
-		"I don't ever wanna see you\n" +
+		'Don\'t fret\n' +
+		'I don\'t ever wanna see you\n' +
 		'And I never wanna meet you again\n' +
 		'One thing\n' +
-		"When you're angry, you're a jerk\n" +
-		"And then you treat me like I'm worth nothing\n" +
-		"Don't fret\n" +
-		"I don't ever wanna see you\n" +
+		'When you\'re angry, you\'re a jerk\n' +
+		'And then you treat me like I\'m worth nothing\n' +
+		'Don\'t fret\n' +
+		'I don\'t ever wanna see you\n' +
 		'And I never wanna meet you again\n' +
-		"It'll happen again\n" +
-		"I'll watch it happen over and over again\n" +
+		'It\'ll happen again\n' +
+		'I\'ll watch it happen over and over again\n' +
 		'\n' +
 		'I watch the walls caving in on me\n' +
-		"I'm sick of feeling so fucking lonely\n" +
-		"By now I've given up all hope\n" +
-		"I guess I'm better off alone\n" +
+		'I\'m sick of feeling so fucking lonely\n' +
+		'By now I\'ve given up all hope\n' +
+		'I guess I\'m better off alone\n' +
 		'\n' +
 		'\n' +
 		'Edit: @aparlex',
-	likesCount: 34343,
-	commentsCount: 435435,
-	disLikesCount: 4242,
+	metrics: {
+		commentsCount: '435435',
+		likesCount: '34343',
+		dislikesCount: '4242',
+		viewsCount: '4205345345'
+	},
 	postedAt: '2023-09-29',
-	videoUrl: 'jghjg',
-	views: 4205345345,
-	qualities,
 	thumbnailUrl: '',
-	duration: 9000,
-	channel: {
+	lengthSeconds: 9000,
+	creator: {
 		nickName: 'bodes',
 		name: 'Bones - тема',
 		profileImg:
@@ -213,8 +214,8 @@ const defaultChannel: IChannel = {
 	videosViewsCount: 345534435,
 	description:
 		'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,' +
-		" by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum," +
-		" you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to" +
+		' by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum,' +
+		' you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to' +
 		' repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words,' +
 		' combined with a handful of model sentence structures, to generate. Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore ' +
 		'always free from repetition, injected humour, or non-characteristic words etc.',

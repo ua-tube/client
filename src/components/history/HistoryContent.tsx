@@ -1,19 +1,5 @@
-import {
-	getVideoUrl,
-	formatDuration,
-	getChannelUrl,
-	formatNumbers,
-	formatTimeAgo,
-	writeVideoUrl
-} from '@/utils'
-import {
-	DynamicIcon,
-	Card,
-	CardContent,
-	Button,
-	CardHeader,
-	CardTitle
-} from '@/components'
+import { getVideoUrl, formatDuration, getChannelUrl, formatNumbers, formatTimeAgo, writeVideoUrl } from '@/utils'
+import { DynamicIcon, Card, CardContent, Button, CardHeader, CardTitle } from '@/components'
 import { IVideo } from '@/interfaces'
 import { videos } from '@/data'
 import Link from 'next/link'
@@ -84,7 +70,7 @@ const HistoryContent: FC = () => {
 												/>
 												<div
 													className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-													children={formatDuration(value.duration)}
+													children={formatDuration(value.lengthSeconds)}
 												/>
 											</Link>
 											<div className='flex flex-col gap-y-1 w-3/5'>
@@ -99,9 +85,9 @@ const HistoryContent: FC = () => {
 													children={value.title}
 												/>
 												<Link
-													href={getChannelUrl(value.channel.nickName)}
+													href={getChannelUrl(value.creator.nickName)}
 													className='text-muted-foreground text-base/2'
-													children={value.channel.name}
+													children={value.creator.name}
 												/>
 
 												<div

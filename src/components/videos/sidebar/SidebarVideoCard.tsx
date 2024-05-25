@@ -1,9 +1,4 @@
-import {
-	formatDuration,
-	formatTimeAgo,
-	getVideoUrl,
-	getChannelUrl
-} from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl } from '@/utils'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -25,7 +20,7 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = value => {
 				/>
 				<div
 					className='absolute bottom-0.5 right-0.5 bg-background/80 text-secondary-foreground text-xs px-1 rounded'
-					children={formatDuration(value.duration)}
+					children={formatDuration(value.lengthSeconds)}
 				/>
 			</Link>
 			<div className='flex flex-col gap-x-2 w-3/5'>
@@ -35,10 +30,10 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = value => {
 					children={value.title}
 				/>
 				<Link
-					href={getChannelUrl(value.channel.nickName)}
+					href={getChannelUrl(value.creator.nickName)}
 					className='text-muted-foreground text-xs'
 				>
-					<div children={value.channel.name} />
+					<div children={value.creator.name} />
 				</Link>
 
 				<div

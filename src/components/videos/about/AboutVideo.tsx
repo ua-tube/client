@@ -1,8 +1,4 @@
-import {
-	formatNumbers,
-	formatTimeAgo,
-	getChannelUrl
-} from '@/utils'
+import { formatNumbers, formatTimeAgo, getChannelUrl } from '@/utils'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -67,19 +63,19 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 
 			<div className='flex flex-col md:flex-row items-start md:items-center gap-y-5 gap-x-2 md:justify-between'>
 				<div className='flex flex-row items-center space-x-3 w-full md:w-auto'>
-					<Link href={getChannelUrl(video.channel.nickName)}>
+					<Link href={getChannelUrl(video.creator.nickName)}>
 						<Avatar>
-							<AvatarImage src={video.channel.profileImg} />
-							<AvatarFallback children={video.channel.name?.[0]} />
+							<AvatarImage src={video.creator.profileImg} />
+							<AvatarFallback children={video.creator.name?.[0]} />
 						</Avatar>
 					</Link>
 					<div className='flex flex-col'>
-						<Link href={getChannelUrl(video.channel.nickName)}>
-							<h5 className='font-semibold' children={video.channel.name} />
+						<Link href={getChannelUrl(video.creator.nickName)}>
+							<h5 className='font-semibold' children={video.creator.name} />
 						</Link>
 						<p
 							className='font-light text-xs text-muted-foreground flex overflow-x-hidden truncate'
-							children={`Підписалося ${formatNumbers(video.channel.subscribersCount || 0)} користувачів`}
+							children={`Підписалося ${formatNumbers(video.creator.subscribersCount || 0)} користувачів`}
 						/>
 					</div>
 					<Button
@@ -98,7 +94,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 							className='rounded-l-lg rounded-r-none space-x-2'
 						>
 							<DynamicIcon name='thumbs-up' />
-							<span children={formatNumbers(video.likesCount || 0)} />
+							<span children={formatNumbers(video.metrics?.likesCount)} />
 						</Button>
 						<Button
 							onClick={onDisLike}
@@ -106,7 +102,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 							className='rounded-r-lg rounded-l-none space-x-2'
 						>
 							<DynamicIcon name='thumbs-down' />
-							<span children={formatNumbers(video.disLikesCount || 0)} />
+							<span children={formatNumbers(video.metrics?.dislikesCount)} />
 						</Button>
 					</div>
 
@@ -165,7 +161,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video }) => {
 			<Collapsible className='rounded-lg bg-secondary p-3 space-y-2'>
 				<CollapsibleTrigger>
 					<div className='flex items-center space-x-4 text-sm font-semibold'>
-						<div children={`${formatNumbers(video.views)} переглядів`} />
+						<div children={`${formatNumbers(video.metrics?.viewsCount)} переглядів`} />
 						<div children={formatTimeAgo(video.postedAt)} />
 					</div>
 				</CollapsibleTrigger>

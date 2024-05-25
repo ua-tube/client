@@ -1,42 +1,87 @@
 import { IChannel } from './'
 
-interface IVideoState {
-	speed: number
-	quality: string
-	volume: number
-	duration: number
-	bufferedCount: number
-	isLoading: boolean
-	currentTime: number
-	autoPlayNext: boolean
-	isFullScreen: boolean
-	showNavigationMenu: boolean
-	showAnimation: boolean
-	isLooped: boolean
-	disabledQualities: string[]
-	isDisabled: boolean
-}
-
 interface IVideo {
 	id: string
+	creatorId?: string
 	title: string
-	channel: IChannel
-	qualities?: string[]
-	likesCount?: number
-	disLikesCount?: number
-	commentsCount?: number
 	description?: string
-	views: number
+	isPublished?: boolean
+	visibility?: VideoVisibilityType
+	status?: VideoStatusType
+	creator: IChannel
 	postedAt: string
-	duration: number
+	lengthSeconds: number
 	thumbnailUrl: string
-	videoUrl: string
-	visible?: 0 | 1 | 2
+	processedVideos?: IProcessedVideo[]
+	metrics?: IVideoMetrics
+	processingStatus?: VideoProcessingStatusType
+	tags?: string
+	thumbnails?: IVideoThumbnail
+	thumbnailId?: string
+	thumbnailStatus?: VideoThumbnailStatusType
+	videoPreviewThumbnail?: IVideoPreviewThumbnail
+	createdAt?: string
+	updatedAt?: string
 }
 
-interface IReportReason {
+interface IVideoMetrics {
+	videoId?: string
+	viewsCount: string
+	commentsCount: string
+	likesCount: string
+	dislikesCount: string
+}
+
+interface IProcessedVideo {
+	id: string
+	label: string
+	url: string
+	videoFileId?: string
+	videoId?: string
+	width?: number
+	height?: number
+	size?: string
+}
+
+interface IVideoThumbnail {
+	imageFileId?: string
+	url: string
+	videoId?: string
+}
+
+interface IVideoPreviewThumbnail {
+	imageFileId?: string
+	url: string
+	videoId?: string
+}
+
+type VideoStatusType =
+	'Created' |
+	'Registered' |
+	'RegistrationFailed' |
+	'Unregistered'
+
+
+type VideoVisibilityType =
+	'Private' |
+	'Unlisted' |
+	'Public'
+
+
+type VideoProcessingStatusType =
+	'WaitingForUserUpload' |
+	'VideoUploaded' |
+	'VideoBeingProcessed' |
+	'VideoProcessed' |
+	'VideoProcessingFailed'
+
+
+type VideoThumbnailStatusType = 'Waiting' | 'Processed'
+
+
+interface IReportVideoReason {
 	id: number
 	name: string
 }
 
-export type { IVideo, IReportReason, IVideoState }
+export type { IVideo, IReportVideoReason, IProcessedVideo }

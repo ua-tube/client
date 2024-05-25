@@ -1,10 +1,4 @@
-import {
-	getVideoUrl,
-	getChannelUrl,
-	formatDuration,
-	formatTimeAgo,
-	formatNumbers
-} from '@/utils'
+import { getVideoUrl, getChannelUrl, formatDuration, formatTimeAgo, formatNumbers } from '@/utils'
 import { DynamicIcon, CategoryPills } from '@/components'
 import { IPlaylist } from '@/interfaces'
 import Link from 'next/link'
@@ -42,7 +36,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 								/>
 								<div
 									className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-									children={formatDuration(value.duration)}
+									children={formatDuration(value.lengthSeconds)}
 								/>
 							</Link>
 							<div className='flex flex-col gap-y-1 w-3/5'>
@@ -52,9 +46,9 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 									children={value.title}
 								/>
 								<Link
-									href={getChannelUrl(value.channel.nickName)}
+									href={getChannelUrl(value.creator.nickName)}
 									className='text-muted-foreground text-sm'
-									children={value.channel.name}
+									children={value.creator.name}
 								/>
 
 								<div

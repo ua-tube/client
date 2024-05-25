@@ -1,18 +1,5 @@
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	DynamicIcon,
-	ScrollArea
-} from '@/components'
-import {
-	getChannelUrl,
-	getVideoUrl,
-	formatDuration,
-	cn,
-	getPlaylistUrl
-} from '@/utils'
+import { Card, CardHeader, CardTitle, CardDescription, DynamicIcon, ScrollArea } from '@/components'
+import { getChannelUrl, getVideoUrl, formatDuration, cn, getPlaylistUrl } from '@/utils'
 import { IPlaylist } from '@/interfaces'
 import { FC } from 'react'
 import Link from 'next/link'
@@ -94,7 +81,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 							/>
 							<div
 								className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-								children={formatDuration(value.duration)}
+								children={formatDuration(value.lengthSeconds)}
 							/>
 						</Link>
 						<div className='flex flex-col gap-x-2 w-3/5'>
@@ -104,10 +91,10 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 								children={value.title}
 							/>
 							<Link
-								href={getChannelUrl(value.channel.nickName)}
+								href={getChannelUrl(value.creator.nickName)}
 								className='text-muted-foreground text-xs'
 							>
-								<div children={value.channel.name} />
+								<div children={value.creator.name} />
 							</Link>
 						</div>
 					</div>
