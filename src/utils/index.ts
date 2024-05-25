@@ -1,7 +1,6 @@
 export * from './time.utils'
 export * from './tailwind.utils'
 export * from './video.utils'
-export * from './array.utils'
 export * from './urls.utils'
 export * from './user.utils'
 export * from './csrf.utils'

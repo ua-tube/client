@@ -1,3 +1,4 @@
+import { formatDuration, writeVideoUrl, getVideoUrl, cn } from '@/utils'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { IVideo, UseState, IProcessedVideo } from '@/interfaces'
 import * as SliderPrimitive from '@radix-ui/react-slider'
@@ -5,7 +6,6 @@ import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
 import { videoSpeeds } from '@/data'
 import Link from 'next/link'
-import { formatDuration, getAllQualitiesFromOrToCurrentElement, writeVideoUrl, getVideoUrl, cn } from '@/utils'
 import {
 	Button,
 	ContextMenu,
@@ -47,18 +47,20 @@ interface IVideoState {
 	showNavigationMenu: boolean
 	showLoadingAnimation: boolean
 	isLooped: boolean
-	disabledQualities: IProcessedVideo[]
 	isDisabled: boolean
 }
 
 
-const VideoPlayer: FC<IVideoPlayerProps> = ({
-																							video,
-																							videoIds,
-																							autoPlay,
-																							setCinemaMode,
-																							cinemaMode
-																						}) => {
+const VideoPlayer: FC<
+	IVideoPlayerProps
+> = ({
+			 video,
+			 videoIds,
+			 autoPlay,
+			 setCinemaMode,
+			 cinemaMode
+		 }) => {
+
 	const [videoState, setVideoState] = useState<IVideoState>({
 		autoPlayNext: false,
 		isLooped: false,
@@ -72,7 +74,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 		bufferedCount: 0,
 		showLoadingAnimation: false,
 		showNavigationMenu: true,
-		disabledQualities: [],
 		isDisabled: false
 	})
 	const videoRef = useRef<HTMLVideoElement>(null)
@@ -102,10 +103,10 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 	)
 
 	const changeSpeed = useCallback(
-		(newSpeed: number) => {
+		(speed: number) => {
 			if (videoRef.current) {
-				videoRef.current.playbackRate = newSpeed
-				setVideoState(p => ({ ...p, speed: newSpeed }))
+				videoRef.current.playbackRate = speed
+				setVideoState(p => ({ ...p, speed }))
 			}
 		},
 		[setVideoState]
@@ -191,22 +192,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 	])
 
 	const onVideoLoadError = useCallback(() => {
-		const disabledQualities = getAllQualitiesFromOrToCurrentElement(
-			video.processedVideos,
-			videoState.currQuality,
-			true
-		)
-		disabledQualities &&
-		setVideoState(p => ({
-			...p,
-			disabledQualities,
-			isDisabled: disabledQualities.length === video.processedVideos?.length
-		}))
-
-		const nextRes = getAllQualitiesFromOrToCurrentElement(video.processedVideos, videoState.currQuality)?.at(-1)
-
-		nextRes && changeQuality(nextRes)
-	}, [videoState.currQuality, changeQuality, video.processedVideos, setVideoState])
+		setVideoState(p => ({ ...p, isDisabled: true }))
+	}, [setVideoState])
 
 	const toggleRepeat = useCallback(() => {
 		if (videoRef.current) {
@@ -255,36 +242,36 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 
 	const buttonsCallBack = useCallback(
 		(event: KeyboardEvent) => {
-
-			switch (event.key) {
-				case 'а':
-				case 'f':
-				case 'А':
-				case 'F':
-					toggleFullScreen()
-					break
-				case ' ':
-					togglePlay()
-					break
-				case 'ь':
-				case 'm':
-				case 'Ь':
-				case 'M':
-					toggleMute()
-					break
-				case 'ArrowUp':
-					changeVolume(videoState.volume + 0.05)
-					break
-				case 'ArrowDown':
-					changeVolume(videoState.volume - 0.05)
-					break
-				case 'ArrowLeft':
-					onTimeUpdateHandler(videoState.currentTime - 5)
-					break
-				case 'ArrowRight':
-					onTimeUpdateHandler(videoState.currentTime + 5)
-					break
-			}
+			if (document.activeElement && divRef.current && divRef.current === document.activeElement)
+				switch (event.key) {
+					case 'а':
+					case 'f':
+					case 'А':
+					case 'F':
+						toggleFullScreen()
+						break
+					case ' ':
+						togglePlay()
+						break
+					case 'ь':
+					case 'm':
+					case 'Ь':
+					case 'M':
+						toggleMute()
+						break
+					case 'ArrowUp':
+						changeVolume(videoState.volume + 0.05)
+						break
+					case 'ArrowDown':
+						changeVolume(videoState.volume - 0.05)
+						break
+					case 'ArrowLeft':
+						onTimeUpdateHandler(videoState.currentTime - 5)
+						break
+					case 'ArrowRight':
+						onTimeUpdateHandler(videoState.currentTime + 5)
+						break
+				}
 		},
 		[
 			videoState.volume,
@@ -730,7 +717,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 														className="w-40"
 														children={value.label}
 														onClick={() => changeQuality(value)}
-														disabled={videoState.disabledQualities?.some(p => p.label === value.label)}
 													/>
 												))}
 											/>

@@ -11,8 +11,8 @@ const qualities = [
 	'1080p',
 	'1440p',
 	'2160p',
-	'3840'
-]
+	'3840p'
+] as const
 
 const defaultVideo: IVideo = {
 	id: 'nRc6934CNs1',
