@@ -1,13 +1,5 @@
-import {
-	Checkbox,
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	Label
-} from '@/components'
+import { Checkbox, Dialog, DialogContent, DialogHeader, DialogTitle, Label } from '@/components'
 import { IVideo } from '@/interfaces'
-import { playlists } from '@/data'
 import { FC, useState } from 'react'
 
 interface IPlaylistsModalProps {
@@ -31,7 +23,7 @@ const PlaylistsModal: FC<IPlaylistsModalProps> = ({ setOpen, open, video }) => {
 				</DialogHeader>
 				<div
 					className='space-y-3.5 py-3'
-					children={playlists.map((value, index) => (
+					children={[].map((value, index) => (
 						<div className='flex items-center space-x-2' key={index}>
 							<Checkbox
 								id={`c-${value.id}`}

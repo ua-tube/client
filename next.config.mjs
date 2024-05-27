@@ -8,10 +8,22 @@ const nextConfig = {
 		localeDetection: false
 	},
 	env: {
-		SERVER_URL: process.env.SERVER_URL,
-		AUTH_SERVER_URL: process.env.AUTH_SERVER_URL
+		GATEWAY_SERVER_URL: process.env.GATEWAY_SERVER_URL,
+		AUTH_SERVER_URL: process.env.AUTH_SERVER_URL,
+		STORAGE_SERVER_URL: process.env.STORAGE_SERVER_URL,
+		STORAGE_SERVER_API_URL: process.env.STORAGE_SERVER_API_URL
 	},
-	images: { domains: ['localhost', 'ua-tube.pp.ua'] }
+	images: {
+		domains: ['ua-tube.pp.ua', 'localhost'],
+		remotePatterns: [
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				port: '10000',
+				pathname: '/**'
+			}
+		]
+	}
 }
 
 export default nextConfig

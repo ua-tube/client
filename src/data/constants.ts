@@ -4,7 +4,7 @@ const channelTabsKeys = ['index', 'videos', 'playlists'] as const
 
 const channelPersonalizationTabsKeys = ['images', 'details'] as const
 
-const videoEditTabsKeys = ['edit', 'analytics', 'comments'] as const
+const videoEditTabsKeys = ['edit', 'comments'] as const
 
 export {
 	authFormTabs,

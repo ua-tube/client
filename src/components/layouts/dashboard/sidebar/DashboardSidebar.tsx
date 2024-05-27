@@ -1,10 +1,9 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { cn, getUserInitials, getChannelUrl } from '@/utils'
+import { cn, getUserInitials, getChannelUrl, getImageUrl } from '@/utils'
 import DashboardSidebarItem from './DashboardSidebarItem'
 import { useSidebarContext } from '@/providers'
 import { FC, useEffect } from 'react'
-import { defaultChannel } from '@/data'
-import { useScreenSize } from '@/hooks'
+import { useScreenSize, useAuth } from '@/hooks'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import {
@@ -37,11 +36,6 @@ interface ISidebarProps {
 
 const sidebarNavItems: ISidebarItem[] = [
 	{
-		title: 'Огляд',
-		url: '/dashboard',
-		icon: 'home'
-	},
-	{
 		title: 'Контент',
 		url: '/dashboard/videos',
 		icon: 'video'
@@ -52,11 +46,6 @@ const sidebarNavItems: ISidebarItem[] = [
 		icon: 'contact'
 	},
 	{
-		title: 'Аналітика',
-		url: '/dashboard/analytics',
-		icon: 'area-chart'
-	},
-	{
 		title: 'Персоналізація',
 		url: '/dashboard/personalization',
 		icon: 'more-horizontal'
@@ -65,6 +54,7 @@ const sidebarNavItems: ISidebarItem[] = [
 
 const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 	const { isOpen, toggle } = useSidebarContext()
+	const { user } = useAuth()
 	const { isScreenSmall } = useScreenSize()
 
 	useEffect(() => {
@@ -73,18 +63,18 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 
 	const DashboardSidebarContent: FC = () => {
 		return (
-			<div className='h-[90vh]'>
+			<div className=''>
 				<div className='flex flex-col justify-center items-center gap-y-4 my-5'>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href={getChannelUrl(defaultChannel.nickName, 'index', true)}
+								href={getChannelUrl(user?.creator?.nickname, 'index', true)}
 								target='_blank'
 							>
 								<Avatar className={cn('size-40', !isOpen && 'size-12')}>
-									<AvatarImage src={defaultChannel.profileImg} />
+									<AvatarImage src={getImageUrl(user?.creator.thumbnailUrl)} />
 									<AvatarFallback
-										children={getUserInitials(defaultChannel.name)}
+										children={getUserInitials(user?.creator?.displayName)}
 									/>
 								</Avatar>
 							</Link>
@@ -99,7 +89,7 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 						className={cn('flex flex-col items-center', !isOpen && 'hidden')}
 					>
 						<span className='text-muted-foreground' children='Ваш канал' />
-						<p children={defaultChannel.name} />
+						<p children={user?.creator?.displayName} />
 					</div>
 				</div>
 

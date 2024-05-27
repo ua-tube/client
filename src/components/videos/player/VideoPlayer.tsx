@@ -4,7 +4,6 @@ import { IVideo, UseState, IProcessedVideo } from '@/interfaces'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
-import { videoSpeeds } from '@/data'
 import Link from 'next/link'
 import {
 	Button,
@@ -66,7 +65,7 @@ const VideoPlayer: FC<
 		isLooped: false,
 		duration: 0,
 		isLoading: true,
-		currQuality: video.processedVideos?.at(-1)!,
+		currQuality: video.processedVideos!.at(-1)!,
 		speed: 1,
 		volume: 0.5,
 		isFullScreen: false,
@@ -384,7 +383,7 @@ const VideoPlayer: FC<
 						)}
 						onClick={() => togglePlay()}
 						onError={onVideoLoadError}
-						src={videoState.currQuality ? videoState.currQuality.url : ''}
+						src={process.env.STORAGE_SERVER_URL + videoState.currQuality.url}
 						onEnded={onVideoEnd}
 						controls={false}
 					/>
@@ -676,7 +675,7 @@ const VideoPlayer: FC<
 										<TooltipContent side="left" align="end">
 											<div
 												className="flex flex-col gap-y-2"
-												children={videoSpeeds.map((value, index) => (
+												children={[0.5, 1, 2].map((value, index) => (
 													<Button
 														key={index}
 														size="sm"
@@ -699,7 +698,7 @@ const VideoPlayer: FC<
 										<TooltipTrigger>
 											<div className="flex items-center space-x-2">
 												<DynamicIcon name="settings-2" className="h-4 w-4" />
-												<div children={`Якість: ${videoState.currQuality}`} />
+												<div children={`Якість: ${videoState.currQuality.label}`} />
 											</div>
 										</TooltipTrigger>
 										<TooltipContent side="left" align="end">

@@ -5,15 +5,11 @@ import { CategoryPills, Button, DynamicIcon } from '@/components'
 
 const SearchVideoCard = dynamic(() => import('./SearchVideoCard'))
 const FiltersModal = dynamic(() => import('./FiltersModal'))
-const PlaylistsModal = dynamic(
-	() => import('@/components/modals/PlaylistsModal')
-)
-const ReportModal = dynamic(
-	() => import('@/components/modals/ReportVideoModal')
-)
+
+const PlaylistsModal = dynamic(	() => import('@/components/modals/PlaylistsModal'))
 const ShareModal = dynamic(() => import('@/components/modals/ShareVideoModal'))
 
-export type VideoModalType = 'playlists' | 'report' | 'share'
+export type VideoModalType = 'playlists' | 'share'
 
 interface ISearchContentProps {
 	videos: IVideo[]
@@ -63,11 +59,6 @@ const SearchContent: FC<ISearchContentProps> = ({ videos }) => {
 				setOpen={v => setVideoModal(undefined)}
 			/>
 
-			<ReportModal
-				video={videoModal?.video}
-				open={videoModal?.type === 'report'}
-				setOpen={v => setVideoModal(undefined)}
-			/>
 			<ShareModal
 				video={videoModal?.video}
 				open={videoModal?.type === 'share'}

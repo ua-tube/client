@@ -1,10 +1,10 @@
-import { IChannel } from './'
+import { ICreator } from './'
 
 interface INotification {
 	id: string
 	message: string
 	url: string
-	channel?: IChannel
+	channel?: ICreator
 }
 
 export type { INotification }

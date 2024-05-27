@@ -8,6 +8,7 @@ import {
 	DynamicIcon
 } from '@/components'
 import { Table } from '@tanstack/react-table'
+import { useRouter } from 'next/router'
 
 interface DataTablePaginationProps<TData> {
 	table: Table<TData>
@@ -16,6 +17,23 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
 	table
 }: DataTablePaginationProps<TData>) {
+	const { query, push, pathname } = useRouter()
+
+	const changePerPage = async (perPage: string) =>
+		push({ pathname, query: { perPage, page: 1 } })
+
+	const changePage = async (page: number) =>
+		push({
+			pathname,
+			query: {
+				page,
+				perPage:
+					(query?.perPage as string | undefined) ||
+					table.getState().pagination.pageSize ||
+					20
+			}
+		})
+
 	return (
 		<div className='flex items-center justify-between px-2'>
 			<div className='flex-1 text-sm text-muted-foreground'>
@@ -26,8 +44,11 @@ export function DataTablePagination<TData>({
 				<div className='flex items-center space-x-2'>
 					<p className='text-sm font-medium'>Рядки в</p>
 					<Select
-						value={`${table.getState().pagination.pageSize}`}
-						onValueChange={value => table.setPageSize(Number(value))}
+						value={
+							(query?.perPage as string | undefined) ||
+							`${table.getState().pagination.pageSize}`
+						}
+						onValueChange={async perPage => changePerPage(perPage)}
 					>
 						<SelectTrigger className='h-8 w-[70px]'>
 							<SelectValue placeholder={table.getState().pagination.pageSize} />
@@ -52,7 +73,7 @@ export function DataTablePagination<TData>({
 					<Button
 						variant='outline'
 						className='hidden h-8 w-8 p-0 lg:flex'
-						onClick={() => table.setPageIndex(0)}
+						onClick={async () => changePage(1)}
 						disabled={!table.getCanPreviousPage()}
 					>
 						<span className='sr-only'>Перейти на першу сторінку</span>
@@ -61,16 +82,20 @@ export function DataTablePagination<TData>({
 					<Button
 						variant='outline'
 						className='h-8 w-8 p-0'
-						onClick={() => table.previousPage()}
+						onClick={async () =>
+							changePage(table.getState().pagination.pageIndex)
+						}
 						disabled={!table.getCanPreviousPage()}
 					>
-						<span className='sr-only'>Перейти на останню сторінку</span>
+						<span className='sr-only'>Перейти на попередню сторінку</span>
 						<DynamicIcon name='arrow-left' className='h-4 w-4' />
 					</Button>
 					<Button
 						variant='outline'
 						className='h-8 w-8 p-0'
-						onClick={() => table.nextPage()}
+						onClick={async () =>
+							changePage(table.getState().pagination.pageIndex + 1)
+						}
 						disabled={!table.getCanNextPage()}
 					>
 						<span className='sr-only'>Наступна сторінка</span>
@@ -79,7 +104,7 @@ export function DataTablePagination<TData>({
 					<Button
 						variant='outline'
 						className='hidden h-8 w-8 p-0 lg:flex'
-						onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+						onClick={async () => changePage(table.getPageCount() - 1)}
 						disabled={!table.getCanNextPage()}
 					>
 						<span className='sr-only'>Перейти на останню сторінку</span>

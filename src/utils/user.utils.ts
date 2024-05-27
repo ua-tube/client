@@ -1,5 +1,5 @@
-export const getUserInitials = (i: string) =>
+export const getUserInitials = (i?: string) =>
 	i
-		.split(' ')
+		?.split(' ')
 		.map(n => n[0])
 		.join('')

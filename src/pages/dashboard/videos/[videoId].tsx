@@ -1,38 +1,55 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { videos, defaultVideo, videoEditTabsKeys } from '@/data'
-import VideoEditContent from '@/components/dashboard/video'
 import { DynamicIcon, AppHead } from '@/components'
+import { VideoManagerService } from '@/services'
+import { useState, useEffect } from 'react'
 import { VideoEditTabsKey } from '@/types'
+import { videoEditTabsKeys } from '@/data'
 import { IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
 
+
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
-	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
+	{
+		loading: () => <DynamicIcon name="loader" className="loader-container" />,
+		ssr: false
+	}
+)
+
+const VideoEditContent = dynamic(
+	() => import( '@/components/dashboard/video'), { ssr: false }
 )
 
 export const getServerSideProps: GetServerSideProps<{
-	video: IVideo
 	tab: VideoEditTabsKey
+	videoId: string
 }> = async ({ query }) => {
 	let tab: VideoEditTabsKey = 'edit'
-	const video =
-		videos.find(value => value.id === (query?.videoId as string) || '') ||
-		defaultVideo
+	const videoId = query.videoId as string
 
 	if (query.tab && videoEditTabsKeys.includes(query.tab as VideoEditTabsKey))
 		tab = query.tab as VideoEditTabsKey
 
-	return { props: { video, tab } }
+	return { props: { tab, videoId } }
 }
 
 export default function DashboardVideoPage({
-	video,
-	tab
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+																						 tab,
+																						 videoId
+																					 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const [video, setVideo] = useState<IVideo>()
+
+	useEffect(() => {
+		(async () => {
+			const { data } = await VideoManagerService.getVideo(videoId)
+			setVideo(data)
+		})()
+	}, [])
+
+
 	return (
 		<>
-			<AppHead title={`Редагування відео - ${video.title}`} />
+			<AppHead title={`Редагування відео - ${video?.title}`} />
 			<DashboardLayout>
 				<VideoEditContent tab={tab} video={video} />
 			</DashboardLayout>

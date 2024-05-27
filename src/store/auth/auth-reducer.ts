@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { login, logOut, signUp, refreshAccessToken } from './auth.actions'
+import { login, logOut, refreshAccessToken } from './auth.actions'
 import { IAuthState } from './auth.interface'
-import { ILoginResponse, IRefreshAccessTokenResponse } from '@/interfaces'
+import { ILoginResponse } from '@/interfaces'
 
 const initialState: IAuthState = {
 	loading: false,
@@ -21,24 +21,14 @@ const authSlice = createSlice({
 				state.user = undefined
 				state.accessToken = undefined
 			})
-			.addCase(login.fulfilled, (state, { payload }: PayloadAction<ILoginResponse>) => {
-				state.user = payload.user
-				state.loading = false
-				state.accessToken = payload.accessToken
-			})
-			.addCase(signUp.pending, state => {
-				state.loading = true
-			})
-			.addCase(signUp.rejected, state => {
-				state.loading = false
-				state.user = undefined
-				state.accessToken = undefined
-			})
-			.addCase(signUp.fulfilled, (state, { payload }: PayloadAction<ILoginResponse>) => {
-				state.user = payload.user
-				state.loading = false
-				state.accessToken = payload.accessToken
-			})
+			.addCase(
+				login.fulfilled,
+				(state, { payload }: PayloadAction<ILoginResponse>) => {
+					state.user = payload.user
+					state.loading = false
+					state.accessToken = payload.accessToken
+				}
+			)
 			.addCase(refreshAccessToken.pending, state => {
 				state.loading = false
 			})
@@ -47,12 +37,16 @@ const authSlice = createSlice({
 				state.user = undefined
 				state.accessToken = undefined
 			})
-			.addCase(refreshAccessToken.fulfilled, (state, { payload }: PayloadAction<IRefreshAccessTokenResponse>) => {
-				state.loading = false
-				state.accessToken = payload.accessToken
-			})
+			.addCase(
+				refreshAccessToken.fulfilled,
+				(state, { payload }: PayloadAction<string>) => {
+					state.loading = false
+					state.accessToken = payload
+				}
+			)
 			.addCase(logOut.pending, state => {
 				state.loading = false
+				state.user = undefined
 			})
 			.addCase(logOut.rejected, state => {
 				state.loading = false
@@ -62,6 +56,12 @@ const authSlice = createSlice({
 				state.user = undefined
 				state.loading = false
 			}),
-	reducers: {}
+	reducers: {
+		signUp: (state, { payload }: PayloadAction<ILoginResponse>) => {
+			state.user = payload.user
+			state.loading = false
+			state.accessToken = payload.accessToken
+		}
+	}
 })
 export default authSlice

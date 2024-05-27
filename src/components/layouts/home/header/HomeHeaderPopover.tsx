@@ -1,12 +1,12 @@
-import { getUserInitials } from '@/utils'
-import { defaultChannel } from '@/data'
+import { getUserInitials, getImageUrl } from '@/utils'
 import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { languages } from '@/config'
 import dynamic from 'next/dynamic'
+import { useAuth, useActions } from '@/hooks'
 import Link from 'next/link'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import {
 	DynamicIcon,
 	Tooltip,
@@ -23,8 +23,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuPortal,
 	DropdownMenuSubContent,
-	DropdownMenuSeparator,
-	Button
+	DropdownMenuSeparator
 } from '@/components'
 
 const HomeHeaderNotifications = dynamic(
@@ -36,22 +35,12 @@ interface IHomeHeaderPopoverProps {
 	setShowFullWidthSearch: UseState<boolean>
 }
 
-const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
-	showFullWidthSearch,
-	setShowFullWidthSearch
-}) => {
+const DropdownBaseContent: FC = () => {
 	const { asPath, locale } = useRouter()
 	const { setTheme, theme } = useTheme()
-	const [auth, setAuth] = useState<boolean>(false)
 
-	const DropdownBaseContent: FC = () => (
+	return (
 		<>
-			<DropdownMenuItem className='space-x-2' asChild>
-				<Link href='/dashboard'>
-					<DynamicIcon name='contact' className='size-4' />
-					<span>Ваші дані на UaTube</span>
-				</Link>
-			</DropdownMenuItem>
 			<DropdownMenuSub>
 				<DropdownMenuSubTrigger className='space-x-2'>
 					<DynamicIcon
@@ -117,13 +106,16 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 					/>
 				</DropdownMenuPortal>
 			</DropdownMenuSub>
-			<DropdownMenuSeparator />
-			<DropdownMenuItem className='space-x-2'>
-				<DynamicIcon name='settings' className='h-4 w-4' />
-				<span>Налаштування</span>
-			</DropdownMenuItem>
 		</>
 	)
+}
+
+const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
+	showFullWidthSearch,
+	setShowFullWidthSearch
+}) => {
+	const { user } = useAuth()
+	const { logOut } = useActions()
 
 	return (
 		<div
@@ -136,7 +128,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 				<DynamicIcon name='search' />
 			</button>
 
-			{auth ? (
+			{user ? (
 				<div className='space-x-2 items-center flex'>
 					<Tooltip>
 						<TooltipTrigger asChild>
@@ -156,33 +148,26 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						<DropdownMenuTrigger className='focus:border-none'>
 							<Avatar className='border border-input'>
 								<AvatarImage
-									src={defaultChannel.profileImg}
-									alt={defaultChannel.nickName}
+									src={getImageUrl(user.creator.thumbnailUrl)}
+									alt={user.creator?.id}
 								/>
 								<AvatarFallback
-									children={getUserInitials(defaultChannel.name)}
+									children={getUserInitials(user.creator?.displayName)}
 								/>
 							</Avatar>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align='end'>
-							<DropdownMenuItem className='flex items-center space-x-2'>
-								<Avatar className='border border-accent'>
-									<AvatarImage
-										src={defaultChannel.profileImg}
-										alt={defaultChannel.nickName}
-									/>
-									<AvatarFallback
-										children={getUserInitials(defaultChannel.name)}
-									/>
-								</Avatar>
-								<div className='space-y-0.5'>
-									<div children={defaultChannel.name} />
-									<div
-										className='flex overflow-x-hidden text-sm truncate'
-										children={defaultChannel.nickName}
-									/>
-								</div>
+							<DropdownMenuItem className='space-x-2' asChild>
+								<Link href='/dashboard/videos'>
+									<DynamicIcon name='contact' className='size-4' />
+									<span>Мої відео</span>
+								</Link>
 							</DropdownMenuItem>
+							<DropdownMenuItem className='space-x-2' onClick={logOut}>
+								<DynamicIcon name='door-open' className='size-4' />
+								<span>Вихід</span>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
 							<DropdownBaseContent />
 						</DropdownMenuContent>
 					</DropdownMenu>
@@ -207,11 +192,6 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						<DynamicIcon name='person-standing' />
 						<span className='hiddenOnMobile'>Увійти</span>
 					</Link>
-					<Button
-						variant='secondary'
-						children='Канал'
-						onClick={() => setAuth(true)}
-					/>
 				</div>
 			)}
 		</div>

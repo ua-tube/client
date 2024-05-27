@@ -4,7 +4,7 @@ export default function Document({ __NEXT_DATA__ }: DocumentProps) {
 	return (
 		<Html lang={__NEXT_DATA__?.locale || 'uk'}>
 			<Head />
-			<body className='min-h-screen bg-background font-sans antialiased'>
+			<body className='bg-background font-sans antialiased'>
 				<Main />
 				<NextScript />
 			</body>

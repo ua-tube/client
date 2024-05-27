@@ -8,7 +8,7 @@ const getVideoUrl = (
 
 const getDashboardVideoUrl = (
 	videoId: string,
-	tab: 'edit' | 'comments' | 'analytics' = 'edit'
+	tab: 'edit' | 'comments' = 'edit'
 ) => `/dashboard/videos/${videoId}?tab=${tab}`
 
 const getChannelUrl = (

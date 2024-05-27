@@ -1,4 +1,12 @@
-import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, cn, getUserInitials, formatNumbers } from '@/utils'
+import {
+	formatDuration,
+	formatTimeAgo,
+	getVideoUrl,
+	getChannelUrl,
+	cn,
+	getUserInitials,
+	formatNumbers
+} from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'

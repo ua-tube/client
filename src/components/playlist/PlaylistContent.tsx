@@ -1,4 +1,10 @@
-import { getVideoUrl, getChannelUrl, formatDuration, formatTimeAgo, formatNumbers } from '@/utils'
+import {
+	getVideoUrl,
+	getChannelUrl,
+	formatDuration,
+	formatTimeAgo,
+	formatNumbers
+} from '@/utils'
 import { DynamicIcon, CategoryPills } from '@/components'
 import { IPlaylist } from '@/interfaces'
 import Link from 'next/link'

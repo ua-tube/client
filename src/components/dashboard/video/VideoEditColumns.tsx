@@ -1,23 +1,11 @@
+import { Checkbox, DynamicIcon, Tooltip, TooltipTrigger, TooltipContent } from '@/components'
 import { DataTableColumnHeader } from '@/components/dataTable/DataTableColumnHeader'
-import { getDashboardVideoUrl, getVideoUrl } from '@/utils'
+import { getDashboardVideoUrl, getVideoUrl, getImageUrl } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
-import {
-	Checkbox,
-	DynamicIcon,
-	Tooltip,
-	TooltipTrigger,
-	TooltipContent,
-	Progress,
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectItem
-} from '@/components'
 
-export const videoColumns: ColumnDef<IVideo>[] = [
+export const videoEditColumns: ColumnDef<IVideo>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -53,7 +41,7 @@ export const videoColumns: ColumnDef<IVideo>[] = [
 			<div className="group flex flex-row items-center space-x-3 pt-1">
 				<div className="h-20 aspect-video rounded-lg">
 					<img
-						src={value.thumbnailUrl}
+						src={getImageUrl(value.thumbnailUrl)}
 						alt={value.id}
 						className="size-full object-cover"
 					/>
@@ -79,17 +67,6 @@ export const videoColumns: ColumnDef<IVideo>[] = [
 								</Link>
 							</TooltipTrigger>
 							<TooltipContent children="Редагувати відео" />
-						</Tooltip>
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Link
-									href={getDashboardVideoUrl(value.id, 'analytics')}
-									className="hover:bg-muted rounded-full p-2.5"
-								>
-									<DynamicIcon name="area-chart" className="size-5" />
-								</Link>
-							</TooltipTrigger>
-							<TooltipContent children="Аналітика відео" />
 						</Tooltip>
 
 						<Tooltip>
@@ -123,87 +100,42 @@ export const videoColumns: ColumnDef<IVideo>[] = [
 	},
 	{
 		id: 'Видимість',
+		accessorKey:'visibility',
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Видимість" />
 		),
-		cell: ({ row: { original } }) => (
-			<Select defaultValue={original.visibility || 'Private'}>
-				<SelectTrigger className="w-[180px]">
-					<SelectValue placeholder="Видимість" />
-				</SelectTrigger>
-				<SelectContent>
-					<SelectItem value="Private">Приватне</SelectItem>
-					<SelectItem value="Unlisted">Не для всіх</SelectItem>
-					<SelectItem value="Public">Для всіх</SelectItem>
-				</SelectContent>
-			</Select>
-		)
-	},
-	{
-		id: 'Дата',
-		accessorKey: 'postedAt',
-		filterFn: 'auto',
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Дата" />
-		),
-		cell: ({ row: { original } }) =>
-			new Date(original.postedAt).toLocaleString()
-	},
-	{
-		id: 'Перегляди',
-		accessorKey: 'views',
-		filterFn: 'auto',
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Перегляди" />
-		),
-		cell: ({ row: { original } }) => original.metrics?.viewsCount || 0
-	},
-	{
-		id: 'Коментарі',
-		accessorKey: 'commentsCount',
-		filterFn: 'auto',
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Коментарі" />
-		),
-		cell: ({ row: { original } }) => original.metrics?.commentsCount || 0
-	},
-	{
-		id: 'Уподобання',
-		accessorKey: 'likesCount',
-		filterFn: 'auto',
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title='"Подобається" (%)' />
-		),
-		cell: ({ row: { original: { metrics } } }) => {
-			const percent =
-				Math.floor(
-					((+(metrics?.likesCount || 0)) /
-						((+(metrics?.likesCount || 0)) + (+(metrics?.dislikesCount || 0)))) *
-					100
-				) || 0
-			return (
-				<Tooltip>
-					<TooltipTrigger>
-						<div className="flex flex-col space-y-1">
-							<div className="text-lg" children={`${percent}%`} />
-							<span
-								children={`${metrics?.likesCount || 0} оцінок "подобається"`}
-							/>
-							<Progress value={percent} className="h-1.5" />
-						</div>
-					</TooltipTrigger>
-					<TooltipContent className="flex flex-row space-x-2">
-						<div className="flex items-center space-x-2">
-							<DynamicIcon name="thumbs-up" className="size-4" />
-							<span children={metrics?.likesCount || 0} />
-						</div>
-						<div className="flex items-center space-x-2">
-							<DynamicIcon name="thumbs-down" className="size-4" />
-							<span children={metrics?.dislikesCount || 0} />
-						</div>
-					</TooltipContent>
-				</Tooltip>
-			)
+		cell: ({ row: { original } }) => {
+			switch (original.visibility) {
+				case 'Private':
+					return 'Приватне'
+				case 'Unlisted':
+					return 'Не для всіх'
+				case 'Public':
+					return 'Для всіх'
+				default:
+					return 'Приватне'
+			}
 		}
+	},
+	{
+		id: 'Статус',
+		accessorKey: 'status',
+		header: ({ column }) => (<DataTableColumnHeader column={column} title="Статус" />),
+	},
+	{
+		id: 'Дата створення',
+		accessorKey: 'createdAt',
+		filterFn: 'auto',
+		header: ({ column }) => (<DataTableColumnHeader column={column} title="Дата" />),
+		cell: ({ row: { original } }) =>
+			new Date(original.createdAt || '').toLocaleString()
+	},
+	{
+		id: 'Дата оновлення',
+		accessorKey: 'updatedAt',
+		filterFn: 'auto',
+		header: ({ column }) => (<DataTableColumnHeader column={column} title="Дата" />),
+		cell: ({ row: { original } }) =>
+			new Date(original.updatedAt || '').toLocaleString()
 	}
 ]

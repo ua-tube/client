@@ -1,14 +1,16 @@
-interface IChannel {
+interface ICreator {
 	id: string
-	name: string
-	nickName: string
-	profileImg: string
-	createdAt?: string
-	videosCount?: number
+	displayName: string
+	nickname: string
 	description?: string
-	profileBgImg?: string
-	videosViewsCount?: number
-	subscribersCount?: number
+	email?: string
+	thumbnailUrl: string
+	bannerUrl?: string
+	status: CreatorStatusType
+	createdAt?: string
+	updatedAt?: string
 }
 
-export type { IChannel }
+type CreatorStatusType = 'CREATED' | 'REGISTERED'
+
+export type { ICreator, CreatorStatusType }

@@ -1,10 +1,16 @@
-import { DynamicIcon, Input, Popover, PopoverTrigger, PopoverContent, buttonVariants } from '@/components'
+import {
+	DynamicIcon,
+	Input,
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+	buttonVariants
+} from '@/components'
 import { UseState, IVideo } from '@/interfaces'
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import { cn, getVideoUrl } from '@/utils'
 import { useRouter } from 'next/router'
 import { useDebounce } from '@/hooks'
-import { videos } from '@/data'
 import Link from 'next/link'
 
 interface IHomeHeaderSearchProps {
@@ -22,13 +28,13 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({
 	const { push } = useRouter()
 	const onSearch = async () => await push(`/search?query=${search}`)
 
-	useEffect(
-		() =>
-			search.length > 0
-				? setSearchedVideos(videos.filter(v => v.title.includes(search)))
-				: undefined,
-		[searchDebounced]
-	)
+	// useEffect(
+	// 	() =>
+	// 		search.length > 0
+	// 			? setSearchedVideos(videos.filter(v => v.title.includes(search)))
+	// 			: undefined,
+	// 	[searchDebounced]
+	// )
 
 	return (
 		<div

@@ -1,5 +1,5 @@
-import { getUserInitials, getChannelUrl } from '@/utils'
-import { defaultChannel } from '@/data'
+import { getUserInitials, getChannelUrl, getImageUrl } from '@/utils'
+import { useAuth, useActions } from '@/hooks'
 import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
@@ -34,6 +34,8 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 	setShowFullWidthSearch
 }) => {
 	const { pathname } = useRouter()
+	const { user } = useAuth()
+	const { logOut } = useActions()
 	const { setTheme, theme } = useTheme()
 
 	return (
@@ -65,28 +67,30 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 					<DropdownMenuTrigger className='focus:border-none p-3'>
 						<Avatar className='border border-input'>
 							<AvatarImage
-								src={defaultChannel.profileImg}
-								alt={defaultChannel.nickName}
+								src={getImageUrl(user?.creator.thumbnailUrl)}
+								alt={user?.creator?.nickname}
 							/>
-							<AvatarFallback children={getUserInitials(defaultChannel.name)} />
+							<AvatarFallback
+								children={getUserInitials(user?.creator?.displayName)}
+							/>
 						</Avatar>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						<DropdownMenuItem className='flex items-center space-x-2'>
 							<Avatar className='border border-accent'>
 								<AvatarImage
-									src={defaultChannel.profileImg}
-									alt={defaultChannel.nickName}
+									src={getImageUrl(user?.creator.thumbnailUrl)}
+									alt={user?.creator?.nickname}
 								/>
 								<AvatarFallback
-									children={getUserInitials(defaultChannel.name)}
+									children={getUserInitials(user?.creator?.displayName)}
 								/>
 							</Avatar>
 							<div className='space-y-0.5'>
-								<div children={defaultChannel.name} />
+								<div children={user?.creator?.displayName} />
 								<div
 									className='flex overflow-x-hidden text-sm truncate'
-									children={defaultChannel.nickName}
+									children={user?.creator?.nickname}
 								/>
 							</div>
 						</DropdownMenuItem>
@@ -99,17 +103,12 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Link
-								href={getChannelUrl(defaultChannel.nickName, 'index', true)}
+								href={getChannelUrl(user?.creator?.nickname, 'index', true)}
 								className='flex items-center space-x-2'
 							>
 								<DynamicIcon name='person-standing' />
 								<span children='Ваш канал' />
 							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem className='flex items-center space-x-2'>
-							<DynamicIcon name='door-open' />
-							<span children='Вийти з аккаунту' />
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuSub>
@@ -146,6 +145,14 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 								</DropdownMenuSubContent>
 							</DropdownMenuPortal>
 						</DropdownMenuSub>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem
+							className='flex items-center space-x-2'
+							onClick={logOut}
+						>
+							<DynamicIcon name='door-open' />
+							<span children='Вийти з аккаунту' />
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

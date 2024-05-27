@@ -1,22 +1,26 @@
 import { $axios } from '@/api/axios'
+import { IStorageResponse } from '@/interfaces'
 
 export const UserService = {
-	async createCreator(data: any) {
-		return $axios.post<any>('auth/login', data)
+	generateBannerToken(accessToken?: string) {
+		return $axios.get<{ token: string }>(
+			'users/banner/upload-token',
+			accessToken
+				? { headers: { Authorization: 'Bearer ' + accessToken } }
+				: undefined
+		)
 	},
-	generateBannerToken(file: FormData) {
-		return $axios.post<any>('users/banner/upload-token', file)
-	},
-	generateThumbnailToken(file: FormData) {
-		return $axios.post<any>('users/thumbnail/upload-token', file)
-	},
-	getByUserId(userId: string) {
-		return $axios.get<any>('users/nickname-check', { params: { userId } })
-	},
-	getSelfCreator(file: FormData) {
-		return $axios.get<any>('creators/self')
+	generateThumbnailToken(accessToken?: string) {
+		return $axios.get<IStorageResponse>(
+			'users/thumbnail/upload-token',
+			accessToken
+				? { headers: { Authorization: 'Bearer ' + accessToken } }
+				: undefined
+		)
 	},
 	checkNicknameAvailable(nickname: string) {
-		return $axios.get<any>('users/nickname-check', { params: { nickname } })
+		return $axios.get<{ availability: boolean }>('users/nickname-check', {
+			params: { nickname }
+		})
 	}
 }

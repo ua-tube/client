@@ -1,10 +1,10 @@
-import { AppHead, SignInForm } from '@/components'
+import { AppHead, SignInForm, LoginLayout } from '@/components'
 
 export default function UserLoginPage() {
 	return (
 		<>
 			<AppHead title='Вхід' />
-			<div className='loader-container' children={<SignInForm />} />
+			<LoginLayout children={<SignInForm />} />
 		</>
 	)
 }

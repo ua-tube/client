@@ -1,11 +1,11 @@
-import { IChannel } from './'
+import { ICreator } from '@/interfaces/channel.interface'
 
 interface IComment {
 	id: string
 	message: string
 	createdAt: string
 	likesCount: number
-	chanel: IChannel
+	chanel: ICreator
 	children?: IComment[]
 }
 

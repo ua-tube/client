@@ -1,11 +1,11 @@
-import { defaultChannel, videos, playlists, channelTabsKeys } from '@/data'
+import { channelTabsKeys } from '@/data'
 import { FC, useState, useEffect } from 'react'
 import { buttonVariants } from '@/components'
 import { ChannelTabsKeyType } from '@/types'
 import { cn, getChannelUrl } from '@/utils'
 import AboutChannel from './AboutChannel'
 import { useRouter } from 'next/router'
-import { TabType } from '@/interfaces'
+import { TabType, ICreator } from '@/interfaces'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
@@ -24,17 +24,6 @@ const PlaylistsList = dynamic(
 
 const tabs: TabType<ChannelTabsKeyType>[] = [
 	{
-		key: 'index',
-		title: 'Головна',
-		children: (
-			<div className='flex flex-col gap-y-3'>
-				<VideosPills title='Для вас' videos={videos.slice(2)} />
-				<VideosPills title='Популярне' videos={videos.slice(5)} />
-				<VideosPills title='Завантаження' videos={videos.slice(7)} />
-			</div>
-		)
-	},
-	{
 		key: 'videos',
 		title: 'Відео',
 		children: (
@@ -42,18 +31,22 @@ const tabs: TabType<ChannelTabsKeyType>[] = [
 				<CategoryPills
 					categories={['Усі', 'Популярні', 'Найновіші', 'Найстаріші']}
 				/>
-				<VideosList videos={videos} />
+				{/*<VideosList videos={videos} />*/}
 			</div>
 		)
 	},
 	{
 		key: 'playlists',
 		title: 'Плейлісти',
-		children: <PlaylistsList playlists={playlists} />
+		children: <>{/*<PlaylistsList playlists={playlists} />*/}</>
 	}
 ]
 
-const AboutChannelContent: FC = () => {
+interface IAboutChannelContentProps {
+	channel: ICreator
+}
+
+const AboutChannelContent: FC<IAboutChannelContentProps> = ({ channel }) => {
 	const { query, push } = useRouter()
 	const [currTab, setCurrTab] = useState<ChannelTabsKeyType>('index')
 
@@ -67,14 +60,14 @@ const AboutChannelContent: FC = () => {
 
 	return (
 		<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
-			<AboutChannel channel={defaultChannel} />
+			<AboutChannel channel={channel} />
 			<div
 				className='space-x-3 border-accent border-b pb-2'
 				children={tabs.map((value, index) => (
 					<Link
 						key={index}
 						children={value.title}
-						href={getChannelUrl(defaultChannel.nickName, value.key, true)}
+						href={getChannelUrl(channel.nickname, value.key, true)}
 						className={cn(
 							buttonVariants({
 								variant: value.key === currTab ? 'secondary' : 'outline'

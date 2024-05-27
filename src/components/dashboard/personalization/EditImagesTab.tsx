@@ -1,7 +1,5 @@
 import { FC } from 'react'
-import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components'
-import { getUserInitials } from '@/utils'
-import { defaultChannel } from '@/data'
+import { Avatar, Button } from '@/components'
 
 const EditImagesTab: FC = () => {
 	return (
@@ -15,8 +13,8 @@ const EditImagesTab: FC = () => {
 				<div className='flex flex-col md:flex-row gap-4 items-start py-2'>
 					<div className='h-52 w-80 bg-muted rounded-lg flex items-center justify-center'>
 						<Avatar className='size-48'>
-							<AvatarImage src={defaultChannel.profileImg} />
-							<AvatarFallback children={getUserInitials(defaultChannel.name)} />
+							{/*<AvatarImage src={defaultChannel.profileImg} />*/}
+							{/*<AvatarFallback children={getUserInitials(defaultChannel.name)} />*/}
 						</Avatar>
 					</div>
 					<div className='w-1/3 space-y-2'>
@@ -42,21 +40,21 @@ const EditImagesTab: FC = () => {
 				<div className='flex flex-col md:flex-row gap-4 items-start py-2'>
 					<div className='h-52 w-80 bg-muted rounded-lg flex items-center justify-center'>
 						<div className='space-y-2 flex flex-col items-center'>
-							<img
-								src={defaultChannel.profileBgImg}
-								className='w-72 object-cover h-9 rounded-lg'
-								alt='profile-img'
-							/>
-							<img
-								src={defaultChannel.profileBgImg}
-								className='w-48 object-cover h-6 rounded-lg'
-								alt='profile-img'
-							/>
-							<img
-								src={defaultChannel.profileBgImg}
-								className='w-24 object-cover h-3 rounded-md'
-								alt='profile-img'
-							/>
+							{/*<img*/}
+							{/*	src={defaultChannel.profileBgImg}*/}
+							{/*	className='w-72 object-cover h-9 rounded-lg'*/}
+							{/*	alt='profile-img'*/}
+							{/*/>*/}
+							{/*<img*/}
+							{/*	src={defaultChannel.profileBgImg}*/}
+							{/*	className='w-48 object-cover h-6 rounded-lg'*/}
+							{/*	alt='profile-img'*/}
+							{/*/>*/}
+							{/*<img*/}
+							{/*	src={defaultChannel.profileBgImg}*/}
+							{/*	className='w-24 object-cover h-3 rounded-md'*/}
+							{/*	alt='profile-img'*/}
+							{/*/>*/}
 						</div>
 					</div>
 					<div className='w-1/3 space-y-2'>

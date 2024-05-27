@@ -1,5 +1,18 @@
-import { Card, CardHeader, CardTitle, CardDescription, DynamicIcon, ScrollArea } from '@/components'
-import { getChannelUrl, getVideoUrl, formatDuration, cn, getPlaylistUrl } from '@/utils'
+import {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+	DynamicIcon,
+	ScrollArea
+} from '@/components'
+import {
+	getChannelUrl,
+	getVideoUrl,
+	formatDuration,
+	cn,
+	getPlaylistUrl
+} from '@/utils'
 import { IPlaylist } from '@/interfaces'
 import { FC } from 'react'
 import Link from 'next/link'

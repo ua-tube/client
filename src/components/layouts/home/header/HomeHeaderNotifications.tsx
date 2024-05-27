@@ -1,4 +1,8 @@
-import { FC } from 'react'
+import { getUserInitials, toastError } from '@/utils'
+import { NotificationsService } from '@/services'
+import { INotification } from '@/interfaces'
+import { FC, useState } from 'react'
+import Link from 'next/link'
 import {
 	HoverCardTrigger,
 	DynamicIcon,
@@ -11,15 +15,26 @@ import {
 	AvatarImage,
 	AvatarFallback
 } from '@/components'
-import { notifications } from '@/data'
-import { getUserInitials } from '@/utils'
-import Link from 'next/link'
 
 const HomeHeaderNotifications: FC = () => {
+	const [notifications, setNotifications] = useState<INotification[]>()
+
+	const updateData = async () => {
+		try {
+			const { data } = await NotificationsService.getAll()
+			console.log(data)
+		} catch (e) {
+			toastError(e)
+		}
+	}
+
 	return (
 		<HoverCard>
 			<HoverCardTrigger asChild>
-				<button className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'>
+				<button
+					className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
+					onClick={updateData}
+				>
 					<DynamicIcon name='bell' />
 				</button>
 			</HoverCardTrigger>
@@ -32,14 +47,14 @@ const HomeHeaderNotifications: FC = () => {
 				</CardHeader>
 				<div
 					className='grid gap-4'
-					children={notifications.map((value, index) => (
+					children={notifications?.map((value, index) => (
 						<div key={index} className='flex items-center space-x-2.5'>
 							<Avatar>
-								<AvatarImage src={value.channel?.profileImg} />
+								<AvatarImage src={value.channel?.thumbnailUrl} />
 								<AvatarFallback
 									children={
 										value.channel ? (
-											getUserInitials(value.channel?.name)
+											getUserInitials(value.channel?.nickname)
 										) : (
 											<DynamicIcon name='settings' />
 										)
@@ -50,7 +65,7 @@ const HomeHeaderNotifications: FC = () => {
 								{value.channel && (
 									<div
 										className='text-sm font-medium leading-none'
-										children={`@${value.channel.nickName}`}
+										children={`@${value.channel.nickname}`}
 									/>
 								)}
 								<p

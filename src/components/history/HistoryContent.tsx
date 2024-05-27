@@ -1,5 +1,19 @@
-import { getVideoUrl, formatDuration, getChannelUrl, formatNumbers, formatTimeAgo, writeVideoUrl } from '@/utils'
-import { DynamicIcon, Card, CardContent, Button, CardHeader, CardTitle } from '@/components'
+import {
+	getVideoUrl,
+	formatDuration,
+	getChannelUrl,
+	formatNumbers,
+	formatTimeAgo,
+	writeVideoUrl
+} from '@/utils'
+import {
+	DynamicIcon,
+	Card,
+	CardContent,
+	Button,
+	CardHeader,
+	CardTitle
+} from '@/components'
 import { IVideo } from '@/interfaces'
 import { videos } from '@/data'
 import Link from 'next/link'

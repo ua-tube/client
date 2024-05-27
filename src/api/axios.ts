@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const baseURL = process.env.SERVER_URL
+export const baseURL = process.env.GATEWAY_SERVER_URL
 
 export const $axios = axios.create({
 	baseURL,

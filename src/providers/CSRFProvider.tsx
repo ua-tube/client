@@ -7,7 +7,7 @@ const CSRFProvider: FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		if (pathname !== '/404')
 			generateCsrfToken().then(({ data }) =>
-				sessionStorage.setItem('csrf-token', data.data.token)
+				sessionStorage.setItem('csrf-token', data.token)
 			)
 	}, [])
 	return children

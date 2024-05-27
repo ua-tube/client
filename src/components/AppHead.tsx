@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { siteConfig } from '@/config'
 import Head from 'next/head'
 import { FC } from 'react'
@@ -18,12 +17,15 @@ const AppHead: FC<IAppHeadProps> = ({
 	disableDesc,
 	disableMeta
 }) => {
-	const { locale } = useRouter()
 	const defaultImg = image || `${process.env.SERVER_URL}/og_image.webp`
 	const defaultDesc = !disableDesc ? description : ''
 	return (
 		<Head>
 			<title>{`${title} | ${siteConfig.name}`}</title>
+			<meta
+				name='viewport'
+				content='width=device-width, initial-scale=1.0, maximum-scale=1.0'
+			/>
 			<meta property='og:title' key='title' content={title} />
 			{!disableMeta && (
 				<>

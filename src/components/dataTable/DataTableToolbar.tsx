@@ -23,9 +23,9 @@ export function DataTableToolbar<TData>({
 					}
 					className='h-8 w-[150px] lg:w-[250px]'
 				/>
-				{table.getColumn('visible') && (
+				{table.getColumn('visibility') && (
 					<DataTableFacetedFilter
-						column={table.getColumn('visible')}
+						column={table.getColumn('visibility')}
 						title='Видимість'
 						options={[
 							{ label: 'Для всіх', value: '2', icon: 'eye' },

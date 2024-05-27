@@ -1,5 +1,5 @@
 import { formatNumbers, getChannelUrl } from '@/utils'
-import { IChannel } from '@/interfaces'
+import { ICreator } from '@/interfaces'
 import { FC, useState } from 'react'
 import {
 	Avatar,
@@ -14,7 +14,7 @@ import {
 } from '@/components'
 
 interface IAboutChannelProps {
-	channel: IChannel
+	channel: ICreator
 }
 
 const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
@@ -27,10 +27,10 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 
 	return (
 		<div className='space-y-5'>
-			{channel.profileBgImg && (
+			{channel.bannerUrl && (
 				<div className='w-full h-48'>
 					<img
-						src={channel.profileBgImg}
+						src={channel.bannerUrl}
 						className='w-full h-full object-cover rounded-lg'
 						alt='profile-bg-img'
 					/>
@@ -38,24 +38,21 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 			)}
 			<div className='flex flex-col items-start md:flex-row md:items-center gap-4'>
 				<Avatar className='size-16 sm:size-20 md:size-40'>
-					<AvatarImage src={channel.profileImg} />
-					<AvatarFallback children={channel.nickName.slice(0, 2)} />
+					<AvatarImage src={channel.thumbnailUrl} />
+					<AvatarFallback children={channel.nickname.slice(0, 2)} />
 				</Avatar>
 				<div className='flex flex-col gap-y-1.5 items-start'>
 					<h1
 						className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'
-						children={channel.name}
+						children={channel.displayName}
 					/>
 					<ul className='flex flex-col md:flex-row md:ml-6 space-x-8 items-baseline md:items-center list-disc'>
-						<li className='leading-7' children={channel.nickName} />
+						<li className='leading-7' children={channel.nickname} />
 						<li
 							className='leading-7'
-							children={`Підписалося ${formatNumbers(channel.subscribersCount || 0)} користувачів`}
+							children={`Підписалося ${formatNumbers(0)} користувачів`}
 						/>
-						<li
-							className='leading-7'
-							children={`${channel.videosCount} відео`}
-						/>
+						<li className='leading-7' children={`${0} відео`} />
 					</ul>
 					<div className='flex space-x-2 items-center'>
 						<span
@@ -86,25 +83,23 @@ const AboutChannel: FC<IAboutChannelProps> = ({ channel }) => {
 							<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
 								<DynamicIcon name='merge' />
 								<span
-									children={getChannelUrl(channel.nickName, undefined, false)}
+									children={getChannelUrl(channel.nickname, undefined, false)}
 								/>
 							</div>
 
 							<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
 								<DynamicIcon name='user-check' />
-								<span
-									children={`Підписалося ${channel.subscribersCount} користувачів`}
-								/>
+								<span children={`Підписалося ${0} користувачів`} />
 							</div>
 
 							<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
 								<DynamicIcon name='monitor-play' />
-								<span children={`${channel.videosCount} відео`} />
+								<span children={`${0} відео`} />
 							</div>
 
 							<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
 								<DynamicIcon name='bar-chart-3' />
-								<span children={`${channel.videosViewsCount} переглядів`} />
+								<span children={`${0} переглядів`} />
 							</div>
 
 							<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>

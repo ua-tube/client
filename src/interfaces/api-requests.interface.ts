@@ -3,6 +3,11 @@ interface ISignUpRequest {
 	password: string
 }
 
+interface IPagination {
+	page: string | number
+	perPage: string | number
+}
+
 interface ILoginRequest {
 	login: string
 	password: string
@@ -17,7 +22,9 @@ interface ICreateCreatorRequest {
 	nickname: string
 }
 
+
 export type {
+	IPagination,
 	ILoginRequest,
 	ISignUpRequest,
 	ICreateCreatorRequest,

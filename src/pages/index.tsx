@@ -1,6 +1,8 @@
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, DynamicIcon } from '@/components'
-import { categories, videos } from '@/data'
 import dynamic from 'next/dynamic'
+import { IHomePageVideosResponse } from '@/interfaces'
+import { VideoService } from '@/services'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
 	loading: () => <DynamicIcon name='loader' className='loader-container' />
@@ -13,13 +15,22 @@ const VideosList = dynamic(
 	() => import('@/components/videos/general/VideosList')
 )
 
-export default function HomePage() {
+export const getServerSideProps: GetServerSideProps<{
+	data: IHomePageVideosResponse
+}> = async () => {
+	const { data } = await VideoService.getHomePageVideos()
+	return { props: { data } }
+}
+
+export default function HomePage({
+	data
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<>
 			<AppHead title='Головна сторінка' />
 			<HomeLayout autoShowSidebar>
-				<CategoryPills categories={categories} />
-				<VideosList videos={videos} />
+				<CategoryPills categories={Object.values(data.facetDistribution.tags)} />
+				<VideosList videos={data.hits} />
 			</HomeLayout>
 		</>
 	)

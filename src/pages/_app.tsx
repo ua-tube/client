@@ -8,13 +8,11 @@ import dynamic from 'next/dynamic'
 
 import '@/styles/globals.css'
 
-
 const AppToaster = dynamic(() => import('@/providers/AppToaster'), {
 	ssr: false
 })
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-
 	setupAxiosInterceptors(store)
 
 	return (

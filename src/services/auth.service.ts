@@ -8,7 +8,7 @@ import {
 } from '@/interfaces'
 import { $axios } from '@/api/axios'
 
-const baseURL = process.env.AUTH_SERVER_URL || process.env.SERVER_URL
+const baseURL = process.env.AUTH_SERVER_URL
 
 export const AuthService = {
 	async login(loginBody: ILoginRequest) {
@@ -20,11 +20,15 @@ export const AuthService = {
 	},
 
 	async recoveryPass(data: IRecoveryPassRequest) {
-		return $axios.post<IErrorResponse>('auth/recovery/create-token', data, { baseURL })
+		return $axios.post<IErrorResponse>('auth/recovery/create-token', data, {
+			baseURL
+		})
 	},
 
 	async passReset(data: any) {
-		return $axios.post<IErrorResponse>('auth/recovery/reset-password', data, { baseURL })
+		return $axios.post<IErrorResponse>('auth/recovery/reset-password', data, {
+			baseURL
+		})
 	},
 
 	async refreshAccessToken() {

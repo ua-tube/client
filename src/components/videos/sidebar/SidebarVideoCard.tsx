@@ -1,4 +1,4 @@
-import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl } from '@/utils'
+import { formatDuration, formatTimeAgo, getVideoUrl, getChannelUrl, formatNumbers } from '@/utils'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -30,19 +30,15 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = value => {
 					children={value.title}
 				/>
 				<Link
-					href={getChannelUrl(value.creator.nickName)}
+					href={getChannelUrl(value.creator.nickname)}
 					className='text-muted-foreground text-xs'
 				>
-					<div children={value.creator.name} />
+					<div children={value.creator.displayName} />
 				</Link>
 
 				<div
 					className='text-muted-foreground text-xs'
-					children={`${Intl.NumberFormat(undefined, {
-						notation: 'compact'
-					}).format(
-						value.views
-					)} переглядів • ${formatTimeAgo(value.postedAt)}`}
+					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.publishedAt)}`}
 				/>
 			</div>
 		</div>

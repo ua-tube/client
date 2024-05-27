@@ -1,6 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { AppHead, RecoveryPassForm } from '@/components'
-
+import { AppHead, RecoveryPassForm, LoginLayout } from '@/components'
 
 export const getServerSideProps: GetServerSideProps<{
 	token?: string
@@ -15,13 +14,13 @@ export const getServerSideProps: GetServerSideProps<{
 }
 
 export default function UserRecoveryPasswordPage({
-																									 email,
-																									 token
-																								 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	email,
+	token
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<>
-			<AppHead title="Відновлення паролю" />
-			<div className="loader-container" children={<RecoveryPassForm {...{ email, token }} />} />
+			<AppHead title='Відновлення паролю' />
+			<LoginLayout children={<RecoveryPassForm {...{ email, token }} />} />
 		</>
 	)
 }

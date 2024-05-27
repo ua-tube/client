@@ -16,7 +16,6 @@ import {
 	Button,
 	DynamicIcon
 } from '@/components'
-import { defaultChannel } from '@/data'
 
 const profileFormSchema = z.object({
 	username: z
@@ -53,13 +52,13 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 const defaultValues: Partial<ProfileFormValues> = {
-	description: defaultChannel.description,
-	name: defaultChannel.name,
-	username: defaultChannel.nickName,
+	description: '',
+	name: '',
+	username: '',
 	urls: [
 		{
 			name: 'Канал',
-			value: getChannelUrl(defaultChannel.nickName, 'index', false)
+			value: getChannelUrl('', 'index', false)
 		}
 	]
 }

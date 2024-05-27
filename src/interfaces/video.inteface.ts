@@ -1,4 +1,4 @@
-import { IChannel } from './'
+import { ICreator } from './'
 
 interface IVideo {
 	id: string
@@ -6,17 +6,18 @@ interface IVideo {
 	title: string
 	description?: string
 	isPublished?: boolean
+	publishedAt?: string
 	visibility?: VideoVisibilityType
 	status?: VideoStatusType
-	creator: IChannel
-	postedAt: string
+	creator: ICreator
 	lengthSeconds: number
-	thumbnailUrl: string
+	thumbnailUrl?: string
+	previewThumbnailUrl?: string
 	processedVideos?: IProcessedVideo[]
 	metrics?: IVideoMetrics
 	processingStatus?: VideoProcessingStatusType
 	tags?: string
-	thumbnails?: IVideoThumbnail
+	thumbnails?: IVideoThumbnail[]
 	thumbnailId?: string
 	thumbnailStatus?: VideoThumbnailStatusType
 	videoPreviewThumbnail?: IVideoPreviewThumbnail
@@ -44,7 +45,7 @@ interface IProcessedVideo {
 }
 
 interface IVideoThumbnail {
-	imageFileId?: string
+	imageFileId: string
 	url: string
 	videoId?: string
 }
@@ -56,28 +57,21 @@ interface IVideoPreviewThumbnail {
 }
 
 type VideoStatusType =
-	'Created' |
-	'Registered' |
-	'RegistrationFailed' |
-	'Unregistered'
+	| 'Created'
+	| 'Registered'
+	| 'RegistrationFailed'
+	| 'Unregistered'
 
-
-type VideoVisibilityType =
-	'Private' |
-	'Unlisted' |
-	'Public'
-
+type VideoVisibilityType = 'Private' | 'Unlisted' | 'Public'
 
 type VideoProcessingStatusType =
-	'WaitingForUserUpload' |
-	'VideoUploaded' |
-	'VideoBeingProcessed' |
-	'VideoProcessed' |
-	'VideoProcessingFailed'
-
+	| 'WaitingForUserUpload'
+	| 'VideoUploaded'
+	| 'VideoBeingProcessed'
+	| 'VideoProcessed'
+	| 'VideoProcessingFailed'
 
 type VideoThumbnailStatusType = 'Waiting' | 'Processed'
-
 
 interface IReportVideoReason {
 	id: number

@@ -1,7 +1,9 @@
+import { ICreator } from './'
+
 interface IUser {
 	id: string
 	email: string
-	role?: 'USER' | 'ADMIN'
+	creator: ICreator
 }
 
 export type { IUser }
