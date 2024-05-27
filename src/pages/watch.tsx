@@ -2,7 +2,7 @@ import { AppHead, Skeleton, DynamicIcon, AboutVideo } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useState, useEffect, FC } from 'react'
 import dynamic from 'next/dynamic'
-import { VideoManagerService } from '@/services'
+import { VideoManagerService, SubscriptionsService } from '@/services'
 import { IVideo } from '@/interfaces'
 import { getImageUrl, cn } from '@/utils'
 
@@ -37,7 +37,6 @@ export const getServerSideProps: GetServerSideProps<{
 	// currList?: IPlaylist
 }> = async ({ query, locale }) => {
 	const videoId = (query?.videoId as string) || ''
-
 
 	// const defaultVideosIds: string[] = videos.map(value => value.id)
 	// let videoIds: {
@@ -82,32 +81,35 @@ export const getServerSideProps: GetServerSideProps<{
 export default function VideoPage({
 																		videoId
 																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
 	const [cinemaMode, setCinemaMode] = useState(false)
 	const [video, setVideo] = useState<IVideo>()
 
 	useEffect(() => {
-		(async () => {
+		;(async () => {
 			const { data } = await VideoManagerService.getVideo(videoId)
-			setVideo(data)
+			const { data: creator } = await SubscriptionsService.getSubscriptionInfo(data.creatorId!)
+			setVideo({ ...data, creator })
 		})()
 	}, [])
 
-	const SideBar: FC = () => (
-		<>
-
-		</>
-	)
+	const SideBar: FC = () => <>
+	</>
 
 	const LeftSidebar: FC = () => (
 		<>
-			<AboutVideo video={video} />
-			{/*<VideoCommentsSection totalCount={4324} comments={defaultComments} />*/}
+			<AboutVideo video={video} videoId={videoId} />
+			<VideoCommentsSection videoId={videoId} video={video} />
 		</>
 	)
 
 	return (
 		<>
-			<AppHead title={`${video?.title}`} image={getImageUrl(video?.thumbnailUrl)} disableDesc />
+			<AppHead
+				title={`${video?.title}`}
+				image={getImageUrl(video?.thumbnailUrl)}
+				disableDesc
+			/>
 			<HomeLayout openInDrawer>
 				<section className="mx-auto flex flex-col gap-6 md:flex-row pb-4">
 					<div
@@ -116,32 +118,18 @@ export default function VideoPage({
 							cinemaMode ? 'w-full' : 'md:w-3/4'
 						)}
 					>
-						{video && <VideoPlayer autoPlay {...{ cinemaMode, setCinemaMode, video, videoIds: { next: '' } }} />}
-						{!cinemaMode && (
-							<div
-								className="w-full flex flex-col gap-y-4"
-								children={<LeftSidebar />}
-							/>
+						{video && (
+							<VideoPlayer autoPlay {...{ cinemaMode, setCinemaMode, video, videoIds: { next: '' } }} />
 						)}
+						{!cinemaMode && (<div className="w-full flex flex-col gap-y-4" children={<LeftSidebar />} />)}
 					</div>
-					{!cinemaMode && (
-						<div
-							className="w-full md:w-1/4 flex flex-col gap-y-2"
-							children={<SideBar />}
-						/>
-					)}
+					{!cinemaMode && (<div className="w-full md:w-1/4 flex flex-col gap-y-2" children={<SideBar />} />)}
 				</section>
 
 				{cinemaMode && (
 					<section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
-						<div
-							className="w-full md:w-3/4 flex flex-col gap-y-4"
-							children={<LeftSidebar />}
-						/>
-						<div
-							className="w-full md:w-1/4 flex flex-col gap-y-2"
-							children={<SideBar />}
-						/>
+						<div className="w-full md:w-3/4 flex flex-col gap-y-4" children={<LeftSidebar />} />
+						<div className="w-full md:w-1/4 flex flex-col gap-y-2" children={<SideBar />} />
 					</section>
 				)}
 			</HomeLayout>

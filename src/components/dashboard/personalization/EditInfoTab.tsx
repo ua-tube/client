@@ -1,6 +1,7 @@
-import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { cn, getChannelUrl } from '@/utils'
+import { useForm } from 'react-hook-form'
+import { getChannelUrl, toastError } from '@/utils'
+import { useAuth, useActions } from '@/hooks'
 import { FC } from 'react'
 import { z } from 'zod'
 import {
@@ -13,12 +14,13 @@ import {
 	FormDescription,
 	FormMessage,
 	Textarea,
-	Button,
-	DynamicIcon
+	Button
 } from '@/components'
+import { CreatorService } from '@/services'
+import { toast } from 'sonner'
 
 const profileFormSchema = z.object({
-	username: z
+	nickname: z
 		.string()
 		.min(2, {
 			message: 'Мінімальна довжина нікнейму 2 символи!'
@@ -26,7 +28,7 @@ const profileFormSchema = z.object({
 		.max(30, {
 			message: 'Максимальна довжина нікнейму 30 символів!'
 		}),
-	name: z
+	displayName: z
 		.string()
 		.min(4, {
 			message: 'Мінімальна довжина імені 4 символи!'
@@ -34,64 +36,54 @@ const profileFormSchema = z.object({
 		.max(30, {
 			message: 'Максимальна довжина імені 30 символів!'
 		}),
-	description: z.string().max(320, {
-		message: 'Максимальна довжина опису 320 символів!'
-	}),
-	urls: z
-		.array(
-			z.object({
-				name: z
-					.string()
-					.min(2, { message: 'Мінімальна довжина назви посилання 2 символи' }),
-				value: z.string().url({ message: 'Введіть посилання!' })
-			})
-		)
-		.optional()
+	email: z.string().email({ message: 'Не вірний тип емайлу!' }),
+	description: z.string().max(9999, {
+		message: 'Максимальна довжина опису 9999 символів!'
+	})
 })
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
-
-const defaultValues: Partial<ProfileFormValues> = {
-	description: '',
-	name: '',
-	username: '',
-	urls: [
-		{
-			name: 'Канал',
-			value: getChannelUrl('', 'index', false)
-		}
-	]
-}
 
 const EditInfoTab: FC = () => {
-	const form = useForm<ProfileFormValues>({
+	const { user } = useAuth()
+	const { updateCreator } = useActions()
+
+	const form = useForm<z.infer<typeof profileFormSchema>>({
 		resolver: zodResolver(profileFormSchema),
-		defaultValues,
-		mode: 'onChange'
+		defaultValues: {
+			description: user?.creator.description ?? '',
+			displayName: user?.creator.displayName,
+			email: user?.email,
+			nickname: user?.creator.nickname
+		},
+		mode: 'onSubmit'
 	})
 
-	const { fields, append } = useFieldArray({
-		name: 'urls',
-		control: form.control
-	})
 
-	const onSubmit = (data: ProfileFormValues) => {}
+	const onSubmit = async (data: z.infer<typeof profileFormSchema>) => {
+		try {
+			const { data: creator } = await CreatorService.updateCreator(data)
+			updateCreator(creator)
+			toast.success('Оновлено успішно!')
+		} catch (e) {
+			toastError(e)
+		}
+	}
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 				<FormField
 					control={form.control}
-					name='name'
+					name="displayName"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Імя</FormLabel>
 							<FormDescription>
 								Виберіть назву каналу, що представлятиме вас і контент, який ви
-								публікуєте. Ім’я можна змінювати двічі на 14 днів.
+								публікуєте.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder='Введіть назву каналу' {...field} />
+								<Input placeholder="Введіть назву каналу" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -99,80 +91,54 @@ const EditInfoTab: FC = () => {
 				/>
 				<FormField
 					control={form.control}
-					name='username'
+					name="nickname"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Псевдонім</FormLabel>
 							<FormDescription>
-								Виберіть унікальний псевдонім, додавши літери й цифри. Ви
-								зможете відновити попереднє ім’я користувача протягом 14 днів.
-								Псевдоніми можна змінювати двічі кожні 14 днів.
+								Виберіть унікальний псевдонім, додавши літери й цифри.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder='Введіть псевдонім' {...field} />
+								<Input placeholder="Введіть псевдонім" {...field} />
 							</FormControl>
-							<FormDescription
-								children={getChannelUrl(
-									form.getValues('username') as string,
-									undefined,
-									false
-								)}
-							/>
+							<FormDescription children={getChannelUrl(form.getValues('nickname') as string, undefined, false)} />
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<FormField
 					control={form.control}
-					name='description'
+					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Опис</FormLabel>
+							<FormLabel>Емайл</FormLabel>
 							<FormDescription>
-								Опишіть коротко діяльність вашого каналу, максимальна довжина
-								опису каналу 320 символів.
+								Введіть емайл для зв'язку з вами.
 							</FormDescription>
 							<FormControl>
-								<Textarea placeholder='Ваш опис...' {...field} />
+								<Input placeholder="Введіть email" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<div>
-					{fields.map((field, index) => (
-						<FormField
-							control={form.control}
-							key={field.id}
-							name={`urls.${index}.value`}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className={cn(index !== 0 && 'sr-only')}>
-										Посилання
-									</FormLabel>
-									<FormDescription className={cn(index !== 0 && 'sr-only')}>
-										Додайте посилання на зовніші ресурси, або соц мережі.
-									</FormDescription>
-									<FormControl>
-										<Input {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					))}
-					<Button
-						type='button'
-						variant='outline'
-						size='sm'
-						className='mt-2'
-						onClick={() => append({ value: '', name: '' })}
-					>
-						<DynamicIcon name='plus' className='mr-1 size-4' />
-						Додати посилання
-					</Button>
-				</div>
-				<Button type='submit'>Оновити інформацію</Button>
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Опис</FormLabel>
+							<FormDescription>
+								Коротко опишіть діяльність вашого каналу.
+							</FormDescription>
+							<FormControl>
+								<Textarea placeholder="Ваш опис..." {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<Button type="submit">Оновити інформацію</Button>
 			</form>
 		</Form>
 	)

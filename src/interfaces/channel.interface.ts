@@ -9,8 +9,10 @@ interface ICreator {
 	status: CreatorStatusType
 	createdAt?: string
 	updatedAt?: string
+	subscribersCount?: string
 }
 
 type CreatorStatusType = 'CREATED' | 'REGISTERED'
+
 
 export type { ICreator, CreatorStatusType }

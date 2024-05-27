@@ -1,10 +1,12 @@
+const FRONTEND_URL = process.env.FRONTEND_URL
+
 const getVideoUrl = (
 	videoId?: string,
 	time?: number,
 	listId?: string,
 	isShort = false
 ) =>
-	`${isShort ? '' : process.env.SERVER_URL}/watch?videoId=${videoId}${listId ? `&listId=${listId}` : ''}${time ? `&time=${time}` : ''}`
+	`${isShort ? '' : FRONTEND_URL}/watch?videoId=${videoId}${listId ? `&listId=${listId}` : ''}${time ? `&time=${time}` : ''}`
 
 const getDashboardVideoUrl = (
 	videoId: string,
@@ -13,16 +15,15 @@ const getDashboardVideoUrl = (
 
 const getChannelUrl = (
 	nickName: string = '',
-	menuItem?: 'index' | 'videos' | 'playlists',
+	menuItem: 'videos' | 'playlists' | string = 'videos',
 	isShort = true
 ) =>
-	`${isShort ? '' : process.env.SERVER_URL}/channel/${nickName}${menuItem ? `?tab=${menuItem}` : ''}`
+	`${isShort ? '' : FRONTEND_URL}/channel/${nickName}/${menuItem}`
 
 const getPlaylistUrl = (listId?: string, isShort = false) =>
-	`${isShort ? '' : process.env.SERVER_URL}/playlist?listId=${listId}`
+	`${isShort ? '' : FRONTEND_URL}/playlist?listId=${listId}`
 
-const getSourceVideoUrl = (videoId: string, quality: string = '144p') =>
-	`${process.env.SERVER_URL}/videos/${videoId}/${quality}.mp4`
+const getSourceVideoUrl = (videoId: string, quality: string = '144p') => `${FRONTEND_URL}/videos/${videoId}/${quality}.mp4`
 
 export {
 	getSourceVideoUrl,

@@ -9,7 +9,7 @@ interface IVideo {
 	publishedAt?: string
 	visibility?: VideoVisibilityType
 	status?: VideoStatusType
-	creator: ICreator
+	creator?: ICreator
 	lengthSeconds: number
 	thumbnailUrl?: string
 	previewThumbnailUrl?: string
@@ -78,4 +78,4 @@ interface IReportVideoReason {
 	name: string
 }
 
-export type { IVideo, IReportVideoReason, IProcessedVideo }
+export type { IVideo, IReportVideoReason, IProcessedVideo, VideoVisibilityType }

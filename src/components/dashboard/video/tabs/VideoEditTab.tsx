@@ -40,19 +40,20 @@ const videoFormSchema = z.object({
 		.max(60, {
 			message: 'Максимальна довжина заголовку 30 символів!'
 		}),
-	description: z.string().max(1000, {
-		message: 'Максимальна довжина опису 1000 символів!'
+	description: z.string().max(9999, {
+		message: 'Максимальна довжина опису 9999 символів!'
 	}),
-	tags: z.string()
-		.max(1000, {
-			message: 'Максимальна довжина тегів 1000 символів!'
+	tags: z
+		.string()
+		.max(9999, {
+			message: 'Максимальна довжина тегів 9999 символів!'
 		})
-		.refine(value => /^(\s*\w+\s*,)*(\s*\w+\s*)$/.test(value),
-			{ message: 'Теги повинні бути введені через кому!' }),
+		.refine(value => /^(\s*\w+\s*,)*(\s*\w+\s*)$/.test(value), {
+			message: 'Теги повинні бути введені через кому!'
+		}),
 	visibility: z.string(),
 	thumbnailId: z.string()
 })
-
 
 const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 	const form = useForm<z.infer<typeof videoFormSchema>>({
@@ -66,7 +67,7 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 			form.setValue('tags', video.tags || '')
 			form.setValue('description', video.description || '')
 			form.setValue('visibility', video.visibility!)
-			form.setValue('thumbnailId', video.thumbnailId || '')
+			form.setValue('thumbnailId', video?.thumbnailId || video.thumbnails?.at(1)?.imageFileId || '')
 		}
 	}, [video])
 
@@ -81,20 +82,20 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name="title"
+					name='title'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Заголовок</FormLabel>
 							<FormDescription>
-								Приваблива заголовок допоможе зацікавити глядачів. Додайте в назви
-								відео ключові слова, якими може користуватися ваша аудиторія,
-								шукаючи подібний вміст.
+								Приваблива заголовок допоможе зацікавити глядачів. Додайте в
+								назви відео ключові слова, якими може користуватися ваша
+								аудиторія, шукаючи подібний вміст.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть заголовок" {...field} />
+								<Input placeholder='Введіть заголовок' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -103,15 +104,16 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 
 				<FormField
 					control={form.control}
-					name="description"
+					name='description'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Опис</FormLabel>
 							<FormDescription>
-								Описи допомагають глядачам краще розуміти про що саме дане відео, а також надають додаткову інформацію.
+								Описи допомагають глядачам краще розуміти про що саме дане
+								відео, а також надають додаткову інформацію.
 							</FormDescription>
 							<FormControl>
-								<Textarea placeholder="Ваш опис..." rows={2} {...field} />
+								<Textarea placeholder='Ваш опис...' rows={5} {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -120,16 +122,21 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 
 				<FormField
 					control={form.control}
-					name="tags"
+					name='tags'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Ключові слова</FormLabel>
 							<FormDescription>
-								Ключові слова допомагають глядачам знаходити ваші відео через пошук. Напишіть основні ключові слова
-								через кому, їх зашальна кількість обмежена.
+								Ключові слова допомагають глядачам знаходити ваші відео через
+								пошук. Напишіть основні ключові слова через кому, їх зашальна
+								кількість обмежена.
 							</FormDescription>
 							<FormControl>
-								<Textarea placeholder="Напишіть декілька ключових слів ..." rows={2} {...field} />
+								<Textarea
+									placeholder='Напишіть декілька ключових слів ...'
+									rows={2}
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -138,20 +145,22 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 
 				<FormField
 					control={form.control}
-					name="visibility"
+					name='visibility'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Видимість</FormLabel>
 							<Select onValueChange={field.onChange}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder={`Виберіть видимість.. (${field.value})`} />
+										<SelectValue
+											placeholder={`Виберіть видимість.. (${field.value})`}
+										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="Private">Приватне</SelectItem>
-									<SelectItem value="Unlisted">Не для всіх</SelectItem>
-									<SelectItem value="Public">Для всіх</SelectItem>
+									<SelectItem value='Private'>Приватне</SelectItem>
+									<SelectItem value='Unlisted'>Не для всіх</SelectItem>
+									<SelectItem value='Public'>Для всіх</SelectItem>
 								</SelectContent>
 							</Select>
 							<FormMessage />
@@ -161,7 +170,7 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 
 				<FormField
 					control={form.control}
-					name="thumbnailId"
+					name='thumbnailId'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Обкладинка відео</FormLabel>
@@ -172,22 +181,27 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 							</FormDescription>
 							<FormControl>
 								<RadioGroup
-									className="grid grid-cols-4 gap-3"
+									className='grid grid-cols-4 gap-3'
 									onValueChange={field.onChange}
 									defaultValue={field.value}
+									value={field.value}
 								>
 									{video?.thumbnails?.map((value, index) => (
 										<div key={index}>
 											<RadioGroupItem
 												value={value.imageFileId}
 												id={value.imageFileId}
-												className="peer sr-only"
+												className='peer sr-only'
 											/>
 											<Label
 												htmlFor={value.imageFileId}
-												className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-0.5 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+												className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-0.5 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
 											>
-												<img src={getImageUrl(value.url)} alt={value.imageFileId} />
+												<img
+													src={getImageUrl(value.url)}
+													alt={value.imageFileId}
+													className='aspect-video object-cover'
+												/>
 											</Label>
 										</div>
 									))}
@@ -197,7 +211,7 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Оновити інформацію</Button>
+				<Button type='submit'>Оновити інформацію</Button>
 			</form>
 		</Form>
 	)

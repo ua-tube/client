@@ -1,10 +1,4 @@
-import {
-	getVideoUrl,
-	getChannelUrl,
-	formatDuration,
-	formatTimeAgo,
-	formatNumbers
-} from '@/utils'
+import { getVideoUrl, getChannelUrl, formatDuration, formatTimeAgo, formatNumbers } from '@/utils'
 import { DynamicIcon, CategoryPills } from '@/components'
 import { IPlaylist } from '@/interfaces'
 import Link from 'next/link'
@@ -19,7 +13,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ list }) => {
 		<section className='mx-auto flex flex-col-reverse gap-6 lg:gap-8 md:flex-row'>
 			<div className='w-full lg:w-3/4 space-y-1'>
 				<CategoryPills
-					categories={['Спочатку новіші', 'Спочатку старіші', 'Найпопулярніші']}
+					data={['Спочатку новіші', 'Спочатку старіші', 'Найпопулярніші']}
 				/>
 
 				<div

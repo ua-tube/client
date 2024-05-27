@@ -1,8 +1,7 @@
 import { UserService, AuthService, CreatorService, StorageService } from '@/services'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { toastError } from '@/utils'
 import { useActions } from '@/hooks'
 import Link from 'next/link'
@@ -54,7 +53,6 @@ const AuthFormSchema = z.object({
 })
 
 const SignUpForm: FC = () => {
-	const { replace } = useRouter()
 	const { signUp } = useActions()
 	const [loading, setLoading] = useState<boolean>(false)
 	const [image, setImage] = useState<File>()
@@ -63,10 +61,6 @@ const SignUpForm: FC = () => {
 		resolver: zodResolver(AuthFormSchema),
 		defaultValues: { email: '', password: '' }
 	})
-
-	useEffect(() => {
-		console.log(image)
-	}, [image])
 
 	const onSubmit = async ({
 		displayName,

@@ -3,6 +3,7 @@ import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import Link from 'next/link'
 import { FC } from 'react'
 import { useRouter } from 'next/router'
+import { getImageUrl } from '@/utils'
 
 export interface ISidebarItemProps {
 	icon?: keyof typeof dynamicIconImports
@@ -22,16 +23,16 @@ const SidebarItem: FC<ISidebarItemProps> = ({ icon, imgUrl, title, url }) => {
 			}`}
 		>
 			{imgUrl && (
-				<Avatar className='size-7'>
-					<AvatarImage src={imgUrl} />
-					<AvatarFallback children='' />
+				<Avatar className="size-7">
+					<AvatarImage src={getImageUrl(imgUrl)} />
+					<AvatarFallback children="" />
 				</Avatar>
 			)}
 
 			{icon && <DynamicIcon name={icon} />}
 
 			<div
-				className='whitespace-nowrap overflow-hidden text-ellipsis text-sm'
+				className="whitespace-nowrap overflow-hidden text-ellipsis text-sm"
 				children={title}
 			/>
 		</Link>

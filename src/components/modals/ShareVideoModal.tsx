@@ -1,4 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle, Dialog, DialogDescription, Input, Button } from '@/components'
+import {
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	Dialog,
+	DialogDescription,
+	Input,
+	Button
+} from '@/components'
 import { getSourceVideoUrl, writeVideoUrl } from '@/utils'
 import { IVideo } from '@/interfaces'
 import { FC } from 'react'
@@ -10,10 +18,10 @@ interface IShareVideoModalProps {
 }
 
 const ShareVideoModal: FC<IShareVideoModalProps> = ({
-																											video,
-																											setOpen,
-																											open
-																										}) => {
+	video,
+	setOpen,
+	open
+}) => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent>
@@ -22,12 +30,12 @@ const ShareVideoModal: FC<IShareVideoModalProps> = ({
 					<DialogDescription>Поширити посиланння на це відео</DialogDescription>
 				</DialogHeader>
 
-				<div className="flex space-x-2">
+				<div className='flex space-x-2'>
 					<Input value={getSourceVideoUrl(video?.id || '')} readOnly />
 					<Button
-						variant="secondary"
+						variant='secondary'
 						onClick={async () => await writeVideoUrl(video?.id)}
-						children="Копіювати"
+						children='Копіювати'
 					/>
 				</div>
 			</DialogContent>

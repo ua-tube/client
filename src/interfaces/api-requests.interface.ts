@@ -1,3 +1,5 @@
+import { VideoVisibilityType } from '@/interfaces/video.inteface'
+
 interface ISignUpRequest {
 	email: string
 	password: string
@@ -22,11 +24,26 @@ interface ICreateCreatorRequest {
 	nickname: string
 }
 
+interface ICreatePlaylistsRequest {
+	title: string,
+	description?: string,
+	visibility: VideoVisibilityType
+}
+
+interface ICreatorVideosRequest {
+	creatorId: string
+	page: number
+	perPage: number
+	sortBy?: string
+	sortOrder?: string
+}
 
 export type {
 	IPagination,
 	ILoginRequest,
 	ISignUpRequest,
+	ICreatorVideosRequest,
 	ICreateCreatorRequest,
-	IRecoveryPassRequest
+	IRecoveryPassRequest,
+	ICreatePlaylistsRequest
 }

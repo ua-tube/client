@@ -9,6 +9,7 @@ import { cn } from '@/utils'
 interface IVideoEditContentProps {
 	tab: VideoEditTabsKey
 	video?: IVideo
+	videoId: string
 }
 
 const VideoEditTab = dynamic(
@@ -19,12 +20,18 @@ const VideoCommentsTab = dynamic(
 	() => import('@/components/dashboard/video/tabs/VideoCommentsTab')
 )
 
-
-const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video }) => {
-
+const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video, videoId }) => {
 	const videoEditTabs: TabType<VideoEditTabsKey>[] = [
-		{ title: 'Редагування відео', key: 'edit', children: <VideoEditTab video={video} /> },
-		{ title: 'Коментарі відео', key: 'comments', children: <VideoCommentsTab /> }
+		{
+			title: 'Редагування відео',
+			key: 'edit',
+			children: <VideoEditTab video={video} />
+		},
+		{
+			title: 'Коментарі відео',
+			key: 'comments',
+			children: <VideoCommentsTab video={video} videoId={videoId} />
+		}
 	]
 
 	return (
@@ -40,12 +47,16 @@ const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video }) => {
 						key={index}
 						children={value.title}
 						href={`/dashboard/videos/${video?.id}?tab=${value.key}`}
-						className={cn(buttonVariants({ variant: value.key === tab ? 'secondary' : 'outline' }))}
+						className={cn(
+							buttonVariants({
+								variant: value.key === tab ? 'secondary' : 'outline'
+							})
+						)}
 					/>
 				))}
 			/>
 			<div
-				className="mt-6 max-w-4xl"
+				className="mt-6"
 				children={videoEditTabs.find(value => value?.key === tab)?.children}
 			/>
 		</div>

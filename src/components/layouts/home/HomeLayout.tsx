@@ -24,7 +24,7 @@ const HomeLayoutContent: FC<
 	return (
 		<main
 			className={cn(
-				'pt-14',
+				'pt-16 px-4',
 				isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-56'
 			)}
 		>
@@ -42,7 +42,7 @@ const HomeLayout: FC<PropsWithChildren<IHomeLayoutProps>> = ({
 		<SidebarProvider>
 			<HomeHeader />
 			<HomeSidebar {...{ autoShowSidebar, openInDrawer }} />
-			<HomeLayoutContent {...{  children, openInDrawer }} />
+			<HomeLayoutContent {...{ children, openInDrawer }} />
 		</SidebarProvider>
 	)
 }

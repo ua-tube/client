@@ -1,4 +1,11 @@
-import { Checkbox, Dialog, DialogContent, DialogHeader, DialogTitle, Label } from '@/components'
+import {
+	Checkbox,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	Label
+} from '@/components'
 import { IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 

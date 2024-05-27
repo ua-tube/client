@@ -1,10 +1,14 @@
-import { IUser } from '@/interfaces/user.interface'
-import { IVideo } from '@/interfaces/video.inteface'
+import { IVideo, IUser, IPlaylist } from './'
 
 interface IErrorResponse {
 	statusCode?: number
 	message?: string
 	error?: string
+}
+
+interface IApiPaginationResponse<T> {
+	list: Array<T>,
+	pagination: { page: number, pageCount: number, pageSize: number, total: number }
 }
 
 interface ICsrfTokenResponse {
@@ -41,17 +45,22 @@ interface IStorageResponse {
 	token: string
 }
 
-interface IDashboardVideosResponse {
-	videos: IVideo[]
-	count: number
+interface IDashboardVideosResponse extends IApiPaginationResponse<IVideo> {
 }
 
 interface IRefreshAccessTokenResponse
-	extends Pick<ILoginResponse, 'accessToken'> {}
+	extends Pick<ILoginResponse, 'accessToken'> {
+}
+
+interface IPlaylistsResponse extends IApiPaginationResponse<IPlaylist> {
+}
+
 
 export type {
 	IErrorResponse,
 	ICsrfTokenResponse,
+	IApiPaginationResponse,
+	IPlaylistsResponse,
 	IStorageResponse,
 	IHomePageVideosResponse,
 	IRefreshAccessTokenResponse,

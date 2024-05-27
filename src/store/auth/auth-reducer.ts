@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { login, logOut, refreshAccessToken } from './auth.actions'
+import { ILoginResponse, ICreator, IUser } from '@/interfaces'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IAuthState } from './auth.interface'
-import { ILoginResponse } from '@/interfaces'
 
 const initialState: IAuthState = {
 	loading: false,
@@ -61,6 +61,9 @@ const authSlice = createSlice({
 			state.user = payload.user
 			state.loading = false
 			state.accessToken = payload.accessToken
+		},
+		updateCreator: (state, { payload }: PayloadAction<ICreator>) => {
+			state.user = { ...state.user, creator: payload } as IUser
 		}
 	}
 })

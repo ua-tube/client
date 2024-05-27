@@ -5,7 +5,6 @@ import { TooltipProvider } from '@/components'
 import DashboardSidebar from './sidebar'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-import { cn } from '@/utils'
 
 const DashboardHeader = dynamic(() => import('./header'))
 
@@ -28,11 +27,7 @@ const DashboardLayoutContent: FC<
 	const { isOpen } = useSidebarContext()
 	return (
 		<div
-			className={cn(
-				'pt-14 p-4',
-				isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-48',
-				!isOpen && !isScreenSmall && !openInDrawer && ' sm:ml-20'
-			)}
+			className={`pt-16 px-4 ${isOpen && !isScreenSmall && !openInDrawer ? 'sm:ml-48' : 'sm:ml-20'}`}
 			children={children}
 		/>
 	)

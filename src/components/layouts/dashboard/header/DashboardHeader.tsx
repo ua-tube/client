@@ -7,7 +7,6 @@ const HomeHeaderLogo = dynamic(
 	{ loading: () => <Skeleton className='px-4 py-2 rounded-lg' /> }
 )
 
-
 const DashboardHeaderPopover = dynamic(
 	() => import('./DashboardHeaderPopover'),
 	{ loading: () => <Skeleton className='px-4 py-2 rounded-lg' /> }

@@ -7,18 +7,17 @@ import { videoEditTabsKeys } from '@/data'
 import { IVideo } from '@/interfaces'
 import dynamic from 'next/dynamic'
 
-
 const DashboardLayout = dynamic(
 	() => import('@/components/layouts/dashboard'),
 	{
-		loading: () => <DynamicIcon name="loader" className="loader-container" />,
+		loading: () => <DynamicIcon name='loader' className='loader-container' />,
 		ssr: false
 	}
 )
 
-const VideoEditContent = dynamic(
-	() => import( '@/components/dashboard/video'), { ssr: false }
-)
+const VideoEditContent = dynamic(() => import('@/components/dashboard/video'), {
+	ssr: false
+})
 
 export const getServerSideProps: GetServerSideProps<{
 	tab: VideoEditTabsKey
@@ -34,24 +33,23 @@ export const getServerSideProps: GetServerSideProps<{
 }
 
 export default function DashboardVideoPage({
-																						 tab,
-																						 videoId
-																					 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	tab,
+	videoId
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [video, setVideo] = useState<IVideo>()
 
 	useEffect(() => {
-		(async () => {
+		;(async () => {
 			const { data } = await VideoManagerService.getVideo(videoId)
 			setVideo(data)
 		})()
 	}, [])
 
-
 	return (
 		<>
 			<AppHead title={`Редагування відео - ${video?.title}`} />
 			<DashboardLayout>
-				<VideoEditContent tab={tab} video={video} />
+				<VideoEditContent tab={tab} video={video} videoId={videoId}  />
 			</DashboardLayout>
 		</>
 	)

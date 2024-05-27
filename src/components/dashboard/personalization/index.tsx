@@ -1,1 +1,1 @@
-export { default as DashboardPersonalizationTabs } from './PersonalizationTabs'
+export { default } from './PersonalizationTabs'

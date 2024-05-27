@@ -9,8 +9,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const DashboardPage: FC = () => {
 	return (
 		<>
-			<AppHead title="Перенаправлення..." />
-			<DynamicIcon name="loader" className="loader-container animate-spin" />
+			<AppHead title='Перенаправлення...' />
+			<DynamicIcon name='loader' className='loader-container animate-spin' />
 		</>
 	)
 }

@@ -41,11 +41,6 @@ const sidebarNavItems: ISidebarItem[] = [
 		icon: 'video'
 	},
 	{
-		title: 'Коментарі',
-		url: '/dashboard/comments',
-		icon: 'contact'
-	},
-	{
 		title: 'Персоналізація',
 		url: '/dashboard/personalization',
 		icon: 'more-horizontal'
@@ -68,7 +63,7 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href={getChannelUrl(user?.creator?.nickname, 'index', true)}
+								href={getChannelUrl(user?.creator?.nickname, 'videos', true)}
 								target='_blank'
 							>
 								<Avatar className={cn('size-40', !isOpen && 'size-12')}>

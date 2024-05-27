@@ -7,14 +7,6 @@ export const CreatorService = {
 			headers: { Authorization: `Bearer ${accessToken}` }
 		})
 	},
-	getCreatorByUserId(userId: string, accessToken?: string) {
-		return $axios.get('creators', {
-			params: { userId },
-			...(accessToken
-				? { headers: { Authorization: `Bearer ${accessToken}` } }
-				: {})
-		})
-	},
 	getCreatorBySelf(accessToken?: string) {
 		return $axios.get<ICreator>(
 			'creators/self',
@@ -23,13 +15,17 @@ export const CreatorService = {
 				: undefined
 		)
 	},
+	getCreatorByNicknameOrUserId(params: { nickname?: string, userId?: string }) {
+		return $axios.get<ICreator>('creators', { params })
+	},
 	updateCreator(
 		data: Partial<Pick<ICreator, 'displayName' | 'nickname'>> & {
 			thumbnailToken?: string
+			bannerToken?: string
 		},
 		accessToken?: string
 	) {
-		return $axios.put<ICreator>(
+		return $axios.patch<ICreator>(
 			'creators',
 			data,
 			accessToken

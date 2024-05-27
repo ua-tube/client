@@ -19,7 +19,9 @@ export const StorageService = {
 		return $axiosFormData.post<IStorageResponse>('storage/videos', videoData, {
 			baseURL,
 			params: { token },
-			...(accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : undefined)
+			...(accessToken
+				? { headers: { Authorization: `Bearer ${accessToken}` } }
+				: undefined)
 		})
 	}
 }

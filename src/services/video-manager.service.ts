@@ -7,17 +7,25 @@ export const VideoManagerService = {
 	},
 	async updateVideo(
 		videoId: string,
-		data: Partial<Pick<IVideo, 'title' | 'description' | 'tags' | 'visibility' | 'thumbnailId'>>
+		data: Partial<
+			Pick<IVideo, 'title' | 'description' | 'tags' | 'visibility' | 'thumbnailId'>>
 	) {
-		return $axios.put<IVideo>(`video-manager/videos/${videoId}`, data)
+		return $axios.patch<IVideo>(`video-manager/videos/${videoId}`, data)
+	},
+	async deleteVideo(id: string) {
+		return $axios.delete(`video-manager/videos/${id}`)
 	},
 	async getVideos(params: IPagination) {
-		return $axios.get<IDashboardVideosResponse>('video-manager/videos', { params })
+		return $axios.get<IDashboardVideosResponse>('video-manager/videos', {
+			params
+		})
 	},
 	getVideo(videoId: string) {
 		return $axios.get<IVideo>(`video-manager/videos/${videoId}`)
 	},
-	getVideoUploadToken(videoId: string) {
-		return $axios.get<{ token: string }>(`video-manager/videos/${videoId}/upload-token`)
+	generateVideoUploadToken(videoId: string) {
+		return $axios.get<{ token: string }>(
+			`video-manager/videos/${videoId}/upload-token`
+		)
 	}
 }

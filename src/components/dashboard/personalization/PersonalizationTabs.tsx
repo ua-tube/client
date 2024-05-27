@@ -3,7 +3,6 @@ import { buttonVariants } from '@/components'
 import { TabType } from '@/interfaces'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { cn } from '@/utils'
 import { FC } from 'react'
 
 const EditImagesTab = dynamic(() => import('./EditImagesTab'))
@@ -18,12 +17,9 @@ interface IDashboardPersonalizationTabsProps {
 	tab: ChannelPersonalizationTabsKey
 }
 
-const DashboardPersonalizationTabs: FC<
-	IDashboardPersonalizationTabsProps
-> = ({
-			 tab
-		 }) => {
-
+const DashboardPersonalizationTabs: FC<IDashboardPersonalizationTabsProps> = ({
+																																								tab
+																																							}) => {
 	return (
 		<div>
 			<h2 className="text-3xl font-bold tracking-tight flex items-center py-4">
@@ -36,12 +32,12 @@ const DashboardPersonalizationTabs: FC<
 						key={index}
 						children={value.title}
 						href={`/dashboard/personalization?tab=${value.key}`}
-						className={cn(buttonVariants({ variant: value.key === tab ? 'secondary' : 'outline' }))}
+						className={buttonVariants({ variant: value.key === tab ? 'secondary' : 'outline' })}
 					/>
 				))}
 			/>
 			<div
-				className="mt-6 max-w-4xl"
+				className="mt-6"
 				children={tabs.find(value => value?.key === tab)?.children}
 			/>
 		</div>

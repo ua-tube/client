@@ -1,1 +1,1 @@
-export * from './about'
+export { default } from './AboutChannel'

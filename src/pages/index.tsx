@@ -29,7 +29,9 @@ export default function HomePage({
 		<>
 			<AppHead title='Головна сторінка' />
 			<HomeLayout autoShowSidebar>
-				<CategoryPills categories={Object.values(data.facetDistribution.tags)} />
+				<CategoryPills
+					categories={Object.values(data.facetDistribution.tags)}
+				/>
 				<VideosList videos={data.hits} />
 			</HomeLayout>
 		</>

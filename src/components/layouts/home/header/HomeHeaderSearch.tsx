@@ -1,11 +1,4 @@
-import {
-	DynamicIcon,
-	Input,
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-	buttonVariants
-} from '@/components'
+import { DynamicIcon, Input, Popover, PopoverTrigger, PopoverContent, buttonVariants } from '@/components'
 import { UseState, IVideo } from '@/interfaces'
 import { FC, useState } from 'react'
 import { cn, getVideoUrl } from '@/utils'
@@ -92,7 +85,7 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({
 												className='line-clamp-2 truncate text-sm text-primary'
 											/>
 											<span
-												children={value.creator.nickName}
+												children={value.creator?.nickname}
 												className='text-xs text-muted-foreground'
 											/>
 										</div>

@@ -6,7 +6,9 @@ import { CategoryPills, Button, DynamicIcon } from '@/components'
 const SearchVideoCard = dynamic(() => import('./SearchVideoCard'))
 const FiltersModal = dynamic(() => import('./FiltersModal'))
 
-const PlaylistsModal = dynamic(	() => import('@/components/modals/PlaylistsModal'))
+const PlaylistsModal = dynamic(
+	() => import('@/components/modals/PlaylistsModal')
+)
 const ShareModal = dynamic(() => import('@/components/modals/ShareVideoModal'))
 
 export type VideoModalType = 'playlists' | 'share'
@@ -26,7 +28,7 @@ const SearchContent: FC<ISearchContentProps> = ({ videos }) => {
 		<div className='mx-auto max-w-5xl'>
 			<div className='flex flex-col lg:flex-row gap-3 lg:justify-between items-center py-2'>
 				<CategoryPills
-					categories={[
+					data={[
 						'Усі',
 						'Відео',
 						'Неперелянуті',

@@ -2,11 +2,23 @@ import { ICreator } from '@/interfaces/channel.interface'
 
 interface IComment {
 	id: string
-	message: string
-	createdAt: string
+	videoId: string
+	parentCommentId?: string
+	parentComment?: IComment
+	creatorId: string
+	creator: ICreator
+	comment: string
 	likesCount: number
-	chanel: ICreator
-	children?: IComment[]
+	dislikesCount: number
+	repliesCount: number
+	replies?: IComment[]
+	createdAt: string
+	editedAt: string
 }
 
-export type { IComment }
+interface ILikedOrDislikedComment {
+	videoCommentId: string
+	type: 'Like' | 'Dislike' | 'None'
+}
+
+export type { IComment, ILikedOrDislikedComment }

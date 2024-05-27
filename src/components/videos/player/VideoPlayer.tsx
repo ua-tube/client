@@ -49,17 +49,13 @@ interface IVideoState {
 	isDisabled: boolean
 }
 
-
-const VideoPlayer: FC<
-	IVideoPlayerProps
-> = ({
-			 video,
-			 videoIds,
-			 autoPlay,
-			 setCinemaMode,
-			 cinemaMode
-		 }) => {
-
+const VideoPlayer: FC<IVideoPlayerProps> = ({
+	video,
+	videoIds,
+	autoPlay,
+	setCinemaMode,
+	cinemaMode
+}) => {
 	const [videoState, setVideoState] = useState<IVideoState>({
 		autoPlayNext: false,
 		isLooped: false,
@@ -82,7 +78,10 @@ const VideoPlayer: FC<
 
 	const showPlayAnimation = useCallback(() => {
 		setVideoState(s => ({ ...s, showLoadingAnimation: true }))
-		setTimeout(() => setVideoState(s => ({ ...s, showLoadingAnimation: false })), 1000)
+		setTimeout(
+			() => setVideoState(s => ({ ...s, showLoadingAnimation: false })),
+			1000
+		)
 	}, [setVideoState])
 
 	const togglePlay = useCallback(
@@ -241,7 +240,11 @@ const VideoPlayer: FC<
 
 	const buttonsCallBack = useCallback(
 		(event: KeyboardEvent) => {
-			if (document.activeElement && divRef.current && divRef.current === document.activeElement)
+			if (
+				document.activeElement &&
+				divRef.current &&
+				divRef.current === document.activeElement
+			)
 				switch (event.key) {
 					case 'а':
 					case 'f':
@@ -287,12 +290,12 @@ const VideoPlayer: FC<
 		(event: Event) => {
 			event.preventDefault()
 			videoState.isFullScreen &&
-			setVideoState(p => ({
-				...p,
-				isFullScreen:
-					(document.fullscreenEnabled ? document.fullscreenElement : null) !==
-					null
-			}))
+				setVideoState(p => ({
+					...p,
+					isFullScreen:
+						(document.fullscreenEnabled ? document.fullscreenElement : null) !==
+						null
+				}))
 		},
 		[videoState.isFullScreen, setVideoState]
 	)
@@ -371,8 +374,7 @@ const VideoPlayer: FC<
 			)}
 		>
 			<ContextMenu>
-				<ContextMenuTrigger className="size-full flex items-center justify-center overflow-y-hidden">
-
+				<ContextMenuTrigger className='size-full flex items-center justify-center overflow-y-hidden'>
 					<video
 						ref={videoRef}
 						className={cn(
@@ -387,56 +389,55 @@ const VideoPlayer: FC<
 						onEnded={onVideoEnd}
 						controls={false}
 					/>
-
 				</ContextMenuTrigger>
 
 				<ContextMenuContent>
 					<ContextMenuItem
-						className="flex items-center justify-between"
+						className='flex items-center justify-between'
 						onClick={toggleAutoPlayNext}
 					>
-						<div className="items-center flex space-x-2">
-							<DynamicIcon name="arrow-right-circle" />
-							<span children="Автопрогравання" />
+						<div className='items-center flex space-x-2'>
+							<DynamicIcon name='arrow-right-circle' />
+							<span children='Автопрогравання' />
 						</div>
-						{videoState.autoPlayNext && <div className="checkedIcon" />}
+						{videoState.autoPlayNext && <div className='checkedIcon' />}
 					</ContextMenuItem>
 
 					<ContextMenuItem
-						className="flex items-center justify-between"
+						className='flex items-center justify-between'
 						onClick={toggleRepeat}
 					>
-						<div className="items-center flex space-x-2">
-							<DynamicIcon name="repeat" />
-							<span children="Повторювати" />
+						<div className='items-center flex space-x-2'>
+							<DynamicIcon name='repeat' />
+							<span children='Повторювати' />
 						</div>
-						{videoState.isLooped && <div className="checkedIcon" />}
+						{videoState.isLooped && <div className='checkedIcon' />}
 					</ContextMenuItem>
 
 					<ContextMenuItem
-						className="flex items-center justify-between"
+						className='flex items-center justify-between'
 						onClick={() => writeVideoUrl(video.id)}
 					>
-						<div className="items-center flex space-x-2">
-							<DynamicIcon name="link" />
-							<span children="Копіювати URL-адресу відео" />
+						<div className='items-center flex space-x-2'>
+							<DynamicIcon name='link' />
+							<span children='Копіювати URL-адресу відео' />
 						</div>
 					</ContextMenuItem>
 					<ContextMenuItem
-						className="flex items-center justify-between"
+						className='flex items-center justify-between'
 						onClick={() =>
 							writeVideoUrl(video.id, Math.floor(videoState.currentTime))
 						}
 					>
-						<div className="items-center flex space-x-2">
-							<DynamicIcon name="link" />
-							<span children="Копіювати URL-адресу з цього часу" />
+						<div className='items-center flex space-x-2'>
+							<DynamicIcon name='link' />
+							<span children='Копіювати URL-адресу з цього часу' />
 						</div>
 					</ContextMenuItem>
 				</ContextMenuContent>
 			</ContextMenu>
 
-			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3">
+			<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3'>
 				{videoState.showLoadingAnimation && !videoState.isLoading && (
 					<DynamicIcon
 						name={
@@ -444,17 +445,17 @@ const VideoPlayer: FC<
 								? 'pause-circle'
 								: 'play-circle'
 						}
-						className="animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full"
+						className='animate-ping delay-100 duration-1000 transition-all size-14 bg-black/60 rounded-full'
 					/>
 				)}
 				{videoState.isLoading && !videoState.isDisabled && (
 					<DynamicIcon
-						name="loader-2"
-						className="animate-spin transition-all size-14 bg-black/60 rounded-full"
+						name='loader-2'
+						className='animate-spin transition-all size-14 bg-black/60 rounded-full'
 					/>
 				)}
 				{videoState.isDisabled && (
-					<div children="Відео на даний момент не доступно!" />
+					<div children='Відео на даний момент не доступно!' />
 				)}
 			</div>
 
@@ -470,22 +471,21 @@ const VideoPlayer: FC<
 					min={0}
 					max={videoState.duration}
 					value={[videoState.currentTime]}
-					step={1}
+					step={0.5}
 					onValueChange={event => onTimeUpdateHandler(event[0])}
-					className="relative flex w-full touch-none select-none items-center group py-1"
+					className='relative flex w-full touch-none select-none items-center group py-1'
 				>
-					<SliderPrimitive.Track
-						className="relative w-full grow overflow-hidden rounded-full bg-card flex items-center justify-center h-1 hover:cursor-pointer">
-						<div className="absolute h-1 w-full">
+					<SliderPrimitive.Track className='relative w-full grow overflow-hidden rounded-full bg-card flex items-center justify-center h-1 hover:cursor-pointer'>
+						<div className='absolute h-1 w-full'>
 							<div
-								className="absolute h-1 bg-primary"
+								className='absolute h-1 bg-primary'
 								style={{
 									width: `${(videoState.currentTime / videoState.duration) * 100}%`,
 									left: 0
 								}}
 							/>
 							<div
-								className="absolute h-1 bg-input"
+								className='absolute h-1 bg-input'
 								style={{
 									width: `${(videoState.bufferedCount / videoState.duration) * 100}%`,
 									left: `${(videoState.currentTime / videoState.duration) * 100}%`
@@ -493,13 +493,12 @@ const VideoPlayer: FC<
 							/>
 						</div>
 					</SliderPrimitive.Track>
-					<SliderPrimitive.Thumb
-						className="block size-2.5 group-hover:size-4 transition-all duration-100 rounded-full border-2 border-primary bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
+					<SliderPrimitive.Thumb className='block size-2.5 group-hover:size-4 transition-all duration-100 rounded-full border-2 border-primary bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2' />
 				</SliderPrimitive.Root>
 
 				<TooltipProvider delayDuration={0}>
-					<div className="flex justify-between items-center">
-						<div className="flex items-center space-x-1.5">
+					<div className='flex justify-between items-center'>
+						<div className='flex items-center space-x-1.5'>
 							{videoIds.prev && (
 								<Tooltip>
 									<TooltipTrigger asChild>
@@ -512,12 +511,12 @@ const VideoPlayer: FC<
 											)}
 										>
 											<DynamicIcon
-												name="chevron-right"
-												className="rotate-180"
+												name='chevron-right'
+												className='rotate-180'
 											/>
 										</Link>
 									</TooltipTrigger>
-									<TooltipContent children="Попереднє відео" />
+									<TooltipContent children='Попереднє відео' />
 								</Tooltip>
 							)}
 
@@ -553,13 +552,13 @@ const VideoPlayer: FC<
 											true
 										)}
 									>
-										<DynamicIcon name="chevron-right" />
+										<DynamicIcon name='chevron-right' />
 									</Link>
 								</TooltipTrigger>
-								<TooltipContent children="Наступне відео" />
+								<TooltipContent children='Наступне відео' />
 							</Tooltip>
 
-							<div className="group/volume flex items-center gap-x-1.5">
+							<div className='group/volume flex items-center gap-x-1.5'>
 								<Tooltip>
 									<TooltipTrigger
 										onClick={toggleMute}
@@ -573,7 +572,7 @@ const VideoPlayer: FC<
 															: videoState.volume < 0.7
 																? 'volume-1'
 																: videoState.volume < 1 ||
-																videoState.volume === 1
+																	  videoState.volume === 1
 																	? 'volume-2'
 																	: 'volume-x'
 												}
@@ -588,32 +587,31 @@ const VideoPlayer: FC<
 										}
 									/>
 								</Tooltip>
-								<div
-									className="transition-all duration-200 ease-linear opacity-100 md:opacity-0 w-14 md:w-0 group-hover/volume:opacity-100 group-hover/volume:w-14">
+								<div className='transition-all duration-200 ease-linear opacity-100 md:opacity-0 w-14 md:w-0 group-hover/volume:opacity-100 group-hover/volume:w-14'>
 									<Slider
 										defaultValue={[0.5]}
 										min={0}
 										max={1}
-										step={0.05}
+										step={0.01}
 										value={[videoState.volume]}
-										thumbClassName="size-3.5"
-										rangeClassName="h-0.5"
-										trackClassName="flex items-center justify-center h-0.5"
-										className="w-14 group-hover/volume:flex"
+										thumbClassName='size-3.5'
+										rangeClassName='h-0.5'
+										trackClassName='flex items-center justify-center h-0.5'
+										className='w-16 group-hover/volume:flex pr-2'
 										onValueChange={event => changeVolume(event[0])}
 									/>
 								</div>
 								<span
-									className="ml-1 group-hover/volume:ml-1.5"
+									className='ml-1 group-hover/volume:ml-1.5'
 									children={`${formatDuration(videoState.currentTime)} / ${formatDuration(videoState.duration)}`}
 								/>
 							</div>
 						</div>
-						<div className="flex items-center space-x-3">
+						<div className='flex items-center space-x-3'>
 							<Tooltip>
 								<TooltipTrigger
 									asChild
-									className="flex items-center"
+									className='flex items-center'
 									children={
 										<Switch
 											className={
@@ -633,7 +631,7 @@ const VideoPlayer: FC<
 
 							<Tooltip>
 								<TooltipTrigger
-									className="flex items-center hiddenOnMobile"
+									className='flex items-center hiddenOnMobile'
 									asChild
 									children={
 										<button
@@ -655,87 +653,89 @@ const VideoPlayer: FC<
 
 							<HoverCard>
 								<HoverCardTrigger>
-									<DynamicIcon name="settings" />
+									<DynamicIcon name='settings' />
 								</HoverCardTrigger>
 
 								<HoverCardContent
 									side={isOpen ? 'bottom' : 'top'}
-									align="end"
-									className="flex flex-col gap-y-2"
+									align='end'
+									className='flex flex-col gap-y-2'
 								>
 									<Tooltip>
 										<TooltipTrigger>
-											<div className="flex items-center space-x-2">
-												<DynamicIcon name="gauge" className="h-4 w-4" />
+											<div className='flex items-center space-x-2'>
+												<DynamicIcon name='gauge' className='h-4 w-4' />
 												<div
 													children={`Швидкість відтворення: ${videoState.speed}x`}
 												/>
 											</div>
 										</TooltipTrigger>
-										<TooltipContent side="left" align="end">
+										<TooltipContent side='left' align='end'>
 											<div
-												className="flex flex-col gap-y-2"
+												className='flex flex-col gap-y-2'
 												children={[0.5, 1, 2].map((value, index) => (
 													<Button
 														key={index}
-														size="sm"
+														size='sm'
 														variant={
 															value === videoState.speed
 																? 'secondary'
 																: 'outline'
 														}
-														className="w-40"
+														className='w-40'
 														children={`${value}x`}
 														onClick={() => changeSpeed(value)}
 													/>
 												))}
 											/>
-											<TooltipArrow className="w-3 h-2" />
+											<TooltipArrow className='w-3 h-2' />
 										</TooltipContent>
 									</Tooltip>
 
 									<Tooltip>
 										<TooltipTrigger>
-											<div className="flex items-center space-x-2">
-												<DynamicIcon name="settings-2" className="h-4 w-4" />
-												<div children={`Якість: ${videoState.currQuality.label}`} />
+											<div className='flex items-center space-x-2'>
+												<DynamicIcon name='settings-2' className='h-4 w-4' />
+												<div
+													children={`Якість: ${videoState.currQuality.label}`}
+												/>
 											</div>
 										</TooltipTrigger>
-										<TooltipContent side="left" align="end">
+										<TooltipContent side='left' align='end'>
 											<div
-												className="flex flex-col gap-y-2"
+												className='flex flex-col gap-y-2'
 												children={video.processedVideos?.map((value, index) => (
 													<Button
 														key={index}
-														size="sm"
+														size='sm'
 														variant={
 															value.label === videoState.currQuality.label
 																? 'secondary'
 																: 'outline'
 														}
-														className="w-40"
+														className='w-40'
 														children={value.label}
 														onClick={() => changeQuality(value)}
 													/>
 												))}
 											/>
-											<TooltipArrow className="w-3 h-2" />
+											<TooltipArrow className='w-3 h-2' />
 										</TooltipContent>
 									</Tooltip>
-									<HoverCardArrow className="w-3 h-2" />
+									<HoverCardArrow className='w-3 h-2' />
 								</HoverCardContent>
 							</HoverCard>
 							<Tooltip>
 								<TooltipTrigger
 									onClick={toggleFullScreen}
-									className="hover:animate-pulse"
+									className='hover:animate-pulse'
 									children={
 										<DynamicIcon
 											name={videoState.isFullScreen ? 'shrink' : 'maximize-2'}
 										/>
 									}
 								/>
-								<TooltipContent children="Повноекраний режим" />
+								<TooltipContent children='Повноекраний режим' />
 							</Tooltip>
 						</div>
 					</div>
