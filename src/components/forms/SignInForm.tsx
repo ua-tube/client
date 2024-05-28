@@ -45,7 +45,7 @@ const SignInForm: FC = () => {
 			<CardHeader className='text-center'>
 				<CardTitle>
 					<Link
-						href='/'
+						href='/public'
 						className='flex space-x-1.5 items-center justify-center'
 					>
 						<img src='/logo.png' alt='logo' className='size-8' />

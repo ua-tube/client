@@ -1,4 +1,4 @@
-import { VideoVisibilityType } from '@/interfaces/video.inteface'
+import { VideoVisibilityType } from './'
 
 interface ISignUpRequest {
 	email: string

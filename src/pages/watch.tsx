@@ -2,7 +2,7 @@ import { AppHead, Skeleton, DynamicIcon, AboutVideo } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useState, useEffect, FC } from 'react'
 import dynamic from 'next/dynamic'
-import { VideoManagerService, SubscriptionsService } from '@/services'
+import { VideoManagerService, SubscriptionsService, VideoService } from '@/services'
 import { IVideo } from '@/interfaces'
 import { getImageUrl, cn } from '@/utils'
 

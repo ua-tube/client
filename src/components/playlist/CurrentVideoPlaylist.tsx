@@ -37,7 +37,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 					children={
 						<Link
 							href={getPlaylistUrl(currList.id, true)}
-							children={currList.name}
+							children={currList.title}
 						/>
 					}
 				/>
@@ -51,8 +51,8 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 					<div className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'>
 						<DynamicIcon name='user' className='size-4' />
 						<Link
-							href={getChannelUrl(currList.channel?.nickName!)}
-							children={currList.channel?.name}
+							href={getChannelUrl(currList.creator?.nickName!)}
+							children={currList.creator?.name}
 						/>
 					</div>
 					<div

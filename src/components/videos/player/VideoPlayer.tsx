@@ -666,7 +666,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 											<div className='flex items-center space-x-2'>
 												<DynamicIcon name='gauge' className='h-4 w-4' />
 												<div
-													children={`Швидкість відтворення: ${videoState.speed}x`}
+													children={`Швидкість: ${videoState.speed}x`}
 												/>
 											</div>
 										</TooltipTrigger>

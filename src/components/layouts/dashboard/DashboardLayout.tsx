@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, useState, useEffect } from 'react'
-import { useScreenSize, useAuth } from '@/hooks'
+import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { useAuth, useScreenSize } from '@/hooks'
 import { useSidebarContext } from '@/providers'
 import { TooltipProvider } from '@/components'
 import DashboardSidebar from './sidebar'
@@ -16,13 +16,10 @@ interface IDashboardLayoutProps extends PropsWithChildren {
 	openInDrawer?: boolean
 }
 
-const DashboardLayoutContent: FC<
-	IDashboardLayoutProps
-> = ({
-			 children,
-			 openInDrawer
-		 }) => {
-
+const DashboardLayoutContent: FC<IDashboardLayoutProps> = ({
+	children,
+	openInDrawer
+}) => {
 	const { isScreenSmall } = useScreenSize()
 	const { isOpen } = useSidebarContext()
 	return (
@@ -33,13 +30,10 @@ const DashboardLayoutContent: FC<
 	)
 }
 
-const DashboardLayout: FC<
-	IDashboardLayoutProps
-> = ({
-			 children,
-			 openInDrawer
-		 }) => {
-
+const DashboardLayout: FC<IDashboardLayoutProps> = ({
+	children,
+	openInDrawer
+}) => {
 	const { query, replace } = useRouter()
 	const { user } = useAuth()
 	const [showModal, setShowModal] = useState<boolean>(false)
@@ -55,7 +49,7 @@ const DashboardLayout: FC<
 	return (
 		<SidebarProvider>
 			<TooltipProvider>
-				<DashboardHeader />
+				<DashboardHeader setUploadModalShow={setShowModal} />
 				<DashboardSidebar />
 				<DashboardLayoutContent {...{ children, openInDrawer }} />
 				<VideoUploadModal {...{ setShowModal, showModal }} />

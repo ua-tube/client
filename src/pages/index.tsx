@@ -15,24 +15,20 @@ const VideosList = dynamic(
 	() => import('@/components/videos/general/VideosList')
 )
 
-export const getServerSideProps: GetServerSideProps<{
-	data: IHomePageVideosResponse
-}> = async () => {
-	const { data } = await VideoService.getHomePageVideos()
-	return { props: { data } }
-}
+// export const getServerSideProps: GetServerSideProps<{
+// 	// data: IHomePageVideosResponse
+// }> = async () => {
+// 	// const { data } = await VideoService.getHomePageVideos()
+// 	return { props: { data } }
+// }
 
-export default function HomePage({
-	data
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function HomePage() {
 	return (
 		<>
 			<AppHead title='Головна сторінка' />
 			<HomeLayout autoShowSidebar>
-				<CategoryPills
-					categories={Object.values(data.facetDistribution.tags)}
-				/>
-				<VideosList videos={data.hits} />
+				{/*<CategoryPills data={Object.values(data.facetDistribution.tags)} />*/}
+				{/*<VideosList videos={data.hits} />*/}
 			</HomeLayout>
 		</>
 	)

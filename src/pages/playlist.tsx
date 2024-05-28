@@ -1,8 +1,9 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, DynamicIcon } from '@/components'
-import { IPlaylist } from '@/interfaces'
-import { playlists } from '@/data'
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
+import { LibraryService } from '@/services'
+import { IPlaylist } from '@/interfaces'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
 	loading: () => <DynamicIcon name='loader' className='loader-container' />
@@ -14,25 +15,35 @@ const PlaylistContent = dynamic(
 )
 
 export const getServerSideProps: GetServerSideProps<{
-	list: IPlaylist
-}> = async ({ query, locale }) => {
+	listId: string
+}> = async ({ query }) => {
 	const listId = query?.listId as string
-	let list: IPlaylist = playlists[0]
-
-	if (listId && playlists.some(s => s.id === listId))
-		list = playlists.find(value => value.id === listId) || playlists[0]
-
-	return { props: { list } }
+	return { props: { listId } }
 }
 
 export default function PlaylistPage({
-	list
+	listId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const [playlist, setPlaylist] = useState<IPlaylist>()
+
+	useEffect(() => {
+		;(async () => {
+			try {
+				const { data } = await LibraryService.getAllVideosByPlaylist({
+					page: 1,
+					perPage: 10,
+					t: listId
+				})
+				setPlaylist(data)
+			} catch (e) {}
+		})()
+	}, [listId])
+
 	return (
 		<>
-			<AppHead title={list.name} />
+			<AppHead title={playlist?.title || 'Playlist'} />
 			<HomeLayout autoShowSidebar>
-				<PlaylistContent list={list} />
+				<PlaylistContent playlist={playlist} />
 			</HomeLayout>
 		</>
 	)

@@ -1,31 +1,38 @@
 import {
-	IPlaylist,
 	ICreatePlaylistsRequest,
+	ICreatorVideosRequest,
 	IPagination,
+	IPlaylist,
 	IPlaylistsResponse,
-	ICreatorVideosRequest
+	IVideoMetadataResponse
 } from '@/interfaces'
 import { $axios } from '@/api/axios'
 
-
 export const LibraryService = {
-	async getAll(params?: IPagination & { t?: string }) {
-		return $axios.get<IPlaylistsResponse>('library/playlists', { params })
+	async getPlaylistsByCreator(creatorId: string) {
+		return $axios.get<IPlaylist[]>(`library/playlists/by-creator/${creatorId}`)
+	},
+	async getAllVideosByPlaylist(params: IPagination & { t?: string }) {
+		return $axios.get<IPlaylist>('library/playlists', { params })
 	},
 	async getVideos(params: ICreatorVideosRequest) {
 		return $axios.get('library/videos', { params })
 	},
-	
+	async getPlaylistIdsForVideo(videoId: string) {
+		return $axios.get<string[]>(`library/playlists/ids-where/${videoId}`)
+	},
 	async getPlaylistsBySelf(params?: IPagination) {
-		return $axios.get<IPlaylistsResponse>('library/playlists/infos/self', { params })
+		return $axios.get<IPlaylistsResponse>('library/playlists/infos/self', {
+			params
+		})
 	},
 	async createPlaylist(data: ICreatePlaylistsRequest) {
 		return $axios.post<IPlaylist>('library/playlists', data)
 	},
-	async addItemToPlaylist(data: { t: string, videoId: string }) {
+	async addItemToPlaylist(data: { t: string; videoId: string }) {
 		return $axios.post<IPlaylist>('library/playlists/add-item', data)
 	},
-	async removeItemToPlaylist(data: { t: string, videoId: string }) {
+	async removeItemToPlaylist(data: { t: string; videoId: string }) {
 		return $axios.post<IPlaylist>('library/playlists/remove-item', data)
 	},
 	async updatePlaylist(data: Partial<ICreatePlaylistsRequest>) {
@@ -35,13 +42,23 @@ export const LibraryService = {
 		return $axios.delete<IPlaylist>(`/library/playlists/${playlistId}`)
 	},
 	async getVideoMetadata(videoId: string, accessToken?: string) {
-		return $axios.get(`library/videos/${videoId}/metadata`,
-			accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : undefined
+		return $axios.get<IVideoMetadataResponse>(
+			`library/videos/${videoId}/metadata`,
+			accessToken
+				? { headers: { Authorization: `Bearer ${accessToken}` } }
+				: undefined
 		)
 	},
-	async videoLikeOrDislike(data: { voteType: 'Like' | 'Dislike' | 'None', videoId: string }, accessToken?: string) {
-		return $axios.post(`library/videos/vote`, data,
-			accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : undefined
+	async videoLikeOrDislike(
+		data: { voteType: 'Like' | 'Dislike' | 'None'; videoId: string },
+		accessToken?: string
+	) {
+		return $axios.post(
+			`library/videos/vote`,
+			data,
+			accessToken
+				? { headers: { Authorization: `Bearer ${accessToken}` } }
+				: undefined
 		)
 	}
 }

@@ -1,12 +1,12 @@
+import { $axios } from '@/api/axios'
 import {
 	IErrorResponse,
-	ILoginResponse,
-	IRefreshAccessTokenResponse,
 	ILoginRequest,
-	ISignUpRequest,
-	IRecoveryPassRequest
+	ILoginResponse,
+	IRecoveryPassRequest,
+	IRefreshAccessTokenResponse,
+	ISignUpRequest
 } from '@/interfaces'
-import { $axios } from '@/api/axios'
 
 const baseURL = process.env.AUTH_SERVER_URL
 

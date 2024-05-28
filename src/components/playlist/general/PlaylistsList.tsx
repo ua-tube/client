@@ -1,5 +1,5 @@
 import { IPlaylist } from '@/interfaces'
-import PlaylistCard from './PlaylistsCard'
+import PlaylistCard from './PlaylistCard'
 import { FC } from 'react'
 
 interface IPlaylistListProps {

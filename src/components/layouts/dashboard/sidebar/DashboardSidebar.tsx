@@ -110,7 +110,7 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 			direction='left'
 			fixed
 		>
-			<DrawerContent className='w-56'>
+			<DrawerContent className='w-56 h-screen'>
 				<DrawerHeader>
 					<HomeHeaderLogo />
 				</DrawerHeader>

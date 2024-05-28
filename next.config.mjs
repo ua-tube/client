@@ -16,13 +16,13 @@ const nextConfig = {
 		FRONTEND_URL: process.env.FRONTEND_URL
 	},
 	images: {
-		domains: ['ua-tube.pp.ua', 'localhost'],
+		domains: ['ua-tube.pp.ua', '192.168.2.100'],
 		remotePatterns: [
 			{
 				protocol: 'http',
-				hostname: 'localhost',
+				hostname: '192.168.2.100',
 				port: '10000',
-				pathname: '/**'
+				pathname: '/images/**'
 			}
 		]
 	}

@@ -1,4 +1,4 @@
-import { ICreator } from './'
+import { ICreator, IVideoMetadataResponse } from './'
 
 interface IVideo {
 	id: string
@@ -7,6 +7,7 @@ interface IVideo {
 	description?: string
 	isPublished?: boolean
 	publishedAt?: string
+	videoMetadata?: IVideoMetadataResponse
 	visibility?: VideoVisibilityType
 	status?: VideoStatusType
 	creator?: ICreator

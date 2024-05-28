@@ -1,5 +1,5 @@
 import { login, logOut, refreshAccessToken } from './auth.actions'
-import { ILoginResponse, ICreator, IUser } from '@/interfaces'
+import { ICreator, ILoginResponse, IUser } from '@/interfaces'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IAuthState } from './auth.interface'
 
@@ -45,16 +45,19 @@ const authSlice = createSlice({
 				}
 			)
 			.addCase(logOut.pending, state => {
-				state.loading = false
+				state.loading = true
 				state.user = undefined
+				state.accessToken = undefined
 			})
 			.addCase(logOut.rejected, state => {
 				state.loading = false
 				state.user = undefined
+				state.accessToken = undefined
 			})
 			.addCase(logOut.fulfilled, state => {
-				state.user = undefined
 				state.loading = false
+				state.user = undefined
+				state.accessToken = undefined
 			}),
 	reducers: {
 		signUp: (state, { payload }: PayloadAction<ILoginResponse>) => {

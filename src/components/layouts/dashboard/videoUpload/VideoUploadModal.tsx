@@ -1,6 +1,9 @@
+import { VideoManagerService, StorageService } from '@/services'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { UseState } from '@/interfaces'
+import { useRouter } from 'next/router'
+import { toastError } from '@/utils'
 import { FC, useState } from 'react'
 import { z } from 'zod'
 import {
@@ -21,9 +24,6 @@ import {
 	DynamicIcon,
 	FormDescription
 } from '@/components'
-import { toastError } from '@/utils'
-import { VideoManagerService, StorageService } from '@/services'
-import { useRouter } from 'next/router'
 
 interface IVideoUploadModalProps {
 	showModal: boolean

@@ -5,7 +5,7 @@ import {
 	getChannelUrl,
 	cn,
 	getUserInitials,
-	formatNumbers
+	formatNumbers, getImageUrl
 } from '@/utils'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IVideo } from '@/interfaces'
@@ -18,17 +18,7 @@ interface IVideoCardProps extends IVideo {
 }
 
 const VideoCard: FC<IVideoCardProps> = value => {
-	const [timeout, setModalTimeout] = useState<any>(null)
-	const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-	const videoRef = useRef<HTMLVideoElement>(null)
 
-	useEffect(() => {
-		if (videoRef.current === null) return
-		if (isVideoPlaying) {
-			videoRef.current.currentTime = 0
-			videoRef.current.play().catch()
-		} else videoRef.current.pause()
-	}, [isVideoPlaying])
 
 	return (
 		<div
@@ -37,21 +27,13 @@ const VideoCard: FC<IVideoCardProps> = value => {
 				value.fixedSize && ' w-64',
 				value.className
 			)}
-			onMouseEnter={() => {
-				timeout && !isVideoPlaying && clearTimeout(timeout)
-				setModalTimeout(setTimeout(() => setIsVideoPlaying(true), 1000))
-			}}
-			onMouseLeave={() => {
-				timeout && clearTimeout(timeout)
-				setIsVideoPlaying(false)
-			}}
 		>
 			<Link
 				href={getVideoUrl(value.id, undefined, undefined, true)}
 				className='relative aspect-video'
 			>
 				<img
-					src={value.thumbnailUrl}
+					src={getImageUrl(value.thumbnailUrl)}
 					loading='lazy'
 					className='block w-full h-full object-cover aspect-video duration-200 rounded-xl'
 					alt={value.id}
@@ -64,12 +46,12 @@ const VideoCard: FC<IVideoCardProps> = value => {
 
 			<div className='flex gap-x-2'>
 				<Link
-					href={getChannelUrl(value.creator.nickName)}
+					href={getChannelUrl(value.creator?.nickname)}
 					className='flex shrink-0'
 				>
 					<Avatar className='size-9'>
-						<AvatarImage src={value.creator.profileImg} loading='lazy' />
-						<AvatarFallback children={getUserInitials(value.creator.name)} />
+						<AvatarImage src={getImageUrl(value.creator?.thumbnailUrl)} loading='lazy' />
+						<AvatarFallback children={getUserInitials(value.creator?.displayName)} />
 					</Avatar>
 				</Link>
 				<div className='flex flex-col'>
@@ -82,14 +64,14 @@ const VideoCard: FC<IVideoCardProps> = value => {
 						children={value.title}
 					/>
 					<Link
-						href={getChannelUrl(value.creator.nickName)}
+						href={getChannelUrl(value.creator?.nickname)}
 						className='text-muted-foreground text-sm'
-						children={value.creator.name}
+						children={value.creator?.displayName}
 					/>
 
 					<div
 						className='text-muted-foreground text-sm'
-						children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.postedAt)}`}
+						children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
 					/>
 				</div>
 			</div>

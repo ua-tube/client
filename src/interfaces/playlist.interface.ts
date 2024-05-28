@@ -1,16 +1,18 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { ICreator, IVideo } from './'
+import { IApiPaginationResponse, ICreator, IVideo, VideoVisibilityType } from './'
 
 interface IPlaylist {
 	id: string
-	name: string
-	imgUrl?: string
+	creatorId: string
+	title: string
+	visibility?: VideoVisibilityType
 	icon?: keyof typeof dynamicIconImports
-	channel?: ICreator
-	videos?: IVideo[]
-	viewsCount?: number
-	videosCount?: number
-	isPrivate?: boolean
+	creator?: ICreator
+	videos?: IApiPaginationResponse<IVideo>
+	metrics?: {
+		itemsCount: number
+		viewsCount: string
+	}
 	createdAt?: string
 	updatedAt?: string
 }

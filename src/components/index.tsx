@@ -1,7 +1,7 @@
 export { default as AppHead } from './AppHead'
 export * from './dashboard'
 export * from './categories'
-export * from './authForms'
+export * from './forms'
 export * from './playlist'
 export * from './layouts'
 export * from './channel'

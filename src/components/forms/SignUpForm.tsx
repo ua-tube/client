@@ -110,7 +110,7 @@ const SignUpForm: FC = () => {
 			<CardHeader className='text-center'>
 				<CardTitle>
 					<Link
-						href='/'
+						href='/public'
 						className='flex space-x-1.5 items-center justify-center'
 					>
 						<img src='/logo.png' alt='logo' className='size-8' />
@@ -181,7 +181,7 @@ const SignUpForm: FC = () => {
 								<FormItem>
 									<FormLabel>Нікнейм вашого профілю</FormLabel>
 									<FormControl>
-										<Input type='text' {...field} />
+										<Input type='text' maxLength={16} {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

@@ -50,7 +50,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 					token,
 					email
 				})
-				if (data.statusCode === 201)
+				if (data.code === 201)
 					login({ login: email!, password: values.newPassword as string })
 				toast.success('Пароль відновлено успішно!')
 			} else {
@@ -69,7 +69,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 			<CardHeader className='text-center'>
 				<CardTitle>
 					<Link
-						href='/'
+						href='/public'
 						className='flex space-x-1.5 items-center justify-center'
 					>
 						<img src='/logo.png' alt='logo' className='size-8' />

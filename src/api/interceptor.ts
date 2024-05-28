@@ -1,52 +1,63 @@
+import { logOut, refreshAccessToken } from '@/store/auth/auth.actions'
+import { AxiosError, InternalAxiosRequestConfig } from 'axios'
+import { $axios, $axiosFormData } from '@/api/axios'
+import { IErrorResponse } from '@/interfaces'
+import { AuthService } from '@/services'
+import { useRouter } from 'next/router'
 import createAuthRefreshInterceptor, {
 	AxiosAuthRefreshOptions
 } from 'axios-auth-refresh'
-import { AxiosError, InternalAxiosRequestConfig } from 'axios'
-import { logOut, refreshAccessToken } from '@/store/auth/auth.actions'
-import { $axiosFormData, $axios } from '@/api/axios'
-import { useRouter } from 'next/router'
-import { AuthService } from '@/services'
 
 export const setupAxiosInterceptors = (store: any) => {
 	const { locale } = useRouter()
 	const { dispatch, getState } = store
 
-	let accessToken = getState().auth.accessToken
-
 	const isServer = typeof window === 'undefined'
 
-	const onUnauthorized = () => dispatch(logOut())
+	const onUnauthorized = () => {
+		if (!getState().auth.accessToken) dispatch(logOut())
+	}
 
 	const onRefreshToken = async () => {
 		const { data } = await AuthService.refreshAccessToken()
-		accessToken = data.accessToken
 		dispatch(refreshAccessToken(data.accessToken))
 	}
 
 	const axiosAuthConfig: AxiosAuthRefreshOptions = {
-		statusCodes: [401, 409],
+		statusCodes: [401],
 		pauseInstanceWhileRefreshing: true
 	}
 
 	const requestConfig = (config: InternalAxiosRequestConfig) => {
-		if (!isServer && accessToken)
-			config.headers['Authorization'] = `Bearer ${accessToken}`
+		if (!isServer && getState().auth.accessToken)
+			config.headers['Authorization'] = `Bearer ${getState().auth.accessToken}`
 
 		config.headers['x-lang'] = !isServer ? locale : 'uk'
 		return config
 	}
 
-	const axiosRefreshCall = async (error: AxiosError) => {
+	const axiosRefreshCall = async (error: AxiosError<IErrorResponse>) => {
+
 		if (error.response?.status === 401) {
-			await onRefreshToken()
-			return $axios({
-				...error.config,
-				headers: {
-					...error.config?.headers,
-					Authorization: `Bearer ${accessToken}`
-				}
-			})
-		} else if (error.response?.status === 409) onUnauthorized()
+			switch (error.response.data?.code) {
+				case 3:
+					await onRefreshToken()
+					return await $axios({
+						...error.config,
+						headers: {
+							...error.config?.headers,
+							Authorization: `Bearer ${getState().auth.accessToken}`
+						}
+					})
+				case 0:
+				case 1:
+				case 2:
+				case 4:
+					onUnauthorized()
+					break
+			}
+		}
+
 		throw error
 	}
 

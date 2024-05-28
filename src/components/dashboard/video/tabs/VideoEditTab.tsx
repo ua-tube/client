@@ -7,24 +7,24 @@ import { IVideo } from '@/interfaces'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import {
+	Button,
 	Form,
+	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormDescription,
-	FormControl,
-	Input,
 	FormMessage,
-	Textarea,
-	Button,
-	Select,
-	SelectValue,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
+	Input,
+	Label,
 	RadioGroup,
 	RadioGroupItem,
-	Label
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	Textarea
 } from '@/components'
 
 interface IVideoEditTabProps {
@@ -48,9 +48,14 @@ const videoFormSchema = z.object({
 		.max(9999, {
 			message: 'Максимальна довжина тегів 9999 символів!'
 		})
-		.refine(value => /^(\s*\w+\s*,)*(\s*\w+\s*)$/.test(value), {
-			message: 'Теги повинні бути введені через кому!'
-		}),
+
+		.refine(
+			value => (value ? /^(\s*\w+\s*,)*(\s*\w+\s*)$/.test(value) : true),
+			{
+				message: 'Теги повинні бути введені через кому!'
+			}
+		)
+		.optional(),
 	visibility: z.string(),
 	thumbnailId: z.string()
 })
@@ -67,13 +72,17 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 			form.setValue('tags', video.tags || '')
 			form.setValue('description', video.description || '')
 			form.setValue('visibility', video.visibility!)
-			form.setValue('thumbnailId', video?.thumbnailId || video.thumbnails?.at(1)?.imageFileId || '')
+			form.setValue(
+				'thumbnailId',
+				video?.thumbnailId || video.thumbnails?.at(1)?.imageFileId || ''
+			)
 		}
 	}, [video])
 
-	const onSubmit = async (data: z.infer<typeof videoFormSchema>) => {
+	const onSubmit = async ({thumbnailId, ...props}: z.infer<typeof videoFormSchema>) => {
+
 		try {
-			await VideoManagerService.updateVideo(video?.id!, data as any)
+			await VideoManagerService.updateVideo(video?.id!, (thumbnailId ? {thumbnailId, ...props} : props) as any)
 			toast.success('Оновлено успішно!')
 		} catch (e) {
 			toastError(e)

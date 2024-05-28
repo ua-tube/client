@@ -1,4 +1,6 @@
-import { ICreator } from '@/interfaces/channel.interface'
+import { ICreator } from './'
+
+type UserVoteType = 'Like' | 'Dislike' | 'None'
 
 interface IComment {
 	id: string
@@ -18,7 +20,7 @@ interface IComment {
 
 interface ILikedOrDislikedComment {
 	videoCommentId: string
-	type: 'Like' | 'Dislike' | 'None'
+	type: UserVoteType
 }
 
-export type { IComment, ILikedOrDislikedComment }
+export type { IComment, ILikedOrDislikedComment, UserVoteType }

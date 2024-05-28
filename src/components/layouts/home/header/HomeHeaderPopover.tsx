@@ -189,7 +189,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						href='/auth'
 						className='h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted'
 					>
-						<DynamicIcon name='person-standing' />
+						<DynamicIcon name='door-open' />
 						<span className='hiddenOnMobile'>Увійти</span>
 					</Link>
 				</div>
