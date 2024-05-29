@@ -16,14 +16,17 @@ const PlaylistCard: FC<IPlaylistCardProps> = ({ playList }) => {
 				className='relative aspect-video'
 			>
 				<img
-					src={getImageUrl(playList?.videos?.list?.at(0)?.thumbnailUrl)}
+					src={getImageUrl((playList?.videos as any)?.[0]?.video?.thumbnailUrl)}
 					loading='lazy'
 					className='block w-full h-full object-cover aspect-video duration-200 rounded-lg'
 					alt={playList.id}
 				/>
 				<div className='absolute bottom-1 right-1 space-x-1 p-1 flex items-center rounded-lg bg-background/50'>
 					<DynamicIcon name='list-video' />
-					<div className='text-xs' children={`${playList.metrics?.itemsCount} відeо`} />
+					<div
+						className='text-xs'
+						children={`${playList.metrics?.itemsCount} відeо`}
+					/>
 				</div>
 			</Link>
 			<div className='py-3 space-y-2'>

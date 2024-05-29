@@ -1,21 +1,22 @@
+import { IPlaylist } from '@/interfaces'
+import Link from 'next/link'
+import { FC } from 'react'
 import {
 	Card,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 	DynamicIcon,
 	ScrollArea
 } from '@/components'
 import {
-	getChannelUrl,
-	getVideoUrl,
-	formatDuration,
 	cn,
-	getPlaylistUrl
+	formatDuration,
+	getChannelUrl,
+	getImageUrl,
+	getPlaylistUrl,
+	getVideoUrl
 } from '@/utils'
-import { IPlaylist } from '@/interfaces'
-import { FC } from 'react'
-import Link from 'next/link'
 
 interface ICurrentVideoPlaylistProps {
 	currVideoId: string
@@ -26,7 +27,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 	currVideoId,
 	currList
 }) => {
-	const currVideoIndex = currList.videos?.findIndex(
+	const currVideoIndex = currList.videos?.list.findIndex(
 		value => value.id === currVideoId
 	)
 
@@ -42,7 +43,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 					}
 				/>
 				<CardDescription className='flex flex-wrap items-center gap-2 py-2'>
-					{currList.isPrivate === true && (
+					{currList.visibility !== 'Public' && (
 						<div className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'>
 							<DynamicIcon name='lock' className='size-4' />
 							<span children='Приватний' />
@@ -51,19 +52,19 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 					<div className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'>
 						<DynamicIcon name='user' className='size-4' />
 						<Link
-							href={getChannelUrl(currList.creator?.nickName!)}
-							children={currList.creator?.name}
+							href={getChannelUrl(currList.creator?.nickname)}
+							children={currList.creator?.displayName}
 						/>
 					</div>
 					<div
 						className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'
-						children={`${(currVideoIndex || 0) + 1}/${currList.videos?.length}`}
+						children={`${(currVideoIndex || 0) + 1}/${currList.metrics?.itemsCount}`}
 					/>
 				</CardDescription>
 			</CardHeader>
 			<ScrollArea
 				className='flex flex-col gap-y-3 max-h-96'
-				children={currList.videos?.map((value, index) => (
+				children={currList.videos?.list.map((value, index) => (
 					<div
 						key={index}
 						className={cn(
@@ -87,7 +88,7 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 							className='relative aspect-video h-10 lg:h-16'
 						>
 							<img
-								src={value.thumbnailUrl}
+								src={getImageUrl(value.thumbnailUrl)}
 								loading='lazy'
 								className='block w-full h-full object-cover aspect-video duration-200 rounded-lg'
 								alt={value.id}
@@ -104,10 +105,10 @@ const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
 								children={value.title}
 							/>
 							<Link
-								href={getChannelUrl(value.creator.nickName)}
+								href={getChannelUrl(value.creator?.nickname)}
 								className='text-muted-foreground text-xs'
 							>
-								<div children={value.creator.name} />
+								<div children={value.creator?.displayName} />
 							</Link>
 						</div>
 					</div>

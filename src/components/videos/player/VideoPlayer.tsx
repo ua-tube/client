@@ -1,6 +1,6 @@
-import { formatDuration, writeVideoUrl, getVideoUrl, cn } from '@/utils'
+import { cn, formatDuration, getVideoUrl, writeVideoUrl } from '@/utils'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
-import { IVideo, UseState, IProcessedVideo } from '@/interfaces'
+import { IProcessedVideo, IVideo, UseState } from '@/interfaces'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import { useSidebarContext } from '@/providers'
 import { useRouter } from 'next/router'
@@ -27,7 +27,7 @@ import {
 
 interface IVideoPlayerProps {
 	video: IVideo
-	videoIds: { next: string; prev?: string }
+	videoIds?: { next?: string; prev?: string }
 	autoPlay?: boolean
 	cinemaMode: boolean
 	setCinemaMode: UseState<boolean>
@@ -171,7 +171,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 			videoRef.current.loop = false
 			setVideoState(p => ({ ...p, isLooped: false }))
 		}
-		if (videoState.autoPlayNext)
+		if (videoState.autoPlayNext && videoIds)
 			await push(
 				getVideoUrl(
 					videoIds.next,
@@ -183,10 +183,10 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 	}, [
 		videoState.autoPlayNext,
 		push,
-		videoIds.next,
 		query.listId,
 		videoState.isLooped,
-		setVideoState
+		setVideoState,
+		videoIds
 	])
 
 	const onVideoLoadError = useCallback(() => {
@@ -499,7 +499,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 				<TooltipProvider delayDuration={0}>
 					<div className='flex justify-between items-center'>
 						<div className='flex items-center space-x-1.5'>
-							{videoIds.prev && (
+							{videoIds?.prev && (
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<Link
@@ -541,22 +541,23 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 									}
 								/>
 							</Tooltip>
-
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Link
-										href={getVideoUrl(
-											videoIds.next,
-											undefined,
-											query?.listId ? (query.listId as string) : undefined,
-											true
-										)}
-									>
-										<DynamicIcon name='chevron-right' />
-									</Link>
-								</TooltipTrigger>
-								<TooltipContent children='Наступне відео' />
-							</Tooltip>
+							{videoIds?.next && (
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Link
+											href={getVideoUrl(
+												videoIds.next,
+												undefined,
+												query?.listId ? (query.listId as string) : undefined,
+												true
+											)}
+										>
+											<DynamicIcon name='chevron-right' />
+										</Link>
+									</TooltipTrigger>
+									<TooltipContent children='Наступне відео' />
+								</Tooltip>
+							)}
 
 							<div className='group/volume flex items-center gap-x-1.5'>
 								<Tooltip>
@@ -665,9 +666,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 										<TooltipTrigger>
 											<div className='flex items-center space-x-2'>
 												<DynamicIcon name='gauge' className='h-4 w-4' />
-												<div
-													children={`Швидкість: ${videoState.speed}x`}
-												/>
+												<div children={`Швидкість: ${videoState.speed}x`} />
 											</div>
 										</TooltipTrigger>
 										<TooltipContent side='left' align='end'>

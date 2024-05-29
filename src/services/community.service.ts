@@ -18,7 +18,6 @@ export const CommunityService = {
 		return $axios.post<IComment>(`community/comments`, data)
 	},
 	createCommentReply(data: { videoId: string, comment: string, parentCommentId: string }) {
-		console.log(data)
 		return $axios.post<IComment>(`community/comments/replies`, data)
 	},
 	updateComment(data: { videoId: string, comment: string }) {

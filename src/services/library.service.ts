@@ -12,6 +12,9 @@ export const LibraryService = {
 	async getPlaylistsByCreator(creatorId: string) {
 		return $axios.get<IPlaylist[]>(`library/playlists/by-creator/${creatorId}`)
 	},
+	async getCurrVideoPlaylistIds(videoId: string) {
+		return $axios.get<string[]>(`library/playlists/ids-where/${videoId}`)
+	},
 	async getAllVideosByPlaylist(params: IPagination & { t?: string }) {
 		return $axios.get<IPlaylist>('library/playlists', { params })
 	},

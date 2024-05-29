@@ -1,18 +1,22 @@
-import { AppHead, Skeleton, DynamicIcon, AboutVideo } from '@/components'
+import { AboutVideo, AppHead, DynamicIcon, Skeleton } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { useState, useEffect, FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { VideoManagerService, SubscriptionsService, VideoService } from '@/services'
-import { IVideo } from '@/interfaces'
-import { getImageUrl, cn } from '@/utils'
+import {
+	LibraryService,
+	SubscriptionsService,
+	VideoManagerService
+} from '@/services'
+import { IPlaylist, IVideo } from '@/interfaces'
+import { cn, getImageUrl } from '@/utils'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
-	loading: () => <DynamicIcon name="loader" className="loader-container" />
+	loading: () => <DynamicIcon name='loader' className='loader-container' />
 })
 
 const VideoPlayer = dynamic(() => import('@/components/videos/player'), {
 	ssr: false,
-	loading: () => <Skeleton className="aspect-video bg-secondary rounded-lg" />
+	loading: () => <Skeleton className='aspect-video bg-secondary rounded-lg' />
 })
 
 const VideoCommentsSection = dynamic(
@@ -33,68 +37,67 @@ const CurrentVideoPlaylist = dynamic(
 
 export const getServerSideProps: GetServerSideProps<{
 	videoId: string
+	listId: string
 	// videoIds: { next: string; prev?: string }
 	// currList?: IPlaylist
 }> = async ({ query, locale }) => {
 	const videoId = (query?.videoId as string) || ''
+	const listId = (query?.listId as string) || ''
 
-	// const defaultVideosIds: string[] = videos.map(value => value.id)
-	// let videoIds: {
-	// 	next: string
-	// 	prev?: string
-	// }
-	// =
-	// 	{
-	// 	next:
-	// 		defaultVideosIds.at(
-	// 			Math.floor(Math.random() * defaultVideosIds.length)
-	// 		) || ''
-	// }
-	// let currList: IPlaylist | undefined
-	//
-	// let video = videos.find(value => value.id === videoId) || defaultVideo
-	//
-	// if (query?.listId) {
-	// 	currList =
-	// 		playlists.find(value => value.id == (query.listId as string)) ||
-	// 		playlists[0]
-	// 	const currVideoIndex = currList.videos!.findIndex(v => v.id === videoId)
-	// 	if (currList.videos) {
-	// 		videoIds.next =
-	// 			currList.videos.length > currVideoIndex + 1
-	// 				? currList.videos?.[currVideoIndex + 1].id
-	// 				: currList.videos?.[0].id
-	// 		if (currVideoIndex !== 0 && currVideoIndex > 0)
-	// 			videoIds.prev = currList.videos?.[currVideoIndex - 1].id
-	// 	}
-	// }
-
-	return {
-		props: {
-			videoId
-			// videoIds: [] as any[],
-			// ...(currList && { currList })
-		}
-	}
+	return { props: { videoId, listId } }
 }
 
 export default function VideoPage({
-																		videoId
-																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
+	videoId,
+	listId
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [cinemaMode, setCinemaMode] = useState(false)
 	const [video, setVideo] = useState<IVideo>()
+	const [playlist, setPlaylist] = useState<IPlaylist>()
+	const [videoIds, setVideoIds] = useState<{ next?: string; prev?: string }>()
 
 	useEffect(() => {
 		;(async () => {
 			const { data } = await VideoManagerService.getVideo(videoId)
-			const { data: creator } = await SubscriptionsService.getSubscriptionInfo(data.creatorId!)
+			const { data: creator } = await SubscriptionsService.getSubscriptionInfo(
+				data.creatorId!
+			)
+			if (listId && listId.length > 0) {
+				const { data: playlist } = await LibraryService.getAllVideosByPlaylist({
+					t: listId,
+					page: 1,
+					perPage: 50
+				})
+				setPlaylist(playlist)
+				if (playlist.videos) {
+					const currVideoIndex = playlist.videos.list.findIndex(
+						v => v.id === videoId
+					)
+					if (typeof currVideoIndex !== 'undefined') {
+						setVideoIds({
+							next:
+								currVideoIndex < playlist.videos.list?.length
+									? playlist.videos.list.at(currVideoIndex + 1)?.id
+									: playlist.videos.list.at(0)?.id,
+							prev:
+								currVideoIndex > 0
+									? playlist.videos.list.at(currVideoIndex - 1)?.id
+									: playlist.videos.list.at(-1)?.id
+						})
+					}
+				}
+			}
 			setVideo({ ...data, creator })
 		})()
-	}, [])
+	}, [videoId, listId])
 
-	const SideBar: FC = () => <>
-	</>
+	const SideBar: FC = () => (
+		<>
+			{playlist && (
+				<CurrentVideoPlaylist currVideoId={videoId} currList={playlist} />
+			)}
+		</>
+	)
 
 	const LeftSidebar: FC = () => (
 		<>
@@ -111,25 +114,49 @@ export default function VideoPage({
 				disableDesc
 			/>
 			<HomeLayout openInDrawer>
-				<section className="mx-auto flex flex-col gap-6 md:flex-row pb-4">
+				<section className='mx-auto flex flex-col gap-6 md:flex-row pb-4'>
 					<div
 						className={cn(
 							'flex flex-col gap-y-4 transform transition-transform duration-300',
-							cinemaMode ? 'w-full' : 'md:w-3/4'
+							cinemaMode ? 'w-full' : 'md:w-4/6'
 						)}
 					>
 						{video && (
-							<VideoPlayer autoPlay {...{ cinemaMode, setCinemaMode, video, videoIds: { next: '' } }} />
+							<VideoPlayer
+								autoPlay
+								{...{
+									cinemaMode,
+									setCinemaMode,
+									video,
+									videoIds
+								}}
+							/>
 						)}
-						{!cinemaMode && (<div className="w-full flex flex-col gap-y-4" children={<LeftSidebar />} />)}
+						{!cinemaMode && (
+							<div
+								className='w-full flex flex-col gap-y-4'
+								children={<LeftSidebar />}
+							/>
+						)}
 					</div>
-					{!cinemaMode && (<div className="w-full md:w-1/4 flex flex-col gap-y-2" children={<SideBar />} />)}
+					{!cinemaMode && (
+						<div
+							className='w-full md:w-2/6 flex flex-col gap-y-2'
+							children={<SideBar />}
+						/>
+					)}
 				</section>
 
 				{cinemaMode && (
-					<section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
-						<div className="w-full md:w-3/4 flex flex-col gap-y-4" children={<LeftSidebar />} />
-						<div className="w-full md:w-1/4 flex flex-col gap-y-2" children={<SideBar />} />
+					<section className='mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4'>
+						<div
+							className='w-full md:w-4/6 flex flex-col gap-y-4'
+							children={<LeftSidebar />}
+						/>
+						<div
+							className='w-full md:w-2/6 flex flex-col gap-y-2'
+							children={<SideBar />}
+						/>
 					</section>
 				)}
 			</HomeLayout>

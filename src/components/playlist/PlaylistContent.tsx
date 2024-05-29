@@ -17,7 +17,7 @@ interface IPlaylistContentProps {
 const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
 
 	const firstVideo = playlist?.videos?.list?.[0]
-	console.log(firstVideo, playlist?.videos)
+
 	return (
 		<section className='mx-auto flex flex-col-reverse gap-6 lg:gap-8 md:flex-row'>
 			<div className='w-full lg:w-3/4 space-y-1'>
