@@ -114,7 +114,7 @@ export default function VideoPage({
 					creator
 				})
 
-				if (user) await HistoryService.createHistoryRecord({ videoId })
+				await HistoryService.createHistoryRecord({ videoId })
 
 			} catch (e: any) {
 				console.error(e)

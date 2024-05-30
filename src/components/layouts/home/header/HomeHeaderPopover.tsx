@@ -1,29 +1,29 @@
-import { getUserInitials, getImageUrl } from '@/utils'
+import { getChannelUrl, getImageUrl, getUserInitials } from '@/utils'
 import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { languages } from '@/config'
 import dynamic from 'next/dynamic'
-import { useAuth, useActions } from '@/hooks'
+import { useActions, useAuth } from '@/hooks'
 import Link from 'next/link'
 import { FC } from 'react'
 import {
-	DynamicIcon,
-	Tooltip,
-	TooltipTrigger,
-	TooltipContent,
-	DropdownMenu,
-	DropdownMenuTrigger,
 	Avatar,
-	AvatarImage,
 	AvatarFallback,
+	AvatarImage,
+	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuSub,
-	DropdownMenuSubTrigger,
 	DropdownMenuPortal,
+	DropdownMenuSeparator,
+	DropdownMenuSub,
 	DropdownMenuSubContent,
-	DropdownMenuSeparator
+	DropdownMenuSubTrigger,
+	DropdownMenuTrigger,
+	DynamicIcon,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
 } from '@/components'
 
 const HomeHeaderNotifications = dynamic(
@@ -160,9 +160,24 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 							<DropdownMenuItem className='space-x-2' asChild>
 								<Link href='/dashboard/videos'>
 									<DynamicIcon name='contact' className='size-4' />
-									<span>Мої відео</span>
+									<span>Студія</span>
 								</Link>
 							</DropdownMenuItem>
+							<DropdownMenuItem className='space-x-2' asChild>
+								<Link href='/dashboard/videos'>
+									<DynamicIcon name='settings' className='size-4' />
+									<span>Персоналізація</span>
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem className='space-x-2' asChild>
+								<Link href={getChannelUrl(user.id, 'videos', true)}>
+									<DynamicIcon name='user-round' className='size-4' />
+									<span>Мій канал</span>
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownBaseContent />
+							<DropdownMenuSeparator />
 							<DropdownMenuItem
 								className='space-x-2'
 								onClick={() => logOut({ accessToken })}
@@ -170,8 +185,6 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 								<DynamicIcon name='door-open' className='size-4' />
 								<span>Вихід</span>
 							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownBaseContent />
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

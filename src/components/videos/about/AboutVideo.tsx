@@ -146,8 +146,19 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 
 					setVideoState(prevState => ({
 						...prevState,
-						...data,
 						isSubscribed,
+						viewsCount:
+							video.metrics?.viewsCount ||
+							data.viewsCount ||
+							prevState.viewsCount,
+						likesCount:
+							video.metrics?.likesCount ||
+							data.likesCount ||
+							prevState.likesCount,
+						dislikesCount:
+							video.metrics?.dislikesCount ||
+							data.dislikesCount ||
+							prevState.dislikesCount,
 						isLiked: data.userVote === 'Like',
 						isDisliked: data.userVote === 'Dislike'
 					}))
@@ -264,7 +275,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 					<div className='flex items-center space-x-4 text-sm font-semibold'>
 						<div className='text-blue-400'>Натисніть, щоб відкрити</div>
 						<div
-							children={`${formatNumbers(videoState.viewsCount)} переглядів`}
+							children={`${formatNumbers(video?.metrics?.viewsCount)} переглядів`}
 						/>
 						<div children={formatTimeAgo(video?.createdAt)} />
 					</div>

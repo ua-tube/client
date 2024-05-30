@@ -1,4 +1,10 @@
-import { cn, formatDuration, getVideoUrl, writeVideoUrl } from '@/utils'
+import {
+	cn,
+	formatDuration,
+	getVideoUrl,
+	getVideoUrlForQuality,
+	writeVideoUrl
+} from '@/utils'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { IProcessedVideo, IVideo, UseState } from '@/interfaces'
 import * as SliderPrimitive from '@radix-ui/react-slider'
@@ -58,6 +64,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 
 	const [videoState, setVideoState] = useState<IVideoState>({
 		autoPlayNext: false,
+		selectedQuality: video.processedVideos.at(0),
 		isLooped: false,
 		duration: 0,
 		isLoading: true,
@@ -72,6 +79,50 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
+
+	const onProgressHandler = useCallback(() => {
+		if (videoRef.current) {
+			const buffered = videoRef.current.buffered
+			let bufferedCount = videoState.currentTime
+			for (let i = 0; i < buffered.length; i++)
+				if (buffered.end(i) > videoState.currentTime)
+					if (buffered.start(i) < videoState.currentTime)
+						bufferedCount += buffered.end(i) - videoState.currentTime
+					else bufferedCount += buffered.end(i) - buffered.start(i)
+
+			setVideoState(p => ({
+				...p,
+				bufferedCount,
+				isLoading: p.currentTime + 1 > bufferedCount
+			}))
+		}
+	}, [videoState.currentTime, setVideoState])
+
+	const onTimeUpdateHandler = useCallback(
+		(time?: number) => {
+			if (videoRef.current) {
+				if (time) videoRef.current.currentTime = time
+				setVideoState(p => ({
+					...p,
+					currentTime: videoRef.current!.currentTime
+				}))
+			}
+		},
+		[setVideoState]
+	)
+
+	const changeQuality = useCallback(
+		(selectedQuality: IProcessedVideo) => {
+			if (videoRef.current) {
+				setVideoState(p => ({ ...p, selectedQuality }))
+				setTimeout(async () => {
+					onTimeUpdateHandler(videoState.currentTime)
+					await videoRef.current?.play()
+				}, 100)
+			}
+		},
+		[onTimeUpdateHandler, videoState.currentTime, setVideoState]
+	)
 
 	const showPlayAnimation = useCallback(() => {
 		setVideoState(s => ({ ...s, showLoadingAnimation: true }))
@@ -104,32 +155,6 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 			}
 		},
 		[setVideoState]
-	)
-
-	const onTimeUpdateHandler = useCallback(
-		(time?: number) => {
-			if (videoRef.current) {
-				if (time) videoRef.current.currentTime = time
-				setVideoState(p => ({
-					...p,
-					currentTime: videoRef.current!.currentTime
-				}))
-			}
-		},
-		[setVideoState]
-	)
-
-	const changeQuality = useCallback(
-		(selectedQuality: IProcessedVideo) => {
-			if (videoRef.current) {
-				setVideoState(p => ({ ...p, selectedQuality }))
-				setTimeout(async () => {
-					onTimeUpdateHandler(videoState.currentTime)
-					await videoRef.current?.play()
-				}, 100)
-			}
-		},
-		[onTimeUpdateHandler, videoState.currentTime, setVideoState]
 	)
 
 	const changeVolume = useCallback(
@@ -210,34 +235,13 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 		videoState.autoPlayNext
 	])
 
-	const onProgressHandler = useCallback(() => {
-		if (videoRef.current) {
-			const buffered = videoRef.current.buffered
-			const bufferedTotal = () => {
-				let total = videoState.currentTime
-				for (let i = 0; i < buffered.length; i++)
-					if (buffered.end(i) > videoState.currentTime)
-						if (buffered.start(i) < videoState.currentTime)
-							total += buffered.end(i) - videoState.currentTime
-						else total += buffered.end(i) - buffered.start(i)
-				return total
-			}
-			setVideoState(p => ({
-				...p,
-				bufferedCount: bufferedTotal(),
-				isLoading: p.currentTime + 1 > bufferedTotal()
-			}))
-		}
-	}, [videoState.currentTime, setVideoState])
-
 	const buttonsCallBack = useCallback(
 		(event: KeyboardEvent) => {
-			if (videoState.isFullScreen)
-				switch (event.key) {
+			if (videoState.isFullScreen) {
+				const key = event.key.toLowerCase()
+				switch (key) {
 					case 'а':
 					case 'f':
-					case 'А':
-					case 'F':
 						toggleFullScreen()
 						break
 					case ' ':
@@ -245,23 +249,22 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 						break
 					case 'ь':
 					case 'm':
-					case 'Ь':
-					case 'M':
 						toggleMute()
 						break
-					case 'ArrowUp':
+					case 'arrowup':
 						changeVolume(videoState.volume + 0.05)
 						break
-					case 'ArrowDown':
+					case 'arrowdown':
 						changeVolume(videoState.volume - 0.05)
 						break
-					case 'ArrowLeft':
+					case 'arrowleft':
 						onTimeUpdateHandler(videoState.currentTime - 5)
 						break
-					case 'ArrowRight':
+					case 'arrowright':
 						onTimeUpdateHandler(videoState.currentTime + 5)
 						break
 				}
+			}
 		},
 		[
 			videoState.volume,
@@ -297,39 +300,9 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 	useEffect(() => {
 		document.addEventListener('keydown', buttonsCallBack)
 		document.addEventListener('fullscreenchange', fullScreenChangeListener)
-		if (videoRef.current) {
-			videoRef.current.addEventListener('loadstart', () =>
-				onLoadingListener(true)
-			)
-			videoRef.current.addEventListener('loadeddata', () =>
-				onLoadingListener(false)
-			)
-			videoRef.current.addEventListener('progress', onProgressHandler)
-			videoRef.current.addEventListener('timeupdate', () =>
-				onTimeUpdateHandler()
-			)
-			videoRef.current.addEventListener('loadedmetadata', () =>
-				setVideoState(p => ({
-					...p,
-					duration: videoRef.current?.duration || 0
-				}))
-			)
-		}
 		return () => {
 			document.removeEventListener('keydown', buttonsCallBack)
 			document.removeEventListener('fullscreenchange', fullScreenChangeListener)
-			if (videoRef.current) {
-				videoRef.current.removeEventListener('loadstart', () =>
-					onLoadingListener(true)
-				)
-				videoRef.current.removeEventListener('loadeddata', () =>
-					onLoadingListener(false)
-				)
-				videoRef.current.removeEventListener('progress', onProgressHandler)
-				videoRef.current.removeEventListener('timeupdate', () =>
-					onTimeUpdateHandler()
-				)
-			}
 		}
 	}, [videoState])
 
@@ -337,11 +310,11 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 		setVideoState(p => ({
 			...p,
 			bufferedCount: 0,
-			autoPlayNext: Boolean(+(sessionStorage.getItem('autoPlayNext') || 0))
+			autoPlayNext: Boolean(+(sessionStorage.getItem('autoPlayNext') || 0)),
+			selectedQuality: video.processedVideos.at(0)
 		}))
 		changeVolume(+(sessionStorage?.getItem('volume') || 0.5))
 		query?.time && onTimeUpdateHandler(+query.time)
-		autoPlay && togglePlay(true)
 	}, [video])
 
 	return (
@@ -365,29 +338,43 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 				<ContextMenuTrigger className='size-full flex items-center justify-center overflow-y-hidden'>
 					<video
 						ref={videoRef}
+						controls={false}
 						className={cn(
 							'bg-black/80 ',
 							!cinemaMode
 								? ' w-full aspect-video rounded-lg'
 								: 'h-full object-center'
 						)}
+						src={getVideoUrlForQuality(videoState.selectedQuality)}
 						onClick={() => togglePlay()}
+						onLoadStart={() => onLoadingListener(true)}
+						onLoadedData={() => onLoadingListener(false)}
+						onProgress={onProgressHandler}
+						onTimeUpdate={() => onTimeUpdateHandler()}
+						onLoadedMetadata={() => {
+							setVideoState(p => ({
+								...p,
+								duration: videoRef.current?.duration || 0
+							}))
+							autoPlay && togglePlay(true)
+						}}
 						onEnded={onVideoEnd}
-						controls={false}
 					/>
 				</ContextMenuTrigger>
 
 				<ContextMenuContent>
-					<ContextMenuItem
-						className='flex items-center justify-between'
-						onClick={toggleAutoPlayNext}
-					>
-						<div className='items-center flex space-x-2'>
-							<DynamicIcon name='arrow-right-circle' />
-							<span children='Автопрогравання' />
-						</div>
-						{videoState.autoPlayNext && <div className='checkedIcon' />}
-					</ContextMenuItem>
+					{video.nextId && (
+						<ContextMenuItem
+							className='flex items-center justify-between'
+							onClick={toggleAutoPlayNext}
+						>
+							<div className='items-center flex space-x-2'>
+								<DynamicIcon name='arrow-right-circle' />
+								<span children='Автопрогравання' />
+							</div>
+							{videoState.autoPlayNext && <div className='checkedIcon' />}
+						</ContextMenuItem>
+					)}
 
 					<ContextMenuItem
 						className='flex items-center justify-between'
@@ -590,26 +577,28 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 							</div>
 						</div>
 						<div className='flex items-center space-x-3'>
-							<Tooltip>
-								<TooltipTrigger
-									asChild
-									className='flex items-center'
-									children={
-										<Switch
-											className={
-												videoState.autoPlayNext ? 'bg-primary' : 'bg-input'
-											}
-											checked={videoState.autoPlayNext}
-											onCheckedChange={toggleAutoPlayNext}
-										/>
-									}
-								/>
-								<TooltipContent
-									children={`Автопрогравання (${
-										videoState.autoPlayNext ? 'увімкнено' : 'вимкнено'
-									})`}
-								/>
-							</Tooltip>
+							{video.nextId && (
+								<Tooltip>
+									<TooltipTrigger
+										asChild
+										className='flex items-center'
+										children={
+											<Switch
+												className={
+													videoState.autoPlayNext ? 'bg-primary' : 'bg-input'
+												}
+												checked={videoState.autoPlayNext}
+												onCheckedChange={toggleAutoPlayNext}
+											/>
+										}
+									/>
+									<TooltipContent
+										children={`Автопрогравання (${
+											videoState.autoPlayNext ? 'увімкнено' : 'вимкнено'
+										})`}
+									/>
+								</Tooltip>
+							)}
 
 							<Tooltip>
 								<TooltipTrigger
@@ -677,7 +666,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 											<div className='flex items-center space-x-2'>
 												<DynamicIcon name='settings-2' className='h-4 w-4' />
 												<div
-													children={`Якість: ${videoState.selectedQuality}`}
+													children={`Якість: ${videoState.selectedQuality?.label}`}
 												/>
 											</div>
 										</TooltipTrigger>

@@ -1,4 +1,5 @@
 import { $axios } from '@/api/axios'
+import axios from 'axios'
 import {
 	IErrorResponse,
 	ILoginRequest,
@@ -32,7 +33,7 @@ export const AuthService = {
 	},
 
 	async refreshAccessToken() {
-		return $axios.get<IRefreshAccessTokenResponse>('auth/refresh', { baseURL })
+		return axios.get<IRefreshAccessTokenResponse>('auth/refresh', { baseURL })
 	},
 
 	async logout(accessToken?: string) {

@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage, Badge, DynamicIcon, Input, Button } from '@/components'
 import { formatTimeAgo, getImageUrl, getUserInitials, toastError } from '@/utils'
 import { IComment, ILikedOrDislikedComment } from '@/interfaces'
-import { FC, useState } from 'react'
 import { CommunityService } from '@/services'
-import { toast } from 'sonner'
+import { FC, useState } from 'react'
 import { useAuth } from '@/hooks'
+import { toast } from 'sonner'
 
 interface IVideoCommentCardProps {
 	comment: IComment
