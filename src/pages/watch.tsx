@@ -1,14 +1,16 @@
-import { AboutVideo, AppHead, DynamicIcon, Skeleton } from '@/components'
+import { AppHead, DynamicIcon, Skeleton } from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { FC, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import {
-	LibraryService,
-	SubscriptionsService,
-	VideoManagerService
-} from '@/services'
-import { IPlaylist, IVideo } from '@/interfaces'
+import { HistoryService, LibraryService, SubscriptionsService, VideoService } from '@/services'
+import { IPlaylist, ISearchVideosResponse, IVideo } from '@/interfaces'
 import { cn, getImageUrl } from '@/utils'
+import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks'
+
+const CategoryPills = dynamic(
+	() => import('@/components/categories/CategoryPills')
+)
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
 	loading: () => <DynamicIcon name='loader' className='loader-container' />
@@ -23,9 +25,9 @@ const VideoCommentsSection = dynamic(
 	() => import('@/components/videos/comments')
 )
 
-const CategoryPills = dynamic(
-	() => import('@/components/categories/CategoryPills')
-)
+const AboutVideo = dynamic(() => import('@/components/videos/about'), {
+	ssr: false
+})
 
 const SidebarVideoList = dynamic(
 	() => import('@/components/videos/sidebar/SidebarVideoList')
@@ -35,59 +37,89 @@ const CurrentVideoPlaylist = dynamic(
 	() => import('@/components/playlist/CurrentVideoPlaylist')
 )
 
+const notFoundDestination = `/404?message=${encodeURIComponent('Даного відео не знайдено!')}`
+
 export const getServerSideProps: GetServerSideProps<{
 	videoId: string
 	listId: string
-	// videoIds: { next: string; prev?: string }
-	// currList?: IPlaylist
 }> = async ({ query, locale }) => {
 	const videoId = (query?.videoId as string) || ''
 	const listId = (query?.listId as string) || ''
 
-	return { props: { videoId, listId } }
+	return videoId && videoId !== ''
+		? { props: { videoId, listId } }
+		: { redirect: { permanent: true, destination: notFoundDestination } }
 }
 
 export default function VideoPage({
 	videoId,
 	listId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const { replace } = useRouter()
+	const { user } = useAuth()
 	const [cinemaMode, setCinemaMode] = useState(false)
+
 	const [video, setVideo] = useState<IVideo>()
 	const [playlist, setPlaylist] = useState<IPlaylist>()
-	const [videoIds, setVideoIds] = useState<{ next?: string; prev?: string }>()
+
+	const [relatedVideos, setRelatedVideos] = useState<ISearchVideosResponse>()
+	const [currTag, setCurrTag] = useState<string>()
 
 	useEffect(() => {
 		;(async () => {
-			const { data } = await VideoManagerService.getVideo(videoId)
-			const { data: creator } = await SubscriptionsService.getSubscriptionInfo(
-				data.creatorId!
-			)
-			if (listId && listId.length > 0) {
-				const { data: playlist } = await LibraryService.getAllVideosByPlaylist({
-					t: listId,
+			try {
+				let videoIds: { nextId?: string; prevId?: string } | undefined
+
+				const { data } = await VideoService.getVideo(videoId)
+
+				const { data: searchVideos } = await VideoService.getSearchVideos({
 					page: 1,
-					perPage: 50
+					perPage: 20,
+					q: data.title.slice(0, 1)
 				})
-				setPlaylist(playlist)
-				if (playlist.videos) {
-					const currVideoIndex = playlist.videos.list.findIndex(
-						v => v.id === videoId
-					)
-					if (typeof currVideoIndex !== 'undefined') {
-						setVideoIds({
-							next:
-								currVideoIndex < playlist.videos.list?.length
-									? playlist.videos.list.at(currVideoIndex + 1)?.id
-									: playlist.videos.list.at(0)?.id,
-							prev:
-								currVideoIndex > 0
-									? playlist.videos.list.at(currVideoIndex - 1)?.id
-									: playlist.videos.list.at(-1)?.id
+				setRelatedVideos(searchVideos)
+
+				const { data: creator } =
+					await SubscriptionsService.getSubscriptionInfo(data.creatorId!)
+
+				if (listId && listId.length > 0) {
+					const { data: playlist } =
+						await LibraryService.getAllVideosByPlaylist({
+							t: listId,
+							page: 1,
+							perPage: 50
 						})
+					setPlaylist(playlist)
+					if (playlist.videos) {
+						const currVideoIndex = playlist.videos.list.findIndex(
+							v => v.id === videoId
+						)
+						if (typeof currVideoIndex !== 'undefined') {
+							videoIds = {
+								nextId:
+									currVideoIndex < playlist.videos.list?.length
+										? playlist.videos.list.at(currVideoIndex + 1)?.id
+										: playlist.videos.list.at(0)?.id,
+								prevId:
+									currVideoIndex > 1
+										? playlist.videos.list.at(currVideoIndex - 1)?.id
+										: undefined
+							}
+						}
 					}
 				}
+				setVideo({
+					...data,
+					...(videoIds && videoIds),
+					creator
+				})
+
+				if (user) await HistoryService.createHistoryRecord({ videoId })
+
+			} catch (e: any) {
+				console.error(e)
+				e.status === 404 && (await replace(notFoundDestination))
 			}
-			setVideo({ ...data, creator })
 		})()
 	}, [videoId, listId])
 
@@ -95,6 +127,24 @@ export default function VideoPage({
 		<>
 			{playlist && (
 				<CurrentVideoPlaylist currVideoId={videoId} currList={playlist} />
+			)}
+			{relatedVideos && (
+				<>
+					<CategoryPills
+						data={Object.keys(relatedVideos?.facetDistribution.tags)}
+						value={currTag}
+						onChange={s => setCurrTag(s)}
+					/>
+					<SidebarVideoList
+						videos={
+							currTag
+								? relatedVideos.hits.filter(v =>
+										v.tags?.some(v => v === currTag)
+									)
+								: relatedVideos.hits
+						}
+					/>
+				</>
 			)}
 		</>
 	)
@@ -109,7 +159,7 @@ export default function VideoPage({
 	return (
 		<>
 			<AppHead
-				title={`${video?.title}`}
+				title={video?.title || 'Video'}
 				image={getImageUrl(video?.thumbnailUrl)}
 				disableDesc
 			/>
@@ -121,16 +171,15 @@ export default function VideoPage({
 							cinemaMode ? 'w-full' : 'md:w-4/6'
 						)}
 					>
-						{video && (
-							<VideoPlayer
-								autoPlay
-								{...{
-									cinemaMode,
-									setCinemaMode,
-									video,
-									videoIds
-								}}
-							/>
+						{video ? (
+							<VideoPlayer autoPlay {...{ cinemaMode, setCinemaMode, video }} />
+						) : (
+							<div className='w-full aspect-video bg-secondary flex items-center justify-center rounded-lg'>
+								<DynamicIcon
+									name='loader-2'
+									className='animate-spin transition-all size-14 bg-black/60 rounded-full'
+								/>
+							</div>
 						)}
 						{!cinemaMode && (
 							<div

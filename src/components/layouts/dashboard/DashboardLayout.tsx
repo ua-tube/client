@@ -10,7 +10,7 @@ const DashboardHeader = dynamic(() => import('./header'))
 
 const SidebarProvider = dynamic(() => import('@/providers/SidebarProvider'))
 
-const VideoUploadModal = dynamic(() => import('./videoUpload'))
+const VideoCreateModal = dynamic(() => import('./videosModal/VideoCreateModal'))
 
 interface IDashboardLayoutProps extends PropsWithChildren {
 	openInDrawer?: boolean
@@ -52,7 +52,7 @@ const DashboardLayout: FC<IDashboardLayoutProps> = ({
 				<DashboardHeader setUploadModalShow={setShowModal} />
 				<DashboardSidebar />
 				<DashboardLayoutContent {...{ children, openInDrawer }} />
-				<VideoUploadModal {...{ setShowModal, showModal }} />
+				<VideoCreateModal {...{ setShowModal, showModal }} />
 			</TooltipProvider>
 		</SidebarProvider>
 	)

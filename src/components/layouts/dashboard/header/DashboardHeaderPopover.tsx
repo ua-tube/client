@@ -1,7 +1,6 @@
 import { getChannelUrl, getImageUrl, getUserInitials } from '@/utils'
 import { useActions, useAuth } from '@/hooks'
 import { UseState } from '@/interfaces'
-import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -35,7 +34,7 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 	setShowFullWidthSearch,
 	setUploadModalShow
 }) => {
-	const { user } = useAuth()
+	const { user, accessToken } = useAuth()
 	const { logOut } = useActions()
 	const { setTheme, theme } = useTheme()
 
@@ -58,7 +57,7 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 							className='rounded-lg min-w-10 text-sm space-x-2 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
 						>
 							<DynamicIcon name='upload' />
-							<span className='hiddenOnMobile' children='Завантажити відео' />
+							<span className='hiddenOnMobile' children='Створити відео' />
 						</button>
 					</TooltipTrigger>
 					<TooltipContent children='Завантажити нове відео' />
@@ -150,7 +149,7 @@ const DashboardHeaderPopover: FC<IDashboardHeaderPopoverProps> = ({
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
 							className='flex items-center space-x-2'
-							onClick={logOut}
+							onClick={() => logOut({ accessToken })}
 						>
 							<DynamicIcon name='door-open' />
 							<span children='Вийти з аккаунту' />

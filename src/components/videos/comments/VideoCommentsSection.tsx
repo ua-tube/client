@@ -1,11 +1,19 @@
-import { Avatar, AvatarFallback, AvatarImage, Textarea, Button } from '@/components'
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Button,
+	buttonVariants,
+	Textarea
+} from '@/components'
 import { getImageUrl, getUserInitials, toastError } from '@/utils'
 import { IComment, IPagination, IVideo } from '@/interfaces'
-import { FC, useState, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { CommunityService } from '@/services'
 import dynamic from 'next/dynamic'
 import { useAuth } from '@/hooks'
 import { toast } from 'sonner'
+import Link from 'next/link'
 
 const VideoCommentsList = dynamic(() => import('./VideoCommentsList'))
 
@@ -14,7 +22,10 @@ interface IVideoCommentsSectionProps {
 	video?: IVideo
 }
 
-const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({ videoId, video }) => {
+const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({
+	videoId,
+	video
+}) => {
 	const { user } = useAuth()
 	const [comment, setComment] = useState<string>('')
 	const [comments, setComments] = useState<IComment[]>([])
@@ -23,7 +34,10 @@ const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({ videoId, video }
 
 	const updateData = async (newParams?: IPagination) => {
 		try {
-			const { data: newComments } = await CommunityService.getCommentsByVideo(videoId, newParams || params)
+			const { data: newComments } = await CommunityService.getCommentsByVideo(
+				videoId,
+				newParams || params
+			)
 			const currComments = [...comments, ...newComments]
 			setHasMore(currComments.length !== comments.length)
 			setComments(currComments)
@@ -44,46 +58,58 @@ const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({ videoId, video }
 	}
 
 	useEffect(() => {
-		(async () => updateData())()
+		;(async () => updateData())()
 	}, [params])
 
 	return (
-		<div className="flex flex-col gap-y-4">
-			<div className="flex flex-row items-center justify-between">
-				<h5 className="font-bold text-xl md:text-2xl">
+		<div className='flex flex-col gap-y-4'>
+			<div className='flex flex-row items-center justify-between'>
+				<h5 className='font-bold text-xl md:text-2xl'>
 					{`${video?.metrics?.commentsCount || comments.length || 0} коментарів`}
 				</h5>
 			</div>
-			<div className="flex flex-row gap-x-3">
+			<div className='flex flex-row gap-x-3'>
 				<Avatar>
 					<AvatarImage src={getImageUrl(user?.creator.thumbnailUrl)} />
-					<AvatarFallback>{getUserInitials(user?.creator.displayName)}</AvatarFallback>
+					<AvatarFallback>
+						{getUserInitials(user?.creator.displayName)}
+					</AvatarFallback>
 				</Avatar>
 				<Textarea
 					value={comment}
-					onChange={(e) => setComment(e.target.value)}
-					placeholder="Напишіть ваш коментар..."
+					onChange={e => setComment(e.target.value)}
+					placeholder='Напишіть ваш коментар...'
 				/>
 			</div>
 			{comment && comment.length > 3 && (
-				<Button onClick={onCommentSend} variant="secondary">
-					Зберегти
-				</Button>
+				<>
+					<Button onClick={onCommentSend} variant='secondary' disabled={!user}>
+						Зберегти
+					</Button>
+					{!user && (
+						<Link
+							href='/auth/sign-up'
+							className={buttonVariants({ variant: 'outline' })}
+						>
+							Досі не маєте аккаунту? Увійти/Зареєструватися
+						</Link>
+					)}
+				</>
 			)}
 			<VideoCommentsList {...{ videoId, comments, updateData }} />
-			{hasMore &&
+			{hasMore && (
 				<Button
-					variant="secondary"
-					onClick={() => setParams(
-						(prevParams) =>
-							({ ...prevParams, page: +prevParams.page + 1 })
-					)}
+					variant='secondary'
+					onClick={() =>
+						setParams(prevParams => ({
+							...prevParams,
+							page: +prevParams.page + 1
+						}))
+					}
 				>
 					Заватажити ще
 				</Button>
-			}
-
-
+			)}
 		</div>
 	)
 }

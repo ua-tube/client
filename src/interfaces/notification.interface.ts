@@ -1,10 +1,11 @@
 import { ICreator } from './'
 
 interface INotification {
-	id: string
+	notificationId: string
+	creatorId: string
 	message: string
 	url: string
-	channel?: ICreator
+	channel: Pick<ICreator, 'nickname' | 'thumbnailUrl'>
 }
 
 export type { INotification }

@@ -114,7 +114,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 	showFullWidthSearch,
 	setShowFullWidthSearch
 }) => {
-	const { user } = useAuth()
+	const { user, accessToken } = useAuth()
 	const { logOut } = useActions()
 
 	return (
@@ -163,7 +163,10 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 									<span>Мої відео</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className='space-x-2' onClick={logOut}>
+							<DropdownMenuItem
+								className='space-x-2'
+								onClick={() => logOut({ accessToken })}
+							>
 								<DynamicIcon name='door-open' className='size-4' />
 								<span>Вихід</span>
 							</DropdownMenuItem>

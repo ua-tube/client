@@ -6,15 +6,18 @@ import {
 	formatDuration,
 	formatNumbers,
 	formatTimeAgo,
-	getChannelUrl, getImageUrl,
+	getChannelUrl,
+	getImageUrl,
 	getVideoUrl
 } from '@/utils'
+import { useAuth } from '@/hooks'
 
 interface IPlaylistContentProps {
 	playlist?: IPlaylist
 }
 
 const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
+	const { user } = useAuth()
 
 	const firstVideo = playlist?.videos?.list?.[0]
 
@@ -66,7 +69,9 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
 			</div>
 			<div
 				className='w-full lg:w-1/4 h-fit rounded-xl lg:sticky lg:top-0 bg-repeat-space bg-center bg-cover'
-				style={{ backgroundImage: `url(${getImageUrl(firstVideo?.thumbnailUrl)})` }}
+				style={{
+					backgroundImage: `url(${getImageUrl(firstVideo?.thumbnailUrl)})`
+				}}
 			>
 				<div className='flex flex-col w-full h-full backdrop-blur-lg rounded-xl p-6'>
 					<Link
@@ -91,7 +96,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
 							/>
 						</div>
 					</Link>
-					<div className='flex flex-col gap-y-3 py-3'>
+					<div className='flex flex-col gap-y-3 p-3 rounded-lg bg-background/10 mt-2'>
 						<h3
 							className='scroll-m-20 text-3xl font-bold tracking-tight line-clamp-3'
 							children={playlist?.title}
@@ -102,20 +107,24 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
 								<span>Створив: </span>
 								<Link
 									className='leading-7 font-semibold'
-									href={getChannelUrl(playlist?.creator?.nickname)}
-									children={playlist?.creator?.displayName}
+									href={getChannelUrl(
+										playlist?.creator?.nickname || user?.creator.nickname
+									)}
+									children={
+										playlist?.creator?.displayName || user?.creator.displayName
+									}
 								/>
 							</div>
-							{playlist?.metrics?.viewsCount && (
+							{typeof playlist?.metrics?.viewsCount !== 'undefined' ? (
 								<div className='flex items-center space-x-2'>
 									<DynamicIcon name='eye' />
 									<span>Переглянуто: </span>
 									<div
 										className='leading-7 font-semibold'
-										children={`${formatNumbers(playlist.metrics?.viewsCount || 0)} разів`}
+										children={`${formatNumbers(playlist.metrics?.viewsCount)} разів`}
 									/>
 								</div>
-							)}
+							) : null}
 							<div className='flex items-center space-x-2'>
 								<DynamicIcon name='list-video' />
 								<span>Налічує: </span>
@@ -124,13 +133,15 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist }) => {
 									children={`${playlist?.metrics?.itemsCount} відео`}
 								/>
 							</div>
-							{playlist?.createdAt && (
+							{(playlist?.createdAt || user?.creator.createdAt) && (
 								<div className='flex items-center space-x-2'>
 									<DynamicIcon name='calendar-check' />
 									<span>Створено: </span>
 									<div
 										className='leading-7 font-semibold'
-										children={formatTimeAgo(playlist.createdAt)}
+										children={formatTimeAgo(
+											playlist?.createdAt || user?.creator.createdAt
+										)}
 									/>
 								</div>
 							)}

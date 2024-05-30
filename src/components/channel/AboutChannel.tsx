@@ -1,3 +1,8 @@
+import { SubscriptionsService } from '@/services'
+import { FC, useEffect, useState } from 'react'
+import { ICreator } from '@/interfaces'
+import dynamic from 'next/dynamic'
+import { useAuth } from '@/hooks'
 import {
 	Avatar,
 	AvatarFallback,
@@ -5,17 +10,7 @@ import {
 	Button,
 	DynamicIcon
 } from '@/components'
-import {
-	formatNumbers,
-	getImageUrl,
-	getUserInitials,
-	toastError
-} from '@/utils'
-import { SubscriptionsService } from '@/services'
-import { FC, useEffect, useState } from 'react'
-import { ICreator } from '@/interfaces'
-import dynamic from 'next/dynamic'
-import { useAuth } from '@/hooks'
+import { getImageUrl, getUserInitials, toastError } from '@/utils'
 
 const AboutChannelModal = dynamic(() => import('./AboutChannelModal'))
 
@@ -41,10 +36,12 @@ const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 
 	useEffect(() => {
 		;(async () => {
-			const {
-				data: { status }
-			} = await SubscriptionsService.checkSubscription(creator.id)
-			setSubscribed(status)
+			if (user){
+				const {
+					data: { status }
+				} = await SubscriptionsService.checkSubscription(creator.id)
+				setSubscribed(status)
+			}
 		})()
 	}, [])
 
@@ -59,7 +56,7 @@ const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 			</div>
 			<div className='flex flex-col items-start md:flex-row md:items-center gap-4'>
 				<Avatar className='size-16 sm:size-20 md:size-40'>
-					<AvatarImage src={creator.thumbnailUrl} />
+					<AvatarImage src={getImageUrl(creator.thumbnailUrl)} />
 					<AvatarFallback children={getUserInitials(creator.displayName)} />
 				</Avatar>
 				<div className='flex flex-col gap-y-1.5 items-start'>
@@ -67,18 +64,15 @@ const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 						className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'
 						children={creator.displayName}
 					/>
-					<ul className='flex flex-col md:flex-row md:ml-6 space-x-8 items-baseline md:items-center list-disc'>
-						<li className='leading-7' children={creator.nickname} />
-						<li
-							className='leading-7'
-							children={`Підписалося ${formatNumbers(0)} користувачів`}
-						/>
-						<li className='leading-7' children={`${0} відео`} />
-					</ul>
+					<div children={`@${creator.nickname}`} />
 					<div className='flex space-x-2 items-center'>
 						<span
 							className='uppercase truncate max-w-xs'
-							children={creator.description}
+							children={
+								creator?.description && creator.description.length > 0
+									? creator.description
+									: 'Переглянути детальніше'
+							}
 						/>
 						<button
 							children={<DynamicIcon name='arrow-right' />}

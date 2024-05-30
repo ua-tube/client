@@ -1,3 +1,4 @@
+import { $axios } from '@/api/axios'
 import {
 	ICreatePlaylistsRequest,
 	ICreatorVideosRequest,
@@ -6,7 +7,6 @@ import {
 	IPlaylistsResponse,
 	IVideoMetadataResponse
 } from '@/interfaces'
-import { $axios } from '@/api/axios'
 
 export const LibraryService = {
 	async getPlaylistsByCreator(creatorId: string) {
@@ -23,6 +23,12 @@ export const LibraryService = {
 	},
 	async getPlaylistIdsForVideo(videoId: string) {
 		return $axios.get<string[]>(`library/playlists/ids-where/${videoId}`)
+	},
+	async getTotalVideosForCreator(creatorId: string) {
+		return $axios.get<string>(`library/videos/count/${creatorId}`)
+	},
+	async getTotalVideoViewsForCreator(creatorId: string) {
+		return $axios.get<string>(`library/videos/total-views/${creatorId}`)
 	},
 	async getPlaylistsBySelf(params?: IPagination) {
 		return $axios.get<IPlaylistsResponse>('library/playlists/infos/self', {

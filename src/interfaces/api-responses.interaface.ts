@@ -26,7 +26,7 @@ interface ILoginResponse {
 	accessToken: string
 }
 
-interface IHomePageVideosResponse {
+interface ISearchVideosResponse {
 	hits: IVideo[]
 	query: string
 	processingTimeMs: number
@@ -72,7 +72,7 @@ export type {
 	IPlaylistsResponse,
 	IVideoMetadataResponse,
 	IStorageResponse,
-	IHomePageVideosResponse,
+	ISearchVideosResponse,
 	IRefreshAccessTokenResponse,
 	IDashboardVideosResponse,
 	ILoginResponse

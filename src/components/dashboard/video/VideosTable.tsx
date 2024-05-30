@@ -1,8 +1,13 @@
-import { IDashboardVideosResponse, IPagination, IVideo } from '@/interfaces'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { VideoManagerService } from '@/services'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import {
+	IDashboardVideosResponse,
+	IPagination,
+	IVideo,
+	UseState
+} from '@/interfaces'
 import {
 	getDashboardVideoUrl,
 	getImageUrl,
@@ -41,15 +46,24 @@ import {
 	TooltipContent,
 	TooltipTrigger
 } from '@/components'
+import dynamic from 'next/dynamic'
+
+const VideoUploadModal = dynamic(
+	() => import('@/components/layouts/dashboard/videosModal')
+)
 
 const getVideoColumns = (
-	updateData: () => Promise<void>
+	updateData: () => Promise<void>,
+	setVideo: UseState<IVideo | undefined>
 ): ColumnDef<IVideo>[] => [
 	{
 		id: 'title',
 		accessorKey: 'title',
 		header: () => 'Відео',
-		filterFn: (row, id, value) => value.includes(row.getValue(id)),
+		filterFn: (row, id, value) =>
+			value
+				.toLowerCase()
+				.includes(row.getValue(row.original.title.toLowerCase())),
 		cell: ({ row: { original } }) => {
 			return (
 				<div className='flex flex-row items-center space-x-3 pt-1'>
@@ -96,10 +110,35 @@ const getVideoColumns = (
 		}
 	},
 	{
+		id: 'status',
+		header: () => 'Статус',
+		accessorKey: 'visibility',
+		cell: ({ row: { original } }) => {
+			switch (original.processingStatus) {
+				case 'WaitingForUserUpload':
+					return (
+						<Button onClick={() => setVideo(original)}>
+							Завантажити відео
+						</Button>
+					)
+				case 'VideoProcessed':
+					return 'Відео оброблено'
+				case 'VideoUploaded':
+					return 'Відео завантажено'
+				case 'VideoProcessingFailed':
+					return 'Помилка обробки'
+				case 'VideoBeingProcessed':
+					return 'Відео почало оброблятися'
+				default:
+					return 'Невідомий статус відео'
+			}
+		}
+	},
+	{
 		id: 'createdAt',
 		accessorKey: 'createdAt',
 		filterFn: 'auto',
-		header: () => 'Дата створення',
+		header: () => 'Створено',
 		cell: ({ row: { original } }) =>
 			new Date(original.createdAt || '').toLocaleString()
 	},
@@ -107,34 +146,34 @@ const getVideoColumns = (
 		id: 'updatedAt',
 		accessorKey: 'updatedAt',
 		filterFn: 'auto',
-		header: () => 'Дата оновлення',
+		header: () => 'Оновлено',
 		cell: ({ row: { original } }) =>
 			new Date(original.updatedAt || '').toLocaleString()
 	},
 	{
-		id: 'metrics.viewsCount',
+		id: 'Перегляди / Коментарі',
 		accessorKey: 'metrics',
 		filterFn: 'auto',
-		header: () => 'Перегляди',
+		header: () => 'Перегляди / Коментарі',
 		cell: ({
 			row: {
 				original: { metrics }
 			}
-		}) => metrics?.viewsCount
+		}) => (
+			<div>
+				<div className='flex items-center space-x-2'>
+					<DynamicIcon name='eye' className='size-4' />
+					<span children={metrics?.viewsCount || 0} />
+				</div>
+				<div className='flex items-center space-x-2'>
+					<DynamicIcon name='message-square-more' className='size-4' />
+					<span children={metrics?.commentsCount || 0} />
+				</div>
+			</div>
+		)
 	},
 	{
-		id: 'metrics.commentsCount',
-		accessorKey: 'metrics',
-		filterFn: 'auto',
-		header: () => 'Коментарі',
-		cell: ({
-			row: {
-				original: { metrics }
-			}
-		}) => metrics?.commentsCount
-	},
-	{
-		id: 'metrics.likesCount',
+		id: 'Уподобання',
 		accessorKey: 'likesCount',
 		filterFn: 'auto',
 		header: () => 'Уподобання',
@@ -200,7 +239,6 @@ const getVideoColumns = (
 					<DropdownMenuContent align='end'>
 						<DropdownMenuItem asChild>
 							<Link
-
 								href={getDashboardVideoUrl(original.id, 'edit')}
 								className='hover:bg-muted rounded-full p-1 flex items-center gap-x-2'
 							>
@@ -210,7 +248,6 @@ const getVideoColumns = (
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Link
-
 								href={getDashboardVideoUrl(original.id, 'comments')}
 								className='hover:bg-muted rounded-full p-1 flex items-center gap-x-2'
 							>
@@ -244,9 +281,11 @@ const getVideoColumns = (
 
 const VideosTable: FC = () => {
 	const { query } = useRouter()
+	const [video, setVideo] = useState<IVideo>()
+
 	const [params, setParams] = useState<IPagination>({
-		page: '1',
-		perPage: '20'
+		page: 1,
+		perPage: 20
 	})
 
 	const [videosData, setVideosData] = useState<IDashboardVideosResponse>({
@@ -254,9 +293,9 @@ const VideosTable: FC = () => {
 		pagination: { page: 1, pageCount: 1, pageSize: 1, total: 0 }
 	})
 
-	const updateData = async (p?: IPagination) => {
+	const updateData = async () => {
 		try {
-			const { data } = await VideoManagerService.getVideos(p || params)
+			const { data } = await VideoManagerService.getVideos(params)
 			setVideosData(data)
 		} catch (e) {
 			toastError(e)
@@ -265,9 +304,9 @@ const VideosTable: FC = () => {
 
 	useEffect(() => {
 		;(async () => updateData())()
-	}, [params, query])
+	}, [params, query, video])
 
-	const columns = getVideoColumns(updateData)
+	const columns = useMemo(() => getVideoColumns(updateData, setVideo), [])
 
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -304,6 +343,7 @@ const VideosTable: FC = () => {
 					}
 					className='max-w-sm'
 				/>
+				<VideoUploadModal video={video} setVideo={setVideo} />
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant='outline' className='ml-auto'>
@@ -348,10 +388,7 @@ const VideosTable: FC = () => {
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map(row => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && 'selected'}
-								>
+								<TableRow key={row.id}>
 									{row.getVisibleCells().map(cell => (
 										<TableCell key={cell.id}>
 											{flexRender(
@@ -377,8 +414,8 @@ const VideosTable: FC = () => {
 			</div>
 			<div className='flex items-center justify-end space-x-2 py-4'>
 				<div className='flex-1 text-sm text-muted-foreground'>
-					{table.getFilteredSelectedRowModel().rows.length} of{' '}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
+					{table.getFilteredSelectedRowModel().rows.length} з{' '}
+					{table.getFilteredRowModel().rows.length} рядків вибрано.
 				</div>
 				<div className='space-x-2'>
 					<Button
@@ -387,7 +424,7 @@ const VideosTable: FC = () => {
 						onClick={() => table.previousPage()}
 						disabled={!table.getCanPreviousPage()}
 					>
-						Previous
+						Попередня
 					</Button>
 					<Button
 						variant='outline'
@@ -395,7 +432,7 @@ const VideosTable: FC = () => {
 						onClick={() => table.nextPage()}
 						disabled={!table.getCanNextPage()}
 					>
-						Next
+						Наступна
 					</Button>
 				</div>
 			</div>

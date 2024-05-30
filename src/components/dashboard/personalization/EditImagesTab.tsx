@@ -100,8 +100,7 @@ const EditImagesTab: FC = () => {
 						<p className="flex max-w-md text-sm">
 							Радимо використовувати зображення розміром принаймні 98 x 98
 							пікселів (розмір файлу – до 4 МБ) у форматі PNG або GIF (без
-							анімації). Пам'ятайте, що воно має відповідати правилам спільноти
-							UaTube.
+							анімації).
 						</p>
 						<div className="flex items-center gap-1">
 							<Input

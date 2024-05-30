@@ -1,7 +1,14 @@
-import { FC, useState } from 'react'
-import { DialogContent, DialogHeader, DialogTitle, DynamicIcon, Dialog } from '@/components'
+import { LibraryService, SubscriptionsService } from '@/services'
+import { FC, useEffect, useState } from 'react'
 import { getChannelUrl } from '@/utils'
 import { ICreator } from '@/interfaces'
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DynamicIcon
+} from '@/components'
 
 interface IAboutChannelModalProps {
 	showModal: boolean
@@ -10,64 +17,98 @@ interface IAboutChannelModalProps {
 }
 
 type CreatorStats = {
-	totalViews?: number
-	count?: number
-	subscribersCount?: number
+	totalViews?: string
+	count?: string
+	subscribersCount?: string
 }
 
-const AboutChannelModal: FC<
-	IAboutChannelModalProps
-> = ({
-			 showModal,
-			 setShowModal,
-			 creator
-		 }) => {
+const AboutChannelModal: FC<IAboutChannelModalProps> = ({
+	showModal,
+	setShowModal,
+	creator
+}) => {
 	const [data, setData] = useState<CreatorStats>({
-		count: 0,
-		totalViews: 0,
-		subscribersCount: 0
+		count: '0',
+		totalViews: '0',
+		subscribersCount: '0'
 	})
 
+	useEffect(() => {
+		;(async () => {
+			if (creator && showModal) {
+				const [
+					{
+						data: { subscribersCount }
+					},
+					{ data: count },
+					{ data: totalViews }
+				] = await Promise.all([
+					SubscriptionsService.getSubscriptionInfo(creator.id),
+					LibraryService.getTotalVideosForCreator(creator.id),
+					LibraryService.getTotalVideoViewsForCreator(creator.id)
+				])
 
-	return <Dialog open={showModal} onOpenChange={setShowModal}>
-		<DialogContent>
-			<DialogHeader>
-				<DialogTitle>Про канал</DialogTitle>
-			</DialogHeader>
-			<div className="flex text-sm" children={creator.description} />
-			<DialogTitle>Відомості про канал</DialogTitle>
-			<div className="flex flex-col gap-y-3">
-				<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
-					<DynamicIcon name="merge" />
-					<span
-						children={getChannelUrl(creator.nickname, undefined, false)}
-					/>
-				</div>
+				setData({
+					totalViews,
+					subscribersCount,
+					count
+				})
+			}
+		})()
+	}, [showModal])
 
-				<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
-					<DynamicIcon name="user-check" />
-					<span children={`Підписалося ${data.subscribersCount} користувачів`} />
-				</div>
+	return (
+		<Dialog open={showModal} onOpenChange={setShowModal}>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Відомості про канал</DialogTitle>
+				</DialogHeader>
+				<div className='flex text-sm' children={creator.description} />
+				<div className='flex flex-col gap-y-3'>
+					{creator.email && (
+						<a
+							href={`mailto:${creator.email}`}
+							className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'
+						>
+							<DynamicIcon name='message-circle' />
+							<span children={creator.email} />
+						</a>
+					)}
 
-				<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
-					<DynamicIcon name="monitor-play" />
-					<span children={`${data.count} відео`} />
-				</div>
+					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
+						<DynamicIcon name='merge' />
+						<span
+							children={getChannelUrl(creator.nickname, undefined, false)}
+						/>
+					</div>
 
-				<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
-					<DynamicIcon name="bar-chart-3" />
-					<span children={`${data.totalViews} переглядів`} />
-				</div>
+					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
+						<DynamicIcon name='user-check' />
+						<span
+							children={`Підписалося ${data.subscribersCount} користувачів`}
+						/>
+					</div>
 
-				<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
-					<DynamicIcon name="calendar" />
-					<span
-						children={`Канал створено ${new Date(creator.createdAt || '').toLocaleDateString()} р.`}
-					/>
+					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
+						<DynamicIcon name='monitor-play' />
+						<span children={`${data.count} відео`} />
+					</div>
+
+					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
+						<DynamicIcon name='bar-chart-3' />
+						<span children={`${data.totalViews} переглядів`} />
+					</div>
+
+					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
+						<DynamicIcon name='calendar' />
+						<span
+							children={`Канал створено ${new Date(creator.createdAt || '').toLocaleDateString()} р.`}
+						/>
+					</div>
 				</div>
-			</div>
-		</DialogContent>
-	</Dialog>
+			</DialogContent>
+		</Dialog>
+	)
 }
 
 export default AboutChannelModal

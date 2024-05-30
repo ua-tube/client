@@ -18,26 +18,28 @@ interface IDashboardPersonalizationTabsProps {
 }
 
 const DashboardPersonalizationTabs: FC<IDashboardPersonalizationTabsProps> = ({
-																																								tab
-																																							}) => {
+	tab
+}) => {
 	return (
 		<div>
-			<h2 className="text-3xl font-bold tracking-tight flex items-center py-4">
+			<h2 className='text-3xl font-bold tracking-tight flex items-center py-4'>
 				Персоналізація каналу
 			</h2>
 			<div
-				className="space-x-3 border-accent border-b pb-2"
+				className='space-x-3 border-accent border-b pb-2'
 				children={tabs.map((value, index) => (
 					<Link
 						key={index}
 						children={value.title}
 						href={`/dashboard/personalization?tab=${value.key}`}
-						className={buttonVariants({ variant: value.key === tab ? 'secondary' : 'outline' })}
+						className={buttonVariants({
+							variant: value.key === tab ? 'secondary' : 'outline'
+						})}
 					/>
 				))}
 			/>
 			<div
-				className="mt-6"
+				className='mt-6 mb-10'
 				children={tabs.find(value => value?.key === tab)?.children}
 			/>
 		</div>

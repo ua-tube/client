@@ -1,7 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { DynamicIcon, AppHead } from '@/components'
+import { AppHead, DynamicIcon } from '@/components'
 import { VideoManagerService } from '@/services'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { VideoEditTabsKey } from '@/types'
 import { videoEditTabsKeys } from '@/data'
 import { IVideo } from '@/interfaces'
@@ -49,7 +49,7 @@ export default function DashboardVideoPage({
 		<>
 			<AppHead title={`Редагування відео - ${video?.title}`} />
 			<DashboardLayout>
-				<VideoEditContent tab={tab} video={video} videoId={videoId}  />
+				<VideoEditContent tab={tab} video={video} videoId={videoId} />
 			</DashboardLayout>
 		</>
 	)

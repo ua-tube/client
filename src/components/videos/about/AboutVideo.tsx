@@ -1,18 +1,6 @@
-import {
-	formatNumbers,
-	formatTimeAgo,
-	getChannelUrl,
-	getUserInitials,
-	getVideoUrl,
-	toastError
-} from '@/utils'
-import {
-	HistoryService,
-	LibraryService,
-	SubscriptionsService
-} from '@/services'
-import { FC, useEffect, useState } from 'react'
+import { LibraryService, SubscriptionsService } from '@/services'
 import { IVideo, IVideoMetadataResponse } from '@/interfaces'
+import { FC, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useAuth } from '@/hooks'
 import Link from 'next/link'
@@ -30,6 +18,14 @@ import {
 	DropdownMenuTrigger,
 	DynamicIcon
 } from '@/components'
+import {
+	formatNumbers,
+	formatTimeAgo,
+	getChannelUrl,
+	getUserInitials,
+	getVideoUrl,
+	toastError
+} from '@/utils'
 
 const ShareVideoModal = dynamic(
 	() => import('@/components/modals/ShareVideoModal')
@@ -138,20 +134,23 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 		;(async () => {
 			if (video) {
 				try {
-					const {
-						data: { status }
-					} = await SubscriptionsService.checkSubscription(video.creatorId!)
+					let isSubscribed = false
+					if (user) {
+						const {
+							data: { status }
+						} = await SubscriptionsService.checkSubscription(video.creatorId!)
+						isSubscribed = status
+					}
+
 					const { data } = await LibraryService.getVideoMetadata(videoId)
 
 					setVideoState(prevState => ({
 						...prevState,
 						...data,
-						isSubscribed: status,
+						isSubscribed,
 						isLiked: data.userVote === 'Like',
 						isDisliked: data.userVote === 'Dislike'
 					}))
-
-					if (user) await HistoryService.createHistoryRecord({ videoId })
 				} catch (e) {
 					toastError(e)
 				}
@@ -228,7 +227,10 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 							/>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
-							<DropdownMenuItem onClick={() => setOpenedTypeModal('playlists')}>
+							<DropdownMenuItem
+								disabled={!user}
+								onClick={() => setOpenedTypeModal('playlists')}
+							>
 								<div className='items-center flex space-x-2'>
 									<DynamicIcon name='list-plus' />
 									<span children='Зберегти' />

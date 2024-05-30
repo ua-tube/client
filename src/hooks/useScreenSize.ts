@@ -32,5 +32,5 @@ export const useScreenSize = (): IUseScreenSize => {
 		}
 	}, [])
 
-	return { screen: screenSize, isScreenSmall: screenSize.width < 1024 }
+	return { screen: screenSize, isScreenSmall: screenSize.width < 768 }
 }

@@ -1,22 +1,22 @@
+import { cn, getChannelUrl, getImageUrl, getUserInitials } from '@/utils'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { cn, getUserInitials, getChannelUrl, getImageUrl } from '@/utils'
 import DashboardSidebarItem from './DashboardSidebarItem'
+import { useAuth, useScreenSize } from '@/hooks'
 import { useSidebarContext } from '@/providers'
-import { FC, useEffect } from 'react'
-import { useScreenSize, useAuth } from '@/hooks'
+import { FC, memo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import {
-	Tooltip,
-	TooltipTrigger,
-	TooltipContent,
 	Avatar,
-	AvatarImage,
 	AvatarFallback,
+	AvatarImage,
 	Drawer,
 	DrawerContent,
 	DrawerHeader,
-	Skeleton
+	Skeleton,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
 } from '@/components'
 
 const HomeHeaderLogo = dynamic(
@@ -58,7 +58,7 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 
 	const DashboardSidebarContent: FC = () => {
 		return (
-			<div className=''>
+			<>
 				<div className='flex flex-col justify-center items-center gap-y-4 my-5'>
 					<Tooltip>
 						<TooltipTrigger asChild>
@@ -98,7 +98,7 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 						/>
 					))}
 				/>
-			</div>
+			</>
 		)
 	}
 
@@ -124,4 +124,4 @@ const DashboardSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 	)
 }
 
-export default DashboardSidebar
+export default memo(DashboardSidebar)

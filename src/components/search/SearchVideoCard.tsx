@@ -1,3 +1,8 @@
+import { Button, DynamicIcon } from '@/components'
+import { VideoModalType } from './SearchContent'
+import { IVideo, UseState } from '@/interfaces'
+import Link from 'next/link'
+import { FC } from 'react'
 import {
 	getVideoUrl,
 	formatDuration,
@@ -5,11 +10,6 @@ import {
 	formatNumbers,
 	formatTimeAgo
 } from '@/utils'
-import { Button, DynamicIcon } from '@/components'
-import { VideoModalType } from './SearchContent'
-import { IVideo, UseState } from '@/interfaces'
-import Link from 'next/link'
-import { FC } from 'react'
 
 interface ISearchVideoCardProps {
 	value: IVideo
@@ -41,14 +41,14 @@ const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
 					children={value.title}
 				/>
 				<Link
-					href={getChannelUrl(value.creator.nickname)}
+					href={getChannelUrl(value.creator?.nickname)}
 					className='text-muted-foreground text-sm lg:text-base/2'
-					children={value.creator.displayName}
+					children={value.creator?.displayName}
 				/>
 
 				<div
 					className='text-muted-foreground text-xs lg:text-sm'
-					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.publishedAt)}`}
+					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
 				/>
 			</div>
 			<div className='space-x-2'>

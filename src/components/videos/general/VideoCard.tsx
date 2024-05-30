@@ -1,16 +1,17 @@
 import {
-	formatDuration,
-	formatTimeAgo,
-	getVideoUrl,
-	getChannelUrl,
 	cn,
+	formatDuration,
+	formatNumbers,
+	formatTimeAgo,
+	getChannelUrl,
+	getImageUrl,
 	getUserInitials,
-	formatNumbers, getImageUrl
+	getVideoUrl
 } from '@/utils'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components'
 
 interface IVideoCardProps extends IVideo {
 	fixedSize?: boolean
@@ -18,7 +19,7 @@ interface IVideoCardProps extends IVideo {
 }
 
 const VideoCard: FC<IVideoCardProps> = value => {
-
+	const [hovered, setHovered] = useState<boolean>(false)
 
 	return (
 		<div
@@ -27,13 +28,19 @@ const VideoCard: FC<IVideoCardProps> = value => {
 				value.fixedSize && ' w-64',
 				value.className
 			)}
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
 		>
 			<Link
 				href={getVideoUrl(value.id, undefined, undefined, true)}
 				className='relative aspect-video'
 			>
 				<img
-					src={getImageUrl(value.thumbnailUrl)}
+					src={getImageUrl(
+						value.previewThumbnailUrl && hovered
+							? value.previewThumbnailUrl
+							: value.thumbnailUrl
+					)}
 					loading='lazy'
 					className='block w-full h-full object-cover aspect-video duration-200 rounded-xl'
 					alt={value.id}
@@ -50,8 +57,13 @@ const VideoCard: FC<IVideoCardProps> = value => {
 					className='flex shrink-0'
 				>
 					<Avatar className='size-9'>
-						<AvatarImage src={getImageUrl(value.creator?.thumbnailUrl)} loading='lazy' />
-						<AvatarFallback children={getUserInitials(value.creator?.displayName)} />
+						<AvatarImage
+							src={getImageUrl(value.creator?.thumbnailUrl)}
+							loading='lazy'
+						/>
+						<AvatarFallback
+							children={getUserInitials(value.creator?.displayName)}
+						/>
 					</Avatar>
 				</Link>
 				<div className='flex flex-col'>

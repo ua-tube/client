@@ -1,15 +1,16 @@
-import {
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	Dialog,
-	DialogDescription,
-	Input,
-	Button
-} from '@/components'
 import { getSourceVideoUrl, writeVideoUrl } from '@/utils'
 import { IVideo } from '@/interfaces'
+import { toast } from 'sonner'
 import { FC } from 'react'
+import {
+	Button,
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	Input
+} from '@/components'
 
 interface IShareVideoModalProps {
 	video?: IVideo
@@ -34,7 +35,11 @@ const ShareVideoModal: FC<IShareVideoModalProps> = ({
 					<Input value={getSourceVideoUrl(video?.id || '')} readOnly />
 					<Button
 						variant='secondary'
-						onClick={async () => await writeVideoUrl(video?.id)}
+						onClick={async () => {
+							await writeVideoUrl(video?.id)
+							setOpen(false)
+							toast.success('Скопійовано успішно!')
+						}}
 						children='Копіювати'
 					/>
 				</div>

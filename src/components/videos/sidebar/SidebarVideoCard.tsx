@@ -1,13 +1,14 @@
-import {
-	formatDuration,
-	formatTimeAgo,
-	getVideoUrl,
-	getChannelUrl,
-	formatNumbers
-} from '@/utils'
 import { IVideo } from '@/interfaces'
 import Link from 'next/link'
 import { FC } from 'react'
+import {
+	formatDuration,
+	formatNumbers,
+	formatTimeAgo,
+	getChannelUrl,
+	getImageUrl,
+	getVideoUrl
+} from '@/utils'
 
 interface ISidebarVideoCardProps extends IVideo {}
 
@@ -19,7 +20,7 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = value => {
 				className='relative aspect-video w-2/5'
 			>
 				<img
-					src={value.thumbnailUrl}
+					src={getImageUrl(value.thumbnailUrl)}
 					loading='lazy'
 					className='block w-full h-full object-cover duration-200 rounded-lg'
 					alt={value.id}
@@ -36,15 +37,15 @@ const SidebarVideoCard: FC<ISidebarVideoCardProps> = value => {
 					children={value.title}
 				/>
 				<Link
-					href={getChannelUrl(value.creator.nickname)}
+					href={getChannelUrl(value.creator?.nickname)}
 					className='text-muted-foreground text-xs'
 				>
-					<div children={value.creator.displayName} />
+					<div children={value.creator?.displayName} />
 				</Link>
 
 				<div
 					className='text-muted-foreground text-xs'
-					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.publishedAt)}`}
+					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
 				/>
 			</div>
 		</div>

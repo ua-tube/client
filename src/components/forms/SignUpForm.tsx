@@ -1,4 +1,9 @@
-import { UserService, AuthService, CreatorService, StorageService } from '@/services'
+import {
+	AuthService,
+	CreatorService,
+	StorageService,
+	UserService
+} from '@/services'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -7,24 +12,25 @@ import { useActions } from '@/hooks'
 import Link from 'next/link'
 import { z } from 'zod'
 import {
+	Button,
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
+	DynamicIcon,
+	Form,
+	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
-	Input,
-	FormDescription,
 	FormMessage,
-	Button,
-	Form,
-	DynamicIcon,
+	Input,
 	Label
 } from '@/components'
+import { ICreator } from '@/interfaces'
 
 const checkNicknameAvailability = async (s: string): Promise<boolean> => {
 	try {
@@ -72,29 +78,34 @@ const SignUpForm: FC = () => {
 
 		try {
 			const { data: userData } = await AuthService.signup({ email, password })
+			let creator: ICreator
 
-			await CreatorService.createCreator(
+			const { data } = await CreatorService.createCreator(
 				{ displayName, nickname },
 				userData.accessToken
 			)
+			creator = data
 
-			const {
-				data: { token }
-			} = await UserService.generateThumbnailToken(userData.accessToken)
+			if (image) {
+				const {
+					data: { token }
+				} = await UserService.generateThumbnailToken(userData.accessToken)
 
-			const formData = new FormData()
-			formData.append('file', image!)
+				const formData = new FormData()
+				formData.append('file', image!)
 
-			const { data: imageData } = await StorageService.uploadImage(
-				formData,
-				token,
-				userData.accessToken
-			)
+				const { data: imageData } = await StorageService.uploadImage(
+					formData,
+					token,
+					userData.accessToken
+				)
 
-			const { data: creator } = await CreatorService.updateCreator(
-				{ thumbnailToken: imageData.token, nickname, displayName },
-				userData.accessToken
-			)
+				const { data: updatedCreator } = await CreatorService.updateCreator(
+					{ thumbnailToken: imageData.token, nickname, displayName },
+					userData.accessToken
+				)
+				creator = updatedCreator
+			}
 
 			setLoading(false)
 
@@ -199,7 +210,6 @@ const SignUpForm: FC = () => {
 						<Button
 							type='submit'
 							className='w-full flex flex-row items-center gap-2'
-							disabled={!image}
 						>
 							{loading && (
 								<DynamicIcon className='animate-spin size-8' name='loader' />

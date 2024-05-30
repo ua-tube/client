@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { LibraryService } from '@/services'
 import { IPlaylist } from '@/interfaces'
+import { useRouter } from 'next/router'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
 	loading: () => <DynamicIcon name='loader' className='loader-container' />
@@ -14,16 +15,26 @@ const PlaylistContent = dynamic(
 	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
 )
 
+const notFoundDestination = `/404?message=${encodeURIComponent('Даного плейліста не знайдено!')}`
+
 export const getServerSideProps: GetServerSideProps<{
 	listId: string
 }> = async ({ query }) => {
 	const listId = query?.listId as string
-	return { props: { listId } }
+	return listId && listId !== ''
+		? { props: { listId } }
+		: {
+				redirect: {
+					permanent: true,
+					destination: notFoundDestination
+				}
+			}
 }
 
 export default function PlaylistPage({
 	listId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const { replace } = useRouter()
 	const [playlist, setPlaylist] = useState<IPlaylist>()
 
 	useEffect(() => {
@@ -35,7 +46,9 @@ export default function PlaylistPage({
 					t: listId
 				})
 				setPlaylist(data)
-			} catch (e) {}
+			} catch (e) {
+				await replace(notFoundDestination)
+			}
 		})()
 	}, [listId])
 

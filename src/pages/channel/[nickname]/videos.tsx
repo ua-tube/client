@@ -1,10 +1,3 @@
-import {
-	AppHead,
-	buttonVariants,
-	CategoryPills,
-	HomeLayout,
-	VideosList
-} from '@/components'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import AboutChannel from '@/components/channel/AboutChannel'
 import { CreatorService, LibraryService } from '@/services'
@@ -12,6 +5,13 @@ import { ICreator, IVideo } from '@/interfaces'
 import { getChannelUrl } from '@/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import {
+	AppHead,
+	buttonVariants,
+	CategoryPills,
+	HomeLayout,
+	VideosList
+} from '@/components'
 
 type SortType = 'new' | 'views' | 'popular'
 
@@ -67,7 +67,14 @@ export const getServerSideProps: GetServerSideProps<{
 
 		return { props: { creator, videos, sort } }
 	} catch (e) {
-		return { redirect: { permanent: true, destination: '/' } }
+		return {
+			redirect: {
+				permanent: true,
+				destination: `/404?message=${encodeURIComponent(
+					'Товар більше не доступний'
+				)}`
+			}
+		}
 	}
 }
 
@@ -105,15 +112,16 @@ export default function ChannelVideosPage({
 					<CategoryPills
 						data={sortOptions.map(v => v.title)}
 						value={currOption?.title}
-						onChange={async s =>
-							push({
+						onChange={async s => {
+							const sort = sortOptions.find(v => v.title === s)?.sortBy
+							await push({
 								query: {
-									sort: sortOptions.find(v => v.title === s)?.sortBy,
-									nickname: creator.nickname
+									nickname: creator.nickname,
+									...(sort && { sort })
 								},
 								pathname
 							})
-						}
+						}}
 					/>
 					<VideosList videos={videos} />
 				</div>

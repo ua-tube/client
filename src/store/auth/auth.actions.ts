@@ -1,4 +1,4 @@
-import { ILoginResponse, ILoginRequest } from '@/interfaces'
+import { ILoginRequest, ILoginResponse } from '@/interfaces'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AuthService, CreatorService } from '@/services'
 import { toastError } from '@/utils'
@@ -12,7 +12,8 @@ const login = createAsyncThunk<ILoginResponse, ILoginRequest>(
 				data: { accessToken, user }
 			} = await AuthService.login(loginData)
 
-			const { data: creator } = await CreatorService.getCreatorBySelf(accessToken)
+			const { data: creator } =
+				await CreatorService.getCreatorBySelf(accessToken)
 
 			toast.success('Успішний вхід!')
 
@@ -31,13 +32,16 @@ const refreshAccessToken = createAsyncThunk<string, string>(
 	}
 )
 
-const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-	try {
-		await AuthService.logout()
-	} catch (e) {
-		toastError(e)
-		return thunkAPI.rejectWithValue(e)
+const logOut = createAsyncThunk(
+	'auth/logout',
+	async (data: { accessToken?: string }, thunkAPI) => {
+		try {
+			return await AuthService.logout(data.accessToken)
+		} catch (e) {
+			toastError(e)
+			return thunkAPI.rejectWithValue(e)
+		}
 	}
-})
+)
 
 export { login, logOut, refreshAccessToken }

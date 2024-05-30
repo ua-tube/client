@@ -1,10 +1,18 @@
-import { DynamicIcon, Input, Popover, PopoverTrigger, PopoverContent, buttonVariants } from '@/components'
-import { UseState, IVideo } from '@/interfaces'
-import { FC, useState } from 'react'
-import { cn, getVideoUrl } from '@/utils'
+import {
+	buttonVariants,
+	DynamicIcon,
+	Input,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from '@/components'
+import { IVideo, UseState } from '@/interfaces'
+import { FC, useEffect, useState } from 'react'
+import { cn, getImageUrl, getVideoUrl } from '@/utils'
 import { useRouter } from 'next/router'
 import { useDebounce } from '@/hooks'
 import Link from 'next/link'
+import { VideoService } from '@/services'
 
 interface IHomeHeaderSearchProps {
 	showFullWidthSearch: boolean
@@ -21,13 +29,18 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({
 	const { push } = useRouter()
 	const onSearch = async () => await push(`/search?query=${search}`)
 
-	// useEffect(
-	// 	() =>
-	// 		search.length > 0
-	// 			? setSearchedVideos(videos.filter(v => v.title.includes(search)))
-	// 			: undefined,
-	// 	[searchDebounced]
-	// )
+	useEffect(() => {
+		;(async () => {
+			if (search.length > 0) {
+				const { data } = await VideoService.getSearchVideos({
+					page: 1,
+					perPage: 32,
+					q: search
+				})
+				setSearchedVideos(data.hits)
+			} else setSearchedVideos([])
+		})()
+	}, [searchDebounced])
 
 	return (
 		<div
@@ -75,7 +88,7 @@ const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({
 										<div className='h-10 aspect-video w-auto p-1'>
 											<img
 												className='size-full object-cover'
-												src={value.thumbnailUrl}
+												src={getImageUrl(value.thumbnailUrl)}
 												alt={`img-${value.id}`}
 											/>
 										</div>

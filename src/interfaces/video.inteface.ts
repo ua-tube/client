@@ -5,8 +5,6 @@ interface IVideo {
 	creatorId?: string
 	title: string
 	description?: string
-	isPublished?: boolean
-	publishedAt?: string
 	videoMetadata?: IVideoMetadataResponse
 	visibility?: VideoVisibilityType
 	status?: VideoStatusType
@@ -14,16 +12,18 @@ interface IVideo {
 	lengthSeconds: number
 	thumbnailUrl?: string
 	previewThumbnailUrl?: string
-	processedVideos?: IProcessedVideo[]
+	processedVideos: IProcessedVideo[]
 	metrics?: IVideoMetrics
 	processingStatus?: VideoProcessingStatusType
-	tags?: string
+	tags?: string[]
 	thumbnails?: IVideoThumbnail[]
 	thumbnailId?: string
 	thumbnailStatus?: VideoThumbnailStatusType
 	videoPreviewThumbnail?: IVideoPreviewThumbnail
 	createdAt?: string
 	updatedAt?: string
+	nextId?: string;
+	prevId?: string
 }
 
 interface IVideoMetrics {

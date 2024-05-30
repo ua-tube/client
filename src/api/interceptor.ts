@@ -14,13 +14,19 @@ export const setupAxiosInterceptors = (store: any) => {
 
 	const isServer = typeof window === 'undefined'
 
+
 	const onUnauthorized = () => {
-		if (!getState().auth.accessToken) dispatch(logOut())
+		const accessToken = getState().auth.accessToken
+		if (!accessToken && !isServer) dispatch(logOut({ accessToken }))
 	}
 
 	const onRefreshToken = async () => {
-		const { data } = await AuthService.refreshAccessToken()
-		dispatch(refreshAccessToken(data.accessToken))
+		try {
+			const { data } = await AuthService.refreshAccessToken()
+			dispatch(refreshAccessToken(data.accessToken))
+		} catch (e) {
+			onUnauthorized()
+		}
 	}
 
 	const axiosAuthConfig: AxiosAuthRefreshOptions = {
@@ -37,12 +43,11 @@ export const setupAxiosInterceptors = (store: any) => {
 	}
 
 	const axiosRefreshCall = async (error: AxiosError<IErrorResponse>) => {
-
 		if (error.response?.status === 401) {
 			switch (error.response.data?.code) {
 				case 3:
 					await onRefreshToken()
-					return await $axios({
+					return $axios({
 						...error.config,
 						headers: {
 							...error.config?.headers,

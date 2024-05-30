@@ -1,31 +1,29 @@
-import { VideoManagerService, StorageService } from '@/services'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { VideoManagerService } from '@/services'
 import { useForm } from 'react-hook-form'
 import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { toastError } from '@/utils'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { z } from 'zod'
 import {
+	Button,
 	Dialog,
 	DialogContent,
-	Input,
+	DialogHeader,
+	DialogTitle,
+	Form,
+	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage,
-	Button,
-	Form,
-	Textarea,
-	DialogHeader,
-	DialogTitle,
-	Label,
-	DynamicIcon,
-	FormDescription
+	Input,
+	Textarea
 } from '@/components'
 
-interface IVideoUploadModalProps {
+interface IVideoCreateModalProps {
 	showModal: boolean
 	setShowModal: UseState<boolean>
 }
@@ -37,14 +35,11 @@ const FormSchema = z.object({
 		.max(9999, { message: 'Максимальна довжина 9999 символів.' })
 })
 
-const VideoUploadModal: FC<IVideoUploadModalProps> = ({
+const VideoCreateModal: FC<IVideoCreateModalProps> = ({
 	setShowModal,
 	showModal
 }) => {
 	const { replace } = useRouter()
-
-	const [video, setVideo] = useState<File>()
-	const [loading, setLoading] = useState<boolean>(false)
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -52,29 +47,13 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({
 	})
 
 	const onSubmit = async (videoCreateForm: z.infer<typeof FormSchema>) => {
-		setLoading(true)
-
 		try {
-			const { data } = await VideoManagerService.createNewVideo(videoCreateForm)
-
-			const {
-				data: { token }
-			} = await VideoManagerService.generateVideoUploadToken(data.id)
-
-			const formData = new FormData()
-			formData.append('file', video!)
-			await StorageService.uploadVideo(formData, token)
-			setLoading(false)
-
-			setTimeout(_ => {
-				setVideo(undefined)
-				setShowModal(false)
-				replace('/dashboard/videos')
-			}, 200)
+			await VideoManagerService.createNewVideo(videoCreateForm)
+			await replace('/dashboard/videos')
+			setShowModal(false)
 		} catch (e) {
 			toastError(e)
 		}
-		setLoading(false)
 	}
 
 	return (
@@ -85,7 +64,6 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({
 						Створення нового відео
 					</DialogTitle>
 				</DialogHeader>
-
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
 						<FormField
@@ -122,25 +100,11 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({
 								</FormItem>
 							)}
 						/>
-						<Label htmlFor='file'>Відео файл</Label>
-						<Input
-							id='file'
-							type='file'
-							accept='video/mp4,video/x-m4v,video/*'
-							onChange={e => setVideo(e.target.files?.[0])}
-						/>
-						<FormDescription>
-							Підтримуються лише формати, які використовуються в відео.
-						</FormDescription>
 						<Button
 							type='submit'
 							className='w-full flex flex-row items-center gap-2'
-							disabled={!video || loading}
 						>
-							{loading && (
-								<DynamicIcon className='animate-spin size-4' name='loader' />
-							)}
-							<span>Завантажити</span>
+							<span>Створити нове відео</span>
 						</Button>
 					</form>
 				</Form>
@@ -149,4 +113,4 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({
 	)
 }
 
-export default VideoUploadModal
+export default VideoCreateModal

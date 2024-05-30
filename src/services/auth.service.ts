@@ -35,7 +35,12 @@ export const AuthService = {
 		return $axios.get<IRefreshAccessTokenResponse>('auth/refresh', { baseURL })
 	},
 
-	async logout() {
-		return $axios.get('auth/logout', { baseURL })
+	async logout(accessToken?: string) {
+		return $axios.get('auth/logout', {
+			baseURL,
+			...(accessToken
+				? { headers: { Authorization: `Bearer ${accessToken}` } }
+				: undefined)
+		})
 	}
 }
