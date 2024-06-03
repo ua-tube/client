@@ -80,19 +80,21 @@ export default function ChannelVideosPage({
 	const [page, setPage] = useState(2)
 	const [currVideos, setCurrVideos] = useState<IVideo[]>(videos || [])
 	const [loading, setLoading] = useState<boolean>(false)
+	const [hasMore, setHasMore] = useState(true)
 
 	const updateData = async () => {
 		try {
 			setLoading(true)
 			const sort = (query?.sortBy as SortType) || 'new'
 			const sortOptions = getSortData(sort)
-			const { data: newVideos } = await LibraryService.getVideos({
+			const { data: nextVideos } = await LibraryService.getVideos({
 				creatorId: creator.id,
 				page,
 				perPage: 10,
 				...(sortOptions && sortOptions)
 			})
-			setCurrVideos(p => [...p, ...newVideos])
+			setHasMore(!nextVideos.some(v => v.id === currVideos?.[0]?.id))
+			setCurrVideos([...currVideos, ...nextVideos])
 			setPage(p => p + 1)
 		} catch (e) {
 			toastError(e)
@@ -105,7 +107,10 @@ export default function ChannelVideosPage({
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			entries => {
-				if (entries[0].isIntersecting) (async () => updateData())()
+				(async () => {
+					if (entries[0].isIntersecting && hasMore)
+						await updateData()
+				})()
 			},
 			{ threshold: 1 }
 		)
@@ -156,11 +161,9 @@ export default function ChannelVideosPage({
 					/>
 					<VideosList videos={currVideos} />
 					{loading && <div className="flex items-center justify-center h-10">
-						<DynamicIcon name="loader"
-												 className="animate-spin" />
+						<DynamicIcon name="loader" className="animate-spin" />
 					</div>}
-
-					<div ref={observerTarget} />
+					<div ref={observerTarget} className="my-10" />
 				</div>
 			</HomeLayout>
 		</>

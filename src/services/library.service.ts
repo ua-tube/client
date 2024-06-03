@@ -5,7 +5,8 @@ import {
 	IPagination,
 	IPlaylist,
 	IPlaylistsResponse,
-	IVideoMetadataResponse
+	IVideoMetadataResponse,
+	IVideo
 } from '@/interfaces'
 
 export const LibraryService = {
@@ -19,7 +20,7 @@ export const LibraryService = {
 		return $axios.get<IPlaylist>('library/playlists', { params })
 	},
 	async getVideos(params: ICreatorVideosRequest) {
-		return $axios.get('library/videos', { params })
+		return $axios.get<IVideo[]>('library/videos', { params })
 	},
 	async getPlaylistIdsForVideo(videoId: string) {
 		return $axios.get<string[]>(`library/playlists/ids-where/${videoId}`)
