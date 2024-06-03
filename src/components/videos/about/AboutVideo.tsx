@@ -1,3 +1,4 @@
+import { formatNumbers, formatTimeAgo, getChannelUrl, getUserInitials, getVideoUrl, toastError } from '@/utils'
 import { LibraryService, SubscriptionsService } from '@/services'
 import { IVideo, IVideoMetadataResponse } from '@/interfaces'
 import { FC, useEffect, useState } from 'react'
@@ -18,7 +19,6 @@ import {
 	DropdownMenuTrigger,
 	DynamicIcon
 } from '@/components'
-import { formatNumbers, formatTimeAgo, getChannelUrl, getUserInitials, getVideoUrl, toastError } from '@/utils'
 
 const ShareVideoModal = dynamic(
 	() => import('@/components/modals/ShareVideoModal')
@@ -51,9 +51,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 		dislikesCount: '0'
 	})
 
-	const [openedTypeModal, setOpenedTypeModal] = useState<
-		'playlists' | 'share' | undefined
-	>()
+	const [openedTypeModal, setOpenedTypeModal] = useState<'playlists' | 'share' | undefined>()
 
 	const onLike = async () => {
 		try {
@@ -145,11 +143,9 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 							data.viewsCount ||
 							prevState.viewsCount,
 						likesCount:
-							video.metrics?.likesCount ||
 							data.likesCount ||
 							prevState.likesCount,
 						dislikesCount:
-							video.metrics?.dislikesCount ||
 							data.dislikesCount ||
 							prevState.dislikesCount,
 						isLiked: data.userVote === 'Like',

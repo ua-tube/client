@@ -3,7 +3,7 @@ import { IPagination, IComment } from '@/interfaces'
 
 export const CommunityService = {
 	async getCommentsByVideo(videoId: string, params: IPagination) {
-		return $axios.get<any>(`community/comments/${videoId}`, { params })
+		return $axios.get<IComment[]>(`community/comments/${videoId}`, { params })
 	},
 	async getCommentsByVideoV2(videoId: string, params: IPagination) {
 		return $axios.get<any>(`community/${videoId}`, { params })

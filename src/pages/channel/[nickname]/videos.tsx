@@ -5,8 +5,9 @@ import { ICreator, IVideo } from '@/interfaces'
 import { getChannelUrl, toastError } from '@/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { AppHead, buttonVariants, CategoryPills, HomeLayout, VideosList, DynamicIcon } from '@/components'
-import { useEffect, useState, useRef } from 'react'
+import { AppHead, buttonVariants, CategoryPills, HomeLayout, VideosList } from '@/components'
+import { useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 type SortType = 'new' | 'views' | 'popular'
 
@@ -76,15 +77,12 @@ export default function ChannelVideosPage({
 	const { pathname, push, query } = useRouter()
 	const currOption = sortOptions.find(v => v.sortBy == sort)
 
-	const observerTarget = useRef<HTMLDivElement>(null)
-	const [page, setPage] = useState(2)
+	const [page, setPage] = useState<number>(2)
 	const [currVideos, setCurrVideos] = useState<IVideo[]>(videos || [])
-	const [loading, setLoading] = useState<boolean>(false)
 	const [hasMore, setHasMore] = useState(true)
 
 	const updateData = async () => {
 		try {
-			setLoading(true)
 			const sort = (query?.sortBy as SortType) || 'new'
 			const sortOptions = getSortData(sort)
 			const { data: nextVideos } = await LibraryService.getVideos({
@@ -93,35 +91,18 @@ export default function ChannelVideosPage({
 				perPage: 10,
 				...(sortOptions && sortOptions)
 			})
-			setHasMore(!nextVideos.some(v => v.id === currVideos?.[0]?.id))
-			setCurrVideos([...currVideos, ...nextVideos])
-			setPage(p => p + 1)
+
+			if (nextVideos.some(v => currVideos.some(cv => cv.id === v.id))) {
+				setHasMore(false)
+			} else {
+				setCurrVideos([...currVideos, ...nextVideos])
+				setPage(p => p + 1)
+				setHasMore(true)
+			}
 		} catch (e) {
 			toastError(e)
-		} finally {
-			setLoading(false)
 		}
 	}
-
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				(async () => {
-					if (entries[0].isIntersecting && hasMore)
-						await updateData()
-				})()
-			},
-			{ threshold: 1 }
-		)
-
-		if (observerTarget.current) observer.observe(observerTarget.current)
-
-		return () => {
-			if (observerTarget.current) observer.unobserve(observerTarget.current)
-		}
-	}, [observerTarget])
-
 
 	return (
 		<>
@@ -159,11 +140,14 @@ export default function ChannelVideosPage({
 							})
 						}}
 					/>
-					<VideosList videos={currVideos} />
-					{loading && <div className="flex items-center justify-center h-10">
-						<DynamicIcon name="loader" className="animate-spin" />
-					</div>}
-					<div ref={observerTarget} className="my-10" />
+					<InfiniteScroll
+						dataLength={currVideos.length}
+						next={updateData}
+						hasMore={hasMore}
+						loader={<div></div>}
+					>
+						<VideosList videos={currVideos} />
+					</InfiniteScroll>
 				</div>
 			</HomeLayout>
 		</>

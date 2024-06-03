@@ -1,30 +1,17 @@
-import {
-	Avatar,
-	AvatarImage,
-	AvatarFallback,
-	Badge,
-	Button,
-	DynamicIcon,
-	Input
-} from '@/components'
-import {
-	formatTimeAgo,
-	getVideoUrl,
-	toastError,
-	getImageUrl,
-	getUserInitials
-} from '@/utils'
-import { IComment, IVideo } from '@/interfaces'
+import { Avatar, AvatarImage, AvatarFallback, Badge, Button, DynamicIcon, Input } from '@/components'
+import { formatTimeAgo, getVideoUrl, toastError, getImageUrl, getUserInitials } from '@/utils'
+import { IComment, IVideo, ILikedOrDislikedComment } from '@/interfaces'
 import { CommunityService } from '@/services'
 import { FC, useState } from 'react'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 interface IDashboardCommentCardProps {
 	comment: IComment
-	disableComment?: boolean
+	updateData: () => Promise<void>
+	commentsInfo: ILikedOrDislikedComment[]
 	video?: IVideo
 	videoId: string
-	updateData: () => Promise<void>
 	parentComment?: IComment
 }
 
@@ -33,28 +20,27 @@ interface IReplyState {
 	showInput: boolean
 }
 
-interface ICommentState extends IComment {
-	isLiked: boolean
-	isDisliked: boolean
-}
+const DashboardCommentCard: FC<
+	IDashboardCommentCardProps
+> = ({
+			 comment,
+			 video,
+			 videoId,
+			 parentComment,
+			 commentsInfo,
+			 updateData
+		 }) => {
 
-const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
-	comment,
-	disableComment,
-	video,
-	videoId,
-	updateData,
-	parentComment
-}) => {
+	const isDisliked = commentsInfo.some(
+		v => v.videoCommentId === comment.id && v.type === 'Dislike'
+	)
+	const isLiked = commentsInfo.some(
+		v => v.videoCommentId === comment.id && v.type === 'Like'
+	)
+
 	const [replyState, setReplyState] = useState<IReplyState>({
 		inputMessage: '',
 		showInput: false
-	})
-
-	const [commentState, setCommentState] = useState<ICommentState>({
-		...comment,
-		isDisliked: false,
-		isLiked: false
 	})
 
 	const onLike = async () => {
@@ -62,7 +48,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 			await CommunityService.commentVote({
 				commentId: comment.id,
 				videoId,
-				voteType: !commentState.isLiked ? 'Like' : 'None'
+				voteType: !isLiked ? 'Like' : 'None'
 			})
 			await updateData()
 		} catch (e) {
@@ -75,18 +61,8 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 			await CommunityService.commentVote({
 				commentId: comment.id,
 				videoId,
-				voteType: !commentState.isDisliked ? 'Dislike' : 'None'
+				voteType: !isDisliked ? 'Dislike' : 'None'
 			})
-
-			setCommentState(prevState => ({
-				...prevState,
-				likesCount: Math.abs(
-					prevState.isLiked ? prevState.likesCount - 1 : prevState.likesCount
-				),
-				isLiked: false,
-				isDisliked: !prevState.isDisliked
-			}))
-
 			await updateData()
 		} catch (e) {
 			toastError(e)
@@ -101,63 +77,54 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 				parentCommentId: parentComment?.id || comment.id
 			})
 			setReplyState({ inputMessage: '', showInput: false })
-			setTimeout(async () => updateData(), 200)
+			toast.success('Відповідь успішно надіслано! Незабаром він зявиться на сайті!')
 		} catch (e) {
 			toastError(e)
 		}
 	}
 
-	const onDelete = async () => {}
 
 	return (
 		<div>
-			<div className='flex flex-row justify-between items-center py-2'>
-				<div className='flex space-x-3'>
+			<div className="flex flex-row justify-between items-center py-2">
+				<div className="flex space-x-3">
 					<Avatar>
 						<AvatarImage src={getImageUrl(comment.creator.thumbnailUrl)} />
 						<AvatarFallback
-							className='uppercase'
+							className="uppercase"
 							children={getUserInitials(comment.creator.displayName)}
 						/>
 					</Avatar>
-					<div className='flex flex-col gap-y-2'>
-						<div className='flex space-x-2 items-center'>
+					<div className="flex flex-col gap-y-2">
+						<div className="flex space-x-2 items-center">
 							<Badge
-								children={commentState.creator.displayName}
-								variant='default'
-								className='rounded-lg'
+								children={comment.creator.displayName}
+								variant="default"
+								className="rounded-lg"
 							/>
 							<div
-								className='text-foreground text-xs'
-								children={formatTimeAgo(commentState.createdAt)}
+								className="text-foreground text-xs"
+								children={formatTimeAgo(comment.createdAt)}
 							/>
 						</div>
-						<div className='font-semibold' children={commentState.comment} />
-						<div className='flex items-center space-x-2.5'>
+						<div className="font-semibold" children={comment.comment} />
+						<div className="flex items-center space-x-2.5">
 							<Button
-								size='sm'
-								variant={commentState.isLiked ? 'default' : 'secondary'}
-								className='flex space-x-1 items-center rounded-lg'
+								size="sm"
+								variant={isLiked ? 'default' : 'secondary'}
+								className="flex space-x-1 items-center rounded-lg"
 								onClick={onLike}
 							>
-								<DynamicIcon name='thumbs-up' className='size-4' />
-								<span children={commentState.likesCount} />
+								<DynamicIcon name="thumbs-up" className="size-4" />
+								<span children={isLiked ? comment.likesCount + 1 : comment.likesCount} />
 							</Button>
 							<Button
 								onClick={onDislike}
-								size='sm'
-								variant={commentState.isDisliked ? 'default' : 'secondary'}
-								className='flex space-x-1 items-center rounded-lg'
+								size="sm"
+								variant={isDisliked ? 'default' : 'secondary'}
+								className="flex space-x-1 items-center rounded-lg"
 							>
-								<DynamicIcon name='thumbs-down' className='size-4' />
-							</Button>
-							<Button
-								size='sm'
-								variant='destructive'
-								onClick={onDelete}
-								className='flex space-x-1 items-center rounded-lg'
-							>
-								<DynamicIcon name='trash' className='size-4' />
+								<DynamicIcon name="thumbs-down" className="size-4" />
 							</Button>
 							<Button
 								onClick={() =>
@@ -166,17 +133,17 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 										showInput: !p.showInput
 									}))
 								}
-								className='flex space-x-1 items-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-1'
+								className="flex space-x-1 items-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-1"
 							>
-								<DynamicIcon name='reply' className='size-4' />
-								<span children='Відповісти' />
+								<DynamicIcon name="reply" className="size-4" />
+								<span children="Відповісти" />
 							</Button>
 						</div>
 						{replyState.showInput && (
-							<div className='flex items-center space-x-2'>
+							<div className="flex items-center space-x-2">
 								<Input
-									placeholder='Ваша відповідь ...'
-									type='text'
+									placeholder="Ваша відповідь ..."
+									type="text"
 									value={replyState.inputMessage}
 									onChange={e =>
 										setReplyState({
@@ -187,7 +154,7 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 								/>
 								<Button
 									onClick={onSendReply}
-									children={<DynamicIcon name='send-horizontal' />}
+									children={<DynamicIcon name="send-horizontal" />}
 								/>
 							</div>
 						)}
@@ -197,34 +164,35 @@ const DashboardCommentCard: FC<IDashboardCommentCardProps> = ({
 				{video && (
 					<Link
 						href={getVideoUrl(videoId, undefined, undefined, true)}
-						target='_blank'
-						className='flex flex-row items-center space-x-2 px-4'
+						target="_blank"
+						className="flex flex-row items-center space-x-2 px-4"
 					>
 						<img
 							src={getImageUrl(video.thumbnailUrl)}
 							alt={videoId}
-							className='h-20 w-auto rounded-lg aspect-video object-cover'
+							className="h-20 w-auto rounded-lg aspect-video object-cover"
 						/>
 						<div
-							className='line-clamp-3 w-36 text-sm hover:underline'
+							className="line-clamp-3 w-36 text-sm hover:underline"
 							children={video.title}
 						/>
-						<DynamicIcon name='share-2' className='size-3' />
+						<DynamicIcon name="share-2" className="size-3" />
 					</Link>
 				)}
 			</div>
-			{commentState.replies && commentState.replies.length > 0 && (
+			{comment.replies && comment.replies.length > 0 && (
 				<div
-					className='flex flex-col gap-y-2 pl-6 my-4 border-l border-muted'
-					children={commentState.replies.map((value, key) => (
+					className="flex flex-col gap-y-2 pl-6 my-4 border-l border-muted"
+					children={comment.replies.map((value, key) => (
 						<DashboardCommentCard
 							{...{
 								comment: value,
 								key,
 								parentComment: comment,
 								videoId,
+								video,
 								updateData,
-								video
+								commentsInfo
 							}}
 						/>
 					))}

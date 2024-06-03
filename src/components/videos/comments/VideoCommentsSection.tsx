@@ -1,14 +1,8 @@
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-	Button,
-	buttonVariants,
-	Textarea
-} from '@/components'
+import { Avatar, AvatarFallback, AvatarImage, Button, buttonVariants, Textarea } from '@/components'
 import { getImageUrl, getUserInitials, toastError } from '@/utils'
-import { IComment, IPagination, IVideo } from '@/interfaces'
-import { FC, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { FC, useState, useEffect } from 'react'
+import { IComment, IVideo } from '@/interfaces'
 import { CommunityService } from '@/services'
 import dynamic from 'next/dynamic'
 import { useAuth } from '@/hooks'
@@ -22,53 +16,59 @@ interface IVideoCommentsSectionProps {
 	video?: IVideo
 }
 
-const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({
-	videoId,
-	video
-}) => {
+const VideoCommentsSection: FC<
+	IVideoCommentsSectionProps
+> = ({
+			 videoId,
+			 video
+		 }) => {
 	const { user } = useAuth()
 	const [comment, setComment] = useState<string>('')
-	const [comments, setComments] = useState<IComment[]>([])
-	const [params, setParams] = useState<IPagination>({ page: 1, perPage: 2 })
-	const [hasMore, setHasMore] = useState<boolean>()
 
-	const updateData = async (newParams?: IPagination) => {
-		try {
-			const { data: newComments } = await CommunityService.getCommentsByVideo(
-				videoId,
-				newParams || params
-			)
-			const currComments = [...comments, ...newComments]
-			setHasMore(currComments.length !== comments.length)
-			setComments(currComments)
-		} catch (e) {
-			toastError(e)
-		}
-	}
+	const [comments, setComments] = useState<IComment[]>([])
+	const [page, setPage] = useState<number>(1)
+	const [hasMore, setHasMore] = useState<boolean>(true)
 
 	const onCommentSend = async () => {
 		try {
 			await CommunityService.createComment({ comment, videoId })
 			toast.success('Коментар додано незабаром він з’явиться на сайті!')
 			setComment('')
-			await updateData()
 		} catch (e) {
 			toastError(e)
 		}
 	}
 
+	const updateData = async () => {
+		try {
+			const { data: newComments } = await CommunityService.getCommentsByVideo(videoId, { page, perPage: 10 })
+
+			if (newComments.some(v => comments.some(cv => cv.id === v.id))) {
+				setHasMore(false)
+			} else {
+				setComments(p => [...p, ...newComments])
+				setPage(p => p + 1)
+				setHasMore(true)
+			}
+		} catch (e) {
+			toastError(e)
+		}
+	}
+
+
 	useEffect(() => {
-		;(async () => updateData())()
-	}, [params])
+		(async () => updateData())()
+	}, [])
+
 
 	return (
-		<div className='flex flex-col gap-y-4'>
-			<div className='flex flex-row items-center justify-between'>
-				<h5 className='font-bold text-xl md:text-2xl'>
-					{`${video?.metrics?.commentsCount || comments.length || 0} коментарів`}
+		<div className="flex flex-col gap-y-4">
+			<div className="flex flex-row items-center justify-between">
+				<h5 className="font-bold text-xl md:text-2xl">
+					{`${video?.metrics?.commentsCount || 0} коментарів`}
 				</h5>
 			</div>
-			<div className='flex flex-row gap-x-3'>
+			<div className="flex flex-row gap-x-3">
 				<Avatar>
 					<AvatarImage src={getImageUrl(user?.creator.thumbnailUrl)} />
 					<AvatarFallback>
@@ -78,17 +78,17 @@ const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({
 				<Textarea
 					value={comment}
 					onChange={e => setComment(e.target.value)}
-					placeholder='Напишіть ваш коментар...'
+					placeholder="Напишіть ваш коментар..."
 				/>
 			</div>
 			{comment && comment.length > 3 && (
 				<>
-					<Button onClick={onCommentSend} variant='secondary' disabled={!user}>
+					<Button onClick={onCommentSend} variant="secondary" disabled={!user}>
 						Зберегти
 					</Button>
 					{!user && (
 						<Link
-							href='/auth/sign-up'
+							href="/auth/sign-up"
 							className={buttonVariants({ variant: 'outline' })}
 						>
 							Досі не маєте аккаунту? Увійти/Зареєструватися
@@ -96,20 +96,15 @@ const VideoCommentsSection: FC<IVideoCommentsSectionProps> = ({
 					)}
 				</>
 			)}
-			<VideoCommentsList {...{ videoId, comments, updateData }} />
-			{hasMore && (
-				<Button
-					variant='secondary'
-					onClick={() =>
-						setParams(prevParams => ({
-							...prevParams,
-							page: +prevParams.page + 1
-						}))
-					}
-				>
-					Заватажити ще
-				</Button>
-			)}
+			<InfiniteScroll
+				dataLength={comments.length}
+				next={updateData}
+				hasMore={hasMore}
+				loader={<div></div>}
+			>
+				<VideoCommentsList {...{ videoId, comments }} />
+			</InfiniteScroll>
+
 		</div>
 	)
 }

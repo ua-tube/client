@@ -7,14 +7,15 @@ import { useAuth } from '@/hooks'
 interface IVideoCommentsListProps {
 	comments: IComment[]
 	videoId: string
-	updateData: () => void
 }
 
-const VideoCommentsList: FC<IVideoCommentsListProps> = ({
-	comments,
-	videoId,
-	updateData
-}) => {
+const VideoCommentsList: FC<
+	IVideoCommentsListProps
+> = ({
+			 comments,
+			 videoId
+		 }) => {
+
 	const { user } = useAuth()
 	const [commentsInfo, setCommentsInfo] = useState<ILikedOrDislikedComment[]>(
 		[]
@@ -31,11 +32,9 @@ const VideoCommentsList: FC<IVideoCommentsListProps> = ({
 
 	return (
 		<div
-			className='flex flex-col gap-y-3'
+			className="flex flex-col gap-y-3"
 			children={comments.map((comment, key) => (
-				<VideoCommentCard
-					{...{ comment, videoId, updateData, key, commentsInfo }}
-				/>
+				<VideoCommentCard {...{ comment, videoId, key, commentsInfo }} />
 			))}
 		/>
 	)

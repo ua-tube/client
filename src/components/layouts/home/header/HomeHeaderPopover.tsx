@@ -1,10 +1,11 @@
 import { getChannelUrl, getImageUrl, getUserInitials } from '@/utils'
+import { useActions, useAuth } from '@/hooks'
+import { useTranslation } from 'next-i18next'
 import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { languages } from '@/config'
 import dynamic from 'next/dynamic'
-import { useActions, useAuth } from '@/hooks'
 import Link from 'next/link'
 import { FC } from 'react'
 import {
@@ -38,68 +39,64 @@ interface IHomeHeaderPopoverProps {
 const DropdownBaseContent: FC = () => {
 	const { asPath, locale } = useRouter()
 	const { setTheme, theme } = useTheme()
+	const { t } = useTranslation('general')
 
 	return (
 		<>
 			<DropdownMenuSub>
-				<DropdownMenuSubTrigger className='space-x-2'>
+				<DropdownMenuSubTrigger className="space-x-2">
 					<DynamicIcon
 						name={theme === 'light' ? 'sun' : 'moon'}
-						className='size-4'
+						className="size-4"
 					/>
-
-					<div className='flex items-center gap-x-1'>
-						Вигляд: <span className='dark:hidden'>світла</span>{' '}
-						<span className='hidden dark:block'>темна</span> тема
+					<div className="flex items-center gap-x-1">
+						{t('appearance')}: <span className="dark:hidden">{t('light').toLowerCase()}</span>{' '}
+						<span className="hidden dark:block">{t('dark').toLowerCase()}</span> {t('theme')}
 					</div>
 				</DropdownMenuSubTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuSubContent>
 						<DropdownMenuItem
-							className='justify-between'
+							className="justify-between"
 							onClick={() => setTheme('light')}
 						>
-							<span>Світла</span>
-							<div className='checkedIcon dark:hidden' />
+							<span>{t('light')}</span>
+							<div className="checkedIcon dark:hidden" />
 						</DropdownMenuItem>
 						<DropdownMenuItem
-							className='justify-between'
+							className="justify-between"
 							onClick={() => setTheme('dark')}
 						>
-							<span>Темна</span>
-							<div className='checkedIcon hidden dark:block' />
+							<span>{t('dark')}</span>
+							<div className="checkedIcon hidden dark:block" />
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => setTheme('system')}>
-							Системна
+							{t('system')}
 						</DropdownMenuItem>
 					</DropdownMenuSubContent>
 				</DropdownMenuPortal>
 			</DropdownMenuSub>
 			<DropdownMenuSub>
 				<DropdownMenuSubTrigger>
-					<div className='flex items-center space-x-2'>
-						<DynamicIcon name='languages' className='h-4 w-4' />
+					<div className="flex items-center space-x-2">
+						<DynamicIcon name="languages" className="h-4 w-4" />
 						<div
-							className='flex items-center gap-x-1'
-							children={`Мова: ${
-								languages.find(value => value.shortName === locale)?.fullName
-							}`}
+							className="flex items-center gap-x-1"
+							children={t('localeDesc', { locale: languages.find(value => value.shortName === (locale || 'uk'))?.fullName })}
 						/>
 					</div>
 				</DropdownMenuSubTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuSubContent
-						children={languages.map((value, index) => (
+						children={languages.map(({ shortName, fullName }, index) => (
 							<DropdownMenuItem key={index} asChild>
 								<Link
 									href={asPath}
-									locale={value.shortName}
-									className='flex items-center justify-between'
+									locale={shortName}
+									className="flex items-center justify-between"
 								>
-									<span children={value.fullName} />
-									{value.shortName.startsWith(locale || '') && (
-										<div className='checkedIcon' />
-									)}
+									<span children={fullName} />
+									{shortName.startsWith(locale || '') && <div className="checkedIcon" />}
 								</Link>
 							</DropdownMenuItem>
 						))}
@@ -111,11 +108,12 @@ const DropdownBaseContent: FC = () => {
 }
 
 const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
-	showFullWidthSearch,
-	setShowFullWidthSearch
-}) => {
+																													showFullWidthSearch,
+																													setShowFullWidthSearch
+																												}) => {
 	const { user, accessToken } = useAuth()
 	const { logOut } = useActions()
+	const { t } = useTranslation('general')
 
 	return (
 		<div
@@ -123,30 +121,30 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 		>
 			<button
 				onClick={() => setShowFullWidthSearch(true)}
-				className='md:hidden rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
+				className="md:hidden rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
 			>
-				<DynamicIcon name='search' />
+				<DynamicIcon name="search" />
 			</button>
 
 			{user ? (
-				<div className='space-x-2 items-center flex'>
+				<div className="space-x-2 items-center flex">
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href='/dashboard?upload=1'
-								className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
+								href="/dashboard?upload=1"
+								className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
 							>
-								<DynamicIcon name='upload' />
+								<DynamicIcon name="upload" />
 							</Link>
 						</TooltipTrigger>
-						<TooltipContent children='Завантажити нове відео' />
+						<TooltipContent children={t('uploadNewVideo')} />
 					</Tooltip>
 
 					<HomeHeaderNotifications />
 
 					<DropdownMenu>
-						<DropdownMenuTrigger className='focus:border-none'>
-							<Avatar className='border border-input'>
+						<DropdownMenuTrigger className="focus:border-none">
+							<Avatar className="border border-input">
 								<AvatarImage
 									src={getImageUrl(user.creator.thumbnailUrl)}
 									alt={user.creator?.id}
@@ -156,45 +154,45 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 								/>
 							</Avatar>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align='end'>
-							<DropdownMenuItem className='space-x-2' asChild>
-								<Link href='/dashboard/videos'>
-									<DynamicIcon name='contact' className='size-4' />
-									<span>Студія</span>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem className="space-x-2" asChild>
+								<Link href="/dashboard/videos">
+									<DynamicIcon name="contact" className="size-4" />
+									<span>{t('studio')}</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className='space-x-2' asChild>
-								<Link href='/dashboard/videos'>
-									<DynamicIcon name='settings' className='size-4' />
-									<span>Персоналізація</span>
+							<DropdownMenuItem className="space-x-2" asChild>
+								<Link href="/dashboard/videos">
+									<DynamicIcon name="settings" className="size-4" />
+									<span>{t('personalization')}</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className='space-x-2' asChild>
+							<DropdownMenuItem className="space-x-2" asChild>
 								<Link href={getChannelUrl(user.id, 'videos', true)}>
-									<DynamicIcon name='user-round' className='size-4' />
-									<span>Мій канал</span>
+									<DynamicIcon name="user-round" className="size-4" />
+									<span>{t('myChannel')}</span>
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
 							<DropdownBaseContent />
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
-								className='space-x-2'
+								className="space-x-2"
 								onClick={() => logOut({ accessToken })}
 							>
-								<DynamicIcon name='door-open' className='size-4' />
-								<span>Вихід</span>
+								<DynamicIcon name="door-open" className="size-4" />
+								<span>{t('exit')}</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
 			) : (
-				<div className='flex space-x-1'>
+				<div className="flex space-x-1">
 					<DropdownMenu>
-						<DropdownMenuTrigger className='focus:border-none'>
+						<DropdownMenuTrigger className="focus:border-none">
 							<DynamicIcon
-								name='more-vertical'
-								className='size-10 p-2.5 hover:bg-muted rounded-lg'
+								name="more-vertical"
+								className="size-10 p-2.5 hover:bg-muted rounded-lg"
 							/>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
@@ -202,11 +200,11 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<Link
-						href='/auth'
-						className='h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted'
+						href="/auth"
+						className="h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted"
 					>
-						<DynamicIcon name='door-open' />
-						<span className='hiddenOnMobile'>Увійти</span>
+						<DynamicIcon name="door-open" />
+						<span className="hiddenOnMobile">{t('login')}</span>
 					</Link>
 				</div>
 			)}

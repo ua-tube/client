@@ -1,10 +1,13 @@
 import { DynamicIcon, Card, CardContent, Button, CardHeader, CardTitle } from '@/components'
-import { IVideo, IPagination, UseState } from '@/interfaces'
+import { IVideo, UseState } from '@/interfaces'
 import { FC, useState, useEffect } from 'react'
 import { HistoryService } from '@/services'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { getVideoUrl, getChannelUrl, formatNumbers, formatTimeAgo, getImageUrl, toastError, groupByDate } from '@/utils'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { toast } from 'sonner'
 
 const ShareVideoModal = dynamic(() => import('@/components/modals/ShareVideoModal'))
 
@@ -21,7 +24,17 @@ interface IHistoryContentProps {
 }
 
 
-const HistoryVideo: FC<IHistoryContentProps> = ({ value, setShareVideo, onVideoDelete }) => {
+const HistoryVideo: FC<
+	IHistoryContentProps
+> = ({
+			 value,
+			 setShareVideo,
+			 onVideoDelete
+		 }) => {
+
+	const { locale } = useRouter()
+	const { t } = useTranslation('views-history')
+
 	const [hovered, setHovered] = useState<boolean>(false)
 
 	return <div
@@ -42,12 +55,7 @@ const HistoryVideo: FC<IHistoryContentProps> = ({ value, setShareVideo, onVideoD
 		</Link>
 		<div className="flex flex-col gap-y-1 w-3/5">
 			<Link
-				href={getVideoUrl(
-					value._id,
-					undefined,
-					undefined,
-					true
-				)}
+				href={getVideoUrl(value._id, undefined, undefined, true)}
 				className="font-semibold text-xl/6 line-clamp-2"
 				children={value.title}
 			/>
@@ -59,7 +67,7 @@ const HistoryVideo: FC<IHistoryContentProps> = ({ value, setShareVideo, onVideoD
 
 			<div
 				className="text-muted-foreground text-sm"
-				children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
+				children={`${formatNumbers(value.metrics?.viewsCount, locale)} ${t('views')} • ${formatTimeAgo(value.createdAt, locale)}`}
 			/>
 		</div>
 		<div className="flex flex-col md:flex-row gap-1">
@@ -83,30 +91,25 @@ const HistoryVideo: FC<IHistoryContentProps> = ({ value, setShareVideo, onVideoD
 
 
 const HistoryContent: FC = () => {
+	const { t } = useTranslation('views-history')
+	const { locale } = useRouter()
+
 	const [history, setHistory] = useState<IViewsHistory[]>([])
-	const [pagination, setPagination] = useState<IPagination>({
-		page: 1,
-		perPage: 20
-	})
+	const [page, setPage] = useState<number>(1)
 	const [{ recordWatchHistoryEnabled }, setHistorySettings] = useState<{
 		recordWatchHistoryEnabled: boolean
 	}>({ recordWatchHistoryEnabled: false })
 
 	const [shareVideo, setShareVideo] = useState<IVideo>()
 
-	const updateData = async (params?: IPagination) => {
+	const updateData = async () => {
 		try {
-			const { data } = await HistoryService.getAllHistory(params || pagination)
+			const { data } = await HistoryService.getAllHistory({ page, perPage: 10 })
 			setHistory(groupByDate(data.hits))
 		} catch (e) {
 			toastError(e)
 		}
 	}
-
-	useEffect(() => {
-		(async () => updateData())()
-	}, [pagination])
-
 
 	const onVideoDelete = async (id: string) => {
 		try {
@@ -122,6 +125,7 @@ const HistoryContent: FC = () => {
 	const onClearHistory = async () => {
 		try {
 			await HistoryService.deleteAllHistory()
+			toast.success(t('clearedAllSucc'))
 			setHistory([])
 		} catch (e) {
 			toastError(e)
@@ -134,10 +138,15 @@ const HistoryContent: FC = () => {
 			setHistorySettings(p =>
 				({ recordWatchHistoryEnabled: !recordWatchHistoryEnabled })
 			)
+			toast.success(t(recordWatchHistoryEnabled ? 'pausedHistory' : 'allowedRecordHistory'))
 		} catch (e) {
 			toastError(e)
 		}
 	}
+
+	useEffect(() => {
+		(async () => updateData())()
+	}, [])
 
 	useEffect(() => {
 		(async () => {
@@ -151,7 +160,7 @@ const HistoryContent: FC = () => {
 			<div className="space-y-10 w-full lg:w-3/4">
 				<h1
 					className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
-					children="Історія пареглядів"
+					children={t('viewsHistory')}
 				/>
 				<ShareVideoModal
 					open={!!shareVideo}
@@ -165,7 +174,7 @@ const HistoryContent: FC = () => {
 							<div key={index}>
 								<h2
 									className="scroll-m-20 border-b pb-2 px-2 mb-4 text-3xl font-semibold tracking-tight first:mt-0 sticky top-14 rounded-b-lg bg-background/50 backdrop-blur-lg z-10"
-									children={formatTimeAgo(group.date)}
+									children={formatTimeAgo(group.date, locale)}
 								/>
 								<div
 									className="flex flex-col gap-y-2"
@@ -178,12 +187,12 @@ const HistoryContent: FC = () => {
 				) : (
 					<div className="mx-auto flex items-center space-x-2">
 						<p className="leading-7 space-x-1">
-							<span children="Історія переглядів пуста, " />
+							<span children={`${t('historyViewsNotFound')}, `} />
 							<Link
 								href="/"
 								className="font-medium text-primary underline underline-offset-4"
 							>
-								перейти на головну сторінку
+								{t('goToHomePage')}
 							</Link>
 						</p>
 					</div>
@@ -191,7 +200,7 @@ const HistoryContent: FC = () => {
 			</div>
 			<Card className="w-full lg:w-1/4 h-fit rounded-xl lg:sticky lg:top-20 bg-repeat-space bg-center bg-cover">
 				<CardHeader>
-					<CardTitle children="Керування історією" />
+					<CardTitle children={t('historyManagement')} />
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-2">
@@ -201,7 +210,7 @@ const HistoryContent: FC = () => {
 							onClick={onClearHistory}
 						>
 							<DynamicIcon name="trash" />
-							<span>Очистити історію</span>
+							<span>{t('clearHistory')}</span>
 						</Button>
 						<Button
 							className="flex items-center space-x-2 w-full"
@@ -209,7 +218,7 @@ const HistoryContent: FC = () => {
 							onClick={onPauseOrResumeHistoryRecord}
 						>
 							<DynamicIcon name={recordWatchHistoryEnabled ? 'pause' : 'play'} />
-							<span>{recordWatchHistoryEnabled ? 'Зупинити' : 'Відновити'} запис історії перегляду</span>
+							<span>{t(recordWatchHistoryEnabled ? 'stop' : 'reniew')} {t('historyView')}</span>
 						</Button>
 					</div>
 				</CardContent>

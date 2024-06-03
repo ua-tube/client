@@ -1,5 +1,6 @@
 import { cn, getImageUrl, getUserInitials, toastError } from '@/utils'
 import { NotificationsService } from '@/services'
+import { useTranslation } from 'next-i18next'
 import { INotification } from '@/interfaces'
 import { FC, useState } from 'react'
 import { toast } from 'sonner'
@@ -20,6 +21,8 @@ import {
 } from '@/components'
 
 const HomeHeaderNotifications: FC = () => {
+	const { t } = useTranslation('notifications')
+
 	const [notifications, setNotifications] = useState<INotification[]>()
 
 	const updateData = async () => {
@@ -35,7 +38,7 @@ const HomeHeaderNotifications: FC = () => {
 		try {
 			await NotificationsService.deleteById(id)
 			await updateData()
-			toast.success('Сповіщення успішно видалено!')
+			toast.success(t('deleteSucc'))
 		} catch (e) {
 			toastError(e)
 		}
@@ -44,7 +47,7 @@ const HomeHeaderNotifications: FC = () => {
 	const onDeleteAllNotification = async () => {
 		try {
 			await NotificationsService.deleteAll()
-			toast.success('Сповіщення успішно очищено!')
+			toast.success(t('deleteAllSucc'))
 		} catch (e) {
 			toastError(e)
 		}
@@ -54,37 +57,35 @@ const HomeHeaderNotifications: FC = () => {
 		<HoverCard>
 			<HoverCardTrigger asChild>
 				<button
-					className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
+					className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
 					onClick={updateData}
 				>
-					<DynamicIcon name='bell' />
+					<DynamicIcon name="bell" />
 				</button>
 			</HoverCardTrigger>
-			<HoverCardContent align='end' className='sm:min-w-80'>
+			<HoverCardContent align="end" className="sm:min-w-80">
 				<CardHeader className={cn('px-0 pt-0', !notifications && 'pb-0')}>
-					<CardTitle className='flex flex-row items-center justify-between'>
-						<span>Сповіщення</span>
+					<CardTitle className="flex flex-row items-center justify-between">
+						<span>{t('notifications')}</span>
 						{notifications && notifications.length > 0 && (
 							<Button
-								variant='destructive'
-								size='sm'
+								variant="destructive"
+								size="sm"
 								onClick={onDeleteAllNotification}
 							>
-								Видалити всі
+								{t('deleteAll')}
 							</Button>
 						)}
 					</CardTitle>
-					<CardDescription className='text-xs'>
-						{notifications && notifications.length > 0
-							? 'Сповіщення старіші за 90 днів автоматично видаляються.'
-							: 'Сповіщеннь не знайдено!'}
+					<CardDescription className="text-xs">
+						{t(notifications && notifications.length > 0 ? 'olderNotificationsAlert' : 'notificationsNotFound')}
 					</CardDescription>
 				</CardHeader>
 				{notifications && notifications.length > 0 && (
 					<div
-						className='grid gap-4'
+						className="grid gap-4"
 						children={notifications?.map((value, index) => (
-							<div key={index} className='flex items-center space-x-2.5'>
+							<div key={index} className="flex items-center space-x-2.5">
 								<Avatar>
 									<AvatarImage src={getImageUrl(value.channel?.thumbnailUrl)} />
 									<AvatarFallback
@@ -92,7 +93,7 @@ const HomeHeaderNotifications: FC = () => {
 											value.channel ? (
 												getUserInitials(value.channel?.nickname)
 											) : (
-												<DynamicIcon name='settings' />
+												<DynamicIcon name="settings" />
 											)
 										}
 									/>
@@ -100,24 +101,23 @@ const HomeHeaderNotifications: FC = () => {
 								<Link href={value.url}>
 									{value.channel && (
 										<div
-											className='text-sm font-medium leading-none'
+											className="text-sm font-medium leading-none"
 											children={`@${value.channel.nickname}`}
 										/>
 									)}
 									<p
-										className='text-xs text-muted-foreground'
+										className="text-xs text-muted-foreground"
 										children={value.message}
 									/>
 								</Link>
 								<button
-									className={buttonVariants({
+									className={cn(buttonVariants({
 										variant: 'destructive',
-										size: 'icon',
-										className: 'p-1 ml-auto'
-									})}
+										size: 'icon'
+									}), 'p-1')}
 									onClick={() => onDeleteNotification(value.notificationId)}
 								>
-									<DynamicIcon name='x' />
+									<DynamicIcon name="x" />
 								</button>
 							</div>
 						))}

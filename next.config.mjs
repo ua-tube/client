@@ -5,7 +5,7 @@ const nextConfig = {
 	swcMinify: false,
 	i18n: {
 		defaultLocale: 'uk',
-		locales: ['uk', 'en'],
+		locales: ['uk', 'fr', 'de', 'tr', 'pl', 'es', 'it', 'en'],
 		localeDetection: false
 	},
 	env: {

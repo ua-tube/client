@@ -1,9 +1,8 @@
-import { IComment, IVideo, IPagination } from '@/interfaces'
+import { IComment, IVideo } from '@/interfaces'
 import { FC, useState, useEffect } from 'react'
 import { CommunityService } from '@/services'
 import dynamic from 'next/dynamic'
 import { toastError } from '@/utils'
-import { DynamicIcon } from '@/components'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 const DashboardCommentsList = dynamic(
@@ -16,20 +15,22 @@ interface IVideoCommentsTabProps {
 }
 
 const VideoCommentsTab: FC<IVideoCommentsTabProps> = ({ video, videoId }) => {
-	const [params, setParams] = useState<IPagination>({ page: 1, perPage: 10 })
+	const [page, setPage] = useState<number>(1)
 	const [hasMore, setHasMore] = useState<boolean>(true)
 	const [comments, setComments] = useState<IComment[]>([])
 
-	const updateData = async (newParams?: IPagination) => {
-		const currentParams = newParams || params
+
+	const updateData = async () => {
 		try {
-			const { data: newComments } = await CommunityService.getCommentsByVideo(
-				videoId,
-				currentParams
-			)
-			if (newComments.length <= currentParams.perPage) setHasMore(false)
-			setComments(prevComments => [...prevComments, ...newComments])
-			setParams(prevParams => ({ ...prevParams, page: +prevParams.page + 1 }))
+			const { data } = await CommunityService.getCommentsByVideo(videoId, { page, perPage: 10 })
+
+			if (data.some(v => comments.some(cv => cv.id === v.id))) {
+				setHasMore(false)
+			} else {
+				setComments(p => [...p, ...data])
+				setPage(p => p + 1)
+				setHasMore(true)
+			}
 		} catch (e) {
 			toastError(e)
 		}
@@ -44,18 +45,13 @@ const VideoCommentsTab: FC<IVideoCommentsTabProps> = ({ video, videoId }) => {
 	return (
 		<InfiniteScroll
 			dataLength={comments.length}
-			next={() => updateData()}
+			next={updateData}
 			hasMore={hasMore}
-			loader={
-				<div className='flex justify-center items-center h-20'>
-					<DynamicIcon name='loader' className='animate-spin' />
-				</div>
-			}
+			loader={<div></div>}
 		>
 			<DashboardCommentsList
 				comments={comments}
 				video={video}
-				disableComment
 				updateData={updateData}
 				videoId={videoId}
 			/>

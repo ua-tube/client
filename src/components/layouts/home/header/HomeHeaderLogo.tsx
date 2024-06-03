@@ -1,9 +1,9 @@
 import { useSidebarContext } from '@/providers'
 import { DynamicIcon } from '@/components'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks'
 import Link from 'next/link'
 import { FC } from 'react'
-import { useAuth } from '@/hooks'
 
 interface IHomeHeaderLogoProps {
 	hidden?: boolean

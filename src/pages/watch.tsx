@@ -66,8 +66,6 @@ export default function VideoPage({
 	useEffect(() => {
 		;(async () => {
 			try {
-				let videoIds: { nextId?: string; prevId?: string } | undefined
-
 				const { data } = await VideoService.getVideo(videoId)
 
 				const { data: searchVideos } = await VideoService.searchRelatedVideosByVideoId({
@@ -75,51 +73,60 @@ export default function VideoPage({
 					perPage: 25,
 					videoId
 				})
+
 				setRelatedVideos(searchVideos)
 
 				const { data: creator } =
 					await SubscriptionsService.getSubscriptionInfo(data.creatorId!)
 
-				if (listId && listId.length > 0) {
-					const { data: playlist } =
-						await LibraryService.getAllVideosByPlaylist({
-							t: listId,
-							page: 1,
-							perPage: 50
-						})
-					setPlaylist(playlist)
-					if (playlist.videos) {
-						const currVideoIndex = playlist.videos.list.findIndex(
-							v => v.id === videoId
-						)
-						if (typeof currVideoIndex !== 'undefined') {
-							videoIds = {
-								nextId:
-									currVideoIndex < playlist.videos.list?.length
-										? playlist.videos.list.at(currVideoIndex + 1)?.id
-										: playlist.videos.list.at(0)?.id,
-								prevId:
-									currVideoIndex > 1
-										? playlist.videos.list.at(currVideoIndex - 1)?.id
-										: undefined
-							}
-						}
-					}
-				}
 				setVideo({
 					...data,
-					...(videoIds && videoIds),
 					masterPlaylistUrl: `${process.env.STORAGE_SERVER_URL}${data?.masterPlaylistUrl}`,
 					creator
 				})
 
 				await HistoryService.createHistoryRecord({ videoId })
 			} catch (e: any) {
-				console.error(e)
 				e.status === 404 && (await replace(notFoundDestination))
 			}
 		})()
-	}, [videoId, listId])
+	}, [videoId])
+
+	useEffect(() => {
+		(async () => {
+			if (listId && listId.length > 0) {
+				let videoIds: { nextId?: string; prevId?: string } | undefined
+
+				const { data: playlist } =
+					await LibraryService.getAllVideosByPlaylist({
+						t: listId,
+						page: 1,
+						perPage: 50
+					})
+				setPlaylist(playlist)
+				if (playlist.videos) {
+					const currVideoIndex = playlist.videos.list.findIndex(
+						v => v.id === videoId
+					)
+					if (typeof currVideoIndex !== 'undefined') {
+						videoIds = {
+							nextId:
+								currVideoIndex < playlist.videos.list?.length
+									? playlist.videos.list.at(currVideoIndex + 1)?.id
+									: playlist.videos.list.at(0)?.id,
+							prevId:
+								currVideoIndex > 1
+									? playlist.videos.list.at(currVideoIndex - 1)?.id
+									: undefined
+						}
+					} else if (relatedVideos && relatedVideos?.hits.length > 0) {
+						videoIds = { nextId: relatedVideos?.hits?.[0]?.id }
+					}
+					if (videoIds && video) setVideo(({ ...video, ...(videoIds && videoIds) }))
+				}
+			}
+		})()
+	}, [])
 
 	const SideBar: FC = () => (
 		<>
@@ -150,7 +157,7 @@ export default function VideoPage({
 	const LeftSidebar: FC = () => (
 		<>
 			<AboutVideo video={video} videoId={videoId} />
-			<VideoCommentsSection videoId={videoId} video={video} />
+			<VideoCommentsSection videoId={videoId} />
 		</>
 	)
 

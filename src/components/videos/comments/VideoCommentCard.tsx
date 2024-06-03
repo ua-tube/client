@@ -1,18 +1,5 @@
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-	Badge,
-	DynamicIcon,
-	Input,
-	Button
-} from '@/components'
-import {
-	formatTimeAgo,
-	getImageUrl,
-	getUserInitials,
-	toastError
-} from '@/utils'
+import { Avatar, AvatarFallback, AvatarImage, Badge, DynamicIcon, Input, Button } from '@/components'
+import { formatTimeAgo, getImageUrl, getUserInitials, toastError } from '@/utils'
 import { IComment, ILikedOrDislikedComment } from '@/interfaces'
 import { CommunityService } from '@/services'
 import { FC, useState } from 'react'
@@ -23,7 +10,6 @@ interface IVideoCommentCardProps {
 	comment: IComment
 	parentComment?: IComment
 	videoId: string
-	updateData: () => void
 	commentsInfo: ILikedOrDislikedComment[]
 }
 
@@ -35,7 +21,6 @@ interface IReplyState {
 const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 	comment,
 	videoId,
-	updateData,
 	parentComment,
 	commentsInfo
 }) => {
@@ -60,7 +45,6 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 				videoId,
 				voteType: !isLiked ? 'Like' : 'None'
 			})
-			updateData()
 		} catch (e) {
 			toastError(e)
 		}
@@ -73,7 +57,6 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 				videoId,
 				voteType: !isDisliked ? 'Dislike' : 'None'
 			})
-			updateData()
 		} catch (e) {
 			toastError(e)
 		}
@@ -87,8 +70,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 				parentCommentId: parentComment?.id || comment.id
 			})
 			setReplyState({ inputMessage: '', showInput: false })
-			toast.success('Відповідь успішно надіслано!')
-			setTimeout(async () => updateData(), 500)
+			toast.success('Відповідь успішно надіслано! Незабаром він зявиться на сайті!')
 		} catch (e) {
 			toastError(e)
 		}
@@ -179,7 +161,6 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 							{...{
 								comment: value,
 								videoId,
-								updateData,
 								key,
 								parentComment: comment,
 								commentsInfo

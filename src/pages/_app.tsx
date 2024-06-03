@@ -1,5 +1,6 @@
 import { PersistGate } from 'redux-persist/integration/react'
 import { setupAxiosInterceptors } from '@/api/interceptor'
+import { appWithTranslation } from 'next-i18next'
 import { ThemeProvider } from '@/providers'
 import { persistor, store } from '@/store'
 import type { AppType } from 'next/app'
@@ -12,7 +13,7 @@ const AppToaster = dynamic(() => import('@/providers/AppToaster'), {
 	ssr: false
 })
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
 	setupAxiosInterceptors(store)
 
 	return (
@@ -29,4 +30,4 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 	)
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

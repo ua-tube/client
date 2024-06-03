@@ -32,9 +32,7 @@ export const LibraryService = {
 		return $axios.get<string>(`library/videos/total-views/${creatorId}`)
 	},
 	async getPlaylistsBySelf(params?: IPagination) {
-		return $axios.get<IPlaylistsResponse>('library/playlists/infos/self', {
-			params
-		})
+		return $axios.get<IPlaylistsResponse>('library/playlists/infos/self', { params })
 	},
 	async createPlaylist(data: ICreatePlaylistsRequest) {
 		return $axios.post<IPlaylist>('library/playlists', data)

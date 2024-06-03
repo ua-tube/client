@@ -4,10 +4,11 @@ import { AppHead, DynamicIcon } from '@/components'
 import { VideoService } from '@/services'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
-	loading: () => <DynamicIcon name="loader" className="loader-container" />
-})
+const HomeLayout = dynamic(
+	() => import('@/components/layouts/home'),
+	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> })
 
 const CategoryPills = dynamic(
 	() => import('@/components/categories/CategoryPills')
@@ -19,7 +20,7 @@ const VideosList = dynamic(
 export const getServerSideProps: GetServerSideProps<{
 	data: ISearchVideosResponse
 	tag?: string
-}> = async ({ query }) => {
+}> = async ({ query, locale }) => {
 	const tag = (query?.tag as string | undefined)
 	let data
 
@@ -31,7 +32,18 @@ export const getServerSideProps: GetServerSideProps<{
 		data = { ...baseData, hits: newData.results }
 	}
 
-	return { props: { data, tag: tag || 'none' } }
+	return {
+		props: {
+			...(await serverSideTranslations(locale || 'uk', [
+				'general',
+				'common',
+				'notifications',
+				'home-sidebar'
+			])),
+			data,
+			tag: tag || 'none'
+		}
+	}
 }
 
 export default function HomePage({

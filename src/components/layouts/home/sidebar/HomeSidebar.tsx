@@ -8,16 +8,21 @@ import HomeHeaderLogo from '../header/HomeHeaderLogo'
 import { SubscriptionsService } from '@/services'
 import { useAuth, useScreenSize } from '@/hooks'
 import { useSidebarContext } from '@/providers'
+import { useTranslation } from 'next-i18next'
 
 interface IHomeSidebarProps {
 	autoShowSidebar?: boolean
 	openInDrawer?: boolean
 }
 
-export const HomeSidebar: FC<IHomeSidebarProps> = ({
-																										 autoShowSidebar,
-																										 openInDrawer
-																									 }) => {
+export const HomeSidebar: FC<
+	IHomeSidebarProps
+> = ({
+			 autoShowSidebar,
+			 openInDrawer
+		 }) => {
+
+	const { t } = useTranslation('home-sidebar')
 	const { user } = useAuth()
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
@@ -45,34 +50,39 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 	const largeSections: ISidebarSectionProps[] = [
 		{
 			items: [
-				{ icon: 'home', title: 'Головна', url: '/' }
+				{ icon: 'home', title: t('general'), url: '/' }
 			]
 		},
 		...(user
 			? ([
 				{
-					title: 'Ви >',
+					title: t('you'),
 					visibleItemCount: 5,
 					items: [
 						{
 							icon: 'person-standing',
-							title: 'Ваш канал',
+							title: t('yourChannel'),
 							url: getChannelUrl(user?.creator?.nickname)
 						},
-						{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
+						{ icon: 'clock', title: t('viewsHistory'), url: '/history' },
 						{
 							icon: 'play',
-							title: 'Мої відео',
+							title: t('myVideos'),
 							url: getChannelUrl(user?.creator?.nickname, 'videos')
 						},
 						{
 							icon: 'thumbs-up',
-							title: 'Відео, які сподобалися',
+							title: t('likedVideos'),
 							url: getPlaylistUrl('LL', true)
 						},
 						{
+							icon: 'thumbs-down',
+							title: t('dislikedVideos'),
+							url: getPlaylistUrl('DL', true)
+						},
+						{
 							icon: 'timer',
-							title: 'Переглянути пізніше',
+							title: t('watchLater'),
 							url: getPlaylistUrl('WL', true)
 						},
 						...(playlists
@@ -85,14 +95,14 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 					]
 				},
 				...(subscriptions && subscriptions.length > 1 ? [{
-					title: 'Підписки',
+					title: t('subscriptions'),
 					visibleItemCount: 10,
 					items: subscriptions?.map(value => ({
 						imgUrl: value.target.thumbnailUrl,
 						title: value.target.displayName,
 						url: getChannelUrl(value.target.nickname)
 					}))
-				}] as ISidebarSectionProps[] : [])
+				}] : [])
 			] as ISidebarSectionProps[])
 			: [])
 	]
