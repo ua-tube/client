@@ -15,9 +15,9 @@ interface IHomeSidebarProps {
 }
 
 export const HomeSidebar: FC<IHomeSidebarProps> = ({
-	autoShowSidebar,
-	openInDrawer
-}) => {
+																										 autoShowSidebar,
+																										 openInDrawer
+																									 }) => {
 	const { user } = useAuth()
 	const { isOpen, toggle } = useSidebarContext()
 	const { isScreenSmall } = useScreenSize()
@@ -36,7 +36,8 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 					setPlaylists(data.list)
 					const { data: subs } = await SubscriptionsService.getSubscriptions()
 					setSubscriptions(subs)
-				} catch {}
+				} catch {
+				}
 			}
 		})()
 	}, [])
@@ -44,56 +45,55 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 	const largeSections: ISidebarSectionProps[] = [
 		{
 			items: [
-				{ icon: 'home', title: 'Головна', url: '/' },
-				{ icon: 'clipboard', title: 'Підписки', url: '/subscriptions' }
+				{ icon: 'home', title: 'Головна', url: '/' }
 			]
 		},
 		...(user
 			? ([
-					{
-						title: 'Ви >',
-						visibleItemCount: 5,
-						items: [
-							{
-								icon: 'person-standing',
-								title: 'Ваш канал',
-								url: getChannelUrl(user?.creator?.nickname)
-							},
-							{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
-							{
-								icon: 'play',
-								title: 'Мої відео',
-								url: getChannelUrl(user?.creator?.nickname, 'videos')
-							},
-							{
-								icon: 'thumbs-up',
-								title: 'Відео, які сподобалися',
-								url: getPlaylistUrl('LL', true)
-							},
-							{
-								icon: 'timer',
-								title: 'Переглянути пізніше',
-								url: getPlaylistUrl('WL', true)
-							},
-							...(playlists
-								? playlists?.map(value => ({
-										icon: value?.icon || ('list-video' as any),
-										title: value.title,
-										url: getPlaylistUrl(value.id, true)
-									}))
-								: [])
-						]
-					},
-					{
-						title: 'Підписки',
-						visibleItemCount: 10,
-						items: subscriptions?.map(value => ({
-							imgUrl: value.target.thumbnailUrl,
-							title: value.target.displayName,
-							url: getChannelUrl(value.target.nickname)
-						}))
-					}
-				] as ISidebarSectionProps[])
+				{
+					title: 'Ви >',
+					visibleItemCount: 5,
+					items: [
+						{
+							icon: 'person-standing',
+							title: 'Ваш канал',
+							url: getChannelUrl(user?.creator?.nickname)
+						},
+						{ icon: 'clock', title: 'Історія переглядів', url: '/history' },
+						{
+							icon: 'play',
+							title: 'Мої відео',
+							url: getChannelUrl(user?.creator?.nickname, 'videos')
+						},
+						{
+							icon: 'thumbs-up',
+							title: 'Відео, які сподобалися',
+							url: getPlaylistUrl('LL', true)
+						},
+						{
+							icon: 'timer',
+							title: 'Переглянути пізніше',
+							url: getPlaylistUrl('WL', true)
+						},
+						...(playlists
+							? playlists?.map(value => ({
+								icon: value?.icon || ('list-video' as any),
+								title: value.title,
+								url: getPlaylistUrl(value.id, true)
+							}))
+							: [])
+					]
+				},
+				...(subscriptions && subscriptions.length > 1 ? [{
+					title: 'Підписки',
+					visibleItemCount: 10,
+					items: subscriptions?.map(value => ({
+						imgUrl: value.target.thumbnailUrl,
+						title: value.target.displayName,
+						url: getChannelUrl(value.target.nickname)
+					}))
+				}] as ISidebarSectionProps[] : [])
+			] as ISidebarSectionProps[])
 			: [])
 	]
 
@@ -103,7 +103,7 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 
 	const SidebarContent = () => (
 		<ScrollArea
-			className='h-[90vh] md:h-auto pr-2 w-56'
+			className="h-[90vh] md:h-auto pr-2 w-56"
 			children={largeSections.map((value, index) => (
 				<Fragment key={index}>
 					<SidebarSection key={index} {...value} />
@@ -118,10 +118,10 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 			open={isOpen}
 			onOpenChange={toggle}
 			shouldScaleBackground
-			direction='left'
+			direction="left"
 			fixed
 		>
-			<DrawerContent className='w-56 h-screen'>
+			<DrawerContent className="w-56 h-screen">
 				<DrawerHeader>
 					<HomeHeaderLogo />
 				</DrawerHeader>
@@ -131,7 +131,7 @@ export const HomeSidebar: FC<IHomeSidebarProps> = ({
 	) : (
 		<>
 			{isOpen && (
-				<aside className='fixed h-screen top-0 pb-2 mt-20 flex flex-col gap-2 px-2 bg-background'>
+				<aside className="fixed h-screen top-0 pb-2 mt-20 flex flex-col gap-2 px-2 bg-background">
 					<SidebarContent />
 				</aside>
 			)}

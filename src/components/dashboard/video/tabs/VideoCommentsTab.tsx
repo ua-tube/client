@@ -23,40 +23,44 @@ const VideoCommentsTab: FC<IVideoCommentsTabProps> = ({ video, videoId }) => {
 	const updateData = async (newParams?: IPagination) => {
 		const currentParams = newParams || params
 		try {
-			const { data: newComments } = await CommunityService.getCommentsByVideo(videoId, currentParams)
+			const { data: newComments } = await CommunityService.getCommentsByVideo(
+				videoId,
+				currentParams
+			)
 			if (newComments.length <= currentParams.perPage) setHasMore(false)
-			setComments((prevComments) => [...prevComments, ...newComments])
-			setParams((prevParams) => ({ ...prevParams, page: +prevParams.page + 1 }))
+			setComments(prevComments => [...prevComments, ...newComments])
+			setParams(prevParams => ({ ...prevParams, page: +prevParams.page + 1 }))
 		} catch (e) {
 			toastError(e)
 		}
 	}
 
 	useEffect(() => {
-		(async () => {
+		;(async () => {
 			if (video) await updateData()
 		})()
 	}, [video])
 
-	return <InfiniteScroll
-		dataLength={comments.length}
-		next={() => updateData()}
-		hasMore={hasMore}
-		loader={
-			<div className="flex justify-center items-center h-20">
-				<DynamicIcon name="loader" className="animate-spin" />
-			</div>
-		}
-	>
-		<DashboardCommentsList
-			comments={comments}
-			video={video}
-			disableComment
-			updateData={updateData}
-			videoId={videoId}
-		/>
-	</InfiniteScroll>
-
+	return (
+		<InfiniteScroll
+			dataLength={comments.length}
+			next={() => updateData()}
+			hasMore={hasMore}
+			loader={
+				<div className='flex justify-center items-center h-20'>
+					<DynamicIcon name='loader' className='animate-spin' />
+				</div>
+			}
+		>
+			<DashboardCommentsList
+				comments={comments}
+				video={video}
+				disableComment
+				updateData={updateData}
+				videoId={videoId}
+			/>
+		</InfiniteScroll>
+	)
 }
 
 export default VideoCommentsTab

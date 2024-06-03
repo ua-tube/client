@@ -25,8 +25,8 @@ interface ICreateCreatorRequest {
 }
 
 interface ICreatePlaylistsRequest {
-	title: string,
-	description?: string,
+	title: string
+	description?: string
 	visibility: VideoVisibilityType
 }
 

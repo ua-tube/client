@@ -56,7 +56,7 @@ export default function PlaylistPage({
 		<>
 			<AppHead title={playlist?.title || 'Playlist'} />
 			<HomeLayout autoShowSidebar>
-				<PlaylistContent playlist={playlist} />
+				<PlaylistContent playlist={playlist} listId={listId} />
 			</HomeLayout>
 		</>
 	)

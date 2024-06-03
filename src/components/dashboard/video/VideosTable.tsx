@@ -160,7 +160,7 @@ const getVideoColumns = (
 				original: { metrics }
 			}
 		}) => (
-			<div>
+			<div className='flex items-center gap-2 rounded-lg p-2 bg-card'>
 				<div className='flex items-center space-x-2'>
 					<DynamicIcon name='eye' className='size-4' />
 					<span children={metrics?.viewsCount || 0} />
@@ -282,6 +282,7 @@ const getVideoColumns = (
 const VideosTable: FC = () => {
 	const { query } = useRouter()
 	const [video, setVideo] = useState<IVideo>()
+	const [loading, setLoading] = useState<boolean>(true)
 
 	const [params, setParams] = useState<IPagination>({
 		page: 1,
@@ -295,10 +296,13 @@ const VideosTable: FC = () => {
 
 	const updateData = async () => {
 		try {
+			setLoading(true)
 			const { data } = await VideoManagerService.getVideos(params)
 			setVideosData(data)
+			setLoading(false)
 		} catch (e) {
 			toastError(e)
+			setLoading(false)
 		}
 	}
 
@@ -344,29 +348,38 @@ const VideosTable: FC = () => {
 					className='max-w-sm'
 				/>
 				<VideoUploadModal video={video} setVideo={setVideo} />
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant='outline' className='ml-auto'>
-							Колонки{' '}
-							<DynamicIcon name='chevron-down' className='ml-2 h-4 w-4' />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						{table
-							.getAllColumns()
-							.filter(column => column.getCanHide())
-							.map(column => (
-								<DropdownMenuCheckboxItem
-									key={column.id}
-									className='capitalize'
-									checked={column.getIsVisible()}
-									onCheckedChange={value => column.toggleVisibility(value)}
-								>
-									{column.id}
-								</DropdownMenuCheckboxItem>
-							))}
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<div className='flex items-center gap-2 ml-auto'>
+					<Button variant='outline' disabled={loading} onClick={updateData}>
+						Оновити
+						<DynamicIcon
+							name='loader'
+							className={`ml-2 h-4 w-4 ${loading && ' animate-spin'}`}
+						/>
+					</Button>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant='outline'>
+								Колонки{' '}
+								<DynamicIcon name='chevron-down' className='ml-2 h-4 w-4' />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end'>
+							{table
+								.getAllColumns()
+								.filter(column => column.getCanHide())
+								.map(column => (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										className='capitalize'
+										checked={column.getIsVisible()}
+										onCheckedChange={value => column.toggleVisibility(value)}
+									>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
 			<div className='rounded-md border'>
 				<Table>

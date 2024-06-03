@@ -14,5 +14,4 @@ interface ICreator {
 
 type CreatorStatusType = 'CREATED' | 'REGISTERED'
 
-
 export type { ICreator, CreatorStatusType }

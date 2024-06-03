@@ -1,15 +1,15 @@
+import { IPagination, IHistoryVideosResponse } from '@/interfaces'
 import { $axios } from '@/api/axios'
-import { IPagination } from '@/interfaces'
 
 export const HistoryService = {
 	createHistoryRecord(data: { videoId: string }) {
 		return $axios.post('history/record', data)
 	},
 	deleteHistoryRecord(videoId: string) {
-		return $axios.delete(`history/record/${videoId}`)
+		return $axios.delete(`history/video/${videoId}`)
 	},
 	async getAllHistory(params: IPagination & { query?: string }) {
-		return $axios.get(`history`, { params })
+		return $axios.get<IHistoryVideosResponse>(`history`, { params })
 	},
 	deleteAllHistory() {
 		return $axios.delete(`history`)

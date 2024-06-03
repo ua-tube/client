@@ -23,16 +23,16 @@ const SidebarItem: FC<ISidebarItemProps> = ({ icon, imgUrl, title, url }) => {
 			}`}
 		>
 			{imgUrl && (
-				<Avatar className="size-7">
+				<Avatar className='size-7'>
 					<AvatarImage src={getImageUrl(imgUrl)} />
-					<AvatarFallback children="" />
+					<AvatarFallback children='' />
 				</Avatar>
 			)}
 
 			{icon && <DynamicIcon name={icon} />}
 
 			<div
-				className="whitespace-nowrap overflow-hidden text-ellipsis text-sm"
+				className='whitespace-nowrap overflow-hidden text-ellipsis text-sm'
 				children={title}
 			/>
 		</Link>

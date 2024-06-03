@@ -1,5 +1,10 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { IApiPaginationResponse, ICreator, IVideo, VideoVisibilityType } from './'
+import {
+	IApiPaginationResponse,
+	ICreator,
+	IVideo,
+	VideoVisibilityType
+} from './'
 
 interface IPlaylist {
 	id: string

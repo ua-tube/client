@@ -2,14 +2,8 @@ import { Button, DynamicIcon } from '@/components'
 import { VideoModalType } from './SearchContent'
 import { IVideo, UseState } from '@/interfaces'
 import Link from 'next/link'
-import { FC } from 'react'
-import {
-	getVideoUrl,
-	formatDuration,
-	getChannelUrl,
-	formatNumbers,
-	formatTimeAgo
-} from '@/utils'
+import { FC, useState } from 'react'
+import { getVideoUrl, formatDuration, getChannelUrl, formatNumbers, formatTimeAgo, getImageUrl } from '@/utils'
 
 interface ISearchVideoCardProps {
 	value: IVideo
@@ -17,14 +11,20 @@ interface ISearchVideoCardProps {
 }
 
 const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
+	const [hovered, setHovered] = useState<boolean>(false)
+
 	return (
-		<div className='flex flex-row items-start space-x-4 w-full hover:bg-primary-foreground p-2 rounded-lg group/item'>
+		<div
+			className='flex flex-row items-start space-x-4 w-full hover:bg-primary-foreground p-2 rounded-lg group/item'
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
+		>
 			<Link
 				href={getVideoUrl(value.id, undefined, undefined, true)}
 				className='relative aspect-video h-32'
 			>
 				<img
-					src={value.thumbnailUrl}
+					src={getImageUrl(hovered ? value.previewThumbnailUrl : value.thumbnailUrl)}
 					loading='lazy'
 					className='block w-full h-full object-cover aspect-video duration-200 rounded-xl'
 					alt={value.id}

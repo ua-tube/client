@@ -37,8 +37,8 @@ const videoFormSchema = z.object({
 		.min(4, {
 			message: 'Мінімальна довжина заголовку 4 символи!'
 		})
-		.max(60, {
-			message: 'Максимальна довжина заголовку 30 символів!'
+		.max(120, {
+			message: 'Максимальна довжина заголовку 120 символів!'
 		}),
 	description: z.string().max(9999, {
 		message: 'Максимальна довжина опису 9999 символів!'
@@ -79,10 +79,15 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 		}
 	}, [video])
 
-	const onSubmit = async ({thumbnailId, ...props}: z.infer<typeof videoFormSchema>) => {
-
+	const onSubmit = async ({
+		thumbnailId,
+		...props
+	}: z.infer<typeof videoFormSchema>) => {
 		try {
-			await VideoManagerService.updateVideo(video?.id!, (thumbnailId ? {thumbnailId, ...props} : props) as any)
+			await VideoManagerService.updateVideo(
+				video?.id!,
+				(thumbnailId ? { thumbnailId, ...props } : props) as any
+			)
 			toast.success('Оновлено успішно!')
 		} catch (e) {
 			toastError(e)

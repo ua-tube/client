@@ -14,7 +14,6 @@ export const setupAxiosInterceptors = (store: any) => {
 
 	const isServer = typeof window === 'undefined'
 
-
 	const onUnauthorized = () => {
 		const accessToken = getState().auth.accessToken
 		if (!accessToken && !isServer) dispatch(logOut({ accessToken }))

@@ -17,13 +17,13 @@ const getChannelUrl = (
 	nickName: string = '',
 	menuItem: 'videos' | 'playlists' | string = 'videos',
 	isShort = true
-) =>
-	`${isShort ? '' : FRONTEND_URL}/channel/${nickName}/${menuItem}`
+) => `${isShort ? '' : FRONTEND_URL}/channel/${nickName}/${menuItem}`
 
 const getPlaylistUrl = (listId?: string, isShort = false) =>
 	`${isShort ? '' : FRONTEND_URL}/playlist?listId=${listId}`
 
-const getSourceVideoUrl = (videoId: string, quality: string = '144p') => `${FRONTEND_URL}/videos/${videoId}/${quality}.mp4`
+const getSourceVideoUrl = (videoId: string, quality: string = '144p') =>
+	`${FRONTEND_URL}/videos/${videoId}/${quality}.mp4`
 
 export {
 	getSourceVideoUrl,

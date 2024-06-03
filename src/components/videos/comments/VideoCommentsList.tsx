@@ -10,12 +10,18 @@ interface IVideoCommentsListProps {
 	updateData: () => void
 }
 
-const VideoCommentsList: FC<IVideoCommentsListProps> = ({ comments, videoId, updateData }) => {
+const VideoCommentsList: FC<IVideoCommentsListProps> = ({
+	comments,
+	videoId,
+	updateData
+}) => {
 	const { user } = useAuth()
-	const [commentsInfo, setCommentsInfo] = useState<ILikedOrDislikedComment[]>([])
+	const [commentsInfo, setCommentsInfo] = useState<ILikedOrDislikedComment[]>(
+		[]
+	)
 
 	useEffect(() => {
-		(async () => {
+		;(async () => {
 			if (user) {
 				const { data } = await CommunityService.getCommentsVotesByVideo(videoId)
 				setCommentsInfo([...data.dislikedCommentIds, ...data.likedCommentIds])
@@ -23,12 +29,13 @@ const VideoCommentsList: FC<IVideoCommentsListProps> = ({ comments, videoId, upd
 		})()
 	}, [user, comments])
 
-
 	return (
 		<div
-			className="flex flex-col gap-y-3"
+			className='flex flex-col gap-y-3'
 			children={comments.map((comment, key) => (
-				<VideoCommentCard {...{ comment, videoId, updateData, key, commentsInfo }} />
+				<VideoCommentCard
+					{...{ comment, videoId, updateData, key, commentsInfo }}
+				/>
 			))}
 		/>
 	)

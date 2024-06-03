@@ -1,5 +1,18 @@
-import { Avatar, AvatarFallback, AvatarImage, Badge, DynamicIcon, Input, Button } from '@/components'
-import { formatTimeAgo, getImageUrl, getUserInitials, toastError } from '@/utils'
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Badge,
+	DynamicIcon,
+	Input,
+	Button
+} from '@/components'
+import {
+	formatTimeAgo,
+	getImageUrl,
+	getUserInitials,
+	toastError
+} from '@/utils'
 import { IComment, ILikedOrDislikedComment } from '@/interfaces'
 import { CommunityService } from '@/services'
 import { FC, useState } from 'react'
@@ -14,26 +27,26 @@ interface IVideoCommentCardProps {
 	commentsInfo: ILikedOrDislikedComment[]
 }
 
-
 interface IReplyState {
 	inputMessage: string
 	showInput: boolean
 }
 
-const VideoCommentCard: FC<
-	IVideoCommentCardProps
-> = ({
-			 comment,
-			 videoId,
-			 updateData,
-			 parentComment,
-			 commentsInfo
-		 }) => {
-
+const VideoCommentCard: FC<IVideoCommentCardProps> = ({
+	comment,
+	videoId,
+	updateData,
+	parentComment,
+	commentsInfo
+}) => {
 	const { user } = useAuth()
 
-	const isLiked = commentsInfo.some(v => v.videoCommentId === comment.id && v.type === 'Like')
-	const isDisliked = commentsInfo.some(v => v.videoCommentId === comment.id && v.type === 'Dislike')
+	const isLiked = commentsInfo.some(
+		v => v.videoCommentId === comment.id && v.type === 'Like'
+	)
+	const isDisliked = commentsInfo.some(
+		v => v.videoCommentId === comment.id && v.type === 'Dislike'
+	)
 
 	const [replyState, setReplyState] = useState<IReplyState>({
 		inputMessage: '',
@@ -83,61 +96,65 @@ const VideoCommentCard: FC<
 
 	return (
 		<div>
-			<div className="flex space-x-3">
+			<div className='flex space-x-3'>
 				<Avatar>
 					<AvatarImage src={getImageUrl(comment.creator.thumbnailUrl)} />
 					<AvatarFallback
-						className="uppercase"
+						className='uppercase'
 						children={getUserInitials(comment.creator.displayName)}
 					/>
 				</Avatar>
-				<div className="flex flex-col gap-y-2">
-					<div className="flex space-x-2 items-center">
+				<div className='flex flex-col gap-y-2'>
+					<div className='flex space-x-2 items-center'>
 						<Badge
 							children={comment.creator.displayName}
-							variant="default"
-							className="rounded-lg"
+							variant='default'
+							className='rounded-lg'
 						/>
 						<div
-							className="text-foreground text-xs"
+							className='text-foreground text-xs'
 							children={formatTimeAgo(comment.createdAt)}
 						/>
 					</div>
-					<div className="font-semibold" children={comment.comment} />
-					{user ? <div className="flex items-center space-x-2.5">
-						<Button
-							size="sm"
-							variant={isLiked ? 'default' : 'secondary'}
-							className="flex space-x-1 items-center rounded-lg"
-							onClick={onLike}
-						>
-							<DynamicIcon name="thumbs-up" className="size-4" />
-							<span children={comment.likesCount} />
-						</Button>
-						<Button
-							onClick={onDislike}
-							size="sm"
-							variant={isDisliked ? 'default' : 'secondary'}
-							className="flex space-x-1 items-center rounded-lg"
-						>
-							<DynamicIcon name="thumbs-down" className="size-4" />
-						</Button>
+					<div className='font-semibold' children={comment.comment} />
+					{user ? (
+						<div className='flex items-center space-x-2.5'>
+							<Button
+								size='sm'
+								variant={isLiked ? 'default' : 'secondary'}
+								className='flex space-x-1 items-center rounded-lg'
+								onClick={onLike}
+							>
+								<DynamicIcon name='thumbs-up' className='size-4' />
+								<span children={comment.likesCount} />
+							</Button>
+							<Button
+								onClick={onDislike}
+								size='sm'
+								variant={isDisliked ? 'default' : 'secondary'}
+								className='flex space-x-1 items-center rounded-lg'
+							>
+								<DynamicIcon name='thumbs-down' className='size-4' />
+							</Button>
 
-						<Button
-							onClick={() => setReplyState({ inputMessage: '', showInput: true })}
-							className="flex space-x-1 items-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-1"
-						>
-							<DynamicIcon name="reply" className="size-4" />
-							<span children="Відповісти" />
-						</Button>
-					</div> :
-						<div className='border-accent border-b-2 w-full'/>
-					}
+							<Button
+								onClick={() =>
+									setReplyState({ inputMessage: '', showInput: true })
+								}
+								className='flex space-x-1 items-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-1'
+							>
+								<DynamicIcon name='reply' className='size-4' />
+								<span children='Відповісти' />
+							</Button>
+						</div>
+					) : (
+						<div className='border-accent border-b-2 w-full' />
+					)}
 					{replyState.showInput && (
-						<div className="flex items-center space-x-2">
+						<div className='flex items-center space-x-2'>
 							<Input
-								placeholder="Ваша відповідь ..."
-								type="text"
+								placeholder='Ваша відповідь ...'
+								type='text'
 								value={replyState.inputMessage}
 								onChange={e =>
 									setReplyState({
@@ -148,7 +165,7 @@ const VideoCommentCard: FC<
 							/>
 							<Button
 								onClick={onSendReply}
-								children={<DynamicIcon name="send-horizontal" />}
+								children={<DynamicIcon name='send-horizontal' />}
 							/>
 						</div>
 					)}
@@ -156,9 +173,18 @@ const VideoCommentCard: FC<
 			</div>
 			{comment.replies && comment.replies.length > 0 && (
 				<div
-					className="flex flex-col gap-y-2 pl-3 my-4 border-l-4 border-primary"
+					className='flex flex-col gap-y-2 pl-3 my-4 border-l-4 border-primary'
 					children={comment.replies.map((value, key) => (
-						<VideoCommentCard {...{ comment: value, videoId, updateData, key, parentComment: comment, commentsInfo }} />
+						<VideoCommentCard
+							{...{
+								comment: value,
+								videoId,
+								updateData,
+								key,
+								parentComment: comment,
+								commentsInfo
+							}}
+						/>
 					))}
 				/>
 			)}

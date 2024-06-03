@@ -1,4 +1,4 @@
-import { IPlaylist, IUser, IVideo, UserVoteType } from './'
+import { IPlaylist, IUser, IVideo, UserVoteType, IHistoryVideo } from './'
 
 interface IErrorResponse {
 	statusCode?: number
@@ -51,12 +51,15 @@ interface IStorageResponse {
 	token: string
 }
 
-interface IDashboardVideosResponse extends IApiPaginationResponse<IVideo> {}
+interface IDashboardVideosResponse extends IApiPaginationResponse<IVideo> {
+}
 
 interface IRefreshAccessTokenResponse
-	extends Pick<ILoginResponse, 'accessToken'> {}
+	extends Pick<ILoginResponse, 'accessToken'> {
+}
 
-interface IPlaylistsResponse extends IApiPaginationResponse<IPlaylist> {}
+interface IPlaylistsResponse extends IApiPaginationResponse<IPlaylist> {
+}
 
 interface IVideoMetadataResponse {
 	viewsCount: string
@@ -65,10 +68,19 @@ interface IVideoMetadataResponse {
 	userVote: UserVoteType
 }
 
+interface IHistoryVideosResponse {
+	hits: IHistoryVideo[]
+	page: number
+	hitsPerPage: number
+	totalPages: number
+	totalHits: number
+}
+
 export type {
 	IErrorResponse,
 	ICsrfTokenResponse,
 	IApiPaginationResponse,
+	IHistoryVideosResponse,
 	IPlaylistsResponse,
 	IVideoMetadataResponse,
 	IStorageResponse,

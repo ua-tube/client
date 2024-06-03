@@ -37,7 +37,7 @@ export const AuthService = {
 	},
 
 	async logout(accessToken?: string) {
-		return $axios.get('auth/logout', {
+		return axios.get('auth/logout', {
 			baseURL,
 			...(accessToken
 				? { headers: { Authorization: `Bearer ${accessToken}` } }

@@ -10,20 +10,15 @@ interface IDashboardCommentsListProps {
 	updateData: () => Promise<void>
 }
 
-const DashboardCommentsList: FC<
-	IDashboardCommentsListProps
-> = ({
-			 comments,
-			 disableComment,
-			 video,
-			 videoId,
-			 updateData
-		 }) => {
-
+const DashboardCommentsList: FC<IDashboardCommentsListProps> = ({
+	comments,
+	disableComment,
+	video,
+	videoId,
+	updateData
+}) => {
 	return (
-		<div
-			className="flex flex-col gap-y-1 divide-y divide-secondary border-y border-secondary"
-		>
+		<div className='flex flex-col gap-y-1 divide-y divide-secondary border-y border-secondary'>
 			{comments?.map((value, index) => (
 				<DashboardCommentCard
 					video={video}

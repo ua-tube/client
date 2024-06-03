@@ -83,7 +83,10 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({ video, setVideo }) => {
 	}
 
 	return (
-		<Dialog open={!!video} onOpenChange={() => !uploadProgress && setVideo(undefined)}>
+		<Dialog
+			open={!!video}
+			onOpenChange={() => !uploadProgress && setVideo(undefined)}
+		>
 			<DialogContent className='sm:max-w-md'>
 				<DialogHeader>
 					<DialogTitle className='text-center'>

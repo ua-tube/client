@@ -20,7 +20,11 @@ const VideoCommentsTab = dynamic(
 	() => import('@/components/dashboard/video/tabs/VideoCommentsTab')
 )
 
-const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video, videoId }) => {
+const VideoEditContent: FC<IVideoEditContentProps> = ({
+	tab,
+	video,
+	videoId
+}) => {
 	const videoEditTabs: TabType<VideoEditTabsKey>[] = [
 		{
 			title: 'Редагування відео',
@@ -37,11 +41,11 @@ const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video, videoId }) =
 	return (
 		<div>
 			<h2
-				className="text-3xl font-bold tracking-tight flex items-center py-4"
+				className='text-3xl font-bold tracking-tight flex items-center py-4'
 				children={`${videoEditTabs?.find(value => value?.key === tab)?.title} - ${video?.title}`}
 			/>
 			<div
-				className="space-x-3 border-accent border-b pb-2"
+				className='space-x-3 border-accent border-b pb-2'
 				children={videoEditTabs.map((value, index) => (
 					<Link
 						key={index}
@@ -56,7 +60,7 @@ const VideoEditContent: FC<IVideoEditContentProps> = ({ tab, video, videoId }) =
 				))}
 			/>
 			<div
-				className="mt-6"
+				className='mt-6'
 				children={videoEditTabs.find(value => value?.key === tab)?.children}
 			/>
 		</div>

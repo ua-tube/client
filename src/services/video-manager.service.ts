@@ -8,7 +8,11 @@ export const VideoManagerService = {
 	async updateVideo(
 		videoId: string,
 		data: Partial<
-			Pick<IVideo, 'title' | 'description' | 'tags' | 'visibility' | 'thumbnailId'>>
+			Pick<
+				IVideo,
+				'title' | 'description' | 'tags' | 'visibility' | 'thumbnailId'
+			>
+		>
 	) {
 		return $axios.patch<IVideo>(`video-manager/videos/${videoId}`, data)
 	},

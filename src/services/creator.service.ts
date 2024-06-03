@@ -15,7 +15,7 @@ export const CreatorService = {
 				: undefined
 		)
 	},
-	getCreatorByNicknameOrUserId(params: { nickname?: string, userId?: string }) {
+	getCreatorByNicknameOrUserId(params: { nickname?: string; userId?: string }) {
 		return $axios.get<ICreator>('creators', { params })
 	},
 	updateCreator(

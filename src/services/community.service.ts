@@ -9,18 +9,28 @@ export const CommunityService = {
 		return $axios.get<any>(`community/${videoId}`, { params })
 	},
 	async getCommentsVotesByVideo(videoId: string) {
-		return $axios.get<{ dislikedCommentIds: any[], likedCommentIds: any[] }>(`community/comments/votes/${videoId}`)
+		return $axios.get<{ dislikedCommentIds: any[]; likedCommentIds: any[] }>(
+			`community/comments/votes/${videoId}`
+		)
 	},
-	commentVote(data: { videoId: string, commentId: string, voteType: 'Like' | 'Dislike' | 'None' }) {
+	commentVote(data: {
+		videoId: string
+		commentId: string
+		voteType: 'Like' | 'Dislike' | 'None'
+	}) {
 		return $axios.post('community/comments/votes', data)
 	},
-	createComment(data: { videoId: string, comment: string }) {
+	createComment(data: { videoId: string; comment: string }) {
 		return $axios.post<IComment>(`community/comments`, data)
 	},
-	createCommentReply(data: { videoId: string, comment: string, parentCommentId: string }) {
+	createCommentReply(data: {
+		videoId: string
+		comment: string
+		parentCommentId: string
+	}) {
 		return $axios.post<IComment>(`community/comments/replies`, data)
 	},
-	updateComment(data: { videoId: string, comment: string }) {
+	updateComment(data: { videoId: string; comment: string }) {
 		return $axios.put<IComment>(`community/comments`, data)
 	},
 	deleteComment(commentId: string) {

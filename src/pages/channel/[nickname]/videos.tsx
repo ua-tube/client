@@ -2,16 +2,11 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import AboutChannel from '@/components/channel/AboutChannel'
 import { CreatorService, LibraryService } from '@/services'
 import { ICreator, IVideo } from '@/interfaces'
-import { getChannelUrl } from '@/utils'
+import { getChannelUrl, toastError } from '@/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import {
-	AppHead,
-	buttonVariants,
-	CategoryPills,
-	HomeLayout,
-	VideosList
-} from '@/components'
+import { AppHead, buttonVariants, CategoryPills, HomeLayout, VideosList, DynamicIcon } from '@/components'
+import { useEffect, useState, useRef } from 'react'
 
 type SortType = 'new' | 'views' | 'popular'
 
@@ -58,11 +53,8 @@ export const getServerSideProps: GetServerSideProps<{
 		const { data: videos } = await LibraryService.getVideos({
 			creatorId: creator.id,
 			page: 1,
-			perPage: 32,
-			...(sortOptions && {
-				sortOrder: sortOptions.sortOrder,
-				sortBy: sortOptions.sortBy
-			})
+			perPage: 10,
+			...(sortOptions && sortOptions)
 		})
 
 		return { props: { creator, videos, sort } }
@@ -70,31 +62,70 @@ export const getServerSideProps: GetServerSideProps<{
 		return {
 			redirect: {
 				permanent: true,
-				destination: `/404?message=${encodeURIComponent(
-					'Товар більше не доступний'
-				)}`
+				destination: `/404?message=${encodeURIComponent('Канал більше не доступний')}`
 			}
 		}
 	}
 }
 
 export default function ChannelVideosPage({
-	creator,
-	videos,
-	sort
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const { pathname, push } = useRouter()
-
+																						creator,
+																						videos,
+																						sort
+																					}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const { pathname, push, query } = useRouter()
 	const currOption = sortOptions.find(v => v.sortBy == sort)
+
+	const observerTarget = useRef<HTMLDivElement>(null)
+	const [page, setPage] = useState(2)
+	const [currVideos, setCurrVideos] = useState<IVideo[]>(videos || [])
+	const [loading, setLoading] = useState<boolean>(false)
+
+	const updateData = async () => {
+		try {
+			setLoading(true)
+			const sort = (query?.sortBy as SortType) || 'new'
+			const sortOptions = getSortData(sort)
+			const { data: newVideos } = await LibraryService.getVideos({
+				creatorId: creator.id,
+				page,
+				perPage: 10,
+				...(sortOptions && sortOptions)
+			})
+			setCurrVideos(p => [...p, ...newVideos])
+			setPage(p => p + 1)
+		} catch (e) {
+			toastError(e)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			entries => {
+				if (entries[0].isIntersecting) (async () => updateData())()
+			},
+			{ threshold: 1 }
+		)
+
+		if (observerTarget.current) observer.observe(observerTarget.current)
+
+		return () => {
+			if (observerTarget.current) observer.unobserve(observerTarget.current)
+		}
+	}, [observerTarget])
+
 
 	return (
 		<>
 			<AppHead title={`Відео ${creator.displayName}`} />
 			<HomeLayout autoShowSidebar openInDrawer>
-				<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
+				<div className="max-w-7xl mx-auto flex flex-col gap-y-5">
 					<AboutChannel creator={creator} />
 					<div
-						className='space-x-3 border-accent border-b pb-2'
+						className="space-x-3 border-accent border-b pb-2"
 						children={[
 							{ key: 'videos', title: 'Відео' },
 							{ key: 'playlists', title: 'Плейлісти' }
@@ -123,7 +154,13 @@ export default function ChannelVideosPage({
 							})
 						}}
 					/>
-					<VideosList videos={videos} />
+					<VideosList videos={currVideos} />
+					{loading && <div className="flex items-center justify-center h-10">
+						<DynamicIcon name="loader"
+												 className="animate-spin" />
+					</div>}
+
+					<div ref={observerTarget} />
 				</div>
 			</HomeLayout>
 		</>

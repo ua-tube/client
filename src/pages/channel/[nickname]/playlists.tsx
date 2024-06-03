@@ -1,12 +1,12 @@
-import { AppHead, buttonVariants, HomeLayout } from '@/components'
+import PlaylistsList from '@/components/playlist/general/PlaylistsList'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { AppHead, buttonVariants, HomeLayout } from '@/components'
 import AboutChannel from '@/components/channel/AboutChannel'
 import { CreatorService, LibraryService } from '@/services'
 import { ICreator, IPlaylist } from '@/interfaces'
+import { useEffect, useState } from 'react'
 import { getChannelUrl } from '@/utils'
 import Link from 'next/link'
-import PlaylistsList from '@/components/playlist/general/PlaylistsList'
-import { useEffect, useState } from 'react'
 
 export const getServerSideProps: GetServerSideProps<{
 	creator: ICreator
@@ -18,13 +18,18 @@ export const getServerSideProps: GetServerSideProps<{
 		)
 		return { props: { creator } }
 	} catch (e) {
-		return { redirect: { permanent: true, destination: '/' } }
+		return {
+			redirect: {
+				permanent: true,
+				destination: `/404?message=${encodeURIComponent('Канал більше не доступний')}`
+			}
+		}
 	}
 }
 
 export default function ChannelPlaylistsPage({
-	creator
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+																							 creator
+																						 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [playlists, setPlaylists] = useState<IPlaylist[]>([])
 
 	useEffect(() => {
@@ -38,10 +43,10 @@ export default function ChannelPlaylistsPage({
 		<>
 			<AppHead title={`Відео ${creator.displayName}`} />
 			<HomeLayout autoShowSidebar openInDrawer>
-				<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
+				<div className="max-w-7xl mx-auto flex flex-col gap-y-5">
 					<AboutChannel creator={creator} />
 					<div
-						className='space-x-3 border-accent border-b pb-2'
+						className="space-x-3 border-accent border-b pb-2"
 						children={[
 							{ key: 'videos', title: 'Відео' },
 							{ key: 'playlists', title: 'Плейлісти' }
@@ -51,7 +56,7 @@ export default function ChannelPlaylistsPage({
 								children={value.title}
 								href={getChannelUrl(creator.nickname, value.key, true)}
 								className={buttonVariants({
-									variant: value.key === 'videos' ? 'secondary' : 'outline'
+									variant: value.key === 'playlists' ? 'secondary' : 'outline'
 								})}
 							/>
 						))}

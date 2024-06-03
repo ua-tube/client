@@ -42,7 +42,6 @@ const profileFormSchema = z.object({
 	})
 })
 
-
 const EditInfoTab: FC = () => {
 	const { user } = useAuth()
 	const { updateCreator } = useActions()
@@ -58,7 +57,6 @@ const EditInfoTab: FC = () => {
 		mode: 'onSubmit'
 	})
 
-
 	const onSubmit = async (data: z.infer<typeof profileFormSchema>) => {
 		try {
 			const { data: creator } = await CreatorService.updateCreator(data)
@@ -71,10 +69,10 @@ const EditInfoTab: FC = () => {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name="displayName"
+					name='displayName'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Імя</FormLabel>
@@ -83,7 +81,7 @@ const EditInfoTab: FC = () => {
 								публікуєте.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть назву каналу" {...field} />
+								<Input placeholder='Введіть назву каналу' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -91,7 +89,7 @@ const EditInfoTab: FC = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="nickname"
+					name='nickname'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Псевдонім</FormLabel>
@@ -99,16 +97,22 @@ const EditInfoTab: FC = () => {
 								Виберіть унікальний псевдонім, додавши літери й цифри.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть псевдонім" {...field} />
+								<Input placeholder='Введіть псевдонім' {...field} />
 							</FormControl>
-							<FormDescription children={getChannelUrl(form.getValues('nickname') as string, undefined, false)} />
+							<FormDescription
+								children={getChannelUrl(
+									form.getValues('nickname') as string,
+									undefined,
+									false
+								)}
+							/>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<FormField
 					control={form.control}
-					name="email"
+					name='email'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Емайл</FormLabel>
@@ -116,7 +120,7 @@ const EditInfoTab: FC = () => {
 								Введіть емайл для зв'язку з вами.
 							</FormDescription>
 							<FormControl>
-								<Input placeholder="Введіть email" {...field} />
+								<Input placeholder='Введіть email' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -124,7 +128,7 @@ const EditInfoTab: FC = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="description"
+					name='description'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Опис</FormLabel>
@@ -132,13 +136,13 @@ const EditInfoTab: FC = () => {
 								Коротко опишіть діяльність вашого каналу.
 							</FormDescription>
 							<FormControl>
-								<Textarea placeholder="Ваш опис..." {...field} />
+								<Textarea placeholder='Ваш опис...' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Оновити інформацію</Button>
+				<Button type='submit'>Оновити інформацію</Button>
 			</form>
 		</Form>
 	)

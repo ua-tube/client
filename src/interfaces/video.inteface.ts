@@ -1,10 +1,12 @@
 import { ICreator, IVideoMetadataResponse } from './'
 
 interface IVideo {
+	_id?: string
 	id: string
 	creatorId?: string
 	title: string
 	description?: string
+	masterPlaylistUrl?: string
 	videoMetadata?: IVideoMetadataResponse
 	visibility?: VideoVisibilityType
 	status?: VideoStatusType
@@ -22,7 +24,7 @@ interface IVideo {
 	videoPreviewThumbnail?: IVideoPreviewThumbnail
 	createdAt?: string
 	updatedAt?: string
-	nextId?: string;
+	nextId?: string
 	prevId?: string
 }
 
@@ -62,6 +64,7 @@ type VideoStatusType =
 	| 'Registered'
 	| 'RegistrationFailed'
 	| 'Unregistered'
+	| 'Preparing'
 
 type VideoVisibilityType = 'Private' | 'Unlisted' | 'Public'
 
@@ -74,9 +77,14 @@ type VideoProcessingStatusType =
 
 type VideoThumbnailStatusType = 'Waiting' | 'Processed'
 
-interface IReportVideoReason {
-	id: number
-	name: string
+interface IHistoryVideo {
+	creatorId: string
+	videoId: string
+	title: string
+	tags: string
+	viewAt: string
+	creator: ICreator
+	video: IVideo
 }
 
-export type { IVideo, IReportVideoReason, IProcessedVideo, VideoVisibilityType }
+export type { IVideo, IProcessedVideo, VideoVisibilityType, IHistoryVideo }
