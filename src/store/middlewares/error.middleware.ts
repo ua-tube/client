@@ -3,6 +3,6 @@ import { toastError } from '@/utils'
 import { Middleware } from 'redux'
 
 export const rtkQueryErrorLogger: Middleware = () => next => action => {
-	if (isRejectedWithValue(action)) toastError(action.message)
+	if (isRejectedWithValue(action)) toastError(action.error)
 	return next(action)
 }
