@@ -8,7 +8,7 @@ const languages: ILanguage[] = [
 	{ shortName: 'tr', fullName: 'Türkçe' },
 	{ shortName: 'pl', fullName: 'Polski' },
 	{ shortName: 'es', fullName: 'Español' },
-	{ shortName: 'it', fullName: 'Italiano' },
+	{ shortName: 'it', fullName: 'Italiano' }
 ]
 
 export { languages }

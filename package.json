@@ -1,6 +1,6 @@
 {
   "name": "uatube_client",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "scripts": {
     "dev": "git pull && npm i && i18nexus pull && next dev",
