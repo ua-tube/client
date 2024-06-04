@@ -1,0 +1,105 @@
+{
+	"appearance": "Wygląd",
+	"bannerImage": {
+		"desc": "Aby baner wyglądał dobrze na wszystkich urządzeniach, użyj obrazu o wymiarach co najmniej 2028 x 1152 pikseli (rozmiar pliku do 5 MB).",
+		"title": "Baner będzie umieszczony u góry strony Twojego kanału."
+	},
+	"channelDesc": {
+		"desc": "Krótko opisz działalność swojego kanału.",
+		"title": "opis kanału"
+	},
+	"channelDesign": "Projektowanie kanału",
+	"channelInfo": "Informacje o kanale",
+	"content": "treść",
+	"contentChannel": "Treść kanału",
+	"createdAt": "Utworzony",
+	"createNewVideo": "Utwórz film",
+	"creatingNewVideo": "Utwórz nowy film",
+	"desc": {
+		"desc": "Opisy pomagają widzom lepiej zrozumieć treść filmu i dostarczają dodatkowych informacji.",
+		"title": "Opis"
+	},
+	"email": {
+		"desc": "Wpisz adres e-mail, aby się z Tobą skontaktować.",
+		"title": "e-mail"
+	},
+	"exitFromAccount": "Wyloguj się z konta",
+	"homePage": "Strona główna",
+	"likesCount": "lubi",
+	"maxLength": "Maksymalna długość {{length}} znaków!",
+	"metrics": "Metryka",
+	"minLength": "Minimalna długość {{length}} znaków!",
+	"moveToYourChannel": "Przejdź do swojego kanału",
+	"name": {
+		"desc": "Wybierz nazwę kanału, która reprezentuje Ciebie i treści, które publikujesz.",
+		"title": "Nazwa"
+	},
+	"personalization": "Personalizacja",
+	"personalizeChannel": "Personalizacja kanału",
+	"profileImage": {
+		"desc": "Zalecamy używanie obrazów o wymiarach co najmniej 98 x 98 pikseli (rozmiar pliku do 4 MB) w formacie PNG lub GIF (bez animacji).",
+		"title": "Twoje zdjęcie profilowe to ikona kanału wyświetlana obok Twoich filmów i komentarzy w UaTube."
+	},
+	"status": {
+		"title": "Status",
+		"unknownStatus": "Nieznany stan wideo",
+		"uploadVideo": "Ściągnij wideo",
+		"VideoBeingProcessed": "Rozpoczęło się przetwarzanie filmu",
+		"VideoProcessed": "Film został przetworzony",
+		"VideoProcessingFailed": "Błąd przetwarzania",
+		"VideoUploaded": "Film przesłany"
+	},
+	"table": {
+		"columns": "Kolumny",
+		"nextPage": "Następny",
+		"notFound": "Nic nie znaleziono!",
+		"prevPage": "Poprzedni"
+	},
+	"tableVideo": {
+		"comments": "Przejdź do komentarzy",
+		"delete": "Usuń wideo",
+		"edit": "Edytuj wideo",
+		"view": "Obejrzyj wideo"
+	},
+	"tags": {
+		"desc": "Słowa kluczowe pomagają widzom znaleźć Twoje filmy za pomocą wyszukiwania. Wpisz główne słowa kluczowe oddzielone przecinkami, ich absurdalna liczba jest ograniczona.",
+		"placeholder": "Napisz kilka słów kluczowych...",
+		"title": "Słowa kluczowe"
+	},
+	"tagsRule": "Tagi muszą być oddzielone przecinkami!",
+	"theme": {
+		"dark": "ciemny",
+		"light": "Światła",
+		"system": "Systemowe",
+		"title": "temat"
+	},
+	"title": {
+		"desc": "Chwytliwy nagłówek pomoże utrzymać zainteresowanie widzów. Dodaj do tytułów swoich filmów słowa kluczowe, których widzowie mogą użyć podczas wyszukiwania podobnych treści.",
+		"title": "Tytuł"
+	},
+	"update": "Aktualizacja",
+	"updatedAt": "Zaktualizowano",
+	"updateSucc": "Aktualizacja zakończona sukcesem!",
+	"uploadVideo": "Ściągnij wideo",
+	"uploadVideoFile": "Pobieranie pliku wideo",
+	"username": {
+		"desc": "Wybierz unikalny pseudonim, dodając litery i cyfry.",
+		"title": "Pseudonim"
+	},
+	"video": "Wideo",
+	"videoComments": "Komentarze do filmu",
+	"videoFile": "Plik wideo",
+	"videoFormats": "Obsługiwane są tylko formaty użyte w filmie, kończące się na *.webm, *.mp4.",
+	"videoPhoto": {
+		"desc": "Wybierz lub prześlij obraz przedstawiający treść Twojego filmu. Dobrze dobrana okładka wyróżnia się i przyciąga uwagę widzów.",
+		"title": "Okładka wideo"
+	},
+	"videoProgressLabel": "{{time}} do końca przesyłania, z obecną prędkością {{uploadSpeed}}",
+	"visibility": {
+		"private": "Prywatny",
+		"public": "Publiczny",
+		"title": "Widoczność",
+		"unlisted": "Nie dla każdego"
+	},
+	"yourChannel": "Twój kanał"
+}

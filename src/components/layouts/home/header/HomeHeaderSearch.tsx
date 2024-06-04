@@ -1,4 +1,11 @@
-import { buttonVariants, DynamicIcon, Input, Popover, PopoverContent, PopoverTrigger } from '@/components'
+import {
+	buttonVariants,
+	DynamicIcon,
+	Input,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from '@/components'
 import { cn, getImageUrl, getVideoUrl } from '@/utils'
 import { FC, useEffect, useState } from 'react'
 import { IVideo, UseState } from '@/interfaces'
@@ -13,13 +20,10 @@ interface IHomeHeaderSearchProps {
 	setShowFullWidthSearch: UseState<boolean>
 }
 
-const HomeHeaderSearch: FC<
-	IHomeHeaderSearchProps
-> = ({
-			 showFullWidthSearch,
-			 setShowFullWidthSearch
-		 }) => {
-
+const HomeHeaderSearch: FC<IHomeHeaderSearchProps> = ({
+	showFullWidthSearch,
+	setShowFullWidthSearch
+}) => {
 	const { t } = useTranslation('general')
 	const { push } = useRouter()
 
@@ -48,32 +52,32 @@ const HomeHeaderSearch: FC<
 			{showFullWidthSearch && (
 				<button
 					onClick={() => setShowFullWidthSearch(false)}
-					className="flex-shrink-0 rounded-lg size-10 flex items-center justify-center p-2.5"
+					className='flex-shrink-0 rounded-lg size-10 flex items-center justify-center p-2.5'
 				>
-					<DynamicIcon name="arrow-left" />
+					<DynamicIcon name='arrow-left' />
 				</button>
 			)}
 
 			<div
-				className="flex flex-grow max-w-[600px]"
+				className='flex flex-grow max-w-[600px]'
 				onAbort={() => setSearchedVideos([])}
 			>
 				<Popover open={searchedVideos.length > 0}>
 					<PopoverTrigger asChild>
 						<Input
-							type="search"
+							type='search'
 							value={search}
 							placeholder={`${t('search')}...`}
 							onChange={e => setSearch(e.target.value)}
-							className="rounded-l-lg rounded-r-none py-1 px-4 text-lg focus-visible:ring-1"
+							className='rounded-l-lg rounded-r-none py-1 px-4 text-lg focus-visible:ring-1'
 						/>
 					</PopoverTrigger>
 					<PopoverContent
-						className="p-1 max-h-[60vh] min-w-max rounded-lg overflow-y-auto"
-						align="start"
+						className='p-1 max-h-[60vh] min-w-max rounded-lg overflow-y-auto'
+						align='start'
 						children={
 							<div
-								className="flex flex-col gap-y-2"
+								className='flex flex-col gap-y-2'
 								children={searchedVideos.map((value, index) => (
 									<Link
 										key={index}
@@ -84,21 +88,21 @@ const HomeHeaderSearch: FC<
 											'flex flex-row justify-start p-2 max-w-[80vw]'
 										)}
 									>
-										<div className="h-10 aspect-video w-auto p-1">
+										<div className='h-10 aspect-video w-auto p-1'>
 											<img
-												className="size-full object-cover"
+												className='size-full object-cover'
 												src={getImageUrl(value.thumbnailUrl)}
 												alt={`img-${value.id}`}
 											/>
 										</div>
-										<div className="-space-y-1 sm:w-auto w-[80vw]">
+										<div className='-space-y-1 sm:w-auto w-[80vw]'>
 											<p
 												children={value.title}
-												className="line-clamp-2 truncate text-sm text-primary"
+												className='line-clamp-2 truncate text-sm text-primary'
 											/>
 											<span
 												children={value.creator?.nickname}
-												className="text-xs text-muted-foreground"
+												className='text-xs text-muted-foreground'
 											/>
 										</div>
 									</Link>
@@ -110,9 +114,9 @@ const HomeHeaderSearch: FC<
 				<button
 					onClick={onSearch}
 					disabled={search.trim().length === 0}
-					className="py-1.5 px-4 rounded-r-lg border-input border border-l-0 flex-shrink-0 hover:bg-primary hover:text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+					className='py-1.5 px-4 rounded-r-lg border-input border border-l-0 flex-shrink-0 hover:bg-primary hover:text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed'
 				>
-					<DynamicIcon name="search" />
+					<DynamicIcon name='search' />
 				</button>
 			</div>
 		</div>

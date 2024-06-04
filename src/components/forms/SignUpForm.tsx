@@ -1,16 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { ICreator } from '@/interfaces'
+import { toastError } from '@/utils'
+import { FC, useState } from 'react'
+import { useActions } from '@/hooks'
+import Link from 'next/link'
+import { z } from 'zod'
 import {
 	AuthService,
 	CreatorService,
 	StorageService,
 	UserService
 } from '@/services'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FC, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toastError } from '@/utils'
-import { useActions } from '@/hooks'
-import Link from 'next/link'
-import { z } from 'zod'
 import {
 	Button,
 	Card,
@@ -30,7 +31,7 @@ import {
 	Input,
 	Label
 } from '@/components'
-import { ICreator } from '@/interfaces'
+import { useTranslation } from 'next-i18next'
 
 const checkNicknameAvailability = async (s: string): Promise<boolean> => {
 	try {
@@ -43,25 +44,25 @@ const checkNicknameAvailability = async (s: string): Promise<boolean> => {
 	}
 }
 
-const AuthFormSchema = z.object({
-	email: z.string().email({ message: 'Некоректний емайл!' }),
-	password: z
-		.string()
-		.min(8, { message: 'Мінімальна дожина паролю 8 символів!' }),
-	displayName: z.string().min(2).max(128),
-	nickname: z
-		.string()
-		.min(3)
-		.max(16)
-		.refine(async nickname => checkNicknameAvailability(nickname), {
-			message: 'This nickname is already taken'
-		})
-})
-
 const SignUpForm: FC = () => {
+	const { t } = useTranslation('auth')
+
 	const { signUp } = useActions()
 	const [loading, setLoading] = useState<boolean>(false)
 	const [image, setImage] = useState<File>()
+
+	const AuthFormSchema = z.object({
+		email: z.string().email({ message: t('incorrectEmail') }),
+		password: z.string().min(8, { message: t('minPassLength') }),
+		displayName: z.string().min(2).max(128),
+		nickname: z
+			.string()
+			.min(3)
+			.max(16)
+			.refine(async nickname => checkNicknameAvailability(nickname), {
+				message: t('nicknameAlreadyUsed')
+			})
+	})
 
 	const authForm = useForm<z.infer<typeof AuthFormSchema>>({
 		resolver: zodResolver(AuthFormSchema),
@@ -128,7 +129,7 @@ const SignUpForm: FC = () => {
 						<span className='font-semibold'>UaTube</span>
 					</Link>
 				</CardTitle>
-				<CardDescription>Реєстрація нового аккаунту</CardDescription>
+				<CardDescription>{t('registerNewAccount')}</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...authForm}>
@@ -141,7 +142,7 @@ const SignUpForm: FC = () => {
 							name='email'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Ваш емайл</FormLabel>
+									<FormLabel>{t('yourEmail')}</FormLabel>
 									<FormControl>
 										<Input
 											type='email'
@@ -149,9 +150,7 @@ const SignUpForm: FC = () => {
 											{...field}
 										/>
 									</FormControl>
-									<FormDescription>
-										На емайл буде надіслано код підтвердження
-									</FormDescription>
+									<FormDescription>{t('getEmailReason')}</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -161,13 +160,10 @@ const SignUpForm: FC = () => {
 							name='password'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Пароль</FormLabel>
+									<FormLabel>{t('password')}</FormLabel>
 									<FormControl>
 										<Input type='password' placeholder='*********' {...field} />
 									</FormControl>
-									<FormDescription>
-										Нe використовуйте простий пароль
-									</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -177,7 +173,7 @@ const SignUpForm: FC = () => {
 							name='displayName'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Імя вашого профілю</FormLabel>
+									<FormLabel>{t('displayName')}</FormLabel>
 									<FormControl>
 										<Input type='text' {...field} />
 									</FormControl>
@@ -190,7 +186,7 @@ const SignUpForm: FC = () => {
 							name='nickname'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Нікнейм вашого профілю</FormLabel>
+									<FormLabel>{t('username')}</FormLabel>
 									<FormControl>
 										<Input type='text' maxLength={16} {...field} />
 									</FormControl>
@@ -199,7 +195,7 @@ const SignUpForm: FC = () => {
 							)}
 						/>
 
-						<Label htmlFor='file'>Фото вашого профілю</Label>
+						<Label htmlFor='file'>{t('profilePhoto')}</Label>
 						<Input
 							id='file'
 							type='file'
@@ -214,14 +210,14 @@ const SignUpForm: FC = () => {
 							{loading && (
 								<DynamicIcon className='animate-spin size-8' name='loader' />
 							)}
-							<span>Зареєструватися</span>
+							<span>{t('register')}</span>
 						</Button>
 					</form>
 				</Form>
 			</CardContent>
 			<CardFooter className='justify-between text-muted-foreground'>
-				<Link href='/auth/sign-in' children='Вже маєте аккаунт?' />
-				<Link href='/auth/recovery' children='Забули ваш пароль?' />
+				<Link href='/auth/sign-in' children={t('alreadyHaveAccount')} />
+				<Link href='/auth/recovery' children={t('notRememberYourPass')} />
 			</CardFooter>
 		</Card>
 	)

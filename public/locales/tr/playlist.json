@@ -1,1 +1,33 @@
-{"creator":"Oluşturuldu","disliked_playlist":"Beğenmediğiniz videolar","liked_playlist":"Beğendiğiniz videolar","playlist":"çalma listesi","showAllVideos":"Oynatma listesinin tamamını izleyin","times":"zamanlar","timesFound":"Sayımlar","viewed":"İncelendi","views":"Görüntüleme","watch_later_playlist":"Daha sonra görüntüle"}
+{
+	"add": "Eklemek",
+	"addToNewPlaylist": "Yeni oynatma listesine ekle",
+	"creator": "Oluşturuldu",
+	"delete": "Kaldırmak",
+	"disliked_playlist": "Beğenmediğiniz videolar",
+	"liked_playlist": "Beğendiğiniz videolar",
+	"loadMore": "Daha fazlasını indirin...",
+	"playlist": "çalma listesi",
+	"playlistCreatedSucc": "Yeni oynatma listesi \" {{title}} \" başarıyla oluşturuldu",
+	"privateList": "Özel çalma listesi",
+	"saveToNewPlaylist": "Yeni bir çalma listesine kaydet",
+	"shortDesc": {
+		"desc": "Çalma listenizin ana noktasını anlatan kısa bir açıklama yazın.",
+		"title": "Kısa açıklama"
+	},
+	"showAllVideos": "Oynatma listesinin tamamını izleyin",
+	"times": "zamanlar",
+	"timesFound": "Sayımlar",
+	"title": "İsim",
+	"videoAddedToListSucc": "Video, \" {{title}} \" oynatma listesine başarıyla eklendi",
+	"videoRemovedFromListSucc": "Video, \" {{title}} \" oynatma listesinden başarıyla kaldırıldı",
+	"viewed": "İncelendi",
+	"views": "Görüntüleme",
+	"visibility": {
+		"desc": "Videonun kullanılabilirliğini seçin; varsayılan olarak özel olacaktır.",
+		"private": "Özel",
+		"public": "Halk",
+		"title": "Oynatma listesi kullanılabilirliği",
+		"unlisted": "Herkes için değil"
+	},
+	"watch_later_playlist": "Daha sonra görüntüle"
+}

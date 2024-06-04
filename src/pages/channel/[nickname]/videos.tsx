@@ -5,9 +5,16 @@ import { ICreator, IVideo } from '@/interfaces'
 import { getChannelUrl, toastError } from '@/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { AppHead, buttonVariants, CategoryPills, HomeLayout, VideosList } from '@/components'
+import {
+	AppHead,
+	buttonVariants,
+	CategoryPills,
+	HomeLayout,
+	VideosList
+} from '@/components'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 type SortType = 'new' | 'views' | 'popular'
 
@@ -43,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<{
 	creator: ICreator
 	videos: IVideo[]
 	sort: SortType
-}> = async ({ query }) => {
+}> = async ({ query, locale }) => {
 	const nickname = (query?.nickname as string) || ''
 	const sort = (query?.sortBy as SortType) || 'new'
 	const sortOptions = getSortData(sort)
@@ -58,7 +65,21 @@ export const getServerSideProps: GetServerSideProps<{
 			...(sortOptions && sortOptions)
 		})
 
-		return { props: { creator, videos, sort } }
+		return {
+			props: {
+				creator,
+				videos,
+				sort,
+				...(await serverSideTranslations(locale || 'uk', [
+					'common',
+					'general',
+					'videos',
+					'home-sidebar',
+					'notifications',
+					'playlist'
+				]))
+			}
+		}
 	} catch (e) {
 		return {
 			redirect: {
@@ -70,10 +91,10 @@ export const getServerSideProps: GetServerSideProps<{
 }
 
 export default function ChannelVideosPage({
-																						creator,
-																						videos,
-																						sort
-																					}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	creator,
+	videos,
+	sort
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { pathname, push, query } = useRouter()
 	const currOption = sortOptions.find(v => v.sortBy == sort)
 
@@ -108,10 +129,10 @@ export default function ChannelVideosPage({
 		<>
 			<AppHead title={`Відео ${creator.displayName}`} />
 			<HomeLayout autoShowSidebar openInDrawer>
-				<div className="max-w-7xl mx-auto flex flex-col gap-y-5">
+				<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
 					<AboutChannel creator={creator} />
 					<div
-						className="space-x-3 border-accent border-b pb-2"
+						className='space-x-3 border-accent border-b pb-2'
 						children={[
 							{ key: 'videos', title: 'Відео' },
 							{ key: 'playlists', title: 'Плейлісти' }

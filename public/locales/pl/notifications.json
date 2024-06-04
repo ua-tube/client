@@ -1,1 +1,8 @@
-{"deleteAll":"Usuń wszystko","deleteAllSucc":"Powiadomienie zostało pomyślnie usunięte!","deleteSucc":"Powiadomienie zostało pomyślnie usunięte!","notifications":"Powiadomienie","notificationsNotFound":"Nie znaleziono powiadomień!","olderNotificationsAlert":"Powiadomienia starsze niż 90 dni są automatycznie usuwane."}
+{
+	"deleteAll": "Usuń wszystko",
+	"deleteAllSucc": "Powiadomienie zostało pomyślnie usunięte!",
+	"deleteSucc": "Powiadomienie zostało pomyślnie usunięte!",
+	"notifications": "Powiadomienie",
+	"notificationsNotFound": "Nie znaleziono powiadomień!",
+	"olderNotificationsAlert": "Powiadomienia starsze niż 90 dni są automatycznie usuwane."
+}

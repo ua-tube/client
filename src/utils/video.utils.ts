@@ -31,10 +31,13 @@ const groupByDate = (historyVideos: IHistoryVideo[]) => {
 		}
 	})
 
-	return Object.keys(grouped).map(date => ({
-		date: lastViewTimes[date],
-		videos: grouped[date]
-	}) as any)
+	return Object.keys(grouped).map(
+		date =>
+			({
+				date: lastViewTimes[date],
+				videos: grouped[date]
+			}) as any
+	)
 }
 
 export { writeVideoUrl, formatNumbers, parseTimestamps, groupByDate }

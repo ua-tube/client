@@ -1,5 +1,5 @@
 export { default as AppHead } from './AppHead'
-export * from './dashboard'
+export * from './studio'
 export * from './categories'
 export * from './forms'
 export * from './playlist'

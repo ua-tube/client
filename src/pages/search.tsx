@@ -4,6 +4,7 @@ import { AppHead, DynamicIcon } from '@/components'
 import { ISearchVideosResponse } from '@/interfaces'
 import dynamic from 'next/dynamic'
 import { VideoService } from '@/services'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
 	loading: () => <DynamicIcon name='loader' className='loader-container' />
@@ -24,7 +25,21 @@ export const getServerSideProps: GetServerSideProps<{
 			perPage: currPerPage || 24,
 			q: search
 		})
-		return { props: { search, data } }
+		return {
+			props: {
+				search,
+				data,
+				...(await serverSideTranslations(locale || 'uk', [
+					'common',
+					'general',
+					'videos',
+					'home-sidebar',
+					'notifications',
+					'share',
+					'playlist'
+				]))
+			}
+		}
 	} else
 		return { redirect: { permanent: true, destination: notFoundDestination } }
 }

@@ -1,1 +1,33 @@
-{"creator":"Created","disliked_playlist":"Videos you didn't like","liked_playlist":"Videos that you liked","playlist":"playlist","showAllVideos":"Watch the entire playlist","times":"times","timesFound":"Counts","viewed":"Reviewed","views":"views","watch_later_playlist":"View later"}
+{
+	"add": "Add",
+	"addToNewPlaylist": "Add to new playlist",
+	"creator": "Created",
+	"delete": "Remove",
+	"disliked_playlist": "Videos you didn't like",
+	"liked_playlist": "Videos that you liked",
+	"loadMore": "Download more...",
+	"playlist": "playlist",
+	"playlistCreatedSucc": "New playlist \" {{title}} \" successfully created",
+	"privateList": "Private playlist",
+	"saveToNewPlaylist": "Save to a new playlist",
+	"shortDesc": {
+		"desc": "Write a short description that tells the main point of your playlist.",
+		"title": "Brief description"
+	},
+	"showAllVideos": "Watch the entire playlist",
+	"times": "times",
+	"timesFound": "Counts",
+	"title": "Name",
+	"videoAddedToListSucc": "Video successfully added to playlist \" {{title}} \"",
+	"videoRemovedFromListSucc": "Video successfully removed from playlist \" {{title}} \"",
+	"viewed": "Reviewed",
+	"views": "views",
+	"visibility": {
+		"desc": "Choose the availability of the video, it will be private by default.",
+		"private": "Private",
+		"public": "Public",
+		"title": "Playlist availability",
+		"unlisted": "Not for everyone"
+	},
+	"watch_later_playlist": "View later"
+}

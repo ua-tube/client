@@ -1,4 +1,5 @@
 import { getSourceVideoUrl, writeVideoUrl } from '@/utils'
+import { useTranslation } from 'next-i18next'
 import { IVideo } from '@/interfaces'
 import { toast } from 'sonner'
 import { FC } from 'react'
@@ -23,12 +24,14 @@ const ShareVideoModal: FC<IShareVideoModalProps> = ({
 	setOpen,
 	open
 }) => {
+	const { t } = useTranslation('share')
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Поширити</DialogTitle>
-					<DialogDescription>Поширити посиланння на це відео</DialogDescription>
+					<DialogTitle>{t('share')}</DialogTitle>
+					<DialogDescription>{t('shareLinkToThisVideo')}</DialogDescription>
 				</DialogHeader>
 
 				<div className='flex space-x-2'>
@@ -38,9 +41,9 @@ const ShareVideoModal: FC<IShareVideoModalProps> = ({
 						onClick={async () => {
 							await writeVideoUrl(video?.id)
 							setOpen(false)
-							toast.success('Скопійовано успішно!')
+							toast.success(t('copiedSucc'))
 						}}
-						children='Копіювати'
+						children={t('copy')}
 					/>
 				</div>
 			</DialogContent>

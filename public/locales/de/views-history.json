@@ -1,1 +1,14 @@
-{"allowedRecordHistory":"Historienaufzeichnung erlaubt!","clearedAllSucc":"Verlauf erfolgreich gelöscht!","clearHistory":"Klare Geschichte","goToHomePage":"Gehen Sie zur Hauptseite","historyManagement":"Geschichtsmanagement","historyView":"Browserverlaufsaufzeichnung","historyViewsNotFound":"Der Browserverlauf ist leer","pausedHistory":"Die Verlaufsaufzeichnung wurde gestoppt!","reniew":"Wiederherstellen","stop":"Stoppen","views":"Ansichten","viewsHistory":"Geschichte der Peer-Reviews"}
+{
+	"allowedRecordHistory": "Historienaufzeichnung erlaubt!",
+	"clearedAllSucc": "Verlauf erfolgreich gelöscht!",
+	"clearHistory": "Klare Geschichte",
+	"goToHomePage": "Gehen Sie zur Hauptseite",
+	"historyManagement": "Geschichtsmanagement",
+	"historyView": "Browserverlaufsaufzeichnung",
+	"historyViewsNotFound": "Der Browserverlauf ist leer",
+	"pausedHistory": "Die Verlaufsaufzeichnung wurde gestoppt!",
+	"reniew": "Wiederherstellen",
+	"stop": "Stoppen",
+	"views": "Ansichten",
+	"viewsHistory": "Geschichte der Peer-Reviews"
+}

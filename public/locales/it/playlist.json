@@ -1,1 +1,33 @@
-{"creator":"Creato","disliked_playlist":"Video che non ti sono piaciuti","liked_playlist":"Video che ti sono piaciuti","playlist":"elenco di riproduzione","showAllVideos":"Guarda l'intera playlist","times":"volte","timesFound":"Conta","viewed":"Rivisto","views":"visualizzazioni","watch_later_playlist":"Visualizza più tardi"}
+{
+	"add": "Aggiungere",
+	"addToNewPlaylist": "Aggiungi a una nuova playlist",
+	"creator": "Creato",
+	"delete": "Rimuovere",
+	"disliked_playlist": "Video che non ti sono piaciuti",
+	"liked_playlist": "Video che ti sono piaciuti",
+	"loadMore": "Scarica altro...",
+	"playlist": "elenco di riproduzione",
+	"playlistCreatedSucc": "Nuova playlist \" {{title}} \" creata con successo",
+	"privateList": "Playlist privata",
+	"saveToNewPlaylist": "Salva in una nuova playlist",
+	"shortDesc": {
+		"desc": "Scrivi una breve descrizione che indichi il punto principale della tua playlist.",
+		"title": "Breve descrizione"
+	},
+	"showAllVideos": "Guarda l'intera playlist",
+	"times": "volte",
+	"timesFound": "Conta",
+	"title": "Nome",
+	"videoAddedToListSucc": "Video aggiunto con successo alla playlist \" {{title}} \"",
+	"videoRemovedFromListSucc": "Video rimosso con successo dalla playlist \" {{title}} \"",
+	"viewed": "Rivisto",
+	"views": "visualizzazioni",
+	"visibility": {
+		"desc": "Scegli la disponibilità del video, sarà privato per impostazione predefinita.",
+		"private": "Privato",
+		"public": "Pubblico",
+		"title": "Disponibilità della playlist",
+		"unlisted": "Non per tutti"
+	},
+	"watch_later_playlist": "Visualizza più tardi"
+}

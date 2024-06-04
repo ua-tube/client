@@ -1,1 +1,33 @@
-{"creator":"Utworzony","disliked_playlist":"Filmy, które Ci się nie podobały","liked_playlist":"Filmy, które Ci się podobały","playlist":"playlista","showAllVideos":"Obejrzyj całą playlistę","times":"czasy","timesFound":"Liczy","viewed":"Oceniony","views":"wyświetlenia","watch_later_playlist":"Zobacz później"}
+{
+	"add": "Dodać",
+	"addToNewPlaylist": "Dodaj do nowej listy odtwarzania",
+	"creator": "Utworzony",
+	"delete": "Usunąć",
+	"disliked_playlist": "Filmy, które Ci się nie podobały",
+	"liked_playlist": "Filmy, które Ci się podobały",
+	"loadMore": "Pobierz więcej...",
+	"playlist": "playlista",
+	"playlistCreatedSucc": "Nowa playlista „ {{title}} ” została pomyślnie utworzona",
+	"privateList": "Prywatna playlista",
+	"saveToNewPlaylist": "Zapisz na nowej liście odtwarzania",
+	"shortDesc": {
+		"desc": "Napisz krótki opis przedstawiający główny punkt Twojej listy odtwarzania.",
+		"title": "Krótki opis"
+	},
+	"showAllVideos": "Obejrzyj całą playlistę",
+	"times": "czasy",
+	"timesFound": "Liczy",
+	"title": "Nazwa",
+	"videoAddedToListSucc": "Film został pomyślnie dodany do playlisty „ {{title}} ”",
+	"videoRemovedFromListSucc": "Film pomyślnie usunięty z playlisty „ {{title}} ”",
+	"viewed": "Oceniony",
+	"views": "wyświetlenia",
+	"visibility": {
+		"desc": "Wybierz dostępność filmu, domyślnie będzie on prywatny.",
+		"private": "Prywatny",
+		"public": "Publiczny",
+		"title": "Dostępność playlisty",
+		"unlisted": "Nie dla każdego"
+	},
+	"watch_later_playlist": "Zobacz później"
+}

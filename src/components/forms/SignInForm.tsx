@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
 import { useActions } from '@/hooks'
 import Link from 'next/link'
@@ -21,15 +22,15 @@ import {
 	Input
 } from '@/components'
 
-const FormSchema = z.object({
-	email: z.string().email({ message: 'Емайл не дійсний!' }),
-	password: z
-		.string()
-		.min(8, { message: 'Мінімальна довжина паролю 8 символів!' })
-})
-
 const SignInForm: FC = () => {
+	const { t } = useTranslation('auth')
+
 	const { login } = useActions()
+
+	const FormSchema = z.object({
+		email: z.string().email({ message: t('incorrectEmail') }),
+		password: z.string().min(8, { message: t('minPassLength') })
+	})
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -52,7 +53,7 @@ const SignInForm: FC = () => {
 						<span className='font-semibold'>UaTube</span>
 					</Link>
 				</CardTitle>
-				<CardDescription>Вхід до аккаунту</CardDescription>
+				<CardDescription>{t('loginToAccount')}</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
@@ -62,7 +63,7 @@ const SignInForm: FC = () => {
 							name='email'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Ваш емайл</FormLabel>
+									<FormLabel>{t('yourEmail')}</FormLabel>
 									<FormControl>
 										<Input
 											type='email'
@@ -79,7 +80,7 @@ const SignInForm: FC = () => {
 							name='password'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Пароль</FormLabel>
+									<FormLabel>{t('password')}</FormLabel>
 									<FormControl>
 										<Input type='password' placeholder='*********' {...field} />
 									</FormControl>
@@ -88,14 +89,14 @@ const SignInForm: FC = () => {
 							)}
 						/>
 						<Button type='submit' className='w-full'>
-							Увійти
+							{t('login')}
 						</Button>
 					</form>
 				</Form>
 			</CardContent>
 			<CardFooter className='justify-between text-muted-foreground'>
-				<Link href='/auth/sign-up' children='Ще не маєте аккаунту?' />
-				<Link href='/auth/recovery' children='Забули ваш пароль?' />
+				<Link href='/auth/sign-up' children={t('alreadyDontHaveAccount')} />
+				<Link href='/auth/recovery' children={t('notRememberYourPass')} />
 			</CardFooter>
 		</Card>
 	)

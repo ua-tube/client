@@ -1,9 +1,18 @@
+import {
+	formatDuration,
+	formatNumbers,
+	formatTimeAgo,
+	getChannelUrl,
+	getImageUrl,
+	getVideoUrl
+} from '@/utils'
 import { Button, DynamicIcon } from '@/components'
 import { VideoModalType } from './SearchContent'
 import { IVideo, UseState } from '@/interfaces'
-import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
-import { getVideoUrl, formatDuration, getChannelUrl, formatNumbers, formatTimeAgo, getImageUrl } from '@/utils'
+import Link from 'next/link'
 
 interface ISearchVideoCardProps {
 	value: IVideo
@@ -11,6 +20,8 @@ interface ISearchVideoCardProps {
 }
 
 const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
+	const { locale } = useRouter()
+	const { t } = useTranslation('general')
 	const [hovered, setHovered] = useState<boolean>(false)
 
 	return (
@@ -24,14 +35,16 @@ const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
 				className='relative aspect-video h-32'
 			>
 				<img
-					src={getImageUrl(hovered ? value.previewThumbnailUrl : value.thumbnailUrl)}
+					src={getImageUrl(
+						hovered ? value.previewThumbnailUrl : value.thumbnailUrl
+					)}
 					loading='lazy'
 					className='block w-full h-full object-cover aspect-video duration-200 rounded-xl'
 					alt={value.id}
 				/>
 				<div
 					className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-					children={formatDuration(value.lengthSeconds)}
+					children={formatDuration(value.lengthSeconds, locale)}
 				/>
 			</Link>
 			<div className='flex flex-col gap-y-1 w-3/6'>
@@ -48,7 +61,7 @@ const SearchVideoCard: FC<ISearchVideoCardProps> = ({ value, setModal }) => {
 
 				<div
 					className='text-muted-foreground text-xs lg:text-sm'
-					children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
+					children={`${formatNumbers(value.metrics?.viewsCount, locale)} ${t('views')} • ${formatTimeAgo(value.createdAt, locale)}`}
 				/>
 			</div>
 			<div className='space-x-2'>

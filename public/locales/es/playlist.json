@@ -1,1 +1,33 @@
-{"creator":"Creado","disliked_playlist":"Vídeos que no te gustaron","liked_playlist":"Vídeos que te gustaron","playlist":"lista de reproducción","showAllVideos":"Mira la lista de reproducción completa","times":"veces","timesFound":"Cuenta","viewed":"Revisado","views":"puntos de vista","watch_later_playlist":"Ver más tarde"}
+{
+	"add": "Agregar",
+	"addToNewPlaylist": "Agregar a una nueva lista de reproducción",
+	"creator": "Creado",
+	"delete": "Eliminar",
+	"disliked_playlist": "Vídeos que no te gustaron",
+	"liked_playlist": "Vídeos que te gustaron",
+	"loadMore": "Descargar más...",
+	"playlist": "lista de reproducción",
+	"playlistCreatedSucc": "Nueva lista de reproducción \" {{title}} \" creada correctamente",
+	"privateList": "Lista de reproducción privada",
+	"saveToNewPlaylist": "Guardar en una nueva lista de reproducción",
+	"shortDesc": {
+		"desc": "Escribe una breve descripción que cuente el punto principal de tu lista de reproducción.",
+		"title": "Breve descripción"
+	},
+	"showAllVideos": "Mira la lista de reproducción completa",
+	"times": "veces",
+	"timesFound": "Cuenta",
+	"title": "Nombre",
+	"videoAddedToListSucc": "Vídeo añadido correctamente a la lista de reproducción \" {{title}} \"",
+	"videoRemovedFromListSucc": "Vídeo eliminado correctamente de la lista de reproducción \" {{title}} \"",
+	"viewed": "Revisado",
+	"views": "puntos de vista",
+	"visibility": {
+		"desc": "Elige la disponibilidad del vídeo, será privado por defecto.",
+		"private": "Privado",
+		"public": "Público",
+		"title": "Disponibilidad de lista de reproducción",
+		"unlisted": "No para todos"
+	},
+	"watch_later_playlist": "Ver más tarde"
+}

@@ -51,15 +51,12 @@ interface IStorageResponse {
 	token: string
 }
 
-interface IDashboardVideosResponse extends IApiPaginationResponse<IVideo> {
-}
+interface IStudioVideosResponse extends IApiPaginationResponse<IVideo> {}
 
 interface IRefreshAccessTokenResponse
-	extends Pick<ILoginResponse, 'accessToken'> {
-}
+	extends Pick<ILoginResponse, 'accessToken'> {}
 
-interface IPlaylistsResponse extends IApiPaginationResponse<IPlaylist> {
-}
+interface IPlaylistsResponse extends IApiPaginationResponse<IPlaylist> {}
 
 interface IVideoMetadataResponse {
 	viewsCount: string
@@ -86,6 +83,6 @@ export type {
 	IStorageResponse,
 	ISearchVideosResponse,
 	IRefreshAccessTokenResponse,
-	IDashboardVideosResponse,
+	IStudioVideosResponse,
 	ILoginResponse
 }

@@ -9,14 +9,11 @@ export interface ISidebarSectionProps {
 	visibleItemCount?: number
 }
 
-const SidebarSection: FC<
-	ISidebarSectionProps
-> = ({
-			 items,
-			 title,
-			 visibleItemCount = Number.POSITIVE_INFINITY
-		 }) => {
-
+const SidebarSection: FC<ISidebarSectionProps> = ({
+	items,
+	title,
+	visibleItemCount = Number.POSITIVE_INFINITY
+}) => {
 	const { t } = useTranslation('home-sidebar')
 	const [isExpanded, setIsExpanded] = useState(false)
 
@@ -24,12 +21,12 @@ const SidebarSection: FC<
 		<div>
 			{title && (
 				<div
-					className="ml-3 mt-2 text-lg text-black dark:text-gray-200 font-semibold mb-1"
+					className='ml-3 mt-2 text-lg text-black dark:text-gray-200 font-semibold mb-1'
 					children={title}
 				/>
 			)}
 			<div
-				className="transition-transform duration-300"
+				className='transition-transform duration-300'
 				children={items
 					.slice(0, !isExpanded ? visibleItemCount : undefined)
 					.map((value, index) => (
@@ -40,7 +37,7 @@ const SidebarSection: FC<
 			{items.length > visibleItemCount && (
 				<button
 					onClick={() => setIsExpanded(e => !e)}
-					className="text-sm w-full flex items-center rounded-lg gap-5 px-3 py-1.5 hover:bg-muted-foreground hover:text-muted"
+					className='text-sm w-full flex items-center rounded-lg gap-5 px-3 py-1.5 hover:bg-muted-foreground hover:text-muted'
 				>
 					<div
 						children={

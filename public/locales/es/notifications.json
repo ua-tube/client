@@ -1,1 +1,8 @@
-{"deleteAll":"Eliminar todos","deleteAllSucc":"¡Notificación borrada exitosamente!","deleteSucc":"¡Notificación eliminada exitosamente!","notifications":"Notificación","notificationsNotFound":"¡No se encontraron notificaciones!","olderNotificationsAlert":"Las notificaciones de más de 90 días se eliminan automáticamente."}
+{
+	"deleteAll": "Eliminar todos",
+	"deleteAllSucc": "¡Notificación borrada exitosamente!",
+	"deleteSucc": "¡Notificación eliminada exitosamente!",
+	"notifications": "Notificación",
+	"notificationsNotFound": "¡No se encontraron notificaciones!",
+	"olderNotificationsAlert": "Las notificaciones de más de 90 días se eliminan automáticamente."
+}

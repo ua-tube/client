@@ -1,4 +1,3 @@
-import { HistoryService, LibraryService, SubscriptionsService, VideoService } from '@/services'
 import { IPlaylist, ISearchVideosResponse, IVideo } from '@/interfaces'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, DynamicIcon, Skeleton } from '@/components'
@@ -6,18 +5,25 @@ import { FC, useEffect, useState } from 'react'
 import { cn, getImageUrl } from '@/utils'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+import {
+	HistoryService,
+	LibraryService,
+	SubscriptionsService,
+	VideoService
+} from '@/services'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const CategoryPills = dynamic(
 	() => import('@/components/categories/CategoryPills')
 )
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
-	loading: () => <DynamicIcon name="loader" className="loader-container" />
+	loading: () => <DynamicIcon name='loader' className='loader-container' />
 })
 
 const VideoPlayer = dynamic(() => import('@/components/videos/player'), {
 	ssr: false,
-	loading: () => <Skeleton className="aspect-video bg-secondary rounded-lg" />
+	loading: () => <Skeleton className='aspect-video bg-secondary rounded-lg' />
 })
 
 const VideoCommentsSection = dynamic(
@@ -46,14 +52,29 @@ export const getServerSideProps: GetServerSideProps<{
 	const listId = (query?.listId as string) || ''
 
 	return videoId && videoId !== ''
-		? { props: { videoId, listId } }
+		? {
+				props: {
+					videoId,
+					listId,
+					...(await serverSideTranslations(locale || 'uk', [
+						'common',
+						'general',
+						'comments',
+						'videos',
+						'home-sidebar',
+						'notifications',
+						'share',
+						'playlist'
+					]))
+				}
+			}
 		: { redirect: { permanent: true, destination: notFoundDestination } }
 }
 
 export default function VideoPage({
-																		videoId,
-																		listId
-																	}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	videoId,
+	listId
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { replace } = useRouter()
 	const [cinemaMode, setCinemaMode] = useState(false)
 
@@ -68,11 +89,12 @@ export default function VideoPage({
 			try {
 				const { data } = await VideoService.getVideo(videoId)
 
-				const { data: searchVideos } = await VideoService.searchRelatedVideosByVideoId({
-					page: 1,
-					perPage: 25,
-					videoId
-				})
+				const { data: searchVideos } =
+					await VideoService.searchRelatedVideosByVideoId({
+						page: 1,
+						perPage: 25,
+						videoId
+					})
 
 				setRelatedVideos(searchVideos)
 
@@ -93,16 +115,15 @@ export default function VideoPage({
 	}, [videoId])
 
 	useEffect(() => {
-		(async () => {
+		;(async () => {
 			if (listId && listId.length > 0) {
 				let videoIds: { nextId?: string; prevId?: string } | undefined
 
-				const { data: playlist } =
-					await LibraryService.getAllVideosByPlaylist({
-						t: listId,
-						page: 1,
-						perPage: 50
-					})
+				const { data: playlist } = await LibraryService.getAllVideosByPlaylist({
+					t: listId,
+					page: 1,
+					perPage: 50
+				})
 				setPlaylist(playlist)
 				if (playlist.videos) {
 					const currVideoIndex = playlist.videos.list.findIndex(
@@ -122,7 +143,8 @@ export default function VideoPage({
 					} else if (relatedVideos && relatedVideos?.hits.length > 0) {
 						videoIds = { nextId: relatedVideos?.hits?.[0]?.id }
 					}
-					if (videoIds && video) setVideo(({ ...video, ...(videoIds && videoIds) }))
+					if (videoIds && video)
+						setVideo({ ...video, ...(videoIds && videoIds) })
 				}
 			}
 		})()
@@ -144,8 +166,8 @@ export default function VideoPage({
 						videos={
 							currTag
 								? relatedVideos.hits.filter(v =>
-									v.tags?.some(v => v === currTag)
-								)
+										v.tags?.some(v => v === currTag)
+									)
 								: relatedVideos.hits
 						}
 					/>
@@ -169,7 +191,7 @@ export default function VideoPage({
 				disableDesc
 			/>
 			<HomeLayout openInDrawer>
-				<section className="mx-auto flex flex-col gap-6 md:flex-row pb-4">
+				<section className='mx-auto flex flex-col gap-6 md:flex-row pb-4'>
 					<div
 						className={cn(
 							'flex flex-col gap-y-4 transform transition-transform duration-300 md:pr-3',
@@ -179,36 +201,36 @@ export default function VideoPage({
 						{video ? (
 							<VideoPlayer autoPlay {...{ cinemaMode, setCinemaMode, video }} />
 						) : (
-							<div className="w-full aspect-video bg-secondary flex items-center justify-center rounded-lg">
+							<div className='w-full aspect-video bg-secondary flex items-center justify-center rounded-lg'>
 								<DynamicIcon
-									name="loader-2"
-									className="animate-spin transition-all size-14 bg-black/60 rounded-full"
+									name='loader-2'
+									className='animate-spin transition-all size-14 bg-black/60 rounded-full'
 								/>
 							</div>
 						)}
 						{!cinemaMode && (
 							<div
-								className="w-full flex flex-col gap-y-4"
+								className='w-full flex flex-col gap-y-4'
 								children={<LeftSidebar />}
 							/>
 						)}
 					</div>
 					{!cinemaMode && (
 						<div
-							className="w-full md:w-1/4 flex flex-col gap-y-2"
+							className='w-full md:w-1/4 flex flex-col gap-y-2'
 							children={<SideBar />}
 						/>
 					)}
 				</section>
 
 				{cinemaMode && (
-					<section className="mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4">
+					<section className='mx-auto flex flex-col gap-6 md:flex-row px-2 lg:px-8 pb-4'>
 						<div
-							className="w-full md:w-3/4 flex flex-col gap-y-4"
+							className='w-full md:w-3/4 flex flex-col gap-y-4'
 							children={<LeftSidebar />}
 						/>
 						<div
-							className="w-full md:w-1/4 flex flex-col gap-y-2"
+							className='w-full md:w-1/4 flex flex-col gap-y-2'
 							children={<SideBar />}
 						/>
 					</section>

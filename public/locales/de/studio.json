@@ -1,0 +1,105 @@
+{
+	"appearance": "Aussehen",
+	"bannerImage": {
+		"desc": "Um sicherzustellen, dass das Banner auf allen Geräten gut aussieht, verwenden Sie ein Bild mit mindestens 2028 x 1152 Pixeln (Dateigröße bis zu 5 MB).",
+		"title": "Das Banner wird oben auf Ihrer Kanalseite angezeigt."
+	},
+	"channelDesc": {
+		"desc": "Beschreiben Sie kurz die Aktivität Ihres Kanals.",
+		"title": "Kanal Beschreibung"
+	},
+	"channelDesign": "Gestaltung des Kanals",
+	"channelInfo": "Kanalinformationen",
+	"content": "Inhalt",
+	"contentChannel": "Kanalinhalt",
+	"createdAt": "Erstellt",
+	"createNewVideo": "Erstellen Sie ein Video",
+	"creatingNewVideo": "Erstellen Sie ein neues Video",
+	"desc": {
+		"desc": "Beschreibungen helfen den Zuschauern, besser zu verstehen, worum es im Video geht, und bieten zusätzliche Informationen.",
+		"title": "Beschreibung"
+	},
+	"email": {
+		"desc": "Geben Sie eine E-Mail-Adresse ein, um Sie zu kontaktieren.",
+		"title": "Email"
+	},
+	"exitFromAccount": "Melden Sie sich vom Konto ab",
+	"homePage": "Startseite",
+	"likesCount": "Likes",
+	"maxLength": "Maximale Länge von {{length}} Zeichen!",
+	"metrics": "Metriken",
+	"minLength": "Mindestlänge von {{length}} Zeichen!",
+	"moveToYourChannel": "Gehen Sie zu Ihrem Kanal",
+	"name": {
+		"desc": "Wählen Sie einen Kanalnamen, der Sie und die von Ihnen veröffentlichten Inhalte repräsentiert.",
+		"title": "Name"
+	},
+	"personalization": "Personalisierung",
+	"personalizeChannel": "Personalisierung des Kanals",
+	"profileImage": {
+		"desc": "Wir empfehlen die Verwendung von Bildern mit mindestens 98 x 98 Pixeln (Dateigröße bis zu 4 MB) im PNG- oder GIF-Format (keine Animation).",
+		"title": "Ihr Profilbild ist das Kanalsymbol, das neben Ihren Videos und Kommentaren auf UaTube angezeigt wird."
+	},
+	"status": {
+		"title": "Status",
+		"unknownStatus": "Unbekannter Videostatus",
+		"uploadVideo": "Video herunterladen",
+		"VideoBeingProcessed": "Die Verarbeitung des Videos hat begonnen",
+		"VideoProcessed": "Das Video wurde verarbeitet",
+		"VideoProcessingFailed": "Verarbeitungsfehler",
+		"VideoUploaded": "Video hochgeladen"
+	},
+	"table": {
+		"columns": "Säulen",
+		"nextPage": "Der Nächste",
+		"notFound": "Nichts gefunden!",
+		"prevPage": "Vorherige"
+	},
+	"tableVideo": {
+		"comments": "Gehen Sie zu den Kommentaren",
+		"delete": "Video löschen",
+		"edit": "Video bearbeiten",
+		"view": "Sehen Sie sich das Video an"
+	},
+	"tags": {
+		"desc": "Mithilfe von Schlüsselwörtern können Zuschauer Ihre Videos über die Suche finden. Schreiben Sie die Hauptschlüsselwörter durch Kommas getrennt auf, ihre lächerliche Anzahl ist begrenzt.",
+		"placeholder": "Schreiben Sie einige Schlüsselwörter ...",
+		"title": "Schlüsselwörter"
+	},
+	"tagsRule": "Tags müssen durch Kommas getrennt werden!",
+	"theme": {
+		"dark": "dunkel",
+		"light": "Beleuchtung",
+		"system": "Systemisch",
+		"title": "Thema"
+	},
+	"title": {
+		"desc": "Eine einprägsame Überschrift hilft dabei, das Interesse des Publikums zu wecken. Fügen Sie Schlüsselwörter zu Ihren Videotiteln hinzu, die Ihr Publikum bei der Suche nach ähnlichen Inhalten verwenden könnte.",
+		"title": "Titel"
+	},
+	"update": "Aktualisieren",
+	"updatedAt": "Aktualisiert",
+	"updateSucc": "Erfolgreich geupdated!",
+	"uploadVideo": "Video herunterladen",
+	"uploadVideoFile": "Herunterladen einer Videodatei",
+	"username": {
+		"desc": "Wählen Sie einen einzigartigen Spitznamen, indem Sie Buchstaben und Zahlen hinzufügen.",
+		"title": "Pseudonym"
+	},
+	"video": "Video",
+	"videoComments": "Kommentare zum Video",
+	"videoFile": "Videodatei",
+	"videoFormats": "Es werden nur die im Video verwendeten Formate unterstützt, die mit *.webm, *.mp4 enden.",
+	"videoPhoto": {
+		"desc": "Wählen Sie ein Bild aus oder laden Sie es hoch, das zeigt, worum es in Ihrem Video geht. Ein gut gewähltes Cover fällt auf und erregt die Aufmerksamkeit des Betrachters.",
+		"title": "Videocover"
+	},
+	"videoProgressLabel": "{{time}} bis zum Ende des Uploads, mit der aktuellen Geschwindigkeit {{uploadSpeed}}",
+	"visibility": {
+		"private": "Privat",
+		"public": "Öffentlich",
+		"title": "Sichtweite",
+		"unlisted": "Nicht für jeden"
+	},
+	"yourChannel": "Dein Kanal"
+}

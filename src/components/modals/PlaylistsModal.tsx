@@ -1,5 +1,6 @@
 import { IPagination, IPlaylist, IVideo, UseState } from '@/interfaces'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
 import { LibraryService } from '@/services'
 import { toastError } from '@/utils'
 import dynamic from 'next/dynamic'
@@ -24,6 +25,8 @@ interface IPlaylistsModalProps {
 }
 
 const PlaylistsModal: FC<IPlaylistsModalProps> = ({ setOpen, open, video }) => {
+	const { t } = useTranslation('playlist')
+
 	const [playlists, setPlaylists] = useState<IPlaylist[]>([])
 	const [params, setParams] = useState<IPagination>({ perPage: 10, page: 1 })
 	const [hasMore, setHasMore] = useState<boolean>(true)
@@ -77,14 +80,15 @@ const PlaylistsModal: FC<IPlaylistsModalProps> = ({ setOpen, open, video }) => {
 					})
 
 				toast.success(
-					`Відео успішно ${
-						alreadyInPlaylist ? 'видалено з' : 'додано в'
-					} плейліст "${playlist.title}"`
+					t(
+						alreadyInPlaylist
+							? 'videoRemovedFromListSucc'
+							: 'videoAddedToListSucc',
+						{ title: playlist.title }
+					)
 				)
 
 				await updateCurrVideoPlaylists(video.id!)
-			} else {
-				toast.error(`Відео не знайдено!`)
 			}
 		} catch (e) {
 			toastError(e)
@@ -111,7 +115,7 @@ const PlaylistsModal: FC<IPlaylistsModalProps> = ({ setOpen, open, video }) => {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent className='max-w-[18rem] sm:min-w-[27rem]'>
 				<DialogHeader>
-					<DialogTitle>Зберегти відео в плейліст</DialogTitle>
+					<DialogTitle>{t('saveToNewPlaylist')}</DialogTitle>
 				</DialogHeader>
 				{showPlaylists ? (
 					<div className='space-y-3.5 py-3 w-full'>
@@ -132,17 +136,17 @@ const PlaylistsModal: FC<IPlaylistsModalProps> = ({ setOpen, open, video }) => {
 											onAddOrRemoveItemToPlaylist(value, alreadyInPlaylist)
 										}
 									>
-										{alreadyInPlaylist ? 'Видалити' : 'Додати'}
+										{t(alreadyInPlaylist ? 'delete' : 'add')}
 									</Button>
 								</div>
 							)
 						})}
 						<div className='flex justify-between items-center gap-1'>
 							<Button disabled={!hasMore} onClick={updateData}>
-								Завантажити ще...
+								{t('loadMore')}
 							</Button>
 							<Button onClick={() => setShowPlaylists(false)}>
-								Додати в новий плейліст
+								{t('addToNewPlaylist')}
 							</Button>
 						</div>
 					</div>

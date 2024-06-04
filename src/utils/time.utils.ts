@@ -25,8 +25,7 @@ const DIVISIONS: { amount: number; name: Intl.RelativeTimeFormatUnit }[] = [
 ]
 
 export function formatTimeAgo(stringDate: string = '', locale = 'uk') {
-	const formatter = new Intl.RelativeTimeFormat(
-		locale, { numeric: 'always' })
+	const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'always' })
 
 	let duration = (new Date(stringDate).getTime() - new Date().getTime()) / 1000
 

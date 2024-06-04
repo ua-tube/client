@@ -1,4 +1,4 @@
-import { IDashboardVideosResponse, IVideo, IPagination } from '@/interfaces'
+import { IStudioVideosResponse, IVideo, IPagination } from '@/interfaces'
 import { $axios } from '@/api/axios'
 
 export const VideoManagerService = {
@@ -20,7 +20,7 @@ export const VideoManagerService = {
 		return $axios.delete(`video-manager/videos/${id}`)
 	},
 	async getVideos(params: IPagination) {
-		return $axios.get<IDashboardVideosResponse>('video-manager/videos', {
+		return $axios.get<IStudioVideosResponse>('video-manager/videos', {
 			params
 		})
 	},

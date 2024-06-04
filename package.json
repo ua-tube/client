@@ -1,12 +1,12 @@
 {
-  "name": "uatube_next",
-  "version": "0.1.0",
+  "name": "uatube_client",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "dev": "git pull && npm i && i18nexus pull && next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"public/**/*.json\" --config .prettierrc"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

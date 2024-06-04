@@ -1,3 +1,9 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import { IVideo } from '@/interfaces'
+import { FC, useState } from 'react'
+import Link from 'next/link'
 import {
 	cn,
 	formatDuration,
@@ -8,10 +14,6 @@ import {
 	getUserInitials,
 	getVideoUrl
 } from '@/utils'
-import { FC, useState } from 'react'
-import { IVideo } from '@/interfaces'
-import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components'
 
 interface IVideoCardProps extends IVideo {
 	fixedSize?: boolean
@@ -19,6 +21,9 @@ interface IVideoCardProps extends IVideo {
 }
 
 const VideoCard: FC<IVideoCardProps> = value => {
+	const { t } = useTranslation('videos')
+	const { locale } = useRouter()
+
 	const [hovered, setHovered] = useState<boolean>(false)
 
 	return (
@@ -47,7 +52,7 @@ const VideoCard: FC<IVideoCardProps> = value => {
 				/>
 				<div
 					className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
-					children={formatDuration(value.lengthSeconds)}
+					children={formatDuration(value.lengthSeconds, locale)}
 				/>
 			</Link>
 
@@ -83,7 +88,7 @@ const VideoCard: FC<IVideoCardProps> = value => {
 
 					<div
 						className='text-muted-foreground text-sm'
-						children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
+						children={`${formatNumbers(value.metrics?.viewsCount, locale)} ${t('views')} • ${formatTimeAgo(value.createdAt, locale)}`}
 					/>
 				</div>
 			</div>

@@ -1,1 +1,24 @@
-{"aboutChannel":"Kanal bilgileri","appearance":"Dış görünüş","channelCreated":"Kanal {{createdAt}} tarafından oluşturuldu","dark":"karanlık","exit":"Giriş","homePage":"Ana sayfa","light":"ışık","localeDesc":"Dil: {{locale}}","login":"Kayıt olmak","myChannel":"benim kanalım","personalization":"Kişiselleştirme","search":"Aramak","showMore":"Daha ayrıntılı görüntüle","studio":"Stüdyo","subscribe":"Üye olmak","subscribersCountDesc":"{{subsCount}} kullanıcı tarafından abone olundu","system":"Sistemik","theme":"başlık","unsubscribe":"Abonelikten çık","uploadNewVideo":"Yeni videoyu indir","video":"video","views":"Görüntüleme"}
+{
+	"aboutChannel": "Kanal bilgisi",
+	"appearance": "Dış görünüş",
+	"channelCreated": "Kanal {{createdAt}} tarafından oluşturuldu",
+	"dark": "karanlık",
+	"exit": "Giriş",
+	"homePage": "Ana sayfa",
+	"light": "ışık",
+	"localeDesc": "Dil: {{locale}}",
+	"login": "Kayıt olmak",
+	"myChannel": "benim kanalım",
+	"personalization": "Kişiselleştirme",
+	"search": "Aramak",
+	"showMore": "Daha fazla ayrıntı görüntüle",
+	"studio": "Stüdyo",
+	"subscribe": "Üye olmak",
+	"subscribersCountDesc": "{{subsCount}} kullanıcı tarafından abone olundu",
+	"system": "Sistemik",
+	"theme": "başlık",
+	"unsubscribe": "Abonelikten çık",
+	"uploadNewVideo": "Yeni videoyu indir",
+	"video": "video",
+	"views": "Görüntüleme"
+}

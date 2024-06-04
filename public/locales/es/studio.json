@@ -1,0 +1,105 @@
+{
+	"appearance": "Apariencia",
+	"bannerImage": {
+		"desc": "Para garantizar que el banner se vea bien en todos los dispositivos, utilice una imagen de al menos 2028 x 1152 píxeles (tamaño de archivo de hasta 5 MB).",
+		"title": "El banner estará ubicado en la parte superior de la página de su canal."
+	},
+	"channelDesc": {
+		"desc": "Describe brevemente la actividad de tu canal.",
+		"title": "descripción del canal"
+	},
+	"channelDesign": "Diseñando el canal",
+	"channelInfo": "Información del canal",
+	"content": "contenido",
+	"contentChannel": "Contenido del canal",
+	"createdAt": "Creado",
+	"createNewVideo": "crear un vídeo",
+	"creatingNewVideo": "Crear un nuevo vídeo",
+	"desc": {
+		"desc": "Las descripciones ayudan a los espectadores a comprender mejor de qué trata el vídeo y proporcionan información adicional.",
+		"title": "Descripción"
+	},
+	"email": {
+		"desc": "Introduce un correo electrónico para contactar contigo.",
+		"title": "correo electrónico"
+	},
+	"exitFromAccount": "Cerrar sesión en la cuenta",
+	"homePage": "pagina de inicio",
+	"likesCount": "gustos",
+	"maxLength": "¡Longitud máxima de {{length}} caracteres!",
+	"metrics": "Métrica",
+	"minLength": "¡Longitud mínima de {{length}} caracteres!",
+	"moveToYourChannel": "ir a tu canal",
+	"name": {
+		"desc": "Elige un nombre de canal que te represente a ti y al contenido que publicas.",
+		"title": "Nombre"
+	},
+	"personalization": "Personalización",
+	"personalizeChannel": "Personalización del canal",
+	"profileImage": {
+		"desc": "Recomendamos utilizar imágenes de al menos 98 x 98 píxeles (tamaño de archivo de hasta 4 MB) en formato PNG o GIF (sin animación).",
+		"title": "Tu foto de perfil es el ícono del canal que aparece junto a tus videos y comentarios en UaTube."
+	},
+	"status": {
+		"title": "Estado",
+		"unknownStatus": "Estado del vídeo desconocido",
+		"uploadVideo": "Descargar video",
+		"VideoBeingProcessed": "El vídeo ha comenzado a procesarse.",
+		"VideoProcessed": "El vídeo ha sido procesado.",
+		"VideoProcessingFailed": "Error de proceso",
+		"VideoUploaded": "Vídeo subido"
+	},
+	"table": {
+		"columns": "columnas",
+		"nextPage": "El siguiente",
+		"notFound": "¡Nada Encontrado!",
+		"prevPage": "Anterior"
+	},
+	"tableVideo": {
+		"comments": "Ir a comentarios",
+		"delete": "Eliminar vídeo",
+		"edit": "Editar video",
+		"view": "Ver el vídeo"
+	},
+	"tags": {
+		"desc": "Las palabras clave ayudan a los espectadores a encontrar sus vídeos mediante la búsqueda. Escribe las principales palabras clave separadas por comas, su ridículo número es limitado.",
+		"placeholder": "Escribe algunas palabras clave...",
+		"title": "Palabras clave"
+	},
+	"tagsRule": "¡Las etiquetas deben estar separadas por comas!",
+	"theme": {
+		"dark": "oscuro",
+		"light": "Luces",
+		"system": "Sistémico",
+		"title": "tema"
+	},
+	"title": {
+		"desc": "Un titular atractivo ayudará a mantener el interés de los espectadores. Agregue palabras clave a los títulos de sus videos que su audiencia podría usar cuando busque contenido similar.",
+		"title": "Título"
+	},
+	"update": "Actualizar",
+	"updatedAt": "Actualizado",
+	"updateSucc": "¡Actualizado con éxito!",
+	"uploadVideo": "Descargar video",
+	"uploadVideoFile": "Descargando un archivo de vídeo",
+	"username": {
+		"desc": "Elija un apodo único agregando letras y números.",
+		"title": "Seudónimo"
+	},
+	"video": "Video",
+	"videoComments": "Comentarios para el vídeo.",
+	"videoFile": "Archivo de vídeo",
+	"videoFormats": "Sólo se admiten los formatos utilizados en el vídeo, que terminan en *.webm, *.mp4.",
+	"videoPhoto": {
+		"desc": "Elige o sube una imagen que muestre de qué se trata tu vídeo. Una portada bien elegida destaca y atrae la atención de los espectadores.",
+		"title": "Portada del vídeo"
+	},
+	"videoProgressLabel": "{{time}} hasta el final de la carga, con la velocidad actual {{uploadSpeed}}",
+	"visibility": {
+		"private": "Privado",
+		"public": "Público",
+		"title": "Visibilidad",
+		"unlisted": "No para todos"
+	},
+	"yourChannel": "Tu canal"
+}

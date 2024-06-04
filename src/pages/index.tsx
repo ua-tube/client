@@ -7,9 +7,9 @@ import { VideoService } from '@/services'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-const HomeLayout = dynamic(
-	() => import('@/components/layouts/home'),
-	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> })
+const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
+	loading: () => <DynamicIcon name='loader' className='loader-container' />
+})
 
 const CategoryPills = dynamic(
 	() => import('@/components/categories/CategoryPills')
@@ -22,35 +22,42 @@ export const getServerSideProps: GetServerSideProps<{
 	data: ISearchVideosResponse
 	tag?: string
 }> = async ({ query, locale }) => {
-	const tag = (query?.tag as string | undefined)
+	const tag = query?.tag as string | undefined
 	let data
 
 	const { data: baseData } = await VideoService.getHomePageVideos()
 	data = baseData
 
 	if (tag && tag.length > 0) {
-		const { data: newData } = await VideoService.searchVideosByTags({ tags: [tag], perPage: 40, page: 1 })
+		const { data: newData } = await VideoService.searchVideosByTags({
+			tags: [tag],
+			perPage: 40,
+			page: 1
+		})
 		data = { ...baseData, hits: newData.results }
 	}
 
 	return {
 		props: {
-			...(await serverSideTranslations(locale || 'uk', [
-				'general',
-				'common',
-				'notifications',
-				'home-sidebar'
-			])),
 			data,
-			tag: tag || 'none'
+			tag: tag || 'none',
+			...(await serverSideTranslations(locale || 'uk', [
+				'common',
+				'general',
+				'videos',
+				'home-sidebar',
+				'notifications',
+				'share',
+				'playlist'
+			]))
 		}
 	}
 }
 
 export default function HomePage({
-																	 data, tag
-																 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
+	data,
+	tag
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { t } = useTranslation('general')
 	const { push } = useRouter()
 
@@ -63,7 +70,7 @@ export default function HomePage({
 					value={tag}
 					onChange={tag => push({ pathname: '/', query: { tag } })}
 				/>
-				{data?.hits && (<VideosList videos={data.hits} />)}
+				{data?.hits && <VideosList videos={data.hits} />}
 			</HomeLayout>
 		</>
 	)

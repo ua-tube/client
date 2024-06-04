@@ -8,10 +8,10 @@ const getVideoUrl = (
 ) =>
 	`${isShort ? '' : FRONTEND_URL}/watch?videoId=${videoId}${listId ? `&listId=${listId}` : ''}${time ? `&time=${time}` : ''}`
 
-const getDashboardVideoUrl = (
+const getStudioVideoUrl = (
 	videoId: string,
 	tab: 'edit' | 'comments' = 'edit'
-) => `/dashboard/videos/${videoId}?tab=${tab}`
+) => `/studio/videos/${videoId}?tab=${tab}`
 
 const getChannelUrl = (
 	nickName: string = '',
@@ -30,5 +30,5 @@ export {
 	getVideoUrl,
 	getChannelUrl,
 	getPlaylistUrl,
-	getDashboardVideoUrl
+	getStudioVideoUrl
 }

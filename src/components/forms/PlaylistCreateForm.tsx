@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { ICreatePlaylistsRequest } from '@/interfaces'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'next-i18next'
 import { LibraryService } from '@/services'
 import { toastError } from '@/utils'
 import { toast } from 'sonner'
@@ -39,6 +40,7 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 	onFinish,
 	videoId
 }) => {
+	const { t } = useTranslation('playlist')
 	const form = useForm<ICreatePlaylistsRequest>({
 		resolver: zodResolver(createPlaylistSchema),
 		defaultValues: { visibility: 'Private' }
@@ -47,10 +49,10 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 	const onSubmit = async (request: ICreatePlaylistsRequest) => {
 		try {
 			const { data } = await LibraryService.createPlaylist(request)
-			toast.success(`Успішно створено новий плейліст "${request.title}"`)
+			toast.success(t(`playlistCreatedSucc`, { title: request.title }))
 			if (videoId) {
 				await LibraryService.addItemToPlaylist({ videoId, t: data.id })
-				toast.success(`Відео успішно додано в плейліст "${request.title}"`)
+				toast.success(t(`videoAddedToListSucc`, { title: request.title }))
 			}
 			onFinish && (await onFinish())
 		} catch (e) {
@@ -65,7 +67,7 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 					name='title'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Назва</FormLabel>
+							<FormLabel>{t('title')}</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
@@ -79,14 +81,11 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 					name='description'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Короткий опис</FormLabel>
+							<FormLabel>{t('shortDesc.title')}</FormLabel>
 							<FormControl>
 								<Textarea {...field} />
 							</FormControl>
-							<FormDescription>
-								Напишіть короткий опис, який буде розповідати про основну суть
-								вашого плейліста.
-							</FormDescription>
+							<FormDescription>{t('shortDesc.desc')}</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -97,7 +96,7 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 					name='visibility'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Доступність плейліста</FormLabel>
+							<FormLabel>{t('visibility.title')}</FormLabel>
 							<FormControl>
 								<Select
 									onValueChange={field.onChange}
@@ -109,20 +108,24 @@ const PlaylistCreateForm: FC<IPlaylistCreateFormProps> = ({
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										<SelectItem value='Private'>Приватний</SelectItem>
-										<SelectItem value='Unlisted'>Не для всіх</SelectItem>
-										<SelectItem value='Public'>Публічний</SelectItem>
+										<SelectItem value='Private'>
+											{t('visibility.private')}
+										</SelectItem>
+										<SelectItem value='Unlisted'>
+											{t('visibility.unlisted')}
+										</SelectItem>
+										<SelectItem value='Public'>
+											{t('visibility.public')}
+										</SelectItem>
 									</SelectContent>
 								</Select>
 							</FormControl>
-							<FormDescription>
-								Виберіть доступність відео, за замовчуванням воно буде приватне.
-							</FormDescription>
+							<FormDescription>{t('visibility.desc')}</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button type='submit'>Зберегти в новий плейліст</Button>
+				<Button type='submit'>{t('saveToNewPlaylist')}</Button>
 			</form>
 		</Form>
 	)

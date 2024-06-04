@@ -1,4 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage, Button, DynamicIcon } from '@/components'
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Button,
+	DynamicIcon
+} from '@/components'
 import { getImageUrl, getUserInitials, toastError } from '@/utils'
 import { SubscriptionsService } from '@/services'
 import { FC, useEffect, useState } from 'react'

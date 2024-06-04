@@ -1,1 +1,14 @@
-{"allowedRecordHistory":"Geçmiş kaydına izin verildi!","clearedAllSucc":"Geçmiş başarıyla temizlendi!","clearHistory":"Geçmişi temizle","goToHomePage":"ana sayfaya git","historyManagement":"Geçmiş yönetimi","historyView":"tarama geçmişi kaydı","historyViewsNotFound":"Tarama geçmişi boş","pausedHistory":"Geçmiş kaydı durduruldu!","reniew":"Eski haline getirmek","stop":"Durmak","views":"Görüntüleme","viewsHistory":"Akran değerlendirmelerinin geçmişi"}
+{
+	"allowedRecordHistory": "Geçmiş kaydına izin verildi!",
+	"clearedAllSucc": "Geçmiş başarıyla temizlendi!",
+	"clearHistory": "Geçmişi temizle",
+	"goToHomePage": "ana sayfaya git",
+	"historyManagement": "Geçmiş yönetimi",
+	"historyView": "tarama geçmişi kaydı",
+	"historyViewsNotFound": "Tarama geçmişi boş",
+	"pausedHistory": "Geçmiş kaydı durduruldu!",
+	"reniew": "Eski haline getirmek",
+	"stop": "Durmak",
+	"views": "Görüntüleme",
+	"viewsHistory": "Akran değerlendirmelerinin geçmişi"
+}

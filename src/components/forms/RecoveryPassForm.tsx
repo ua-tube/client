@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
 import { AuthService } from '@/services'
 import { useActions } from '@/hooks'
@@ -8,20 +9,20 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { z } from 'zod'
 import {
+	Button,
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
-	Input,
 	FormMessage,
-	Button,
-	CardFooter
+	Input
 } from '@/components'
 
 interface IRecoveryPassFormProps {
@@ -30,11 +31,13 @@ interface IRecoveryPassFormProps {
 }
 
 const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
+	const { t } = useTranslation('auth')
+
 	const { login } = useActions()
 
 	const FormSchema = z.object({
 		newPassword: z.any(),
-		...(!token && { email: z.string().email() })
+		...(!token && { email: z.string().email({ message: t('incorrectEmail') }) })
 	})
 
 	const form = useForm<z.infer<typeof FormSchema>>({
@@ -52,12 +55,12 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 				})
 				if (data.code === 201)
 					login({ login: email!, password: values.newPassword as string })
-				toast.success('Пароль відновлено успішно!')
+				toast.success(t('succRecoverPass'))
 			} else {
 				await AuthService.recoveryPass({
 					email: (values.email as string) || email!
 				})
-				toast.success('Лист відновлення паролю відправлено успішно!')
+				toast.success(t('recoveryEmailSend'))
 			}
 		} catch (e) {
 			toastError(e)
@@ -76,7 +79,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 						<span className='font-semibold'>UaTube</span>
 					</Link>
 				</CardTitle>
-				<CardDescription>Відновлення доступу до аккаунту</CardDescription>
+				<CardDescription>{t('recoverAccessToAccount')}</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
@@ -87,7 +90,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 							disabled={!!token}
 							render={(f: any) => (
 								<FormItem>
-									<FormLabel>Ваш емайл</FormLabel>
+									<FormLabel>{t('email')}</FormLabel>
 									<FormControl>
 										<Input
 											type='email'
@@ -105,7 +108,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 								name='newPassword'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Новий пароль</FormLabel>
+										<FormLabel>{t('newPassword')}</FormLabel>
 										<FormControl>
 											<Input
 												type='password'
@@ -119,14 +122,14 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 							/>
 						)}
 						<Button type='submit' className='w-full'>
-							Надіслати
+							{t('send')}
 						</Button>
 					</form>
 				</Form>
 			</CardContent>
 			<CardFooter className='justify-between text-muted-foreground'>
-				<Link href='/auth/sign-in' children='Вже маєте аккаунт?' />
-				<Link href='/auth/sign-up' children='Ще не маєте аккаунту?' />
+				<Link href='/auth/sign-in' children={t('alreadyHaveAccount')} />
+				<Link href='/auth/sign-up' children={t('alreadyDontHaveAccount')} />
 			</CardFooter>
 		</Card>
 	)

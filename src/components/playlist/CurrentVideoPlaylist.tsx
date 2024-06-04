@@ -1,5 +1,20 @@
-import { Card, CardDescription, CardHeader, CardTitle, DynamicIcon, ScrollArea } from '@/components'
-import { cn, formatDuration, getChannelUrl, getImageUrl, getPlaylistUrl, getVideoUrl } from '@/utils'
+import {
+	Card,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+	DynamicIcon,
+	ScrollArea
+} from '@/components'
+import {
+	cn,
+	formatDuration,
+	getChannelUrl,
+	getImageUrl,
+	getPlaylistUrl,
+	getVideoUrl
+} from '@/utils'
+import { useTranslation } from 'next-i18next'
 import { IPlaylist } from '@/interfaces'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks'
@@ -11,50 +26,64 @@ interface ICurrentVideoPlaylistProps {
 	currList: IPlaylist
 }
 
-const CurrentVideoPlaylist: FC<
-	ICurrentVideoPlaylistProps
-> = ({
-			 currVideoId,
-			 currList
-		 }) => {
-	const { query: { listId } } = useRouter()
+const CurrentVideoPlaylist: FC<ICurrentVideoPlaylistProps> = ({
+	currVideoId,
+	currList
+}) => {
+	const { t } = useTranslation('playlist')
+	const {
+		query: { listId },
+		locale
+	} = useRouter()
+
 	const { user } = useAuth()
-	const currVideoIndex = currList.videos?.list.findIndex(value => value.id === currVideoId)
-	const currPlaylistId = (listId === 'LL' || listId === 'WL') ? listId : currList?.id
+	const currVideoIndex = currList.videos?.list.findIndex(
+		value => value.id === currVideoId
+	)
+	const currPlaylistId =
+		listId === 'LL' || listId === 'WL' ? listId : currList?.id
 
 	return (
-		<Card className="w-full rounded-lg mb-3">
+		<Card className='w-full rounded-lg mb-3'>
 			<CardHeader>
 				<CardTitle
 					children={
 						<Link
 							href={getPlaylistUrl(currList.id, true)}
-							children={currList.title}
+							children={t(currList.title)}
 						/>
 					}
 				/>
-				<CardDescription className="flex flex-wrap items-center gap-2 py-2">
+				<CardDescription className='flex flex-wrap items-center gap-2 py-2'>
 					{currList.visibility !== 'Public' && (
-						<div className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center">
-							<DynamicIcon name="lock" className="size-4" />
-							<span children="Приватний" />
+						<div className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'>
+							<DynamicIcon name='lock' className='size-4' />
+							<span children={t('privateList')} />
 						</div>
 					)}
-					<div className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center">
-						<DynamicIcon name="user" className="size-4" />
+					<div className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'>
+						<DynamicIcon name='user' className='size-4' />
 						<Link
-							href={getChannelUrl(currPlaylistId?.length < 3 ? user?.creator.nickname : currList.creator?.nickname)}
-							children={currPlaylistId?.length < 3 ? user?.creator.displayName : currList.creator?.displayName}
+							href={getChannelUrl(
+								currPlaylistId?.length < 3
+									? user?.creator.nickname
+									: currList.creator?.nickname
+							)}
+							children={
+								currPlaylistId?.length < 3
+									? user?.creator.displayName
+									: currList.creator?.displayName
+							}
 						/>
 					</div>
 					<div
-						className="bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center"
+						className='bg-primary-foreground px-1.5 py-1 text-sm rounded-lg max-w-fit flex space-x-1 items-center'
 						children={`${(currVideoIndex || 0) + 1}/${currList.metrics?.itemsCount}`}
 					/>
 				</CardDescription>
 			</CardHeader>
 			<ScrollArea
-				className="flex flex-col gap-y-3 max-h-96"
+				className='flex flex-col gap-y-3 max-h-96'
 				children={currList.videos?.list.map((value, index) => (
 					<div
 						key={index}
@@ -64,10 +93,10 @@ const CurrentVideoPlaylist: FC<
 						)}
 					>
 						<div
-							className="hiddenOnMobile"
+							className='hiddenOnMobile'
 							children={
 								value.id === currVideoId ? (
-									<DynamicIcon name="play" className="size-4 " />
+									<DynamicIcon name='play' className='size-4 ' />
 								) : (
 									<span children={index + 1} />
 								)
@@ -76,28 +105,28 @@ const CurrentVideoPlaylist: FC<
 
 						<Link
 							href={getVideoUrl(value.id, undefined, currPlaylistId, true)}
-							className="relative aspect-video h-10 lg:h-16"
+							className='relative aspect-video h-10 lg:h-16'
 						>
 							<img
 								src={getImageUrl(value.thumbnailUrl)}
-								loading="lazy"
-								className="block w-full h-full object-cover aspect-video duration-200 rounded-lg"
+								loading='lazy'
+								className='block w-full h-full object-cover aspect-video duration-200 rounded-lg'
 								alt={value.id}
 							/>
 							<div
-								className="absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded"
-								children={formatDuration(value.lengthSeconds)}
+								className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
+								children={formatDuration(value.lengthSeconds, locale)}
 							/>
 						</Link>
-						<div className="flex flex-col gap-x-2 w-3/5">
+						<div className='flex flex-col gap-x-2 w-3/5'>
 							<Link
 								href={getVideoUrl(value.id, undefined, currPlaylistId, true)}
-								className="font-bold text-base/5 line-clamp-2"
+								className='font-bold text-base/5 line-clamp-2'
 								children={value.title}
 							/>
 							<Link
 								href={getChannelUrl(value.creator?.nickname)}
-								className="text-muted-foreground text-xs"
+								className='text-muted-foreground text-xs'
 							>
 								<div children={value.creator?.displayName} />
 							</Link>

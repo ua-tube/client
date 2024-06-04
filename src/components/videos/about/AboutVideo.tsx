@@ -1,7 +1,16 @@
-import { formatNumbers, formatTimeAgo, getChannelUrl, getUserInitials, getVideoUrl, toastError } from '@/utils'
+import {
+	formatNumbers,
+	formatTimeAgo,
+	getChannelUrl,
+	getUserInitials,
+	getVideoUrl,
+	toastError
+} from '@/utils'
 import { LibraryService, SubscriptionsService } from '@/services'
 import { IVideo, IVideoMetadataResponse } from '@/interfaces'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import { useAuth } from '@/hooks'
 import Link from 'next/link'
@@ -39,6 +48,9 @@ interface IVideoState extends IVideoMetadataResponse {
 }
 
 const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
+	const { t } = useTranslation('videos')
+	const { locale } = useRouter()
+
 	const { user } = useAuth()
 
 	const [videoState, setVideoState] = useState<IVideoState>({
@@ -51,7 +63,9 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 		dislikesCount: '0'
 	})
 
-	const [openedTypeModal, setOpenedTypeModal] = useState<'playlists' | 'share' | undefined>()
+	const [openedTypeModal, setOpenedTypeModal] = useState<
+		'playlists' | 'share' | undefined
+	>()
 
 	const onLike = async () => {
 		try {
@@ -142,12 +156,8 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 							video.metrics?.viewsCount ||
 							data.viewsCount ||
 							prevState.viewsCount,
-						likesCount:
-							data.likesCount ||
-							prevState.likesCount,
-						dislikesCount:
-							data.dislikesCount ||
-							prevState.dislikesCount,
+						likesCount: data.likesCount || prevState.likesCount,
+						dislikesCount: data.dislikesCount || prevState.dislikesCount,
 						isLiked: data.userVote === 'Like',
 						isDisliked: data.userVote === 'Dislike'
 					}))
@@ -159,14 +169,14 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 	}, [video])
 
 	return (
-		<div className="flex flex-col gap-y-4">
+		<div className='flex flex-col gap-y-4'>
 			<h4
-				className="scroll-m-20 text-2xl font-semibold tracking-tight"
+				className='scroll-m-20 text-2xl font-semibold tracking-tight'
 				children={video?.title}
 			/>
 
-			<div className="flex flex-col md:flex-row items-start md:items-center gap-y-5 gap-x-2 md:justify-between">
-				<div className="flex flex-row items-center space-x-3 w-full md:w-auto">
+			<div className='flex flex-col md:flex-row items-start md:items-center gap-y-5 gap-x-2 md:justify-between'>
+				<div className='flex flex-row items-center space-x-3 w-full md:w-auto'>
 					<Link href={getChannelUrl(video?.creator?.nickname)}>
 						<Avatar>
 							<AvatarImage src={getVideoUrl(video?.creator?.thumbnailUrl)} />
@@ -175,55 +185,62 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 							/>
 						</Avatar>
 					</Link>
-					<div className="flex flex-col">
+					<div className='flex flex-col'>
 						<Link href={getChannelUrl(video?.creator?.nickname)}>
 							<h5
-								className="font-semibold"
+								className='font-semibold'
 								children={video?.creator?.displayName}
 							/>
 						</Link>
 						<p
-							className="font-light text-xs text-muted-foreground flex overflow-x-hidden truncate"
-							children={`Підписалося ${formatNumbers(video?.creator?.subscribersCount)} користувачів`}
+							className='font-light text-xs text-muted-foreground flex overflow-x-hidden truncate'
+							children={t('usersSubscribed', {
+								usersCount: formatNumbers(
+									video?.creator?.subscribersCount,
+									locale
+								)
+							})}
 						/>
 					</div>
 					<Button
 						onClick={onSubscribe}
 						variant={videoState.isSubscribed ? 'secondary' : 'default'}
-						className="rounded-lg w-full md:w-auto"
+						className='rounded-lg w-full md:w-auto'
 						disabled={!user || user?.creator.id === video?.creatorId}
-						children={videoState.isSubscribed ? 'Відписатися' : 'Підписатися'}
+						children={t(videoState.isSubscribed ? 'unsubscribe' : 'subscribe')}
 					/>
 				</div>
 
-				<div className="flex flex-row items-center space-x-2 w-full md:w-auto">
-					<div className="flex items-center divide-x-2 divide-background">
+				<div className='flex flex-row items-center space-x-2 w-full md:w-auto'>
+					<div className='flex items-center divide-x-2 divide-background'>
 						<Button
 							onClick={onLike}
 							variant={videoState.isLiked ? 'default' : 'secondary'}
-							className="rounded-l-lg rounded-r-none space-x-2"
+							className='rounded-l-lg rounded-r-none space-x-2'
 							disabled={!user}
 						>
-							<DynamicIcon name="thumbs-up" />
-							<span children={formatNumbers(videoState.likesCount)} />
+							<DynamicIcon name='thumbs-up' />
+							<span children={formatNumbers(videoState.likesCount, locale)} />
 						</Button>
 						<Button
 							onClick={onDisLike}
 							variant={videoState.isDisliked ? 'default' : 'secondary'}
-							className="rounded-r-lg rounded-l-none space-x-2"
+							className='rounded-r-lg rounded-l-none space-x-2'
 							disabled={!user}
 						>
-							<DynamicIcon name="thumbs-down" />
-							<span children={formatNumbers(videoState.dislikesCount)} />
+							<DynamicIcon name='thumbs-down' />
+							<span
+								children={formatNumbers(videoState.dislikesCount, locale)}
+							/>
 						</Button>
 					</div>
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
-								variant="secondary"
-								className="rounded-lg w-full md:w-auto"
-								children={<DynamicIcon name="more-horizontal" />}
+								variant='secondary'
+								className='rounded-lg w-full md:w-auto'
+								children={<DynamicIcon name='more-horizontal' />}
 							/>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
@@ -231,15 +248,15 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 								disabled={!user}
 								onClick={() => setOpenedTypeModal('playlists')}
 							>
-								<div className="items-center flex space-x-2">
-									<DynamicIcon name="list-plus" />
-									<span children="Зберегти" />
+								<div className='items-center flex space-x-2'>
+									<DynamicIcon name='list-plus' />
+									<span children={t('save')} />
 								</div>
 							</DropdownMenuItem>
 							<DropdownMenuItem onClick={() => setOpenedTypeModal('share')}>
-								<div className="items-center flex space-x-2">
-									<DynamicIcon name="share" />
-									<span className="hiddenOnMobile" children="Поділитися" />
+								<div className='items-center flex space-x-2'>
+									<DynamicIcon name='share' />
+									<span children={t('share')} />
 								</div>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
@@ -248,30 +265,31 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 					<ShareVideoModal
 						video={video}
 						open={openedTypeModal === 'share'}
-						setOpen={v => setOpenedTypeModal(undefined)}
+						setOpen={() => setOpenedTypeModal(undefined)}
 					/>
 
 					<PlaylistsModal
 						video={video}
 						open={openedTypeModal === 'playlists'}
-						setOpen={v => setOpenedTypeModal(undefined)}
+						setOpen={() => setOpenedTypeModal(undefined)}
 					/>
 				</div>
 			</div>
 
-			<Collapsible className="rounded-lg bg-secondary p-3 space-y-2">
+			<Collapsible className='rounded-lg bg-secondary p-3 space-y-2'>
 				<CollapsibleTrigger>
-					<div className="flex items-center space-x-4 text-sm font-semibold">
-						{video?.description && video.description.length > 0 &&
-							<div className="text-blue-400">Натисніть, щоб відкрити</div>}
+					<div className='flex items-center space-x-4 text-sm font-semibold'>
+						{video?.description && video.description.length > 0 && (
+							<div className='text-blue-400'>{t('clickForOpen')}</div>
+						)}
 
 						<div
-							children={`${formatNumbers(video?.metrics?.viewsCount)} переглядів`}
+							children={`${formatNumbers(video?.metrics?.viewsCount, locale)} ${t('views')}`}
 						/>
-						<div children={formatTimeAgo(video?.createdAt)} />
+						<div children={formatTimeAgo(video?.createdAt, locale)} />
 					</div>
 				</CollapsibleTrigger>
-				{video?.description && video.description.length > 0 &&
+				{video?.description && video.description.length > 0 && (
 					<CollapsibleContent>
 						<div
 							dangerouslySetInnerHTML={{
@@ -279,7 +297,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 							}}
 						/>
 					</CollapsibleContent>
-				}
+				)}
 			</Collapsible>
 		</div>
 	)

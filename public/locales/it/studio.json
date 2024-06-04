@@ -1,0 +1,105 @@
+{
+	"appearance": "Aspetto",
+	"bannerImage": {
+		"desc": "Per garantire che il banner abbia un bell'aspetto su tutti i dispositivi, utilizza un'immagine di almeno 2028 x 1152 pixel (dimensione del file fino a 5 MB).",
+		"title": "Il banner sarà posizionato nella parte superiore della pagina del tuo canale."
+	},
+	"channelDesc": {
+		"desc": "Descrivi brevemente l'attività del tuo canale.",
+		"title": "Descrizione del canale"
+	},
+	"channelDesign": "Progettare il canale",
+	"channelInfo": "Informazioni sul canale",
+	"content": "contenuto",
+	"contentChannel": "Contenuti del canale",
+	"createdAt": "Creato",
+	"createNewVideo": "Crea un video",
+	"creatingNewVideo": "Crea un nuovo video",
+	"desc": {
+		"desc": "Le descrizioni aiutano gli spettatori a capire meglio di cosa tratta il video e forniscono informazioni aggiuntive.",
+		"title": "Descrizione"
+	},
+	"email": {
+		"desc": "Inserisci una email per contattarti.",
+		"title": "e-mail"
+	},
+	"exitFromAccount": "Esci dall'account",
+	"homePage": "Pagina iniziale",
+	"likesCount": "piace",
+	"maxLength": "Lunghezza massima di {{length}} caratteri!",
+	"metrics": "Metrica",
+	"minLength": "Lunghezza minima di {{length}} caratteri!",
+	"moveToYourChannel": "Vai al tuo canale",
+	"name": {
+		"desc": "Scegli un nome di canale che rappresenti te e i contenuti che pubblichi.",
+		"title": "Nome"
+	},
+	"personalization": "Personalizzazione",
+	"personalizeChannel": "Personalizzazione del canale",
+	"profileImage": {
+		"desc": "Consigliamo immagini di almeno 98 x 98 pixel (dimensione file fino a 4 MB) in formato PNG o GIF (senza animazione).",
+		"title": "La tua immagine del profilo è l'icona del canale che appare accanto ai tuoi video e commenti su UaTube."
+	},
+	"status": {
+		"title": "Stato",
+		"unknownStatus": "Stato del video sconosciuto",
+		"uploadVideo": "Scarica video",
+		"VideoBeingProcessed": "L'elaborazione del video è iniziata",
+		"VideoProcessed": "Il video è stato elaborato",
+		"VideoProcessingFailed": "Errore di elaborazione",
+		"VideoUploaded": "Video caricato"
+	},
+	"table": {
+		"columns": "Colonne",
+		"nextPage": "Il prossimo",
+		"notFound": "Non abbiamo trovato nulla!",
+		"prevPage": "Precedente"
+	},
+	"tableVideo": {
+		"comments": "Vai ai commenti",
+		"delete": "Elimina video",
+		"edit": "Modifica video",
+		"view": "Guarda il video"
+	},
+	"tags": {
+		"desc": "Le parole chiave aiutano gli spettatori a trovare i tuoi video tramite la ricerca. Scrivi le parole chiave principali separate da virgole, il loro numero ridicolo è limitato.",
+		"placeholder": "Scrivi alcune parole chiave...",
+		"title": "Parole chiave"
+	},
+	"tagsRule": "I tag devono essere separati da virgole!",
+	"theme": {
+		"dark": "buio",
+		"light": "Luci",
+		"system": "Sistemico",
+		"title": "argomento"
+	},
+	"title": {
+		"desc": "Un titolo accattivante aiuterà a mantenere vivo l'interesse degli spettatori. Aggiungi parole chiave ai titoli dei tuoi video che il tuo pubblico potrebbe utilizzare durante la ricerca di contenuti simili.",
+		"title": "Titolo"
+	},
+	"update": "Aggiornamento",
+	"updatedAt": "Aggiornato",
+	"updateSucc": "Aggiornato con successo!",
+	"uploadVideo": "Scarica video",
+	"uploadVideoFile": "Download di un file video",
+	"username": {
+		"desc": "Scegli un soprannome univoco aggiungendo lettere e numeri.",
+		"title": "Pseudonimo"
+	},
+	"video": "video",
+	"videoComments": "Commenti al video",
+	"videoFile": "File video",
+	"videoFormats": "Sono supportati solo i formati utilizzati nel video, che terminano con *.webm, *.mp4.",
+	"videoPhoto": {
+		"desc": "Scegli o carica un'immagine che mostri l'argomento del tuo video. Una copertina ben scelta risalta e attira l'attenzione degli spettatori.",
+		"title": "Copertina del filmato"
+	},
+	"videoProgressLabel": "{{time}} fino alla fine del caricamento, alla velocità attuale {{uploadSpeed}}",
+	"visibility": {
+		"private": "Privato",
+		"public": "Pubblico",
+		"title": "Visibilità",
+		"unlisted": "Non per tutti"
+	},
+	"yourChannel": "Il tuo canale"
+}

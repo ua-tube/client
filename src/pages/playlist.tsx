@@ -9,12 +9,12 @@ import dynamic from 'next/dynamic'
 import { useTranslation } from 'next-i18next'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
-	loading: () => <DynamicIcon name="loader" className="loader-container" />
+	loading: () => <DynamicIcon name='loader' className='loader-container' />
 })
 
 const PlaylistContent = dynamic(
 	() => import('@/components/playlist/PlaylistContent'),
-	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
+	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
 )
 
 const notFoundDestination = `/404?message=${encodeURIComponent('Даного плейліста не знайдено!')}`
@@ -25,30 +25,32 @@ export const getServerSideProps: GetServerSideProps<{
 	const listId = query?.listId as string
 	return listId && listId !== ''
 		? {
-			props: {
-				listId,
-				...(await serverSideTranslations(locale || 'uk', [
-					'general',
-					'common',
-					'playlist',
-					'notifications',
-					'home-sidebar'
-				]))
+				props: {
+					listId,
+					...(await serverSideTranslations(locale || 'uk', [
+						'common',
+						'general',
+						'videos',
+						'home-sidebar',
+						'notifications',
+						'share',
+						'playlist'
+					]))
+				}
 			}
-		}
 		: {
-			redirect: {
-				permanent: true,
-				destination: notFoundDestination
+				redirect: {
+					permanent: true,
+					destination: notFoundDestination
+				}
 			}
-		}
 }
 
 export default function PlaylistPage({
-																			 listId
-																		 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	listId
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { replace } = useRouter()
-	const {t} = useTranslation('playlist')
+	const { t } = useTranslation('playlist')
 	const [playlist, setPlaylist] = useState<IPlaylist>()
 
 	useEffect(() => {

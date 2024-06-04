@@ -1,1 +1,8 @@
-{"deleteAll":"Delete all","deleteAllSucc":"Notification cleared successfully!","deleteSucc":"Notification successfully deleted!","notifications":"Notification","notificationsNotFound":"No notifications found!","olderNotificationsAlert":"Notifications older than 90 days are automatically deleted."}
+{
+	"deleteAll": "Delete all",
+	"deleteAllSucc": "Notification cleared successfully!",
+	"deleteSucc": "Notification successfully deleted!",
+	"notifications": "Notification",
+	"notificationsNotFound": "No notifications found!",
+	"olderNotificationsAlert": "Notifications older than 90 days are automatically deleted."
+}

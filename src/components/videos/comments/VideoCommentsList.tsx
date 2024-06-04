@@ -9,13 +9,10 @@ interface IVideoCommentsListProps {
 	videoId: string
 }
 
-const VideoCommentsList: FC<
-	IVideoCommentsListProps
-> = ({
-			 comments,
-			 videoId
-		 }) => {
-
+const VideoCommentsList: FC<IVideoCommentsListProps> = ({
+	comments,
+	videoId
+}) => {
 	const { user } = useAuth()
 	const [commentsInfo, setCommentsInfo] = useState<ILikedOrDislikedComment[]>(
 		[]
@@ -32,7 +29,7 @@ const VideoCommentsList: FC<
 
 	return (
 		<div
-			className="flex flex-col gap-y-3"
+			className='flex flex-col gap-y-3'
 			children={comments.map((comment, key) => (
 				<VideoCommentCard {...{ comment, videoId, key, commentsInfo }} />
 			))}

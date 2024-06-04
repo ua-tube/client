@@ -1,0 +1,12 @@
+{
+	"bannerImage": {
+		"desc": "To ensure the banner looks good on all devices, use an image that is at least 2028 x 1152 pixels (file size up to 5MB).",
+		"title": "The banner will be located at the top of your channel page."
+	},
+	"profileImage": {
+		"desc": "We recommend using images at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
+		"title": "Your profile picture is the channel icon that appears next to your videos and comments on UaTube."
+	},
+	"update": "Update",
+	"updateSucc": "Updated successfully!"
+}

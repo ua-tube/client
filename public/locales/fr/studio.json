@@ -1,0 +1,105 @@
+{
+	"appearance": "Apparence",
+	"bannerImage": {
+		"desc": "Pour garantir que la bannière s'affiche correctement sur tous les appareils, utilisez une image d'au moins 2 028 x 1 152 pixels (taille du fichier jusqu'à 5 Mo).",
+		"title": "La bannière sera située en haut de la page de votre chaîne."
+	},
+	"channelDesc": {
+		"desc": "Décrivez brièvement l'activité de votre chaîne.",
+		"title": "Description de la chaîne"
+	},
+	"channelDesign": "Concevoir la chaîne",
+	"channelInfo": "Informations sur la chaîne",
+	"content": "contenu",
+	"contentChannel": "Contenu de la chaîne",
+	"createdAt": "Créé",
+	"createNewVideo": "Créer une vidéo",
+	"creatingNewVideo": "Créer une nouvelle vidéo",
+	"desc": {
+		"desc": "Les descriptions aident les spectateurs à mieux comprendre de quoi parle la vidéo et fournissent des informations supplémentaires.",
+		"title": "Description"
+	},
+	"email": {
+		"desc": "Entrez un email pour vous contacter.",
+		"title": "e-mail"
+	},
+	"exitFromAccount": "Se déconnecter du compte",
+	"homePage": "Page d'accueil",
+	"likesCount": "aime",
+	"maxLength": "Longueur maximale de {{length}} caractères !",
+	"metrics": "Métrique",
+	"minLength": "Longueur minimale de {{length}} caractères !",
+	"moveToYourChannel": "Accédez à votre chaîne",
+	"name": {
+		"desc": "Choisissez un nom de chaîne qui vous représente ainsi que le contenu que vous publiez.",
+		"title": "Nom"
+	},
+	"personalization": "Personnalisation",
+	"personalizeChannel": "Personnalisation de la chaîne",
+	"profileImage": {
+		"desc": "Nous recommandons d'utiliser des images d'au moins 98 x 98 pixels (taille du fichier jusqu'à 4 Mo) au format PNG ou GIF (pas d'animation).",
+		"title": "Votre photo de profil est l'icône de chaîne qui apparaît à côté de vos vidéos et commentaires sur UaTube."
+	},
+	"status": {
+		"title": "Statut",
+		"unknownStatus": "Statut vidéo inconnu",
+		"uploadVideo": "Télécharger la video",
+		"VideoBeingProcessed": "La vidéo a commencé le traitement",
+		"VideoProcessed": "La vidéo a été traitée",
+		"VideoProcessingFailed": "Erreur de traitement",
+		"VideoUploaded": "Vidéo téléchargée"
+	},
+	"table": {
+		"columns": "Colonnes",
+		"nextPage": "Le prochain",
+		"notFound": "Rien n'a été trouvé!",
+		"prevPage": "Précédent"
+	},
+	"tableVideo": {
+		"comments": "Aller aux commentaires",
+		"delete": "Supprimer la vidéo",
+		"edit": "Éditer vidéo",
+		"view": "Voir la vidéo"
+	},
+	"tags": {
+		"desc": "Les mots clés aident les spectateurs à trouver vos vidéos via la recherche. Écrivez les principaux mots-clés séparés par des virgules, leur nombre ridicule est limité.",
+		"placeholder": "Écrivez quelques mots-clés...",
+		"title": "Mots clés"
+	},
+	"tagsRule": "Les tags doivent être séparés par des virgules !",
+	"theme": {
+		"dark": "sombre",
+		"light": "Lumières",
+		"system": "Systémique",
+		"title": "sujet"
+	},
+	"title": {
+		"desc": "Un titre accrocheur aidera à garder les téléspectateurs intéressés. Ajoutez des mots-clés à vos titres vidéo que votre public pourrait utiliser lors de la recherche de contenu similaire.",
+		"title": "Titre"
+	},
+	"update": "Mise à jour",
+	"updatedAt": "Mis à jour",
+	"updateSucc": "Mis à jour avec succés!",
+	"uploadVideo": "Télécharger la video",
+	"uploadVideoFile": "Télécharger un fichier vidéo",
+	"username": {
+		"desc": "Choisissez un surnom unique en ajoutant des lettres et des chiffres.",
+		"title": "Pseudonyme"
+	},
+	"video": "Vidéo",
+	"videoComments": "Commentaires pour la vidéo",
+	"videoFile": "Fichier vidéo",
+	"videoFormats": "Seuls les formats utilisés dans la vidéo sont pris en charge, se terminant par *.webm, *.mp4.",
+	"videoPhoto": {
+		"desc": "Choisissez ou téléchargez une image qui montre le sujet de votre vidéo. Une couverture bien choisie se démarque et attire l’attention des téléspectateurs.",
+		"title": "Couverture vidéo"
+	},
+	"videoProgressLabel": "{{time}} jusqu'à la fin du téléchargement, avec la vitesse actuelle {{uploadSpeed}}",
+	"visibility": {
+		"private": "Privé",
+		"public": "Publique",
+		"title": "Visibilité",
+		"unlisted": "Pas pour tout le monde"
+	},
+	"yourChannel": "Votre chaîne"
+}

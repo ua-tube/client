@@ -1,1 +1,33 @@
-{"creator":"Erstellt","disliked_playlist":"Videos, die Ihnen nicht gefallen haben","liked_playlist":"Videos, die Ihnen gefallen haben","playlist":"Wiedergabeliste","showAllVideos":"Sehen Sie sich die gesamte Playlist an","times":"mal","timesFound":"Zählt","viewed":"Bewertet","views":"Ansichten","watch_later_playlist":"Später ansehen"}
+{
+	"add": "Hinzufügen",
+	"addToNewPlaylist": "Zur neuen Playlist hinzufügen",
+	"creator": "Erstellt",
+	"delete": "Entfernen",
+	"disliked_playlist": "Videos, die Ihnen nicht gefallen haben",
+	"liked_playlist": "Videos, die Ihnen gefallen haben",
+	"loadMore": "Mehr herunterladen...",
+	"playlist": "Wiedergabeliste",
+	"playlistCreatedSucc": "Neue Playlist „ {{title}} “ erfolgreich erstellt",
+	"privateList": "Private Playlist",
+	"saveToNewPlaylist": "In einer neuen Playlist speichern",
+	"shortDesc": {
+		"desc": "Schreiben Sie eine kurze Beschreibung, die den Hauptpunkt Ihrer Playlist darlegt.",
+		"title": "Kurze Beschreibung"
+	},
+	"showAllVideos": "Sehen Sie sich die gesamte Playlist an",
+	"times": "mal",
+	"timesFound": "Zählt",
+	"title": "Name",
+	"videoAddedToListSucc": "Video erfolgreich zur Playlist „ {{title}} “ hinzugefügt",
+	"videoRemovedFromListSucc": "Video erfolgreich aus der Playlist „ {{title}} “ entfernt",
+	"viewed": "Bewertet",
+	"views": "Ansichten",
+	"visibility": {
+		"desc": "Wählen Sie die Verfügbarkeit des Videos aus, es ist standardmäßig privat.",
+		"private": "Privat",
+		"public": "Öffentlich",
+		"title": "Verfügbarkeit der Playlist",
+		"unlisted": "Nicht für jeden"
+	},
+	"watch_later_playlist": "Später ansehen"
+}

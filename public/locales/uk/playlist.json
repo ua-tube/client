@@ -1,1 +1,33 @@
-{"creator":"Створив","disliked_playlist":"Відео, які не сподобалися","liked_playlist":"Відео, які сподобалися","playlist":"Плейліст","showAllVideos":"Дивитися весь плейліст","times":"разів","timesFound":"Налічує","viewed":"Переглянуто","views":"переглядів","watch_later_playlist":"Переглянути пізніше"}
+{
+	"add": "Додати",
+	"addToNewPlaylist": "Додати в новий плейліст",
+	"creator": "Створив",
+	"delete": "Видалити",
+	"disliked_playlist": "Відео, які не сподобалися",
+	"liked_playlist": "Відео, які сподобалися",
+	"loadMore": "Завантажити ще...",
+	"playlist": "Плейліст",
+	"playlistCreatedSucc": "Успішно створено новий плейліст \"{{title}}\"",
+	"privateList": "Приватний плейліст",
+	"saveToNewPlaylist": "Зберегти в новий плейліст",
+	"shortDesc": {
+		"desc": "Напишіть короткий опис, який буде розповідати про основну суть вашого плейліста.",
+		"title": "Короткий опис"
+	},
+	"showAllVideos": "Дивитися весь плейліст",
+	"times": "разів",
+	"timesFound": "Налічує",
+	"title": "Назва",
+	"videoAddedToListSucc": "Відео успішно додано в плейліст \"{{title}}\"",
+	"videoRemovedFromListSucc": "Відео успішно видалено з плейліста \"{{title}}\"",
+	"viewed": "Переглянуто",
+	"views": "переглядів",
+	"visibility": {
+		"desc": "Виберіть доступність відео, за замовчуванням воно буде приватне.",
+		"private": "Приватний",
+		"public": "Публічний",
+		"title": "Доступність плейліста",
+		"unlisted": "Не для всіх"
+	},
+	"watch_later_playlist": "Переглянути пізніше"
+}

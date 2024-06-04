@@ -5,7 +5,6 @@ import { GetServerSideProps } from 'next'
 import { AppHead } from '@/components'
 import { useTranslation } from 'next-i18next'
 
-
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
 	props: {
 		...(await serverSideTranslations(locale || 'uk', [

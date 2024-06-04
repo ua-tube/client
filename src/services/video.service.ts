@@ -10,7 +10,10 @@ export const VideoService = {
 	async getSearchVideos(params: IPagination & { q: string }) {
 		return $axios.get<ISearchVideosResponse>('search', { params })
 	},
-	async searchRelatedVideosByVideoId({ videoId, ...params }: IPagination & { videoId: string }) {
+	async searchRelatedVideosByVideoId({
+		videoId,
+		...params
+	}: IPagination & { videoId: string }) {
 		return $axios.get(`search/related/${videoId}`, { params })
 	},
 	async searchVideosByTags(params: IPagination & { tags: string[] }) {

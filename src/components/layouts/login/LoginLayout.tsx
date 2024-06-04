@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useEffect } from 'react'
-import { useAuth } from '@/hooks'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks'
 
 interface ILoginLayoutProps extends PropsWithChildren {}
 
@@ -9,7 +9,7 @@ const LoginLayout: FC<ILoginLayoutProps> = ({ children }) => {
 	const { replace } = useRouter()
 
 	useEffect(() => {
-		;(async () => user?.creator && replace('/dashboard/videos'))()
+		;(async () => user?.creator && replace('/studio/videos'))()
 	}, [user])
 
 	return <div className='loader-container'>{children}</div>

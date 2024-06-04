@@ -1,1 +1,8 @@
-{"deleteAll":"Alles löschen","deleteAllSucc":"Benachrichtigung erfolgreich gelöscht!","deleteSucc":"Benachrichtigung erfolgreich gelöscht!","notifications":"Benachrichtigung","notificationsNotFound":"Keine Benachrichtigungen gefunden!","olderNotificationsAlert":"Benachrichtigungen, die älter als 90 Tage sind, werden automatisch gelöscht."}
+{
+	"deleteAll": "Alles löschen",
+	"deleteAllSucc": "Benachrichtigung erfolgreich gelöscht!",
+	"deleteSucc": "Benachrichtigung erfolgreich gelöscht!",
+	"notifications": "Benachrichtigung",
+	"notificationsNotFound": "Keine Benachrichtigungen gefunden!",
+	"olderNotificationsAlert": "Benachrichtigungen, die älter als 90 Tage sind, werden automatisch gelöscht."
+}

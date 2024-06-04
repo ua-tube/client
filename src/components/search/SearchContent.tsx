@@ -22,10 +22,9 @@ const SearchContent: FC<ISearchContentProps> = ({ videos }) => {
 	}>()
 
 	return (
-		<div className="mx-auto max-w-5xl">
-
+		<div className='mx-auto max-w-5xl'>
 			<div
-				className="flex flex-col gap-y-3"
+				className='flex flex-col gap-y-3'
 				children={videos.map((value, index) => (
 					<SearchVideoCard key={index} value={value} setModal={setVideoModal} />
 				))}

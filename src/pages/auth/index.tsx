@@ -5,10 +5,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	return { redirect: { permanent: true, destination: '/auth/sign-in' } }
 }
 
-export default function DashboardVideoPage() {
+export default function StudioVideoPage() {
 	return (
 		<>
-			<AppHead title='Переадресація' />
+			<AppHead title='Redirect To Login' />
 			<DynamicIcon name='loader' className='loader-container' />
 		</>
 	)

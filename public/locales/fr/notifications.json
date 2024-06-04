@@ -1,1 +1,8 @@
-{"deleteAll":"Supprimer tout","deleteAllSucc":"Notification effacée avec succès !","deleteSucc":"Notification supprimée avec succès !","notifications":"Notification","notificationsNotFound":"Aucune notification trouvée !","olderNotificationsAlert":"Les notifications datant de plus de 90 jours sont automatiquement supprimées."}
+{
+	"deleteAll": "Supprimer tout",
+	"deleteAllSucc": "Notification effacée avec succès !",
+	"deleteSucc": "Notification supprimée avec succès !",
+	"notifications": "Notification",
+	"notificationsNotFound": "Aucune notification trouvée !",
+	"olderNotificationsAlert": "Les notifications datant de plus de 90 jours sont automatiquement supprimées."
+}

@@ -1,1 +1,13 @@
-{"dislikedVideos":"Vidéos que vous n'avez pas aimées","general":"Principal","likedVideos":"Vidéos que vous avez aimé","myVideos":"Mes vidéos","showLess":"Montrer moins","showMore":"Montre plus","subscriptions":"Abonnements","viewsHistory":"Historique de navigation","watchLater":"Voir plus tard","you":"Vous >","yourChannel":"Votre chaîne"}
+{
+	"dislikedVideos": "Vidéos que vous n'avez pas aimées",
+	"general": "Principal",
+	"likedVideos": "Vidéos que vous avez aimé",
+	"myVideos": "Mes vidéos",
+	"showLess": "Montrer moins",
+	"showMore": "Montre plus",
+	"subscriptions": "Abonnements",
+	"viewsHistory": "Historique de navigation",
+	"watchLater": "Voir plus tard",
+	"you": "Vous >",
+	"yourChannel": "Votre chaîne"
+}

@@ -1,9 +1,9 @@
 import { DynamicIcon, Avatar, AvatarImage, AvatarFallback } from '@/components'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import Link from 'next/link'
-import { FC } from 'react'
 import { useRouter } from 'next/router'
 import { getImageUrl } from '@/utils'
+import Link from 'next/link'
+import { FC } from 'react'
 
 export interface ISidebarItemProps {
 	icon?: keyof typeof dynamicIconImports

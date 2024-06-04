@@ -18,20 +18,22 @@ const HomeHeaderLogo: FC<IHomeHeaderLogoProps> = ({ hidden = false }) => {
 		<div
 			className={`gap-4 items-center flex-shrink-0 ${hidden ? 'hidden' : 'flex'}`}
 		>
-			{user && <button
-				className="rounded-lg hover:bg-muted size-10 flex items-center justify-center p-2.5"
-				onClick={() => toggle()}
-				children={<DynamicIcon name={isOpen ? 'x' : 'align-justify'} />}
-			/>}
+			{user && (
+				<button
+					className='rounded-lg hover:bg-muted size-10 flex items-center justify-center p-2.5'
+					onClick={() => toggle()}
+					children={<DynamicIcon name={isOpen ? 'x' : 'align-justify'} />}
+				/>
+			)}
 
 			<Link
-				href="/"
-				className="relative flex space-x-1.5 items-center rounded-lg p-0.5 hover:bg-muted"
+				href='/'
+				className='relative flex space-x-1.5 items-center rounded-lg p-0.5 hover:bg-muted'
 			>
-				<img src="/logo.png" alt="logo" className="h-6" />
-				<span className="font-semibold">UaTube</span>
+				<img src='/logo.png' alt='logo' className='h-6' />
+				<span className='font-semibold'>UaTube</span>
 				<span
-					className="absolute uppercase text-muted-foreground text-[0.5rem] font-semibold top-0 -right-3.5"
+					className='absolute uppercase text-muted-foreground text-[0.5rem] font-semibold top-0 -right-3.5'
 					children={locale}
 				/>
 			</Link>

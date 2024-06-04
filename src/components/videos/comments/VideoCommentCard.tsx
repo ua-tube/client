@@ -1,10 +1,25 @@
-import { Avatar, AvatarFallback, AvatarImage, Badge, DynamicIcon, Input, Button } from '@/components'
-import { formatTimeAgo, getImageUrl, getUserInitials, toastError } from '@/utils'
 import { IComment, ILikedOrDislikedComment } from '@/interfaces'
 import { CommunityService } from '@/services'
 import { FC, useState } from 'react'
 import { useAuth } from '@/hooks'
 import { toast } from 'sonner'
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Badge,
+	Button,
+	DynamicIcon,
+	Input
+} from '@/components'
+import {
+	formatTimeAgo,
+	getImageUrl,
+	getUserInitials,
+	toastError
+} from '@/utils'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 interface IVideoCommentCardProps {
 	comment: IComment
@@ -24,6 +39,9 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 	parentComment,
 	commentsInfo
 }) => {
+	const { t } = useTranslation('comments')
+	const { locale } = useRouter()
+
 	const { user } = useAuth()
 
 	const isLiked = commentsInfo.some(
@@ -70,7 +88,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 				parentCommentId: parentComment?.id || comment.id
 			})
 			setReplyState({ inputMessage: '', showInput: false })
-			toast.success('Відповідь успішно надіслано! Незабаром він зявиться на сайті!')
+			toast.success(t('replySendSucc'))
 		} catch (e) {
 			toastError(e)
 		}
@@ -95,7 +113,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 						/>
 						<div
 							className='text-foreground text-xs'
-							children={formatTimeAgo(comment.createdAt)}
+							children={formatTimeAgo(comment.createdAt, locale)}
 						/>
 					</div>
 					<div className='font-semibold' children={comment.comment} />
@@ -117,6 +135,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 								className='flex space-x-1 items-center rounded-lg'
 							>
 								<DynamicIcon name='thumbs-down' className='size-4' />
+								<span children={comment.dislikesCount} />
 							</Button>
 
 							<Button
@@ -126,7 +145,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 								className='flex space-x-1 items-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-1'
 							>
 								<DynamicIcon name='reply' className='size-4' />
-								<span children='Відповісти' />
+								<span children={t('reply')} />
 							</Button>
 						</div>
 					) : (
@@ -135,7 +154,7 @@ const VideoCommentCard: FC<IVideoCommentCardProps> = ({
 					{replyState.showInput && (
 						<div className='flex items-center space-x-2'>
 							<Input
-								placeholder='Ваша відповідь ...'
+								placeholder={t('yourReply')}
 								type='text'
 								value={replyState.inputMessage}
 								onChange={e =>

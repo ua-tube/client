@@ -1,0 +1,105 @@
+{
+	"appearance": "Dış görünüş",
+	"bannerImage": {
+		"desc": "Banner'ın tüm cihazlarda iyi görünmesini sağlamak için en az 2028 x 1152 piksel (dosya boyutu 5 MB'a kadar) olan bir resim kullanın.",
+		"title": "Banner, kanal sayfanızın üst kısmında yer alacaktır."
+	},
+	"channelDesc": {
+		"desc": "Kanalınızın etkinliğini kısaca açıklayın.",
+		"title": "Kanal açıklaması"
+	},
+	"channelDesign": "Kanalın tasarlanması",
+	"channelInfo": "Kanal bilgisi",
+	"content": "içerik",
+	"contentChannel": "Kanal içeriği",
+	"createdAt": "Oluşturuldu",
+	"createNewVideo": "Video oluştur",
+	"creatingNewVideo": "Yeni bir video oluştur",
+	"desc": {
+		"desc": "Açıklamalar izleyicilerin videonun neyle ilgili olduğunu daha iyi anlamalarına yardımcı olur ve ek bilgi sağlar.",
+		"title": "Tanım"
+	},
+	"email": {
+		"desc": "Sizinle iletişime geçmek için bir e-posta girin.",
+		"title": "e-posta"
+	},
+	"exitFromAccount": "Hesaptan çıkış yapın",
+	"homePage": "Ana sayfa",
+	"likesCount": "seviyor",
+	"maxLength": "Maksimum {{length}} karakter uzunluğunda!",
+	"metrics": "Metrikler",
+	"minLength": "Minimum uzunluk {{length}} karakter!",
+	"moveToYourChannel": "Kanalınıza gidin",
+	"name": {
+		"desc": "Sizi ve yayınladığınız içeriği temsil eden bir kanal adı seçin.",
+		"title": "İsim"
+	},
+	"personalization": "Kişiselleştirme",
+	"personalizeChannel": "Kanalın kişiselleştirilmesi",
+	"profileImage": {
+		"desc": "PNG veya GIF formatında (animasyonsuz) en az 98 x 98 piksel (dosya boyutu 4 MB'a kadar) resimler kullanmanızı öneririz.",
+		"title": "Profil resminiz, UaTube'daki videolarınızın ve yorumlarınızın yanında görünen kanal simgesidir."
+	},
+	"status": {
+		"title": "Durum",
+		"unknownStatus": "Bilinmeyen video durumu",
+		"uploadVideo": "Video indir",
+		"VideoBeingProcessed": "Video işlenmeye başladı",
+		"VideoProcessed": "Video işlendi",
+		"VideoProcessingFailed": "İşleme hatası",
+		"VideoUploaded": "Video yüklendi"
+	},
+	"table": {
+		"columns": "Sütunlar",
+		"nextPage": "Sıradaki",
+		"notFound": "Hiçbirşey Bulunamadı!",
+		"prevPage": "Öncesi"
+	},
+	"tableVideo": {
+		"comments": "Yorumlara git",
+		"delete": "Videoyu sil",
+		"edit": "Videoyu düzenle",
+		"view": "Videoyu görüntüle"
+	},
+	"tags": {
+		"desc": "Anahtar kelimeler izleyicilerin videolarınızı arama yoluyla bulmasına yardımcı olur. Ana anahtar kelimeleri virgülle ayırarak yazın, saçma sayıları sınırlıdır.",
+		"placeholder": "Birkaç anahtar kelime yazın...",
+		"title": "Anahtar Kelimeler"
+	},
+	"tagsRule": "Etiketler virgülle ayrılmalıdır!",
+	"theme": {
+		"dark": "karanlık",
+		"light": "Işıklar",
+		"system": "Sistemik",
+		"title": "başlık"
+	},
+	"title": {
+		"desc": "Akılda kalıcı bir başlık izleyicilerin ilgisini canlı tutmanıza yardımcı olacaktır. Hedef kitlenizin benzer içerik ararken kullanabileceği anahtar kelimeleri video başlıklarınıza ekleyin.",
+		"title": "Başlık"
+	},
+	"update": "Güncelleme",
+	"updatedAt": "Güncellenmiş",
+	"updateSucc": "Başarıyla güncellendi!",
+	"uploadVideo": "Video indir",
+	"uploadVideoFile": "Bir video dosyasını indirme",
+	"username": {
+		"desc": "Harfleri ve sayıları ekleyerek benzersiz bir takma ad seçin.",
+		"title": "Takma ad"
+	},
+	"video": "Video",
+	"videoComments": "Video için yorumlar",
+	"videoFile": "Video dosyası",
+	"videoFormats": "Yalnızca videoda kullanılan formatlar desteklenir; *.webm, *.mp4 ile biter.",
+	"videoPhoto": {
+		"desc": "Videonuzun neyle ilgili olduğunu gösteren bir resim seçin veya yükleyin. İyi seçilmiş bir kapak öne çıkıyor ve izleyicilerin dikkatini çekiyor.",
+		"title": "Video kapağı"
+	},
+	"videoProgressLabel": "Mevcut hız {{uploadSpeed}} ile yüklemenin sonuna kadar {{time}}",
+	"visibility": {
+		"private": "Özel",
+		"public": "Halk",
+		"title": "Görünürlük",
+		"unlisted": "Herkes için değil"
+	},
+	"yourChannel": "Kanalınız"
+}

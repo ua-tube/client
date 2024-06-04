@@ -1,1 +1,24 @@
-{"aboutChannel":"Informacje o kanale","appearance":"Wygląd","channelCreated":"Kanał został stworzony przez {{createdAt}}","dark":"ciemny","exit":"Wejście","homePage":"Strona główna","light":"światło","localeDesc":"Język: {{locale}}","login":"Zalogować się","myChannel":"mój kanał","personalization":"Personalizacja","search":"Szukaj","showMore":"Zobacz bardziej szczegółowo","studio":"Studio","subscribe":"Zapisać się","subscribersCountDesc":"Subskrybowane przez {{subsCount}} użytkowników","system":"Systemowe","theme":"temat","unsubscribe":"Zrezygnuj z subskrypcji","uploadNewVideo":"Pobierz nowy film","video":"wideo","views":"wyświetlenia"}
+{
+	"aboutChannel": "Informacje o kanale",
+	"appearance": "Wygląd",
+	"channelCreated": "Kanał został stworzony przez {{createdAt}}",
+	"dark": "ciemny",
+	"exit": "Wejście",
+	"homePage": "Strona główna",
+	"light": "światło",
+	"localeDesc": "Język: {{locale}}",
+	"login": "Zalogować się",
+	"myChannel": "mój kanał",
+	"personalization": "Personalizacja",
+	"search": "Szukaj",
+	"showMore": "Zobacz więcej szczegółów",
+	"studio": "Studio",
+	"subscribe": "Zapisać się",
+	"subscribersCountDesc": "Subskrybowane przez {{subsCount}} użytkowników",
+	"system": "Systemowe",
+	"theme": "temat",
+	"unsubscribe": "Zrezygnuj z subskrypcji",
+	"uploadNewVideo": "Pobierz nowy film",
+	"video": "wideo",
+	"views": "wyświetlenia"
+}

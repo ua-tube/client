@@ -1,1 +1,13 @@
-{"dislikedVideos":"Beğenmediğiniz videolar","general":"Ana","likedVideos":"Beğendiğiniz videolar","myVideos":"Videolarım","showLess":"Daha az göster","showMore":"Daha fazla göster","subscriptions":"Abonelikler","viewsHistory":"Arama geçmişi","watchLater":"Daha sonra görüntüle","you":"Siz >","yourChannel":"Kanalınız"}
+{
+	"dislikedVideos": "Beğenmediğiniz videolar",
+	"general": "Ana",
+	"likedVideos": "Beğendiğiniz videolar",
+	"myVideos": "Videolarım",
+	"showLess": "Daha az göster",
+	"showMore": "Daha fazla göster",
+	"subscriptions": "Abonelikler",
+	"viewsHistory": "Arama geçmişi",
+	"watchLater": "Daha sonra görüntüle",
+	"you": "Siz >",
+	"yourChannel": "Kanalınız"
+}

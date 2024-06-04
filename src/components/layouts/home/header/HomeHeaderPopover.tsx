@@ -44,31 +44,33 @@ const DropdownBaseContent: FC = () => {
 	return (
 		<>
 			<DropdownMenuSub>
-				<DropdownMenuSubTrigger className="space-x-2">
+				<DropdownMenuSubTrigger className='space-x-2'>
 					<DynamicIcon
 						name={theme === 'light' ? 'sun' : 'moon'}
-						className="size-4"
+						className='size-4'
 					/>
-					<div className="flex items-center gap-x-1">
-						{t('appearance')}: <span className="dark:hidden">{t('light').toLowerCase()}</span>{' '}
-						<span className="hidden dark:block">{t('dark').toLowerCase()}</span> {t('theme')}
+					<div className='flex items-center gap-x-1'>
+						{t('appearance')}:{' '}
+						<span className='dark:hidden'>{t('light').toLowerCase()}</span>{' '}
+						<span className='hidden dark:block'>{t('dark').toLowerCase()}</span>{' '}
+						{t('theme')}
 					</div>
 				</DropdownMenuSubTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuSubContent>
 						<DropdownMenuItem
-							className="justify-between"
+							className='justify-between'
 							onClick={() => setTheme('light')}
 						>
 							<span>{t('light')}</span>
-							<div className="checkedIcon dark:hidden" />
+							<div className='checkedIcon dark:hidden' />
 						</DropdownMenuItem>
 						<DropdownMenuItem
-							className="justify-between"
+							className='justify-between'
 							onClick={() => setTheme('dark')}
 						>
 							<span>{t('dark')}</span>
-							<div className="checkedIcon hidden dark:block" />
+							<div className='checkedIcon hidden dark:block' />
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => setTheme('system')}>
 							{t('system')}
@@ -78,11 +80,15 @@ const DropdownBaseContent: FC = () => {
 			</DropdownMenuSub>
 			<DropdownMenuSub>
 				<DropdownMenuSubTrigger>
-					<div className="flex items-center space-x-2">
-						<DynamicIcon name="languages" className="h-4 w-4" />
+					<div className='flex items-center space-x-2'>
+						<DynamicIcon name='languages' className='h-4 w-4' />
 						<div
-							className="flex items-center gap-x-1"
-							children={t('localeDesc', { locale: languages.find(value => value.shortName === (locale || 'uk'))?.fullName })}
+							className='flex items-center gap-x-1'
+							children={t('localeDesc', {
+								locale: languages.find(
+									value => value.shortName === (locale || 'uk')
+								)?.fullName
+							})}
 						/>
 					</div>
 				</DropdownMenuSubTrigger>
@@ -93,10 +99,12 @@ const DropdownBaseContent: FC = () => {
 								<Link
 									href={asPath}
 									locale={shortName}
-									className="flex items-center justify-between"
+									className='flex items-center justify-between'
 								>
 									<span children={fullName} />
-									{shortName.startsWith(locale || '') && <div className="checkedIcon" />}
+									{shortName.startsWith(locale || '') && (
+										<div className='checkedIcon' />
+									)}
 								</Link>
 							</DropdownMenuItem>
 						))}
@@ -108,9 +116,9 @@ const DropdownBaseContent: FC = () => {
 }
 
 const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
-																													showFullWidthSearch,
-																													setShowFullWidthSearch
-																												}) => {
+	showFullWidthSearch,
+	setShowFullWidthSearch
+}) => {
 	const { user, accessToken } = useAuth()
 	const { logOut } = useActions()
 	const { t } = useTranslation('general')
@@ -121,20 +129,20 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 		>
 			<button
 				onClick={() => setShowFullWidthSearch(true)}
-				className="md:hidden rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
+				className='md:hidden rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
 			>
-				<DynamicIcon name="search" />
+				<DynamicIcon name='search' />
 			</button>
 
 			{user ? (
-				<div className="space-x-2 items-center flex">
+				<div className='space-x-2 items-center flex'>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href="/dashboard?upload=1"
-								className="rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted"
+								href='/src/pages/studio?upload=1'
+								className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
 							>
-								<DynamicIcon name="upload" />
+								<DynamicIcon name='upload' />
 							</Link>
 						</TooltipTrigger>
 						<TooltipContent children={t('uploadNewVideo')} />
@@ -143,8 +151,8 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 					<HomeHeaderNotifications />
 
 					<DropdownMenu>
-						<DropdownMenuTrigger className="focus:border-none">
-							<Avatar className="border border-input">
+						<DropdownMenuTrigger className='focus:border-none'>
+							<Avatar className='border border-input'>
 								<AvatarImage
 									src={getImageUrl(user.creator.thumbnailUrl)}
 									alt={user.creator?.id}
@@ -154,22 +162,22 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 								/>
 							</Avatar>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							<DropdownMenuItem className="space-x-2" asChild>
-								<Link href="/dashboard/videos">
-									<DynamicIcon name="contact" className="size-4" />
+						<DropdownMenuContent align='end'>
+							<DropdownMenuItem className='space-x-2' asChild>
+								<Link href='/src/pages/studio/videos'>
+									<DynamicIcon name='contact' className='size-4' />
 									<span>{t('studio')}</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className="space-x-2" asChild>
-								<Link href="/dashboard/videos">
-									<DynamicIcon name="settings" className="size-4" />
+							<DropdownMenuItem className='space-x-2' asChild>
+								<Link href='/src/pages/studio/videos'>
+									<DynamicIcon name='settings' className='size-4' />
 									<span>{t('personalization')}</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className="space-x-2" asChild>
+							<DropdownMenuItem className='space-x-2' asChild>
 								<Link href={getChannelUrl(user.id, 'videos', true)}>
-									<DynamicIcon name="user-round" className="size-4" />
+									<DynamicIcon name='user-round' className='size-4' />
 									<span>{t('myChannel')}</span>
 								</Link>
 							</DropdownMenuItem>
@@ -177,22 +185,22 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 							<DropdownBaseContent />
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
-								className="space-x-2"
+								className='space-x-2'
 								onClick={() => logOut({ accessToken })}
 							>
-								<DynamicIcon name="door-open" className="size-4" />
+								<DynamicIcon name='door-open' className='size-4' />
 								<span>{t('exit')}</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
 			) : (
-				<div className="flex space-x-1">
+				<div className='flex space-x-1'>
 					<DropdownMenu>
-						<DropdownMenuTrigger className="focus:border-none">
+						<DropdownMenuTrigger className='focus:border-none'>
 							<DynamicIcon
-								name="more-vertical"
-								className="size-10 p-2.5 hover:bg-muted rounded-lg"
+								name='more-vertical'
+								className='size-10 p-2.5 hover:bg-muted rounded-lg'
 							/>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
@@ -200,11 +208,11 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<Link
-						href="/auth"
-						className="h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted"
+						href='/auth'
+						className='h-10 rounded-lg border border-blue-700 flex gap-x-2 items-center justify-center p-2.5 hover:bg-muted'
 					>
-						<DynamicIcon name="door-open" />
-						<span className="hiddenOnMobile">{t('login')}</span>
+						<DynamicIcon name='door-open' />
+						<span className='hiddenOnMobile'>{t('login')}</span>
 					</Link>
 				</div>
 			)}

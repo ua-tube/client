@@ -9,6 +9,6 @@ const languages: ILanguage[] = [
 	{ shortName: 'pl', fullName: 'Polski' },
 	{ shortName: 'es', fullName: 'Español' },
 	{ shortName: 'it', fullName: 'Italiano' },
-];
+]
 
 export { languages }

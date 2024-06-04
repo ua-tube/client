@@ -1,0 +1,102 @@
+{
+	"appearance": "Appearance",
+	"bannerImage": {
+		"desc": "To ensure the banner looks good on all devices, use an image that is at least 2028 x 1152 pixels (file size up to 5MB).",
+		"title": "The banner will be located at the top of your channel page."
+	},
+	"channelDesc": {
+		"desc": "Briefly describe the activity of your channel.",
+		"title": "Channel description"
+	},
+	"channelDesign": "Designing the channel",
+	"channelInfo": "Channel information",
+	"content": "content",
+	"contentChannel": "Channel content",
+	"createdAt": "Created",
+	"createNewVideo": "Create a video",
+	"creatingNewVideo": "Create a new video",
+	"desc": {
+		"desc": "Descriptions help viewers better understand what the video is about and provide additional information.",
+		"title": "Description"
+	},
+	"email": { "desc": "Enter an email to contact you.", "title": "email" },
+	"exitFromAccount": "Sign out of the account",
+	"homePage": "Home page",
+	"likesCount": "likes",
+	"maxLength": "Maximum length of {{length}} characters!",
+	"metrics": "Metrics",
+	"minLength": "Minimum length of {{length}} characters!",
+	"moveToYourChannel": "Go to your channel",
+	"name": {
+		"desc": "Choose a channel name that represents you and the content you publish.",
+		"title": "Name"
+	},
+	"personalization": "Personalization",
+	"personalizeChannel": "Personalization of the channel",
+	"profileImage": {
+		"desc": "We recommend using images at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
+		"title": "Your profile picture is the channel icon that appears next to your videos and comments on UaTube."
+	},
+	"status": {
+		"title": "Status",
+		"unknownStatus": "Unknown video status",
+		"uploadVideo": "Download video",
+		"VideoBeingProcessed": "The video has started processing",
+		"VideoProcessed": "The video has been processed",
+		"VideoProcessingFailed": "Processing error",
+		"VideoUploaded": "Video uploaded"
+	},
+	"table": {
+		"columns": "Columns",
+		"nextPage": "The next one",
+		"notFound": "Nothing found!",
+		"prevPage": "Previous"
+	},
+	"tableVideo": {
+		"comments": "Go to comments",
+		"delete": "Delete video",
+		"edit": "Edit video",
+		"view": "View the video"
+	},
+	"tags": {
+		"desc": "Keywords help viewers find your videos through search. Write the main keywords separated by commas, their ridiculous number is limited.",
+		"placeholder": "Write some keywords...",
+		"title": "Keywords"
+	},
+	"tagsRule": "Tags must be separated by commas!",
+	"theme": {
+		"dark": "dark",
+		"light": "Lights",
+		"system": "Systemic",
+		"title": "topic"
+	},
+	"title": {
+		"desc": "A catchy headline will help keep viewers interested. Add keywords to your video titles that your audience might use when searching for similar content.",
+		"title": "Title"
+	},
+	"update": "Update",
+	"updatedAt": "Updated",
+	"updateSucc": "Updated successfully!",
+	"uploadVideo": "Download video",
+	"uploadVideoFile": "Downloading a video file",
+	"username": {
+		"desc": "Choose a unique nickname by adding letters and numbers.",
+		"title": "Pseudonym"
+	},
+	"video": "Video",
+	"videoComments": "Comments for the video",
+	"videoFile": "Video file",
+	"videoFormats": "Only formats used in the video are supported, ending with *.webm, *.mp4.",
+	"videoPhoto": {
+		"desc": "Choose or upload an image that shows what your video is about. A well-chosen cover stands out and attracts the attention of viewers.",
+		"title": "Video cover"
+	},
+	"videoProgressLabel": "{{time}} until the end of the upload, with the current speed {{uploadSpeed}}",
+	"visibility": {
+		"private": "Private",
+		"public": "Public",
+		"title": "Visibility",
+		"unlisted": "Not for everyone"
+	},
+	"yourChannel": "Your channel"
+}
