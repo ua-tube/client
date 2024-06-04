@@ -4,6 +4,8 @@ import { IPlaylist } from '@/interfaces'
 import { useAuth } from '@/hooks'
 import Link from 'next/link'
 import { FC } from 'react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 interface IPlaylistContentProps {
 	playlist?: IPlaylist
@@ -12,6 +14,8 @@ interface IPlaylistContentProps {
 
 const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 	const { user } = useAuth()
+	const { locale } = useRouter()
+	const { t } = useTranslation('playlist')
 
 	const firstVideo = playlist?.videos?.list?.[0]
 	const currPlaylistId = (listId === 'LL' || listId === 'WL') ? listId : playlist?.id
@@ -38,7 +42,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 								/>
 								<div
 									className="absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded"
-									children={formatDuration(value.lengthSeconds)}
+									children={formatDuration(value.lengthSeconds, locale)}
 								/>
 							</Link>
 							<div className="flex flex-col gap-y-1 w-3/5">
@@ -55,7 +59,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 
 								<div
 									className="text-muted-foreground text-xs"
-									children={`${formatNumbers(value.metrics?.viewsCount)} переглядів • ${formatTimeAgo(value.createdAt)}`}
+									children={`${formatNumbers(value.metrics?.viewsCount)} ${t('views')} • ${formatTimeAgo(value.createdAt)}`}
 								/>
 							</div>
 						</div>
@@ -64,9 +68,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 			</div>
 			<div
 				className="w-full lg:w-1/4 h-fit rounded-xl lg:sticky lg:top-0 bg-repeat-space bg-center bg-cover"
-				style={{
-					backgroundImage: `url(${getImageUrl(firstVideo?.thumbnailUrl)})`
-				}}
+				style={{ backgroundImage: `url(${getImageUrl(firstVideo?.thumbnailUrl)})` }}
 			>
 				<div className="flex flex-col w-full h-full backdrop-blur-lg rounded-xl p-6">
 					<Link
@@ -83,19 +85,19 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 							<DynamicIcon name="list-video" />
 							<Link
 								href={getVideoUrl(firstVideo?.id, undefined, currPlaylistId, true)}
-								children="Дивитися весь плейліст"
+								children={t('showAllVideos')}
 							/>
 						</div>
 					</Link>
 					<div className="flex flex-col gap-y-3 p-3 rounded-lg bg-background/10 mt-2">
 						<h3
 							className="scroll-m-20 text-3xl font-bold tracking-tight line-clamp-3"
-							children={playlist?.title}
+							children={t(playlist?.title || 'playlist')}
 						/>
 						<div className="space-y-2">
 							<div className="flex items-center space-x-2">
 								<DynamicIcon name="user" />
-								<span>Створив: </span>
+								<span>{t('creator')}: </span>
 								<Link
 									className="leading-7 font-semibold"
 									href={getChannelUrl(
@@ -109,19 +111,19 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 							{typeof playlist?.metrics?.viewsCount !== 'undefined' && +playlist?.metrics?.viewsCount > 0 ? (
 								<div className="flex items-center space-x-2">
 									<DynamicIcon name="eye" />
-									<span>Переглянуто: </span>
+									<span>{t('viewed')}: </span>
 									<div
 										className="leading-7 font-semibold"
-										children={`${formatNumbers(playlist.metrics?.viewsCount)} разів`}
+										children={`${formatNumbers(playlist.metrics?.viewsCount, locale)} ${t('times')}`}
 									/>
 								</div>
 							) : null}
 							<div className="flex items-center space-x-2">
 								<DynamicIcon name="list-video" />
-								<span>Налічує: </span>
+								<span>{t('timesFound')}: </span>
 								<div
 									className="leading-7 font-semibold"
-									children={`${playlist?.metrics?.itemsCount} відео`}
+									children={`${playlist?.metrics?.itemsCount} `}
 								/>
 							</div>
 							{(playlist?.createdAt || user?.creator.createdAt) && (
@@ -131,7 +133,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 									<div
 										className="leading-7 font-semibold"
 										children={formatTimeAgo(
-											playlist?.createdAt || user?.creator.createdAt
+											playlist?.createdAt || user?.creator.createdAt, locale
 										)}
 									/>
 								</div>
@@ -142,7 +144,7 @@ const PlaylistContent: FC<IPlaylistContentProps> = ({ playlist, listId }) => {
 									<span>Оновлено: </span>
 									<div
 										className="leading-7 font-semibold"
-										children={formatTimeAgo(playlist.updatedAt)}
+										children={formatTimeAgo(playlist.updatedAt, locale)}
 									/>
 								</div>
 							)}

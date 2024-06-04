@@ -1,10 +1,11 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { ISearchVideosResponse } from '@/interfaces'
 import { AppHead, DynamicIcon } from '@/components'
+import { useTranslation } from 'next-i18next'
 import { VideoService } from '@/services'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import dynamic from 'next/dynamic'
 
 const HomeLayout = dynamic(
 	() => import('@/components/layouts/home'),
@@ -50,11 +51,12 @@ export default function HomePage({
 																	 data, tag
 																 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
+	const { t } = useTranslation('general')
 	const { push } = useRouter()
 
 	return (
 		<>
-			<AppHead title="Головна сторінка" />
+			<AppHead title={t('homePage')} />
 			<HomeLayout autoShowSidebar>
 				<CategoryPills
 					data={Object.keys(data.facetDistribution.tags)}

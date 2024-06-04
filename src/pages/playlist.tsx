@@ -1,40 +1,54 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, DynamicIcon } from '@/components'
-import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { LibraryService } from '@/services'
 import { IPlaylist } from '@/interfaces'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+import { useTranslation } from 'next-i18next'
 
 const HomeLayout = dynamic(() => import('@/components/layouts/home'), {
-	loading: () => <DynamicIcon name='loader' className='loader-container' />
+	loading: () => <DynamicIcon name="loader" className="loader-container" />
 })
 
 const PlaylistContent = dynamic(
 	() => import('@/components/playlist/PlaylistContent'),
-	{ loading: () => <DynamicIcon name='loader' className='loader-container' /> }
+	{ loading: () => <DynamicIcon name="loader" className="loader-container" /> }
 )
 
 const notFoundDestination = `/404?message=${encodeURIComponent('Даного плейліста не знайдено!')}`
 
 export const getServerSideProps: GetServerSideProps<{
 	listId: string
-}> = async ({ query }) => {
+}> = async ({ query, locale }) => {
 	const listId = query?.listId as string
 	return listId && listId !== ''
-		? { props: { listId } }
-		: {
-				redirect: {
-					permanent: true,
-					destination: notFoundDestination
-				}
+		? {
+			props: {
+				listId,
+				...(await serverSideTranslations(locale || 'uk', [
+					'general',
+					'common',
+					'playlist',
+					'notifications',
+					'home-sidebar'
+				]))
 			}
+		}
+		: {
+			redirect: {
+				permanent: true,
+				destination: notFoundDestination
+			}
+		}
 }
 
 export default function PlaylistPage({
-	listId
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+																			 listId
+																		 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { replace } = useRouter()
+	const {t} = useTranslation('playlist')
 	const [playlist, setPlaylist] = useState<IPlaylist>()
 
 	useEffect(() => {
@@ -54,7 +68,7 @@ export default function PlaylistPage({
 
 	return (
 		<>
-			<AppHead title={playlist?.title || 'Playlist'} />
+			<AppHead title={playlist?.title || t('playlist')} />
 			<HomeLayout autoShowSidebar>
 				<PlaylistContent playlist={playlist} listId={listId} />
 			</HomeLayout>

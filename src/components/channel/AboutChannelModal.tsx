@@ -17,11 +17,14 @@ type CreatorStats = {
 	subscribersCount?: string
 }
 
-const AboutChannelModal: FC<IAboutChannelModalProps> = ({
-	showModal,
-	setShowModal,
-	creator
-}) => {
+const AboutChannelModal: FC<
+	IAboutChannelModalProps
+> = ({
+			 showModal,
+			 setShowModal,
+			 creator
+		 }) => {
+
 	const { t } = useTranslation('general')
 
 	const [data, setData] = useState<CreatorStats>({
@@ -60,46 +63,44 @@ const AboutChannelModal: FC<IAboutChannelModalProps> = ({
 				<DialogHeader>
 					<DialogTitle>{t('aboutChannel')}</DialogTitle>
 				</DialogHeader>
-				<div className='flex text-sm' children={creator.description} />
-				<div className='flex flex-col gap-y-3'>
+				<div className="flex text-sm" children={creator.description} />
+				<div className="flex flex-col gap-y-3">
 					{creator.email && (
 						<a
 							href={`mailto:${creator.email}`}
-							className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'
+							className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2"
 						>
-							<DynamicIcon name='message-circle' />
+							<DynamicIcon name="message-circle" />
 							<span children={creator.email} />
 						</a>
 					)}
 
-					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
-						<DynamicIcon name='merge' />
+					<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
+						<DynamicIcon name="merge" />
 						<span
 							children={getChannelUrl(creator.nickname, undefined, false)}
 						/>
 					</div>
 
-					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
-						<DynamicIcon name='user-check' />
+					<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
+						<DynamicIcon name="user-check" />
 						<span
-							children={t('subscribersCountDesc', {
-								subsCount: 'data.subscribersCount'
-							})}
+							children={t('subscribersCountDesc', { subsCount: 'data.subscribersCount' })}
 						/>
 					</div>
 
-					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
-						<DynamicIcon name='monitor-play' />
+					<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
+						<DynamicIcon name="monitor-play" />
 						<span children={`${data.count} ${t('video')}`} />
 					</div>
 
-					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
-						<DynamicIcon name='bar-chart-3' />
+					<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
+						<DynamicIcon name="bar-chart-3" />
 						<span children={`${data.totalViews} ${t('views')}`} />
 					</div>
 
-					<div className='flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2'>
-						<DynamicIcon name='calendar' />
+					<div className="flex gap-x-3 items-center rounded-lg hover:bg-secondary p-2">
+						<DynamicIcon name="calendar" />
 						<span
 							children={t('channelCreated', {
 								createdAt: new Date(

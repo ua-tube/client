@@ -2,16 +2,7 @@ import { StorageService, VideoManagerService } from '@/services'
 import { toastError } from '@/utils'
 import { IVideo, UseState } from '@/interfaces'
 import { FC, useState } from 'react'
-import {
-	Button,
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	Input,
-	Label,
-	Progress
-} from '@/components'
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle, Input, Label, Progress } from '@/components'
 
 interface IVideoUploadModalProps {
 	video?: IVideo
@@ -87,30 +78,31 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({ video, setVideo }) => {
 			open={!!video}
 			onOpenChange={() => !uploadProgress && setVideo(undefined)}
 		>
-			<DialogContent className='sm:max-w-md'>
+			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle className='text-center'>
+					<DialogTitle className="text-center">
 						Завантаження відео файлу
 					</DialogTitle>
 				</DialogHeader>
 
-				<Label htmlFor='file'>Відео файл</Label>
+				<Label htmlFor="file">Відео файл</Label>
 				<Input
-					id='file'
-					type='file'
-					accept='video/mp4,video/x-m4v,video/*'
+					id="file"
+					type="file"
+					accept="video/mp4,video/x-m4v,video/*"
+					disabled={!!uploadProgress}
 					onChange={e => setVideoFile(e.target.files?.[0])}
 				/>
-				<div className='text-sm text-muted-foreground'>
+				<div className="text-sm text-muted-foreground">
 					Підтримуються лише формати, які використовуються в відео.
 				</div>
 				{uploadProgress && uploadProgress && (
 					<>
 						<Progress
 							value={uploadProgress.percentage}
-							className='rounded-md'
+							className="rounded-md"
 						/>
-						<div className='text-sm text-muted-foreground'>
+						<div className="text-sm text-muted-foreground">
 							До кінця завантаження залишилося{' '}
 							{formatTime(uploadProgress.timeRemaining)}, з поточню швидкістю{' '}
 							{formatSpeed(uploadProgress.uploadSpeed)}
@@ -119,7 +111,7 @@ const VideoUploadModal: FC<IVideoUploadModalProps> = ({ video, setVideo }) => {
 				)}
 				<Button
 					onClick={onSubmit}
-					className='w-full flex flex-row items-center gap-2'
+					className="w-full flex flex-row items-center gap-2"
 					disabled={!videoFile || !!uploadProgress}
 				>
 					<span>Завантажити відео</span>
