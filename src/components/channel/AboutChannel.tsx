@@ -51,13 +51,15 @@ const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 
 	return (
 		<div className='space-y-5'>
-			<div className='w-full h-48'>
-				<img
-					src={getImageUrl(creator.bannerUrl)}
-					className='w-full h-full object-cover rounded-lg'
-					alt='profile-bg-img'
-				/>
-			</div>
+			{creator.bannerUrl && (
+				<div className='w-full h-48'>
+					<img
+						src={getImageUrl(creator.bannerUrl)}
+						className='w-full h-full object-cover rounded-lg'
+						alt='profile-bg-img'
+					/>
+				</div>
+			)}
 			<div className='flex flex-col items-start md:flex-row md:items-center gap-4'>
 				<Avatar className='size-16 sm:size-20 md:size-40'>
 					<AvatarImage src={getImageUrl(creator.thumbnailUrl)} />

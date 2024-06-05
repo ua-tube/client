@@ -17,7 +17,7 @@ interface IVideo {
 	processedVideos: IProcessedVideo[]
 	metrics?: IVideoMetrics
 	processingStatus?: VideoProcessingStatusType
-	tags?: string[]
+	tags?: string
 	thumbnails?: IVideoThumbnail[]
 	thumbnailId?: string
 	thumbnailStatus?: VideoThumbnailStatusType

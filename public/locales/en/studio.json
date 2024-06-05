@@ -19,10 +19,14 @@
 		"desc": "Descriptions help viewers better understand what the video is about and provide additional information.",
 		"title": "Description"
 	},
-	"email": { "desc": "Enter an email to contact you.", "title": "email" },
+	"email": {
+		"desc": "Enter an email to contact you.",
+		"title": "email"
+	},
 	"exitFromAccount": "Sign out of the account",
 	"homePage": "Home page",
 	"likesCount": "likes",
+	"localeDesc": "Language",
 	"maxLength": "Maximum length of {{length}} characters!",
 	"metrics": "Metrics",
 	"minLength": "Minimum length of {{length}} characters!",
@@ -34,7 +38,7 @@
 	"personalization": "Personalization",
 	"personalizeChannel": "Personalization of the channel",
 	"profileImage": {
-		"desc": "We recommend using images at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
+		"desc": "We recommend images of at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
 		"title": "Your profile picture is the channel icon that appears next to your videos and comments on UaTube."
 	},
 	"status": {

@@ -1,5 +1,6 @@
 {
 	"appearance": "Dış görünüş",
+	"localeDesc": "Dil",
 	"bannerImage": {
 		"desc": "Banner'ın tüm cihazlarda iyi görünmesini sağlamak için en az 2028 x 1152 piksel (dosya boyutu 5 MB'a kadar) olan bir resim kullanın.",
 		"title": "Banner, kanal sayfanızın üst kısmında yer alacaktır."

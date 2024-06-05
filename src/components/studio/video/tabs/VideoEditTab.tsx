@@ -63,7 +63,7 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 	useEffect(() => {
 		if (video) {
 			form.setValue('title', video.title)
-			form.setValue('tags', video.tags?.join(',') || '')
+			form.setValue('tags', video.tags || '')
 			form.setValue('description', video.description || '')
 			form.setValue('visibility', video.visibility!)
 			form.setValue(
@@ -162,7 +162,7 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 										{t('visibility.unlisted')}
 									</SelectItem>
 									<SelectItem value='Public'>
-										{t('visibility.private')}
+										{t('visibility.public')}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -171,45 +171,47 @@ const VideoEditTab: FC<IVideoEditTabProps> = ({ video }) => {
 					)}
 				/>
 
-				<FormField
-					control={form.control}
-					name='thumbnailId'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>{t('videoPhoto.title')}</FormLabel>
-							<FormDescription>{t('videoPhoto.desc')}</FormDescription>
-							<FormControl>
-								<RadioGroup
-									className='grid grid-cols-4 gap-3'
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-									value={field.value}
-								>
-									{video?.thumbnails?.map((value, index) => (
-										<div key={index}>
-											<RadioGroupItem
-												value={value.imageFileId}
-												id={value.imageFileId}
-												className='peer sr-only'
-											/>
-											<Label
-												htmlFor={value.imageFileId}
-												className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-0.5 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
-											>
-												<img
-													src={getImageUrl(value.url)}
-													alt={value.imageFileId}
-													className='aspect-video object-cover'
+				{video?.thumbnails && video.thumbnails.length > 0 && (
+					<FormField
+						control={form.control}
+						name='thumbnailId'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>{t('videoPhoto.title')}</FormLabel>
+								<FormDescription>{t('videoPhoto.desc')}</FormDescription>
+								<FormControl>
+									<RadioGroup
+										className='grid grid-cols-4 gap-3'
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+										value={field.value}
+									>
+										{video?.thumbnails?.map((value, index) => (
+											<div key={index}>
+												<RadioGroupItem
+													value={value.imageFileId}
+													id={value.imageFileId}
+													className='peer sr-only'
 												/>
-											</Label>
-										</div>
-									))}
-								</RadioGroup>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+												<Label
+													htmlFor={value.imageFileId}
+													className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-0.5 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
+												>
+													<img
+														src={getImageUrl(value.url)}
+														alt={value.imageFileId}
+														className='aspect-video object-cover'
+													/>
+												</Label>
+											</div>
+										))}
+									</RadioGroup>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				)}
 				<Button type='submit'>{t('update')}</Button>
 			</form>
 		</Form>

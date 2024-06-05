@@ -1,5 +1,6 @@
 {
 	"appearance": "Aussehen",
+	"localeDesc": "Sprache",
 	"bannerImage": {
 		"desc": "Um sicherzustellen, dass das Banner auf allen Geräten gut aussieht, verwenden Sie ein Bild mit mindestens 2028 x 1152 Pixeln (Dateigröße bis zu 5 MB).",
 		"title": "Das Banner wird oben auf Ihrer Kanalseite angezeigt."

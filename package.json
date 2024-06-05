@@ -3,7 +3,7 @@
   "version": "0.9.1",
   "private": true,
   "scripts": {
-    "dev": "git pull && npm i && i18nexus pull && next dev",
+    "dev": "git pull && npm i && next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"public/**/*.json\" --config .prettierrc"

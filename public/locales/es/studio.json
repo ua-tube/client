@@ -1,5 +1,6 @@
 {
 	"appearance": "Apariencia",
+	"localeDesc": "Idioma",
 	"bannerImage": {
 		"desc": "Para garantizar que el banner se vea bien en todos los dispositivos, utilice una imagen de al menos 2028 x 1152 píxeles (tamaño de archivo de hasta 5 MB).",
 		"title": "El banner estará ubicado en la parte superior de la página de su canal."

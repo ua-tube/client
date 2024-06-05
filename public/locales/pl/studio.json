@@ -1,5 +1,6 @@
 {
 	"appearance": "Wygląd",
+	"localeDesc": "Język",
 	"bannerImage": {
 		"desc": "Aby baner wyglądał dobrze na wszystkich urządzeniach, użyj obrazu o wymiarach co najmniej 2028 x 1152 pikseli (rozmiar pliku do 5 MB).",
 		"title": "Baner będzie umieszczony u góry strony Twojego kanału."

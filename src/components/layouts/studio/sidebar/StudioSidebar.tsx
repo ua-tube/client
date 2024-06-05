@@ -82,7 +82,10 @@ const StudioSidebar: FC<ISidebarProps> = ({ openInDrawer }) => {
 					<div
 						className={cn('flex flex-col items-center', !isOpen && 'hidden')}
 					>
-						<span className='text-muted-foreground' children='Ваш канал' />
+						<span
+							className='text-muted-foreground'
+							children={t('yourChannel')}
+						/>
 						<p children={user?.creator?.displayName} />
 					</div>
 				</div>

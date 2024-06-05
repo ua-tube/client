@@ -23,6 +23,7 @@
 	"exitFromAccount": "Вийти з аккаунту",
 	"homePage": "Головна сторінка",
 	"likesCount": "оцінок \"подобається\"",
+	"localeDesc": "Мова",
 	"maxLength": "Максимальна довжина {{length}} символів!",
 	"metrics": "Метрики",
 	"minLength": "Мінімальна довжина {{length}} символів!",

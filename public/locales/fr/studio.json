@@ -1,5 +1,6 @@
 {
 	"appearance": "Apparence",
+	"localeDesc": "Langue",
 	"bannerImage": {
 		"desc": "Pour garantir que la bannière s'affiche correctement sur tous les appareils, utilisez une image d'au moins 2 028 x 1 152 pixels (taille du fichier jusqu'à 5 Mo).",
 		"title": "La bannière sera située en haut de la page de votre chaîne."

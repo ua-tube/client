@@ -139,7 +139,7 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href='/src/pages/studio?upload=1'
+								href='/studio/videos?upload=1'
 								className='rounded-lg w-10 h-10 flex items-center justify-center p-2.5 hover:bg-muted'
 							>
 								<DynamicIcon name='upload' />
@@ -164,13 +164,13 @@ const HomeHeaderPopover: FC<IHomeHeaderPopoverProps> = ({
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align='end'>
 							<DropdownMenuItem className='space-x-2' asChild>
-								<Link href='/src/pages/studio/videos'>
+								<Link href='/studio/videos'>
 									<DynamicIcon name='contact' className='size-4' />
 									<span>{t('studio')}</span>
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem className='space-x-2' asChild>
-								<Link href='/src/pages/studio/videos'>
+								<Link href='/studio/videos'>
 									<DynamicIcon name='settings' className='size-4' />
 									<span>{t('personalization')}</span>
 								</Link>

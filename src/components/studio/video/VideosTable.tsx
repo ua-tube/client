@@ -1,3 +1,9 @@
+import { FC, useEffect, useMemo, useState } from 'react'
+import { VideoManagerService } from '@/services'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import {
 	getStudioVideoUrl,
 	getImageUrl,
@@ -10,12 +16,6 @@ import {
 	IVideo,
 	UseState
 } from '@/interfaces'
-import { FC, useEffect, useMemo, useState } from 'react'
-import { VideoManagerService } from '@/services'
-import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -36,7 +36,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 	DynamicIcon,
-	Input,
 	Progress,
 	Table,
 	TableBody,
@@ -174,9 +173,9 @@ const getVideoColumns = (
 						<div className='flex flex-col space-y-1'>
 							<div className='text-lg' children={`${percent}%`} />
 							<span
-								children={`${metrics?.likesCount || 0} ${t('likesCount')}}`}
+								children={`${metrics?.likesCount || 0} ${t('likesCount')}`}
 							/>
-							<Progress value={percent} className='h-1.5' />
+							<Progress value={percent} className='h-1.5 w-24' />
 						</div>
 					</TooltipTrigger>
 					<TooltipContent className='flex flex-row space-x-2'>

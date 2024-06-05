@@ -20,6 +20,8 @@ import {
 	DropdownMenuTrigger,
 	DynamicIcon
 } from '@/components'
+import { languages } from '@/config'
+import { useRouter } from 'next/router'
 
 interface IStudioHeaderPopoverProps {
 	showFullWidthSearch: boolean
@@ -33,6 +35,7 @@ const StudioHeaderPopover: FC<IStudioHeaderPopoverProps> = ({
 	setUploadModalShow
 }) => {
 	const { t } = useTranslation('studio')
+	const { locale, asPath } = useRouter()
 
 	const { user, accessToken } = useAuth()
 	const { logOut } = useActions()
@@ -145,6 +148,39 @@ const StudioHeaderPopover: FC<IStudioHeaderPopoverProps> = ({
 										{t('theme.system')}
 									</DropdownMenuItem>
 								</DropdownMenuSubContent>
+							</DropdownMenuPortal>
+						</DropdownMenuSub>
+						<DropdownMenuSub>
+							<DropdownMenuSubTrigger>
+								<div className='flex items-center space-x-2'>
+									<DynamicIcon name='languages' className='h-4 w-4' />
+									<div
+										className='flex items-center gap-x-1'
+										children={t('localeDesc', {
+											locale: languages.find(
+												value => value.shortName === (locale || 'uk')
+											)?.fullName
+										})}
+									/>
+								</div>
+							</DropdownMenuSubTrigger>
+							<DropdownMenuPortal>
+								<DropdownMenuSubContent
+									children={languages.map(({ shortName, fullName }, index) => (
+										<DropdownMenuItem key={index} asChild>
+											<Link
+												href={asPath}
+												locale={shortName}
+												className='flex items-center justify-between'
+											>
+												<span children={fullName} />
+												{shortName.startsWith(locale || '') && (
+													<div className='checkedIcon' />
+												)}
+											</Link>
+										</DropdownMenuItem>
+									))}
+								/>
 							</DropdownMenuPortal>
 						</DropdownMenuSub>
 						<DropdownMenuSeparator />
