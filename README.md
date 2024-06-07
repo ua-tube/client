@@ -41,24 +41,34 @@
 - NextJS
 - Tailwind CSS
 - Shadcn UI
+- Radix UI
 - Typescript
-- I18
+- I18N
+- React Hook Form
 
 ### Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
 <div>
 
-`SERVER_URL`
+`SERVER_URL` - base server ip address or localhost
 
-`SSR_URL`
+`FRONTEND_URL` - current frontend url
 
-`I18NEXUS_API_KEY`
+`GATEWAY_SERVER_URL` - gateway microservice url
+
+`AUTH_SERVER_URL` - auth microservice url
+
+`STORAGE_SERVER_URL` - for get images and videos
+
+`STORAGE_SERVER_API_URL` - storage microservice url
+
+`I18NEXUS_API_KEY` - key for pull translations
 
 </div>
 
 ## Contact
 
-Bohdan - - zochit21@gmail.com
+Bohdan - zochit21@gmail.com
 
 Project Link: [https://github.com/ua-tube/client](https://github.com/ua-tube/client)
