@@ -1,6 +1,5 @@
 {
 	"appearance": "Apparence",
-	"localeDesc": "Langue",
 	"bannerImage": {
 		"desc": "Pour garantir que la bannière s'affiche correctement sur tous les appareils, utilisez une image d'au moins 2 028 x 1 152 pixels (taille du fichier jusqu'à 5 Mo).",
 		"title": "La bannière sera située en haut de la page de votre chaîne."
@@ -11,7 +10,7 @@
 	},
 	"channelDesign": "Concevoir la chaîne",
 	"channelInfo": "Informations sur la chaîne",
-	"content": "contenu",
+	"content": "Contenu",
 	"contentChannel": "Contenu de la chaîne",
 	"createdAt": "Créé",
 	"createNewVideo": "Créer une vidéo",
@@ -27,6 +26,7 @@
 	"exitFromAccount": "Se déconnecter du compte",
 	"homePage": "Page d'accueil",
 	"likesCount": "aime",
+	"localeDesc": "Langue",
 	"maxLength": "Longueur maximale de {{length}} caractères !",
 	"metrics": "Métrique",
 	"minLength": "Longueur minimale de {{length}} caractères !",

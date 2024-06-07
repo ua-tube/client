@@ -1,5 +1,5 @@
 {
-	"aboutChannel": "Kanal bilgisi",
+	"aboutChannel": "Kanal bilgileri",
 	"appearance": "Dış görünüş",
 	"channelCreated": "Kanal {{createdAt}} tarafından oluşturuldu",
 	"dark": "karanlık",
@@ -11,7 +11,7 @@
 	"myChannel": "benim kanalım",
 	"personalization": "Kişiselleştirme",
 	"search": "Aramak",
-	"showMore": "Daha fazla ayrıntı görüntüle",
+	"showMore": "Daha ayrıntılı görüntüle",
 	"studio": "Stüdyo",
 	"subscribe": "Üye olmak",
 	"subscribersCountDesc": "{{subsCount}} kullanıcı tarafından abone olundu",

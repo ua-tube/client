@@ -1,6 +1,5 @@
 {
 	"appearance": "Wygląd",
-	"localeDesc": "Język",
 	"bannerImage": {
 		"desc": "Aby baner wyglądał dobrze na wszystkich urządzeniach, użyj obrazu o wymiarach co najmniej 2028 x 1152 pikseli (rozmiar pliku do 5 MB).",
 		"title": "Baner będzie umieszczony u góry strony Twojego kanału."
@@ -11,7 +10,7 @@
 	},
 	"channelDesign": "Projektowanie kanału",
 	"channelInfo": "Informacje o kanale",
-	"content": "treść",
+	"content": "Treść",
 	"contentChannel": "Treść kanału",
 	"createdAt": "Utworzony",
 	"createNewVideo": "Utwórz film",
@@ -27,6 +26,7 @@
 	"exitFromAccount": "Wyloguj się z konta",
 	"homePage": "Strona główna",
 	"likesCount": "lubi",
+	"localeDesc": "Język",
 	"maxLength": "Maksymalna długość {{length}} znaków!",
 	"metrics": "Metryka",
 	"minLength": "Minimalna długość {{length}} znaków!",
@@ -38,7 +38,7 @@
 	"personalization": "Personalizacja",
 	"personalizeChannel": "Personalizacja kanału",
 	"profileImage": {
-		"desc": "Zalecamy używanie obrazów o wymiarach co najmniej 98 x 98 pikseli (rozmiar pliku do 4 MB) w formacie PNG lub GIF (bez animacji).",
+		"desc": "Zalecamy obrazy o wymiarach co najmniej 98 x 98 pikseli (rozmiar pliku do 4 MB) w formacie PNG lub GIF (bez animacji).",
 		"title": "Twoje zdjęcie profilowe to ikona kanału wyświetlana obok Twoich filmów i komentarzy w UaTube."
 	},
 	"status": {

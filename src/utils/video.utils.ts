@@ -1,5 +1,5 @@
 import { getVideoUrl } from './'
-import { IHistoryVideo } from '@/interfaces'
+import { IHistoryVideo, VideoProcessingStatusType } from '@/interfaces'
 
 const writeVideoUrl = async (videoId?: string, time?: number) =>
 	await navigator.clipboard.writeText(getVideoUrl(videoId, time))
@@ -40,4 +40,30 @@ const groupByDate = (historyVideos: IHistoryVideo[]) => {
 	)
 }
 
-export { writeVideoUrl, formatNumbers, parseTimestamps, groupByDate }
+const getVideoProcessingStatus = (
+	processingStatus: VideoProcessingStatusType,
+	t: (s: string) => string
+) => {
+	switch (processingStatus) {
+		case 'WaitingForUserUpload':
+			return t('status.uploadVideo')
+		case 'VideoProcessed':
+			return t('status.VideoProcessed')
+		case 'VideoUploaded':
+			return t('status.VideoUploaded')
+		case 'VideoProcessingFailed':
+			return t('status.VideoProcessingFailed')
+		case 'VideoBeingProcessed':
+			return t('status.VideoBeingProcessed')
+		default:
+			return t('status.unknownStatus')
+	}
+}
+
+export {
+	writeVideoUrl,
+	formatNumbers,
+	parseTimestamps,
+	groupByDate,
+	getVideoProcessingStatus
+}

@@ -15,14 +15,9 @@ import {
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 type SortType = 'new' | 'views' | 'popular'
-
-const sortOptions: { sortBy: SortType; title: string }[] = [
-	{ sortBy: 'new', title: 'Найновіші' },
-	{ sortBy: 'views', title: 'Популярні' },
-	{ sortBy: 'popular', title: 'Найбільш уподобані' }
-]
 
 const getSortData = (type: SortType) => {
 	switch (type) {
@@ -76,7 +71,8 @@ export const getServerSideProps: GetServerSideProps<{
 					'videos',
 					'home-sidebar',
 					'notifications',
-					'playlist'
+					'playlist',
+					'channel'
 				]))
 			}
 		}
@@ -96,6 +92,14 @@ export default function ChannelVideosPage({
 	sort
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const { pathname, push, query } = useRouter()
+	const { t } = useTranslation('channel')
+
+	const sortOptions: { sortBy: SortType; title: string }[] = [
+		{ sortBy: 'new', title: t('filter.new') },
+		{ sortBy: 'views', title: t('filter.popular') },
+		{ sortBy: 'popular', title: t('filter.liked') }
+	]
+
 	const currOption = sortOptions.find(v => v.sortBy == sort)
 
 	const [page, setPage] = useState<number>(2)
@@ -127,15 +131,15 @@ export default function ChannelVideosPage({
 
 	return (
 		<>
-			<AppHead title={`Відео ${creator.displayName}`} />
+			<AppHead title={`${t('videos')} ${creator.displayName}`} />
 			<HomeLayout autoShowSidebar openInDrawer>
 				<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
 					<AboutChannel creator={creator} />
 					<div
 						className='space-x-3 border-accent border-b pb-2'
 						children={[
-							{ key: 'videos', title: 'Відео' },
-							{ key: 'playlists', title: 'Плейлісти' }
+							{ key: 'videos', title: t('videos') },
+							{ key: 'playlists', title: t('playlists') }
 						]?.map((value, index) => (
 							<Link
 								key={index}

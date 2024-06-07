@@ -8,6 +8,7 @@ import { ICreator, IPlaylist } from '@/interfaces'
 import { useEffect, useState } from 'react'
 import { getChannelUrl } from '@/utils'
 import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
 export const getServerSideProps: GetServerSideProps<{
 	creator: ICreator
@@ -26,7 +27,8 @@ export const getServerSideProps: GetServerSideProps<{
 					'videos',
 					'home-sidebar',
 					'notifications',
-					'playlist'
+					'playlist',
+					'channel'
 				]))
 			}
 		}
@@ -43,6 +45,8 @@ export const getServerSideProps: GetServerSideProps<{
 export default function ChannelPlaylistsPage({
 	creator
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const { t } = useTranslation('channel')
+
 	const [playlists, setPlaylists] = useState<IPlaylist[]>([])
 
 	useEffect(() => {
@@ -54,15 +58,15 @@ export default function ChannelPlaylistsPage({
 
 	return (
 		<>
-			<AppHead title={`Відео ${creator.displayName}`} />
+			<AppHead title={`${t('playlists')} ${creator.displayName}`} />
 			<HomeLayout autoShowSidebar openInDrawer>
 				<div className='max-w-7xl mx-auto flex flex-col gap-y-5'>
 					<AboutChannel creator={creator} />
 					<div
 						className='space-x-3 border-accent border-b pb-2'
 						children={[
-							{ key: 'videos', title: 'Відео' },
-							{ key: 'playlists', title: 'Плейлісти' }
+							{ key: 'videos', title: t('videos') },
+							{ key: 'playlists', title: t('playlists') }
 						]?.map((value, index) => (
 							<Link
 								key={index}

@@ -1,0 +1,9 @@
+{
+	"filter": {
+		"liked": "El mas gustado",
+		"new": "El más nuevo",
+		"popular": "Popular"
+	},
+	"playlists": "Listas de reproducción",
+	"videos": "Video"
+}

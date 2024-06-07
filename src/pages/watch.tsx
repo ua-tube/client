@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { IPlaylist, ISearchVideosResponse, IVideo } from '@/interfaces'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { AppHead, DynamicIcon, Skeleton } from '@/components'
@@ -11,7 +12,6 @@ import {
 	SubscriptionsService,
 	VideoService
 } from '@/services'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const CategoryPills = dynamic(
 	() => import('@/components/categories/CategoryPills')
@@ -166,7 +166,7 @@ export default function VideoPage({
 						videos={
 							currTag
 								? relatedVideos.hits.filter(v =>
-										v.tags?.some(v => v === currTag)
+										v.tags?.some((v: string) => v === currTag)
 									)
 								: relatedVideos.hits
 						}

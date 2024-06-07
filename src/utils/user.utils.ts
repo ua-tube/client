@@ -1,5 +1,5 @@
 export const getUserInitials = (i?: string) =>
 	i
-		?.split(' ')
+		?.split(' ', 2)
 		.map(n => n[0])
 		.join('')

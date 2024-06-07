@@ -3,8 +3,8 @@ import {
 	formatTimeAgo,
 	getChannelUrl,
 	getUserInitials,
-	getVideoUrl,
-	toastError
+	toastError,
+	getImageUrl
 } from '@/utils'
 import { LibraryService, SubscriptionsService } from '@/services'
 import { IVideo, IVideoMetadataResponse } from '@/interfaces'
@@ -179,7 +179,7 @@ const AboutVideo: FC<IAboutVideoProps> = ({ video, videoId }) => {
 				<div className='flex flex-row items-center space-x-3 w-full md:w-auto'>
 					<Link href={getChannelUrl(video?.creator?.nickname)}>
 						<Avatar>
-							<AvatarImage src={getVideoUrl(video?.creator?.thumbnailUrl)} />
+							<AvatarImage src={getImageUrl(video?.creator?.thumbnailUrl)} />
 							<AvatarFallback
 								children={getUserInitials(video?.creator?.displayName)}
 							/>

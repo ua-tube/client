@@ -8,7 +8,7 @@
 	"loadMore": "Daha fazlasını indirin...",
 	"playlist": "çalma listesi",
 	"playlistCreatedSucc": "Yeni oynatma listesi \" {{title}} \" başarıyla oluşturuldu",
-	"privateList": "Özel çalma listesi",
+	"privateList": "Özel oynatma listesi",
 	"saveToNewPlaylist": "Yeni bir çalma listesine kaydet",
 	"shortDesc": {
 		"desc": "Çalma listenizin ana noktasını anlatan kısa bir açıklama yazın.",
@@ -19,7 +19,7 @@
 	"timesFound": "Sayımlar",
 	"title": "İsim",
 	"videoAddedToListSucc": "Video, \" {{title}} \" oynatma listesine başarıyla eklendi",
-	"videoRemovedFromListSucc": "Video, \" {{title}} \" oynatma listesinden başarıyla kaldırıldı",
+	"videoRemovedFromListSucc": "Video, \" {{title}} \" adlı oynatma listesinden başarıyla kaldırıldı",
 	"viewed": "İncelendi",
 	"views": "Görüntüleme",
 	"visibility": {

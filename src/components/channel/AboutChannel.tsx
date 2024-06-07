@@ -21,7 +21,9 @@ interface IAboutChannelProps {
 
 const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 	const { t } = useTranslation('general')
+
 	const { accessToken, user } = useAuth()
+
 	const [subscribed, setSubscribed] = useState<boolean>(false)
 	const [showModal, setShowModal] = useState<boolean>(false)
 
@@ -30,10 +32,10 @@ const AboutChannel: FC<IAboutChannelProps> = ({ creator }) => {
 			if (subscribed)
 				await SubscriptionsService.unsubscribe({ targetId: creator?.id! })
 			else await SubscriptionsService.subscribe({ targetId: creator?.id! })
+			setSubscribed(s => !s)
 		} catch (e) {
 			toastError(e)
 		}
-		setSubscribed(s => !s)
 	}
 
 	useEffect(() => {

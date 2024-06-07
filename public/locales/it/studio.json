@@ -1,6 +1,5 @@
 {
 	"appearance": "Aspetto",
-	"localeDesc": "Lingua",
 	"bannerImage": {
 		"desc": "Per garantire che il banner abbia un bell'aspetto su tutti i dispositivi, utilizza un'immagine di almeno 2028 x 1152 pixel (dimensione del file fino a 5 MB).",
 		"title": "Il banner sarà posizionato nella parte superiore della pagina del tuo canale."
@@ -11,7 +10,7 @@
 	},
 	"channelDesign": "Progettare il canale",
 	"channelInfo": "Informazioni sul canale",
-	"content": "contenuto",
+	"content": "Contenuto",
 	"contentChannel": "Contenuti del canale",
 	"createdAt": "Creato",
 	"createNewVideo": "Crea un video",
@@ -27,6 +26,7 @@
 	"exitFromAccount": "Esci dall'account",
 	"homePage": "Pagina iniziale",
 	"likesCount": "piace",
+	"localeDesc": "Lingua",
 	"maxLength": "Lunghezza massima di {{length}} caratteri!",
 	"metrics": "Metrica",
 	"minLength": "Lunghezza minima di {{length}} caratteri!",
@@ -38,7 +38,7 @@
 	"personalization": "Personalizzazione",
 	"personalizeChannel": "Personalizzazione del canale",
 	"profileImage": {
-		"desc": "Consigliamo immagini di almeno 98 x 98 pixel (dimensione file fino a 4 MB) in formato PNG o GIF (senza animazione).",
+		"desc": "Ti consigliamo di utilizzare immagini di almeno 98 x 98 pixel (dimensione file fino a 4 MB) in formato PNG o GIF (senza animazione).",
 		"title": "La tua immagine del profilo è l'icona del canale che appare accanto ai tuoi video e commenti su UaTube."
 	},
 	"status": {
@@ -93,7 +93,7 @@
 	"videoFormats": "Sono supportati solo i formati utilizzati nel video, che terminano con *.webm, *.mp4.",
 	"videoPhoto": {
 		"desc": "Scegli o carica un'immagine che mostri l'argomento del tuo video. Una copertina ben scelta risalta e attira l'attenzione degli spettatori.",
-		"title": "Copertina del filmato"
+		"title": "Copertina del video"
 	},
 	"videoProgressLabel": "{{time}} fino alla fine del caricamento, alla velocità attuale {{uploadSpeed}}",
 	"visibility": {

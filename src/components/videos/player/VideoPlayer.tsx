@@ -73,6 +73,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const divRef = useRef<HTMLDivElement>(null)
 
+	const [menuOpen, setMenuOpen] = useState<boolean>(false)
 	const [videoState, setVideoState] = useState<IVideoState>({
 		autoPlayNext: false,
 		selectedLevel: -1,
@@ -560,7 +561,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 					<SliderPrimitive.Thumb className='block size-2.5 group-hover:size-4 transition-all duration-100 rounded-full border-2 border-primary bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2' />
 				</SliderPrimitive.Root>
 
-				<TooltipProvider delayDuration={0}>
+				<TooltipProvider>
 					<div className='flex justify-between items-center'>
 						<div className='flex items-center space-x-1.5'>
 							{video.prevId && (
@@ -716,9 +717,14 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 								/>
 							</Tooltip>
 
-							<HoverCard>
-								<HoverCardTrigger>
-									<DynamicIcon name='settings' />
+							<HoverCard open={menuOpen}>
+								<HoverCardTrigger onClick={() => setMenuOpen(p => !p)}>
+									<Tooltip>
+										<TooltipTrigger>
+											<DynamicIcon name='settings' className='mt-1' />
+										</TooltipTrigger>
+										<TooltipContent>{t('settings')}</TooltipContent>
+									</Tooltip>
 								</HoverCardTrigger>
 
 								<HoverCardContent
@@ -758,7 +764,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 									<Tooltip>
 										<TooltipTrigger>
 											<div className='flex items-center space-x-2'>
-												<DynamicIcon name='settings-2' className='h-4 w-4' />
+												<DynamicIcon name='settings-2' className='size-4' />
 												<div>
 													{videoState?.levels?.[videoState.selectedLevel]
 														?.height

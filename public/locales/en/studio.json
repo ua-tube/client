@@ -10,7 +10,7 @@
 	},
 	"channelDesign": "Designing the channel",
 	"channelInfo": "Channel information",
-	"content": "content",
+	"content": "Content",
 	"contentChannel": "Channel content",
 	"createdAt": "Created",
 	"createNewVideo": "Create a video",
@@ -19,13 +19,10 @@
 		"desc": "Descriptions help viewers better understand what the video is about and provide additional information.",
 		"title": "Description"
 	},
-	"email": {
-		"desc": "Enter an email to contact you.",
-		"title": "email"
-	},
+	"email": { "desc": "Enter an email to contact you.", "title": "Email" },
 	"exitFromAccount": "Sign out of the account",
 	"homePage": "Home page",
-	"likesCount": "likes",
+	"likesCount": "\"like\" ratings",
 	"localeDesc": "Language",
 	"maxLength": "Maximum length of {{length}} characters!",
 	"metrics": "Metrics",
@@ -33,12 +30,12 @@
 	"moveToYourChannel": "Go to your channel",
 	"name": {
 		"desc": "Choose a channel name that represents you and the content you publish.",
-		"title": "Name"
+		"title": "Display Name"
 	},
 	"personalization": "Personalization",
 	"personalizeChannel": "Personalization of the channel",
 	"profileImage": {
-		"desc": "We recommend images of at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
+		"desc": "We recommend using images at least 98 x 98 pixels (file size up to 4 MB) in PNG or GIF format (no animation).",
 		"title": "Your profile picture is the channel icon that appears next to your videos and comments on UaTube."
 	},
 	"status": {
@@ -69,10 +66,10 @@
 	},
 	"tagsRule": "Tags must be separated by commas!",
 	"theme": {
-		"dark": "dark",
-		"light": "Lights",
+		"dark": "Dark",
+		"light": "Light",
 		"system": "Systemic",
-		"title": "topic"
+		"title": "theme"
 	},
 	"title": {
 		"desc": "A catchy headline will help keep viewers interested. Add keywords to your video titles that your audience might use when searching for similar content.",
@@ -85,7 +82,7 @@
 	"uploadVideoFile": "Downloading a video file",
 	"username": {
 		"desc": "Choose a unique nickname by adding letters and numbers.",
-		"title": "Pseudonym"
+		"title": "Username"
 	},
 	"video": "Video",
 	"videoComments": "Comments for the video",

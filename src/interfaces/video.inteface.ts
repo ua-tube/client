@@ -17,7 +17,7 @@ interface IVideo {
 	processedVideos: IProcessedVideo[]
 	metrics?: IVideoMetrics
 	processingStatus?: VideoProcessingStatusType
-	tags?: string
+	tags?: any
 	thumbnails?: IVideoThumbnail[]
 	thumbnailId?: string
 	thumbnailStatus?: VideoThumbnailStatusType
@@ -87,4 +87,10 @@ interface IHistoryVideo {
 	video: IVideo
 }
 
-export type { IVideo, IProcessedVideo, VideoVisibilityType, IHistoryVideo }
+export type {
+	IVideo,
+	IProcessedVideo,
+	VideoVisibilityType,
+	IHistoryVideo,
+	VideoProcessingStatusType
+}

@@ -1,8 +1,7 @@
 {
 	"appearance": "Dış görünüş",
-	"localeDesc": "Dil",
 	"bannerImage": {
-		"desc": "Banner'ın tüm cihazlarda iyi görünmesini sağlamak için en az 2028 x 1152 piksel (dosya boyutu 5 MB'a kadar) olan bir resim kullanın.",
+		"desc": "Banner'ın tüm cihazlarda iyi görünmesini sağlamak için en az 2028 x 1152 piksel (dosya boyutu 5 MB'a kadar) bir resim kullanın.",
 		"title": "Banner, kanal sayfanızın üst kısmında yer alacaktır."
 	},
 	"channelDesc": {
@@ -11,7 +10,7 @@
 	},
 	"channelDesign": "Kanalın tasarlanması",
 	"channelInfo": "Kanal bilgisi",
-	"content": "içerik",
+	"content": "İçerik",
 	"contentChannel": "Kanal içeriği",
 	"createdAt": "Oluşturuldu",
 	"createNewVideo": "Video oluştur",
@@ -21,12 +20,13 @@
 		"title": "Tanım"
 	},
 	"email": {
-		"desc": "Sizinle iletişime geçmek için bir e-posta girin.",
+		"desc": "Sizinle iletişim kurmak için bir e-posta girin.",
 		"title": "e-posta"
 	},
 	"exitFromAccount": "Hesaptan çıkış yapın",
 	"homePage": "Ana sayfa",
 	"likesCount": "seviyor",
+	"localeDesc": "Dil",
 	"maxLength": "Maksimum {{length}} karakter uzunluğunda!",
 	"metrics": "Metrikler",
 	"minLength": "Minimum uzunluk {{length}} karakter!",
@@ -75,7 +75,7 @@
 		"title": "başlık"
 	},
 	"title": {
-		"desc": "Akılda kalıcı bir başlık izleyicilerin ilgisini canlı tutmanıza yardımcı olacaktır. Hedef kitlenizin benzer içerik ararken kullanabileceği anahtar kelimeleri video başlıklarınıza ekleyin.",
+		"desc": "Akılda kalıcı bir başlık izleyicilerin ilgisini canlı tutmanıza yardımcı olacaktır. Video başlıklarınıza, kitlenizin benzer içerik ararken kullanabileceği anahtar kelimeler ekleyin.",
 		"title": "Başlık"
 	},
 	"update": "Güncelleme",
@@ -95,7 +95,7 @@
 		"desc": "Videonuzun neyle ilgili olduğunu gösteren bir resim seçin veya yükleyin. İyi seçilmiş bir kapak öne çıkıyor ve izleyicilerin dikkatini çekiyor.",
 		"title": "Video kapağı"
 	},
-	"videoProgressLabel": "Mevcut hız {{uploadSpeed}} ile yüklemenin sonuna kadar {{time}}",
+	"videoProgressLabel": "Mevcut hız olan {{uploadSpeed}} ile yüklemenin sonuna kadar {{time}}",
 	"visibility": {
 		"private": "Özel",
 		"public": "Halk",

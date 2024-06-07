@@ -1,0 +1,5 @@
+{
+	"filter": { "liked": "Most liked", "new": "Newest", "popular": "Popular" },
+	"playlists": "Playlists",
+	"videos": "Video"
+}

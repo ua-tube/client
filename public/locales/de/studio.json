@@ -1,6 +1,5 @@
 {
 	"appearance": "Aussehen",
-	"localeDesc": "Sprache",
 	"bannerImage": {
 		"desc": "Um sicherzustellen, dass das Banner auf allen Geräten gut aussieht, verwenden Sie ein Bild mit mindestens 2028 x 1152 Pixeln (Dateigröße bis zu 5 MB).",
 		"title": "Das Banner wird oben auf Ihrer Kanalseite angezeigt."
@@ -27,6 +26,7 @@
 	"exitFromAccount": "Melden Sie sich vom Konto ab",
 	"homePage": "Startseite",
 	"likesCount": "Likes",
+	"localeDesc": "Sprache",
 	"maxLength": "Maximale Länge von {{length}} Zeichen!",
 	"metrics": "Metriken",
 	"minLength": "Mindestlänge von {{length}} Zeichen!",
@@ -48,7 +48,7 @@
 		"VideoBeingProcessed": "Die Verarbeitung des Videos hat begonnen",
 		"VideoProcessed": "Das Video wurde verarbeitet",
 		"VideoProcessingFailed": "Verarbeitungsfehler",
-		"VideoUploaded": "Video hochgeladen"
+		"VideoUploaded": "Das Video wurde hochgeladen"
 	},
 	"table": {
 		"columns": "Säulen",
@@ -75,7 +75,7 @@
 		"title": "Thema"
 	},
 	"title": {
-		"desc": "Eine einprägsame Überschrift hilft dabei, das Interesse des Publikums zu wecken. Fügen Sie Schlüsselwörter zu Ihren Videotiteln hinzu, die Ihr Publikum bei der Suche nach ähnlichen Inhalten verwenden könnte.",
+		"desc": "Eine einprägsame Überschrift wird dazu beitragen, das Interesse der Zuschauer aufrechtzuerhalten. Fügen Sie Schlüsselwörter zu Ihren Videotiteln hinzu, die Ihr Publikum bei der Suche nach ähnlichen Inhalten verwenden könnte.",
 		"title": "Titel"
 	},
 	"update": "Aktualisieren",

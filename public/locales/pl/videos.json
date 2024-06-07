@@ -15,6 +15,7 @@
 	"quality": "Jakość",
 	"repeat": "Powtarzać",
 	"save": "ratować",
+	"settings": "Ustawienia",
 	"share": "dzielić się",
 	"speed": "Prędkość",
 	"subscribe": "Zapisać się",
@@ -23,6 +24,6 @@
 	"unsubscribe": "Zrezygnuj z subskrypcji",
 	"usersSubscribed": "{{usersCount}} użytkowników subskrybowało",
 	"videoInProcessing": "Film jest przetwarzany!",
-	"videoNotAllowedNow": "Film jest aktualnie niedostępny!",
+	"videoNotAllowedNow": "Film jest obecnie niedostępny!",
 	"views": "wyświetlenia"
 }
