@@ -2,8 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { VideoManagerService } from '@/services'
 import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
-import { UseState } from '@/interfaces'
 import { useRouter } from 'next/router'
+import { UseState } from '@/interfaces'
 import { toastError } from '@/utils'
 import { FC } from 'react'
 import { z } from 'zod'
@@ -103,7 +103,7 @@ const VideoCreateModal: FC<IVideoCreateModalProps> = ({
 							type='submit'
 							className='w-full flex flex-row items-center gap-2'
 						>
-							<span>{t('creatingNewVideo')}</span>
+							{t('creatingNewVideo')}
 						</Button>
 					</form>
 				</Form>

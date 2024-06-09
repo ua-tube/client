@@ -1,5 +1,6 @@
 import { StorageService, VideoManagerService } from '@/services'
 import { IVideo, UseState } from '@/interfaces'
+import { useTranslation } from 'next-i18next'
 import { toastError } from '@/utils'
 import { FC, useState } from 'react'
 import {
@@ -12,7 +13,6 @@ import {
 	Label,
 	Progress
 } from '@/components'
-import { useTranslation } from 'next-i18next'
 
 interface IVideoUploadModalProps {
 	video?: IVideo

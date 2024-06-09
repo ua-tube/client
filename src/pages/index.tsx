@@ -21,7 +21,12 @@ const VideosList = dynamic(
 export const getServerSideProps: GetServerSideProps<{
 	data: ISearchVideosResponse
 	tag?: string
-}> = async ({ query, locale }) => {
+}> = async ({ query, locale, res }) => {
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59'
+	)
+
 	const tag = query?.tag as string | undefined
 	let data
 
