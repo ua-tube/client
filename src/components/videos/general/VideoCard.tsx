@@ -49,7 +49,6 @@ const VideoCard: FC<IVideoCardProps> = value => {
 					loading="lazy"
 					className="block w-full h-full object-cover aspect-video duration-200 rounded-xl"
 					alt={value.id}
-					style={{ viewTransitionName: `video-image-${value.id}` }}
 				/>
 				<div
 					className="absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded"

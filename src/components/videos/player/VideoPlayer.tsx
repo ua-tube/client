@@ -429,7 +429,6 @@ const VideoPlayer: FC<
 			<ContextMenu>
 				<ContextMenuTrigger className="size-full flex items-center justify-center overflow-y-hidden">
 					<video
-						style={{ viewTransitionName: `video-image-${video.id}` }}
 						ref={videoRef}
 						controls={false}
 						className={cn(
