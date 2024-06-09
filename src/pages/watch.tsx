@@ -81,9 +81,9 @@ export default function VideoPage({
 
 	useEffect(() => {
 		;(async () => {
-			try {
-				let newVideo: IVideo
+			let newVideo: IVideo | undefined = undefined
 
+			try {
 				const { data } = await VideoService.getVideo(videoId)
 
 				const { data: searchVideos } =
@@ -95,18 +95,25 @@ export default function VideoPage({
 
 				setRelatedVideos(searchVideos)
 
+				const nextId = searchVideos.hits?.[0].id
+
 				const { data: creator } =
 					await SubscriptionsService.getSubscriptionInfo(data.creatorId!)
 
 				newVideo = {
 					...data,
 					masterPlaylistUrl: `${process.env.STORAGE_SERVER_URL}${data?.masterPlaylistUrl}`,
-					creator
+					creator,
+					...(nextId && { nextId })
 				}
 				setVideo(newVideo)
 
 				await HistoryService.createHistoryRecord({ videoId })
+			} catch (e: any) {
+				e.status === 404 && (await replace(notFoundDestination))
+			}
 
+			try {
 				if (listId && listId.length > 0) {
 					let videoIds: { nextId?: string; prevId?: string } | undefined
 
@@ -134,13 +141,12 @@ export default function VideoPage({
 						} else if (relatedVideos && relatedVideos?.hits.length > 0) {
 							videoIds = { nextId: relatedVideos?.hits?.[0]?.id }
 						}
-						if (videoIds)
-							setVideo({ ...newVideo, ...(videoIds && videoIds) })
+						if (videoIds && newVideo) setVideo({ ...newVideo, ...(videoIds && videoIds) })
 					}
 				}
-			} catch (e: any) {
-				e.status === 404 && (await replace(notFoundDestination))
+			} catch (e) {
 			}
+
 		})()
 	}, [videoId])
 

@@ -435,7 +435,8 @@ const VideoPlayer: FC<
 							'bg-black/80 ',
 							!cinemaMode
 								? ' w-full aspect-video rounded-lg'
-								: 'h-full object-center'
+								: 'h-full object-center',
+							videoState.isFullScreen && !videoState.showNavigationMenu && ' cursor-none'
 						)}
 						onClick={() => togglePlay()}
 						onLoadStart={() => onLoadingListener(true)}
@@ -529,7 +530,11 @@ const VideoPlayer: FC<
 
 			<div
 				className={`absolute transition-all duration-300 bottom-0 w-full ${
-					!videoState.showNavigationMenu && !videoState.isDisabled && hls ? 'opacity-100' : 'opacity-0'}`}
+					!videoState.showNavigationMenu &&
+					!videoState.isFullScreen &&
+					!videoState.isDisabled &&
+					hls ? 'opacity-100' : 'opacity-0'
+				}`}
 			>
 				<Progress value={(videoState.currentTime / videoState.duration) * 100}
 									className="h-1.5 w-full rounded-b-lg rounded-t-none" />
