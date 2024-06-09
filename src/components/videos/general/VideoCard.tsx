@@ -38,7 +38,7 @@ const VideoCard: FC<IVideoCardProps> = value => {
 		>
 			<Link
 				href={getVideoUrl(value.id, undefined, undefined, true)}
-				className='relative aspect-video'
+				className="relative aspect-video"
 			>
 				<img
 					src={getImageUrl(
@@ -46,32 +46,33 @@ const VideoCard: FC<IVideoCardProps> = value => {
 							? value.previewThumbnailUrl
 							: value.thumbnailUrl
 					)}
-					loading='lazy'
-					className='block w-full h-full object-cover aspect-video duration-200 rounded-xl'
+					loading="lazy"
+					className="block w-full h-full object-cover aspect-video duration-200 rounded-xl"
 					alt={value.id}
+					style={{ viewTransitionName: `video-image-${value.id}` }}
 				/>
 				<div
-					className='absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded'
+					className="absolute bottom-1 right-1 bg-background/80 text-secondary-foreground text-sm px-1 rounded"
 					children={formatDuration(value.lengthSeconds, locale)}
 				/>
 			</Link>
 
-			<div className='flex gap-x-2'>
+			<div className="flex gap-x-2">
 				<Link
 					href={getChannelUrl(value.creator?.nickname)}
-					className='flex shrink-0'
+					className="flex shrink-0"
 				>
-					<Avatar className='size-9'>
+					<Avatar className="size-9">
 						<AvatarImage
 							src={getImageUrl(value.creator?.thumbnailUrl)}
-							loading='lazy'
+							loading="lazy"
 						/>
 						<AvatarFallback
 							children={getUserInitials(value.creator?.displayName)}
 						/>
 					</Avatar>
 				</Link>
-				<div className='flex flex-col'>
+				<div className="flex flex-col">
 					<Link
 						href={getVideoUrl(value.id, undefined, undefined, true)}
 						className={cn(
@@ -82,12 +83,12 @@ const VideoCard: FC<IVideoCardProps> = value => {
 					/>
 					<Link
 						href={getChannelUrl(value.creator?.nickname)}
-						className='text-muted-foreground text-sm'
+						className="text-muted-foreground text-sm"
 						children={value.creator?.displayName}
 					/>
 
 					<div
-						className='text-muted-foreground text-sm'
+						className="text-muted-foreground text-sm"
 						children={`${formatNumbers(value.metrics?.viewsCount, locale)} ${t('views')} • ${formatTimeAgo(value.createdAt, locale)}`}
 					/>
 				</div>

@@ -121,7 +121,6 @@ export default function VideoPage({
 							v => v.id === videoId
 						)
 						if (typeof currVideoIndex !== 'undefined') {
-							console.log(currVideoIndex)
 							videoIds = {
 								nextId:
 									currVideoIndex < playlist.videos.list?.length
@@ -132,7 +131,6 @@ export default function VideoPage({
 										? playlist.videos.list.at(currVideoIndex - 1)?.id
 										: undefined
 							}
-							console.log(videoIds)
 						} else if (relatedVideos && relatedVideos?.hits.length > 0) {
 							videoIds = { nextId: relatedVideos?.hits?.[0]?.id }
 						}

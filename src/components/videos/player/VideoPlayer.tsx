@@ -60,12 +60,15 @@ interface IVideoState {
 	isDisabled: boolean
 }
 
-const VideoPlayer: FC<IVideoPlayerProps> = ({
-																							video,
-																							autoPlay,
-																							setCinemaMode,
-																							cinemaMode
-																						}) => {
+const VideoPlayer: FC<
+	IVideoPlayerProps
+> = ({
+			 video,
+			 autoPlay,
+			 setCinemaMode,
+			 cinemaMode
+		 }) => {
+
 	const { t } = useTranslation('videos')
 	const { push, query } = useRouter()
 	const { isOpen } = useSidebarContext()
@@ -426,6 +429,7 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 			<ContextMenu>
 				<ContextMenuTrigger className="size-full flex items-center justify-center overflow-y-hidden">
 					<video
+						style={{ viewTransitionName: `video-image-${video.id}` }}
 						ref={videoRef}
 						controls={false}
 						className={cn(
@@ -528,7 +532,8 @@ const VideoPlayer: FC<IVideoPlayerProps> = ({
 				className={`absolute transition-all duration-300 bottom-0 w-full ${
 					!videoState.showNavigationMenu && !videoState.isDisabled && hls ? 'opacity-100' : 'opacity-0'}`}
 			>
-				<Progress value={(videoState.currentTime / videoState.duration) * 100} className="h-1.5 w-full rounded-b-lg rounded-t-none" />
+				<Progress value={(videoState.currentTime / videoState.duration) * 100}
+									className="h-1.5 w-full rounded-b-lg rounded-t-none" />
 			</div>
 
 			<div
