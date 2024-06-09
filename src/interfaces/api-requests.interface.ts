@@ -1,4 +1,4 @@
-import { VideoVisibilityType } from './'
+import { VideoVisibilityType, IUser } from './'
 
 interface ISignUpRequest {
 	email: string
@@ -11,8 +11,8 @@ interface IPagination {
 }
 
 interface ILoginRequest {
-	login: string
-	password: string
+	accessToken: string
+	user:IUser
 }
 
 interface IRecoveryPassRequest {

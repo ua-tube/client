@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
 import { ICreator } from '@/interfaces'
 import { toastError } from '@/utils'
@@ -6,12 +7,7 @@ import { FC, useState } from 'react'
 import { useActions } from '@/hooks'
 import Link from 'next/link'
 import { z } from 'zod'
-import {
-	AuthService,
-	CreatorService,
-	StorageService,
-	UserService
-} from '@/services'
+import { AuthService, CreatorService, StorageService, UserService } from '@/services'
 import {
 	Button,
 	Card,
@@ -31,7 +27,6 @@ import {
 	Input,
 	Label
 } from '@/components'
-import { useTranslation } from 'next-i18next'
 
 const checkNicknameAvailability = async (s: string): Promise<boolean> => {
 	try {
@@ -208,7 +203,7 @@ const SignUpForm: FC = () => {
 							className='w-full flex flex-row items-center gap-2'
 						>
 							{loading && (
-								<DynamicIcon className='animate-spin size-8' name='loader' />
+								<DynamicIcon className='animate-spin size-4' name='loader' />
 							)}
 							<span>{t('register')}</span>
 						</Button>

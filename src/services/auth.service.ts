@@ -2,7 +2,6 @@ import { $axios } from '@/api/axios'
 import axios from 'axios'
 import {
 	IErrorResponse,
-	ILoginRequest,
 	ILoginResponse,
 	IRecoveryPassRequest,
 	IRefreshAccessTokenResponse,
@@ -12,7 +11,7 @@ import {
 const baseURL = process.env.AUTH_SERVER_URL
 
 export const AuthService = {
-	async login(loginBody: ILoginRequest) {
+	async login(loginBody: any) {
 		return $axios.post<ILoginResponse>('auth/login', loginBody, { baseURL })
 	},
 
