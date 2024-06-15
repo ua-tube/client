@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
 import { AuthService } from '@/services'
-import { useActions } from '@/hooks'
+import { useRouter } from 'next/router'
 import { toastError } from '@/utils'
 import { toast } from 'sonner'
 import Link from 'next/link'
@@ -33,7 +33,7 @@ interface IRecoveryPassFormProps {
 const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 	const { t } = useTranslation('auth')
 
-	const { login } = useActions()
+	const { replace } = useRouter()
 
 	const FormSchema = z.object({
 		newPassword: z.any(),
@@ -54,7 +54,7 @@ const RecoveryPassForm: FC<IRecoveryPassFormProps> = ({ token, email }) => {
 					email
 				})
 				if (data.code === 201)
-					login({ login: email!, password: values.newPassword as string })
+					replace ('/auth/login')
 				toast.success(t('succRecoverPass'))
 			} else {
 				await AuthService.recoveryPass({
